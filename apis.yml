@@ -1,1 +1,43 @@
 aid: supaglue
+name: Supaglue
+description: >-
+  Supaglue is an open-source unified API platform for CRM, HRIS, and other
+  SaaS integrations with managed authentication and syncing.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - Unified API
+  - CRM
+  - HRIS
+  - Open Source
+url: >-
+  https://raw.githubusercontent.com/api-evangelist/supaglue/refs/heads/main/apis.yml
+created: '2026-03-27'
+modified: '2026-03-27'
+specificationVersion: '0.19'
+apis:
+  - aid: supaglue:supaglue
+    name: Supaglue
+    description: >-
+      Supaglue is an open-source unified API platform for CRM, HRIS, and other
+      SaaS integrations with managed authentication and syncing.
+    humanURL: https://www.supaglue.com/
+    tags:
+      - Unified API
+      - CRM
+      - HRIS
+    properties:
+      - type: Documentation
+        url: https://docs.supaglue.com/
+      - type: Getting Started
+        url: https://docs.supaglue.com/getting-started
+common:
+  - type: Website
+    url: https://www.supaglue.com/
+  - type: Documentation
+    url: https://docs.supaglue.com/
+  - type: GitHub Organization
+    url: https://github.com/supaglue-labs
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
