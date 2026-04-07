@@ -6,10 +6,10 @@ description: >-
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
-  - Unified API
   - CRM
   - HRIS
   - Open Source
+  - Unified API
 url: >-
   https://raw.githubusercontent.com/api-evangelist/supaglue/refs/heads/main/apis.yml
 created: '2026-03-27'
@@ -23,9 +23,9 @@ apis:
       SaaS integrations with managed authentication and syncing.
     humanURL: https://www.supaglue.com/
     tags:
-      - Unified API
       - CRM
       - HRIS
+      - Unified API
     properties:
       - type: Documentation
         url: https://docs.supaglue.com/
