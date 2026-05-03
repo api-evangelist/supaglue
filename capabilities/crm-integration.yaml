@@ -1,0 +1,343 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Supaglue CRM Integration"
+  description: >-
+    Unified workflow capability for building CRM product integrations using
+    Supaglue. Combines the Management API for configuring customer connections
+    and sync settings with the Unified CRM API for reading and writing CRM data
+    (accounts, contacts, leads, opportunities) across Salesforce, HubSpot,
+    Pipedrive, and 15+ other providers. Used by B2B SaaS developers building
+    native CRM integrations into their product.
+  tags:
+    - Supaglue
+    - CRM
+    - Integrations
+    - Salesforce
+    - HubSpot
+    - Unified API
+  created: "2026-05-02"
+  modified: "2026-05-02"
+
+binds:
+  - namespace: env
+    keys:
+      SUPAGLUE_API_KEY: SUPAGLUE_API_KEY
+
+capability:
+  consumes:
+    - import: supaglue-mgmt
+      location: ./shared/management-api.yaml
+    - import: supaglue-crm
+      location: ./shared/crm-api.yaml
+
+  exposes:
+    - type: rest
+      port: 8080
+      namespace: supaglue-crm-integration-api
+      description: "Unified REST API for Supaglue CRM integration management and data access."
+      resources:
+        - path: /v1/customers
+          name: customers
+          description: "Manage integration customers"
+          operations:
+            - method: GET
+              name: list-customers
+              description: "List all customers using integrations"
+              call: "supaglue-mgmt.list-customers"
+              outputParameters:
+                - type: array
+                  mapping: "$."
+        - path: /v1/customers/{customer_id}/connections
+          name: connections
+          description: "Customer CRM connections"
+          operations:
+            - method: GET
+              name: list-connections
+              description: "List provider connections for a customer"
+              call: "supaglue-mgmt.list-connections"
+              with:
+                customer_id: "rest.customer_id"
+              outputParameters:
+                - type: array
+                  mapping: "$."
+        - path: /v1/magic-links
+          name: magic-links
+          description: "OAuth authentication links"
+          operations:
+            - method: POST
+              name: create-magic-link
+              description: "Create OAuth magic link for customer authentication"
+              call: "supaglue-mgmt.create-magic-link"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/syncs/trigger
+          name: sync-trigger
+          description: "Sync control"
+          operations:
+            - method: POST
+              name: trigger-sync
+              description: "Trigger a data sync"
+              call: "supaglue-mgmt.trigger-sync"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/sync-runs
+          name: sync-runs
+          description: "Sync history"
+          operations:
+            - method: GET
+              name: list-sync-runs
+              description: "List sync run history"
+              call: "supaglue-mgmt.list-sync-runs"
+              outputParameters:
+                - type: array
+                  mapping: "$."
+        - path: /v1/crm/accounts
+          name: accounts
+          description: "CRM accounts"
+          operations:
+            - method: GET
+              name: list-accounts
+              description: "List CRM accounts"
+              call: "supaglue-crm.list-accounts"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-account
+              description: "Create a CRM account"
+              call: "supaglue-crm.create-account"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/crm/contacts
+          name: contacts
+          description: "CRM contacts"
+          operations:
+            - method: GET
+              name: list-contacts
+              description: "List CRM contacts"
+              call: "supaglue-crm.list-contacts"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-contact
+              description: "Create a CRM contact"
+              call: "supaglue-crm.create-contact"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/crm/contacts/search
+          name: contact-search
+          description: "CRM contact search"
+          operations:
+            - method: POST
+              name: search-contacts
+              description: "Search CRM contacts by criteria"
+              call: "supaglue-crm.search-contacts"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/crm/leads
+          name: leads
+          description: "CRM leads"
+          operations:
+            - method: GET
+              name: list-leads
+              description: "List CRM leads"
+              call: "supaglue-crm.list-leads"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-lead
+              description: "Create a CRM lead"
+              call: "supaglue-crm.create-lead"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/crm/opportunities
+          name: opportunities
+          description: "CRM opportunities"
+          operations:
+            - method: GET
+              name: list-opportunities
+              description: "List CRM opportunities"
+              call: "supaglue-crm.list-opportunities"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-opportunity
+              description: "Create a CRM opportunity"
+              call: "supaglue-crm.create-opportunity"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9090
+      namespace: supaglue-crm-integration-mcp
+      transport: http
+      description: "MCP server for AI-assisted CRM integration management and data access."
+      tools:
+        - name: list-customers
+          description: "List all customers using Supaglue integrations"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "supaglue-mgmt.list-customers"
+          outputParameters:
+            - type: array
+              mapping: "$."
+        - name: upsert-customer
+          description: "Create or update a customer in the Supaglue platform"
+          hints:
+            readOnly: false
+            destructive: false
+          call: "supaglue-mgmt.upsert-customer"
+          with:
+            customer_id: "tools.customer_id"
+            name: "tools.name"
+            email: "tools.email"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-connections
+          description: "List CRM provider connections for a customer"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "supaglue-mgmt.list-connections"
+          with:
+            customer_id: "tools.customer_id"
+          outputParameters:
+            - type: array
+              mapping: "$."
+        - name: create-magic-link
+          description: "Generate a magic link for customer OAuth authentication to a CRM provider"
+          hints:
+            readOnly: false
+            destructive: false
+          call: "supaglue-mgmt.create-magic-link"
+          with:
+            customer_id: "tools.customer_id"
+            provider_name: "tools.provider_name"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: trigger-sync
+          description: "Trigger a CRM data sync for a customer connection"
+          hints:
+            readOnly: false
+            destructive: false
+          call: "supaglue-mgmt.trigger-sync"
+          with:
+            customer_id: "tools.customer_id"
+            provider_name: "tools.provider_name"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-sync-runs
+          description: "View CRM sync run history and status"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "supaglue-mgmt.list-sync-runs"
+          outputParameters:
+            - type: array
+              mapping: "$."
+        - name: list-accounts
+          description: "List CRM accounts from the provider for a customer"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "supaglue-crm.list-accounts"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-account
+          description: "Create a new account in the customer's CRM"
+          hints:
+            readOnly: false
+            destructive: false
+          call: "supaglue-crm.create-account"
+          with:
+            record: "tools.record"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-contacts
+          description: "List contacts from the customer's CRM"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "supaglue-crm.list-contacts"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-contact
+          description: "Create a new contact in the customer's CRM"
+          hints:
+            readOnly: false
+            destructive: false
+          call: "supaglue-crm.create-contact"
+          with:
+            record: "tools.record"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: search-contacts
+          description: "Search for CRM contacts matching filter criteria"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "supaglue-crm.search-contacts"
+          with:
+            filters: "tools.filters"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-leads
+          description: "List leads from the customer's CRM"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "supaglue-crm.list-leads"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-lead
+          description: "Create a new lead in the customer's CRM"
+          hints:
+            readOnly: false
+            destructive: false
+          call: "supaglue-crm.create-lead"
+          with:
+            record: "tools.record"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-opportunities
+          description: "List opportunities from the customer's CRM"
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "supaglue-crm.list-opportunities"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-opportunity
+          description: "Create a new opportunity in the customer's CRM"
+          hints:
+            readOnly: false
+            destructive: false
+          call: "supaglue-crm.create-opportunity"
+          with:
+            record: "tools.record"
+          outputParameters:
+            - type: object
+              mapping: "$."

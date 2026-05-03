@@ -1,0 +1,93 @@
+extends: spectral:oas
+rules:
+  supaglue-apikey-header-security:
+    description: >-
+      Supaglue APIs use x-api-key header authentication. All endpoints should
+      define security with the ApiKeyAuth scheme.
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete]"
+    then:
+      field: security
+      function: defined
+
+  supaglue-customer-id-header:
+    description: >-
+      Supaglue CRM, Engagement, and Ticketing API operations require a
+      x-customer-id header to identify the customer context. Operations
+      accessing customer data should document this parameter.
+    severity: info
+    given: "$.paths[*][get,post,put,patch,delete].parameters[*]"
+    then:
+      function: truthy
+
+  supaglue-summaries-title-case:
+    description: Operation summaries must use Title Case
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete].summary"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[A-Z]"
+
+  supaglue-operation-ids-camel-case:
+    description: Operation IDs should use camelCase
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete].operationId"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-zA-Z][a-zA-Z0-9]*$"
+
+  supaglue-provider-name-header:
+    description: >-
+      Supaglue CRM and Engagement APIs require x-provider-name header to
+      route requests to the correct provider (e.g. salesforce, hubspot).
+      Should be documented in operation parameters.
+    severity: info
+    given: "$.paths[*][get,post,put,patch,delete].parameters"
+    then:
+      function: defined
+
+  supaglue-upsert-paths:
+    description: >-
+      Upsert operations use /_upsert subpath convention (e.g. /contacts/_upsert,
+      /accounts/_upsert). These should use POST method.
+    severity: info
+    given: "$.paths[*~/_upsert].post"
+    then:
+      function: truthy
+
+  supaglue-search-paths:
+    description: >-
+      Search operations use /_search subpath convention (e.g. /contacts/_search).
+      These should use POST method with a request body.
+    severity: info
+    given: "$.paths[*~/_search].post"
+    then:
+      field: requestBody
+      function: defined
+
+  supaglue-info-contact:
+    description: APIs must define contact information
+    severity: warn
+    given: "$.info"
+    then:
+      field: contact
+      function: defined
+
+  supaglue-pagination-parameters:
+    description: >-
+      List endpoints should support cursor-based pagination. GET operations
+      on collection resources should document pagination parameters.
+    severity: info
+    given: "$.paths[?(!@property.match(/_upsert|_search|_update|{.*}$/))].get.parameters"
+    then:
+      function: defined
+
+  supaglue-400-error-response:
+    description: Operations should document 400 Bad Request error responses
+    severity: info
+    given: "$.paths[*][get,post,put,patch,delete].responses"
+    then:
+      field: "400"
+      function: defined

@@ -1,0 +1,91 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "Customer": {
+      "@id": "schema:Person",
+      "rdfs:comment": "An end-user customer whose third-party CRM/HRIS is connected via Supaglue"
+    },
+    "Connection": {
+      "@id": "schema:APIConnection",
+      "rdfs:comment": "A link between a Supaglue customer and a specific third-party provider"
+    },
+    "Provider": {
+      "@id": "schema:SoftwareApplication",
+      "rdfs:comment": "A third-party SaaS application integrated via Supaglue (e.g. Salesforce, HubSpot)"
+    },
+    "Contact": {
+      "@id": "schema:Person",
+      "rdfs:comment": "A CRM contact record accessed via the Supaglue Unified CRM API"
+    },
+    "Account": {
+      "@id": "schema:Organization",
+      "rdfs:comment": "A CRM account (company) record accessed via the Supaglue Unified CRM API"
+    },
+    "Opportunity": {
+      "@id": "schema:Offer",
+      "rdfs:comment": "A CRM sales opportunity record"
+    },
+    "Lead": {
+      "@id": "schema:Person",
+      "rdfs:comment": "A CRM lead record representing a potential customer"
+    },
+    "Sync": {
+      "@id": "schema:Action",
+      "rdfs:comment": "A data synchronization job from a provider to a destination"
+    },
+    "Destination": {
+      "@id": "schema:DataCatalog",
+      "rdfs:comment": "A data warehouse destination (BigQuery, Snowflake, Redshift, Postgres)"
+    },
+    "customerId": {
+      "@id": "schema:identifier"
+    },
+    "providerName": {
+      "@id": "schema:name"
+    },
+    "remoteId": {
+      "@id": "schema:identifier",
+      "rdfs:comment": "The provider-native identifier for a record"
+    },
+    "firstName": {
+      "@id": "schema:givenName"
+    },
+    "lastName": {
+      "@id": "schema:familyName"
+    },
+    "emailAddresses": {
+      "@id": "schema:email"
+    },
+    "phoneNumbers": {
+      "@id": "schema:telephone"
+    },
+    "accountId": {
+      "@id": "schema:memberOf",
+      "@type": "@id"
+    },
+    "ownerId": {
+      "@id": "schema:accountablePerson",
+      "@type": "@id"
+    },
+    "remoteCreatedAt": {
+      "@id": "schema:dateCreated",
+      "@type": "xsd:dateTime"
+    },
+    "remoteUpdatedAt": {
+      "@id": "schema:dateModified",
+      "@type": "xsd:dateTime"
+    },
+    "syncStatus": {
+      "@id": "schema:actionStatus"
+    },
+    "magicLink": {
+      "@id": "schema:url",
+      "@type": "@id"
+    }
+  }
+}

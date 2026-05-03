@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/supaglue/main/json-schema/supaglue-contact-schema.json",
+  "title": "Supaglue CRM Contact",
+  "description": "Unified CRM contact record schema across Salesforce, HubSpot, Pipedrive, and other CRM providers via Supaglue.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Supaglue-assigned unique identifier for the contact record."
+    },
+    "remote_id": {
+      "type": "string",
+      "description": "The provider-native identifier for this record."
+    },
+    "first_name": {
+      "type": ["string", "null"],
+      "description": "Contact's first name."
+    },
+    "last_name": {
+      "type": ["string", "null"],
+      "description": "Contact's last name."
+    },
+    "email_addresses": {
+      "type": "array",
+      "description": "List of email addresses associated with the contact.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "email_address": {
+            "type": "string",
+            "format": "email"
+          },
+          "email_address_type": {
+            "type": ["string", "null"],
+            "enum": ["primary", "work", "personal", null]
+          }
+        },
+        "required": ["email_address"]
+      }
+    },
+    "phone_numbers": {
+      "type": "array",
+      "description": "List of phone numbers associated with the contact.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "phone_number": {
+            "type": ["string", "null"]
+          },
+          "phone_number_type": {
+            "type": ["string", "null"],
+            "enum": ["primary", "mobile", "work", "fax", "other", null]
+          }
+        }
+      }
+    },
+    "account_id": {
+      "type": ["string", "null"],
+      "description": "Supaglue ID of the associated account."
+    },
+    "owner_id": {
+      "type": ["string", "null"],
+      "description": "Supaglue ID of the owning user/rep."
+    },
+    "title": {
+      "type": ["string", "null"],
+      "description": "Job title of the contact."
+    },
+    "department": {
+      "type": ["string", "null"],
+      "description": "Department of the contact."
+    },
+    "addresses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "street_1": { "type": ["string", "null"] },
+          "street_2": { "type": ["string", "null"] },
+          "city": { "type": ["string", "null"] },
+          "state": { "type": ["string", "null"] },
+          "postal_code": { "type": ["string", "null"] },
+          "country": { "type": ["string", "null"] },
+          "address_type": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "remote_created_at": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "Timestamp when the record was created in the provider."
+    },
+    "remote_updated_at": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "Timestamp when the record was last updated in the provider."
+    },
+    "remote_was_deleted": {
+      "type": "boolean",
+      "description": "Whether the record has been deleted in the provider.",
+      "default": false
+    },
+    "custom_fields": {
+      "type": "object",
+      "description": "Provider-specific custom field values as key-value pairs.",
+      "additionalProperties": true
+    }
+  },
+  "required": ["id", "remote_id"]
+}

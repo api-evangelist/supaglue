@@ -1,0 +1,136 @@
+{
+  "name": "Supaglue CRM Integration Structure",
+  "description": "Data structure and entity relationship documentation for the Supaglue Unified CRM API and Management API.",
+  "version": "1.0",
+  "entities": {
+    "Customer": {
+      "description": "An end-user whose third-party provider is connected via Supaglue",
+      "fields": {
+        "customer_id": { "type": "string", "required": true, "description": "Unique identifier for the customer" },
+        "name": { "type": "string", "description": "Customer display name" },
+        "email": { "type": "string", "format": "email", "description": "Customer email" }
+      },
+      "relationships": {
+        "has_many": ["Connection", "FieldMapping", "EntityMapping"]
+      }
+    },
+    "Connection": {
+      "description": "A customer's authenticated connection to a specific provider",
+      "fields": {
+        "id": { "type": "string", "required": true },
+        "customer_id": { "type": "string", "required": true },
+        "provider_name": { "type": "string", "required": true, "description": "e.g. salesforce, hubspot, pipedrive" },
+        "status": { "type": "enum", "values": ["active", "error", "disconnected"] },
+        "created_at": { "type": "datetime" }
+      },
+      "relationships": {
+        "belongs_to": "Customer",
+        "has_one": "Provider"
+      }
+    },
+    "Contact": {
+      "description": "Unified CRM contact record",
+      "fields": {
+        "id": { "type": "string", "required": true, "description": "Supaglue-assigned ID" },
+        "remote_id": { "type": "string", "required": true, "description": "Provider-native ID" },
+        "first_name": { "type": "string", "nullable": true },
+        "last_name": { "type": "string", "nullable": true },
+        "email_addresses": { "type": "array<EmailAddress>" },
+        "phone_numbers": { "type": "array<PhoneNumber>" },
+        "account_id": { "type": "string", "nullable": true },
+        "owner_id": { "type": "string", "nullable": true },
+        "title": { "type": "string", "nullable": true },
+        "department": { "type": "string", "nullable": true },
+        "remote_created_at": { "type": "datetime", "nullable": true },
+        "remote_updated_at": { "type": "datetime", "nullable": true },
+        "remote_was_deleted": { "type": "boolean" },
+        "custom_fields": { "type": "object" }
+      },
+      "relationships": {
+        "belongs_to": "Account",
+        "belongs_to_user": "User"
+      }
+    },
+    "Account": {
+      "description": "Unified CRM account (company) record",
+      "fields": {
+        "id": { "type": "string", "required": true },
+        "remote_id": { "type": "string", "required": true },
+        "name": { "type": "string", "nullable": true },
+        "description": { "type": "string", "nullable": true },
+        "industry": { "type": "string", "nullable": true },
+        "website": { "type": "string", "nullable": true },
+        "number_of_employees": { "type": "integer", "nullable": true },
+        "owner_id": { "type": "string", "nullable": true },
+        "phone_numbers": { "type": "array<PhoneNumber>" },
+        "addresses": { "type": "array<Address>" },
+        "remote_created_at": { "type": "datetime", "nullable": true },
+        "remote_updated_at": { "type": "datetime", "nullable": true },
+        "remote_was_deleted": { "type": "boolean" },
+        "custom_fields": { "type": "object" }
+      },
+      "relationships": {
+        "has_many": ["Contact", "Opportunity", "Lead"]
+      }
+    },
+    "Opportunity": {
+      "description": "Unified CRM sales opportunity record",
+      "fields": {
+        "id": { "type": "string", "required": true },
+        "remote_id": { "type": "string", "required": true },
+        "name": { "type": "string", "nullable": true },
+        "description": { "type": "string", "nullable": true },
+        "account_id": { "type": "string", "nullable": true },
+        "owner_id": { "type": "string", "nullable": true },
+        "stage": { "type": "string", "nullable": true },
+        "status": { "type": "string", "nullable": true },
+        "amount": { "type": "number", "nullable": true },
+        "close_date": { "type": "date", "nullable": true },
+        "remote_created_at": { "type": "datetime", "nullable": true },
+        "remote_updated_at": { "type": "datetime", "nullable": true },
+        "remote_was_deleted": { "type": "boolean" },
+        "custom_fields": { "type": "object" }
+      }
+    },
+    "Lead": {
+      "description": "Unified CRM lead record",
+      "fields": {
+        "id": { "type": "string", "required": true },
+        "remote_id": { "type": "string", "required": true },
+        "first_name": { "type": "string", "nullable": true },
+        "last_name": { "type": "string", "nullable": true },
+        "email_addresses": { "type": "array<EmailAddress>" },
+        "phone_numbers": { "type": "array<PhoneNumber>" },
+        "title": { "type": "string", "nullable": true },
+        "company": { "type": "string", "nullable": true },
+        "converted_account_id": { "type": "string", "nullable": true },
+        "converted_contact_id": { "type": "string", "nullable": true },
+        "remote_created_at": { "type": "datetime", "nullable": true },
+        "remote_was_deleted": { "type": "boolean" },
+        "custom_fields": { "type": "object" }
+      }
+    }
+  },
+  "apiSurface": {
+    "managementAPI": {
+      "baseUrl": "https://api.supaglue.io/mgmt/v2",
+      "auth": "x-api-key header",
+      "entities": ["Customer", "Connection", "Provider", "SyncConfig", "Destination", "Schema", "Entity", "SyncRun"]
+    },
+    "crmAPI": {
+      "baseUrl": "https://api.supaglue.io/crm/v2",
+      "auth": "x-api-key + x-customer-id + x-provider-name headers",
+      "entities": ["Account", "Contact", "Lead", "Opportunity", "User", "CustomObject", "StandardObject", "Association"]
+    },
+    "engagementAPI": {
+      "baseUrl": "https://api.supaglue.io/engagement/v2",
+      "auth": "x-api-key + x-customer-id + x-provider-name headers",
+      "entities": ["Account", "Contact", "Sequence", "SequenceState", "Mailbox", "User"]
+    },
+    "ticketingAPI": {
+      "baseUrl": "https://api.supaglue.io/ticketing/v2",
+      "auth": "x-api-key + x-customer-id + x-provider-name headers",
+      "entities": ["Account", "Collection", "Ticket", "Contact", "User", "Attachment", "Tag"]
+    }
+  }
+}
