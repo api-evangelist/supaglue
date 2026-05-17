@@ -122,9 +122,9 @@ common:
     url: https://www.supaglue.com/
   - type: Documentation
     url: https://docs.supaglue.com/
-  - type: GitHub Organization
+  - type: GitHubOrganization
     url: https://github.com/supaglue-labs
-  - type: Getting Started
+  - type: GettingStarted
     url: https://docs.supaglue.com/getting-started
   - type: API Introduction
     url: https://docs.supaglue.com/api/introduction
