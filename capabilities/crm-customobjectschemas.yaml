@@ -1,0 +1,174 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Unified CRM API — CustomObjectSchemas
+  description: 'Unified CRM API — CustomObjectSchemas. 4 operations. Lead operation: List custom object schemas. Self-contained
+    Naftiko capability covering one Supaglue business surface.'
+  tags:
+  - Supaglue
+  - CustomObjectSchemas
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SUPAGLUE_API_KEY: SUPAGLUE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: crm-customobjectschemas
+    baseUri: https://api.supaglue.io/crm/v2
+    description: Unified CRM API — CustomObjectSchemas business capability. Self-contained, no shared references.
+    resources:
+    - name: metadata-custom_objects
+      path: /metadata/custom_objects
+      operations:
+      - name: listcustomobjectschemas
+        method: GET
+        description: List custom object schemas
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createcustomobjectschema
+        method: POST
+        description: Create custom object schema
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: metadata-custom_objects-object_name
+      path: /metadata/custom_objects/{object_name}
+      operations:
+      - name: getcustomobjectschema
+        method: GET
+        description: Get custom object schema details
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatecustomobjectschema
+        method: PUT
+        description: Update custom object schema
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: x-api-key
+      value: '{{env.SUPAGLUE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: crm-customobjectschemas-rest
+    port: 8080
+    description: REST adapter for Unified CRM API — CustomObjectSchemas. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/metadata/custom-objects
+      name: metadata-custom-objects
+      description: REST surface for metadata-custom_objects.
+      operations:
+      - method: GET
+        name: listcustomobjectschemas
+        description: List custom object schemas
+        call: crm-customobjectschemas.listcustomobjectschemas
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createcustomobjectschema
+        description: Create custom object schema
+        call: crm-customobjectschemas.createcustomobjectschema
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/metadata/custom-objects/{object-name}
+      name: metadata-custom-objects-object-name
+      description: REST surface for metadata-custom_objects-object_name.
+      operations:
+      - method: GET
+        name: getcustomobjectschema
+        description: Get custom object schema details
+        call: crm-customobjectschemas.getcustomobjectschema
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatecustomobjectschema
+        description: Update custom object schema
+        call: crm-customobjectschemas.updatecustomobjectschema
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: crm-customobjectschemas-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Unified CRM API — CustomObjectSchemas. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-custom-object-schemas
+      description: List custom object schemas
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: crm-customobjectschemas.listcustomobjectschemas
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-custom-object-schema
+      description: Create custom object schema
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: crm-customobjectschemas.createcustomobjectschema
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-custom-object-schema-details
+      description: Get custom object schema details
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: crm-customobjectschemas.getcustomobjectschema
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-custom-object-schema
+      description: Update custom object schema
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: crm-customobjectschemas.updatecustomobjectschema
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

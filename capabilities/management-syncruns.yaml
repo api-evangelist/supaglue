@@ -1,0 +1,134 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Management API — SyncRuns
+  description: 'Management API — SyncRuns. 1 operations. Lead operation: Get SyncRuns. Self-contained Naftiko capability covering
+    one Supaglue business surface.'
+  tags:
+  - Supaglue
+  - SyncRuns
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SUPAGLUE_API_KEY: SUPAGLUE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: management-syncruns
+    baseUri: https://api.supaglue.io/mgmt/v2
+    description: Management API — SyncRuns business capability. Self-contained, no shared references.
+    resources:
+    - name: sync-runs
+      path: /sync-runs
+      operations:
+      - name: getsyncruns
+        method: GET
+        description: Get SyncRuns
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: cursor
+          in: query
+          type: string
+          description: The pagination cursor value
+        - name: page_size
+          in: query
+          type: string
+          description: Number of results to return per page
+        - name: customer_id
+          in: query
+          type: string
+          description: The customer ID that uniquely identifies the customer in your application
+        - name: provider_name
+          in: query
+          type: string
+          description: The provider name
+        - name: object_type
+          in: query
+          type: string
+        - name: object
+          in: query
+          type: string
+          description: The object to filter by
+        - name: entity_id
+          in: query
+          type: string
+          description: The entity id to filter by
+        - name: status
+          in: query
+          type: string
+          description: The status to filter by (case-insensitive)
+        - name: start_timestamp
+          in: query
+          type: string
+          description: The start time to filter by. Should start with one of [`>`, `<`] followed by an ISO 8601 timestamp.
+        - name: end_timestamp
+          in: query
+          type: string
+          description: The end time to filter by. Should start with [`>`, `<`] followed by an ISO 8601 timestamp.
+    authentication:
+      type: apikey
+      key: x-api-key
+      value: '{{env.SUPAGLUE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: management-syncruns-rest
+    port: 8080
+    description: REST adapter for Management API — SyncRuns. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/sync-runs
+      name: sync-runs
+      description: REST surface for sync-runs.
+      operations:
+      - method: GET
+        name: getsyncruns
+        description: Get SyncRuns
+        call: management-syncruns.getsyncruns
+        with:
+          cursor: rest.cursor
+          page_size: rest.page_size
+          customer_id: rest.customer_id
+          provider_name: rest.provider_name
+          object_type: rest.object_type
+          object: rest.object
+          entity_id: rest.entity_id
+          status: rest.status
+          start_timestamp: rest.start_timestamp
+          end_timestamp: rest.end_timestamp
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: management-syncruns-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Management API — SyncRuns. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: get-syncruns
+      description: Get SyncRuns
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-syncruns.getsyncruns
+      with:
+        cursor: tools.cursor
+        page_size: tools.page_size
+        customer_id: tools.customer_id
+        provider_name: tools.provider_name
+        object_type: tools.object_type
+        object: tools.object
+        entity_id: tools.entity_id
+        status: tools.status
+        start_timestamp: tools.start_timestamp
+        end_timestamp: tools.end_timestamp
+      outputParameters:
+      - type: object
+        mapping: $.

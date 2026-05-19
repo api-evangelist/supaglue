@@ -1,0 +1,104 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Unified Engagement API — Mailboxes
+  description: 'Unified Engagement API — Mailboxes. 2 operations. Lead operation: List mailboxes. Self-contained Naftiko capability
+    covering one Supaglue business surface.'
+  tags:
+  - Supaglue
+  - Mailboxes
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SUPAGLUE_API_KEY: SUPAGLUE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: engagement-mailboxes
+    baseUri: https://api.supaglue.io/engagement/v2
+    description: Unified Engagement API — Mailboxes business capability. Self-contained, no shared references.
+    resources:
+    - name: mailboxes
+      path: /mailboxes
+      operations:
+      - name: listmailboxes
+        method: GET
+        description: List mailboxes
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: mailboxes-mailbox_id
+      path: /mailboxes/{mailbox_id}
+      operations:
+      - name: getmailbox
+        method: GET
+        description: Get mailbox
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: x-api-key
+      value: '{{env.SUPAGLUE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: engagement-mailboxes-rest
+    port: 8080
+    description: REST adapter for Unified Engagement API — Mailboxes. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/mailboxes
+      name: mailboxes
+      description: REST surface for mailboxes.
+      operations:
+      - method: GET
+        name: listmailboxes
+        description: List mailboxes
+        call: engagement-mailboxes.listmailboxes
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/mailboxes/{mailbox-id}
+      name: mailboxes-mailbox-id
+      description: REST surface for mailboxes-mailbox_id.
+      operations:
+      - method: GET
+        name: getmailbox
+        description: Get mailbox
+        call: engagement-mailboxes.getmailbox
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: engagement-mailboxes-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Unified Engagement API — Mailboxes. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-mailboxes
+      description: List mailboxes
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: engagement-mailboxes.listmailboxes
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-mailbox
+      description: Get mailbox
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: engagement-mailboxes.getmailbox
+      outputParameters:
+      - type: object
+        mapping: $.

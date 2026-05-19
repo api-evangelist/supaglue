@@ -1,0 +1,258 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Unified CRM API — Leads
+  description: 'Unified CRM API — Leads. 6 operations. Lead operation: Create lead. Self-contained Naftiko capability covering
+    one Supaglue business surface.'
+  tags:
+  - Supaglue
+  - Leads
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SUPAGLUE_API_KEY: SUPAGLUE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: crm-leads
+    baseUri: https://api.supaglue.io/crm/v2
+    description: Unified CRM API — Leads business capability. Self-contained, no shared references.
+    resources:
+    - name: leads
+      path: /leads
+      operations:
+      - name: createlead
+        method: POST
+        description: Create lead
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: listleads
+        method: GET
+        description: List leads
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: leads-_search
+      path: /leads/_search
+      operations:
+      - name: searchleads
+        method: POST
+        description: Search leads
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: leads-_upsert
+      path: /leads/_upsert
+      operations:
+      - name: upsertlead
+        method: POST
+        description: Upsert lead
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: leads-lead_id
+      path: /leads/{lead_id}
+      operations:
+      - name: getlead
+        method: GET
+        description: Get lead
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatelead
+        method: PATCH
+        description: Update lead
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: x-api-key
+      value: '{{env.SUPAGLUE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: crm-leads-rest
+    port: 8080
+    description: REST adapter for Unified CRM API — Leads. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/leads
+      name: leads
+      description: REST surface for leads.
+      operations:
+      - method: POST
+        name: createlead
+        description: Create lead
+        call: crm-leads.createlead
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: listleads
+        description: List leads
+        call: crm-leads.listleads
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/leads/search
+      name: leads-search
+      description: REST surface for leads-_search.
+      operations:
+      - method: POST
+        name: searchleads
+        description: Search leads
+        call: crm-leads.searchleads
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/leads/upsert
+      name: leads-upsert
+      description: REST surface for leads-_upsert.
+      operations:
+      - method: POST
+        name: upsertlead
+        description: Upsert lead
+        call: crm-leads.upsertlead
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/leads/{lead-id}
+      name: leads-lead-id
+      description: REST surface for leads-lead_id.
+      operations:
+      - method: GET
+        name: getlead
+        description: Get lead
+        call: crm-leads.getlead
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: updatelead
+        description: Update lead
+        call: crm-leads.updatelead
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: crm-leads-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Unified CRM API — Leads. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: create-lead
+      description: Create lead
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: crm-leads.createlead
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-leads
+      description: List leads
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: crm-leads.listleads
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: search-leads
+      description: Search leads
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: crm-leads.searchleads
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: upsert-lead
+      description: Upsert lead
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: crm-leads.upsertlead
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-lead
+      description: Get lead
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: crm-leads.getlead
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-lead
+      description: Update lead
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: crm-leads.updatelead
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

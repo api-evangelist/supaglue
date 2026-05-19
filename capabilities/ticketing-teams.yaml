@@ -1,0 +1,104 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Unified Ticketing API (Preview) — Teams
+  description: 'Unified Ticketing API (Preview) — Teams. 2 operations. Lead operation: List teams. Self-contained Naftiko
+    capability covering one Supaglue business surface.'
+  tags:
+  - Supaglue
+  - Teams
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SUPAGLUE_API_KEY: SUPAGLUE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: ticketing-teams
+    baseUri: https://api.supaglue.io/ticketing/v2
+    description: Unified Ticketing API (Preview) — Teams business capability. Self-contained, no shared references.
+    resources:
+    - name: teams
+      path: /teams
+      operations:
+      - name: listteams
+        method: GET
+        description: List teams
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: teams-team_id
+      path: /teams/{team_id}
+      operations:
+      - name: getteam
+        method: GET
+        description: Get team
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: x-api-key
+      value: '{{env.SUPAGLUE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: ticketing-teams-rest
+    port: 8080
+    description: REST adapter for Unified Ticketing API (Preview) — Teams. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/teams
+      name: teams
+      description: REST surface for teams.
+      operations:
+      - method: GET
+        name: listteams
+        description: List teams
+        call: ticketing-teams.listteams
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/teams/{team-id}
+      name: teams-team-id
+      description: REST surface for teams-team_id.
+      operations:
+      - method: GET
+        name: getteam
+        description: Get team
+        call: ticketing-teams.getteam
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: ticketing-teams-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Unified Ticketing API (Preview) — Teams. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-teams
+      description: List teams
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: ticketing-teams.listteams
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-team
+      description: Get team
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: ticketing-teams.getteam
+      outputParameters:
+      - type: object
+        mapping: $.

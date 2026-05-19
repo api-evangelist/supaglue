@@ -1,0 +1,216 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Unified Engagement API — Contacts
+  description: 'Unified Engagement API — Contacts. 5 operations. Lead operation: Create contact. Self-contained Naftiko capability
+    covering one Supaglue business surface.'
+  tags:
+  - Supaglue
+  - Contacts
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SUPAGLUE_API_KEY: SUPAGLUE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: engagement-contacts
+    baseUri: https://api.supaglue.io/engagement/v2
+    description: Unified Engagement API — Contacts business capability. Self-contained, no shared references.
+    resources:
+    - name: contacts
+      path: /contacts
+      operations:
+      - name: createcontact
+        method: POST
+        description: Create contact
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: listcontacts
+        method: GET
+        description: List contacts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: contacts-_search
+      path: /contacts/_search
+      operations:
+      - name: searchcontacts
+        method: POST
+        description: Search contacts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: contacts-contact_id
+      path: /contacts/{contact_id}
+      operations:
+      - name: getcontact
+        method: GET
+        description: Get contact
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatecontact
+        method: PATCH
+        description: Update contact
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: x-api-key
+      value: '{{env.SUPAGLUE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: engagement-contacts-rest
+    port: 8080
+    description: REST adapter for Unified Engagement API — Contacts. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/contacts
+      name: contacts
+      description: REST surface for contacts.
+      operations:
+      - method: POST
+        name: createcontact
+        description: Create contact
+        call: engagement-contacts.createcontact
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: listcontacts
+        description: List contacts
+        call: engagement-contacts.listcontacts
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/contacts/search
+      name: contacts-search
+      description: REST surface for contacts-_search.
+      operations:
+      - method: POST
+        name: searchcontacts
+        description: Search contacts
+        call: engagement-contacts.searchcontacts
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/contacts/{contact-id}
+      name: contacts-contact-id
+      description: REST surface for contacts-contact_id.
+      operations:
+      - method: GET
+        name: getcontact
+        description: Get contact
+        call: engagement-contacts.getcontact
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: updatecontact
+        description: Update contact
+        call: engagement-contacts.updatecontact
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: engagement-contacts-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Unified Engagement API — Contacts. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: create-contact
+      description: Create contact
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: engagement-contacts.createcontact
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-contacts
+      description: List contacts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: engagement-contacts.listcontacts
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: search-contacts
+      description: Search contacts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: engagement-contacts.searchcontacts
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-contact
+      description: Get contact
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: engagement-contacts.getcontact
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-contact
+      description: Update contact
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: engagement-contacts.updatecontact
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

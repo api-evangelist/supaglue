@@ -1,0 +1,174 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Unified Ticketing API (Preview) — Tickets
+  description: 'Unified Ticketing API (Preview) — Tickets. 4 operations. Lead operation: List tickets. Self-contained Naftiko
+    capability covering one Supaglue business surface.'
+  tags:
+  - Supaglue
+  - Tickets
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SUPAGLUE_API_KEY: SUPAGLUE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: ticketing-tickets
+    baseUri: https://api.supaglue.io/ticketing/v2
+    description: Unified Ticketing API (Preview) — Tickets business capability. Self-contained, no shared references.
+    resources:
+    - name: tickets
+      path: /tickets
+      operations:
+      - name: listtickets
+        method: GET
+        description: List tickets
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createticket
+        method: POST
+        description: Create ticket
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: tickets-ticket_id
+      path: /tickets/{ticket_id}
+      operations:
+      - name: getticket
+        method: GET
+        description: Get ticket
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updateticket
+        method: PATCH
+        description: Update ticket
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: x-api-key
+      value: '{{env.SUPAGLUE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: ticketing-tickets-rest
+    port: 8080
+    description: REST adapter for Unified Ticketing API (Preview) — Tickets. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/tickets
+      name: tickets
+      description: REST surface for tickets.
+      operations:
+      - method: GET
+        name: listtickets
+        description: List tickets
+        call: ticketing-tickets.listtickets
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createticket
+        description: Create ticket
+        call: ticketing-tickets.createticket
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/tickets/{ticket-id}
+      name: tickets-ticket-id
+      description: REST surface for tickets-ticket_id.
+      operations:
+      - method: GET
+        name: getticket
+        description: Get ticket
+        call: ticketing-tickets.getticket
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: updateticket
+        description: Update ticket
+        call: ticketing-tickets.updateticket
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: ticketing-tickets-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Unified Ticketing API (Preview) — Tickets. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: list-tickets
+      description: List tickets
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: ticketing-tickets.listtickets
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-ticket
+      description: Create ticket
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: ticketing-tickets.createticket
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-ticket
+      description: Get ticket
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: ticketing-tickets.getticket
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-ticket
+      description: Update ticket
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: ticketing-tickets.updateticket
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

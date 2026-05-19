@@ -1,0 +1,199 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Management API — Schemas
+  description: 'Management API — Schemas. 5 operations. Lead operation: List schemas. Self-contained Naftiko capability covering
+    one Supaglue business surface.'
+  tags:
+  - Supaglue
+  - Schemas
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SUPAGLUE_API_KEY: SUPAGLUE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: management-schemas
+    baseUri: https://api.supaglue.io/mgmt/v2
+    description: Management API — Schemas business capability. Self-contained, no shared references.
+    resources:
+    - name: schemas
+      path: /schemas
+      operations:
+      - name: getschemas
+        method: GET
+        description: List schemas
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createschema
+        method: POST
+        description: Create schema
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: schemas-schema_id
+      path: /schemas/{schema_id}
+      operations:
+      - name: getschema
+        method: GET
+        description: Get schema
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updateschema
+        method: PUT
+        description: Update schema
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteschema
+        method: DELETE
+        description: Delete schema
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: x-api-key
+      value: '{{env.SUPAGLUE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: management-schemas-rest
+    port: 8080
+    description: REST adapter for Management API — Schemas. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/schemas
+      name: schemas
+      description: REST surface for schemas.
+      operations:
+      - method: GET
+        name: getschemas
+        description: List schemas
+        call: management-schemas.getschemas
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createschema
+        description: Create schema
+        call: management-schemas.createschema
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/schemas/{schema-id}
+      name: schemas-schema-id
+      description: REST surface for schemas-schema_id.
+      operations:
+      - method: GET
+        name: getschema
+        description: Get schema
+        call: management-schemas.getschema
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateschema
+        description: Update schema
+        call: management-schemas.updateschema
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteschema
+        description: Delete schema
+        call: management-schemas.deleteschema
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: management-schemas-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Management API — Schemas. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: list-schemas
+      description: List schemas
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-schemas.getschemas
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-schema
+      description: Create schema
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: management-schemas.createschema
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-schema
+      description: Get schema
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-schemas.getschema
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-schema
+      description: Update schema
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: management-schemas.updateschema
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-schema
+      description: Delete schema
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: management-schemas.deleteschema
+      outputParameters:
+      - type: object
+        mapping: $.

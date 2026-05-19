@@ -1,0 +1,139 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Management API — Magic Links
+  description: 'Management API — Magic Links. 3 operations. Lead operation: List magic links. Self-contained Naftiko capability
+    covering one Supaglue business surface.'
+  tags:
+  - Supaglue
+  - Magic Links
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SUPAGLUE_API_KEY: SUPAGLUE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: management-magic-links
+    baseUri: https://api.supaglue.io/mgmt/v2
+    description: Management API — Magic Links business capability. Self-contained, no shared references.
+    resources:
+    - name: magic_links
+      path: /magic_links
+      operations:
+      - name: getmagiclinks
+        method: GET
+        description: List magic links
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createmagiclink
+        method: POST
+        description: Create magic link
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: magic_links-magic_link_id
+      path: /magic_links/{magic_link_id}
+      operations:
+      - name: deletemagiclink
+        method: DELETE
+        description: Delete magic link
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: x-api-key
+      value: '{{env.SUPAGLUE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: management-magic-links-rest
+    port: 8080
+    description: REST adapter for Management API — Magic Links. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/magic-links
+      name: magic-links
+      description: REST surface for magic_links.
+      operations:
+      - method: GET
+        name: getmagiclinks
+        description: List magic links
+        call: management-magic-links.getmagiclinks
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createmagiclink
+        description: Create magic link
+        call: management-magic-links.createmagiclink
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/magic-links/{magic-link-id}
+      name: magic-links-magic-link-id
+      description: REST surface for magic_links-magic_link_id.
+      operations:
+      - method: DELETE
+        name: deletemagiclink
+        description: Delete magic link
+        call: management-magic-links.deletemagiclink
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: management-magic-links-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Management API — Magic Links. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-magic-links
+      description: List magic links
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-magic-links.getmagiclinks
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-magic-link
+      description: Create magic link
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: management-magic-links.createmagiclink
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-magic-link
+      description: Delete magic link
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: management-magic-links.deletemagiclink
+      outputParameters:
+      - type: object
+        mapping: $.

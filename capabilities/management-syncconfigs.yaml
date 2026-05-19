@@ -1,0 +1,215 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Management API — SyncConfigs
+  description: 'Management API — SyncConfigs. 5 operations. Lead operation: List Sync Configs. Self-contained Naftiko capability
+    covering one Supaglue business surface.'
+  tags:
+  - Supaglue
+  - SyncConfigs
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SUPAGLUE_API_KEY: SUPAGLUE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: management-syncconfigs
+    baseUri: https://api.supaglue.io/mgmt/v2
+    description: Management API — SyncConfigs business capability. Self-contained, no shared references.
+    resources:
+    - name: sync_configs
+      path: /sync_configs
+      operations:
+      - name: getsyncconfigs
+        method: GET
+        description: List Sync Configs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createsyncconfig
+        method: POST
+        description: Create Sync Config
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: sync_configs-sync_config_id
+      path: /sync_configs/{sync_config_id}
+      operations:
+      - name: getsyncconfig
+        method: GET
+        description: Get Sync Config
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatesyncconfig
+        method: PUT
+        description: Update Sync Config
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: force_delete_syncs
+          in: query
+          type: boolean
+          description: If true, any syncs for any deleted objects will be cascadingly deleted for all customers with this
+            sync config
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletesyncconfig
+        method: DELETE
+        description: Delete Sync Config
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: force_delete_syncs
+          in: query
+          type: boolean
+          description: If true, all syncs for all customers with this sync config will be cascadingly deleted
+    authentication:
+      type: apikey
+      key: x-api-key
+      value: '{{env.SUPAGLUE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: management-syncconfigs-rest
+    port: 8080
+    description: REST adapter for Management API — SyncConfigs. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/sync-configs
+      name: sync-configs
+      description: REST surface for sync_configs.
+      operations:
+      - method: GET
+        name: getsyncconfigs
+        description: List Sync Configs
+        call: management-syncconfigs.getsyncconfigs
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createsyncconfig
+        description: Create Sync Config
+        call: management-syncconfigs.createsyncconfig
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/sync-configs/{sync-config-id}
+      name: sync-configs-sync-config-id
+      description: REST surface for sync_configs-sync_config_id.
+      operations:
+      - method: GET
+        name: getsyncconfig
+        description: Get Sync Config
+        call: management-syncconfigs.getsyncconfig
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updatesyncconfig
+        description: Update Sync Config
+        call: management-syncconfigs.updatesyncconfig
+        with:
+          force_delete_syncs: rest.force_delete_syncs
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletesyncconfig
+        description: Delete Sync Config
+        call: management-syncconfigs.deletesyncconfig
+        with:
+          force_delete_syncs: rest.force_delete_syncs
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: management-syncconfigs-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Management API — SyncConfigs. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-sync-configs
+      description: List Sync Configs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-syncconfigs.getsyncconfigs
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-sync-config
+      description: Create Sync Config
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: management-syncconfigs.createsyncconfig
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-sync-config
+      description: Get Sync Config
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-syncconfigs.getsyncconfig
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-sync-config
+      description: Update Sync Config
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: management-syncconfigs.updatesyncconfig
+      with:
+        force_delete_syncs: tools.force_delete_syncs
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-sync-config
+      description: Delete Sync Config
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: management-syncconfigs.deletesyncconfig
+      with:
+        force_delete_syncs: tools.force_delete_syncs
+      outputParameters:
+      - type: object
+        mapping: $.

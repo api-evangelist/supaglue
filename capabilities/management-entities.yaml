@@ -1,0 +1,199 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Management API — Entities
+  description: 'Management API — Entities. 5 operations. Lead operation: List entities. Self-contained Naftiko capability
+    covering one Supaglue business surface.'
+  tags:
+  - Supaglue
+  - Entities
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SUPAGLUE_API_KEY: SUPAGLUE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: management-entities
+    baseUri: https://api.supaglue.io/mgmt/v2
+    description: Management API — Entities business capability. Self-contained, no shared references.
+    resources:
+    - name: entities
+      path: /entities
+      operations:
+      - name: getentities
+        method: GET
+        description: List entities
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createentity
+        method: POST
+        description: Create entity
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: entities-entity_id
+      path: /entities/{entity_id}
+      operations:
+      - name: getentity
+        method: GET
+        description: Get entity
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updateentity
+        method: PUT
+        description: Update entity
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteentity
+        method: DELETE
+        description: Delete entity
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: x-api-key
+      value: '{{env.SUPAGLUE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: management-entities-rest
+    port: 8080
+    description: REST adapter for Management API — Entities. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/entities
+      name: entities
+      description: REST surface for entities.
+      operations:
+      - method: GET
+        name: getentities
+        description: List entities
+        call: management-entities.getentities
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createentity
+        description: Create entity
+        call: management-entities.createentity
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/entities/{entity-id}
+      name: entities-entity-id
+      description: REST surface for entities-entity_id.
+      operations:
+      - method: GET
+        name: getentity
+        description: Get entity
+        call: management-entities.getentity
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateentity
+        description: Update entity
+        call: management-entities.updateentity
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteentity
+        description: Delete entity
+        call: management-entities.deleteentity
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: management-entities-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Management API — Entities. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: list-entities
+      description: List entities
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-entities.getentities
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-entity
+      description: Create entity
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: management-entities.createentity
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-entity
+      description: Get entity
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-entities.getentity
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-entity
+      description: Update entity
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: management-entities.updateentity
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-entity
+      description: Delete entity
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: management-entities.deleteentity
+      outputParameters:
+      - type: object
+        mapping: $.

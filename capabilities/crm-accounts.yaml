@@ -1,0 +1,216 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Unified CRM API — Accounts
+  description: 'Unified CRM API — Accounts. 5 operations. Lead operation: Create account. Self-contained Naftiko capability
+    covering one Supaglue business surface.'
+  tags:
+  - Supaglue
+  - Accounts
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SUPAGLUE_API_KEY: SUPAGLUE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: crm-accounts
+    baseUri: https://api.supaglue.io/crm/v2
+    description: Unified CRM API — Accounts business capability. Self-contained, no shared references.
+    resources:
+    - name: accounts
+      path: /accounts
+      operations:
+      - name: createaccount
+        method: POST
+        description: Create account
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: listaccounts
+        method: GET
+        description: List accounts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: accounts-_upsert
+      path: /accounts/_upsert
+      operations:
+      - name: upsertaccount
+        method: POST
+        description: Upsert account
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: accounts-account_id
+      path: /accounts/{account_id}
+      operations:
+      - name: getaccount
+        method: GET
+        description: Get account
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updateaccount
+        method: PATCH
+        description: Update account
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: x-api-key
+      value: '{{env.SUPAGLUE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: crm-accounts-rest
+    port: 8080
+    description: REST adapter for Unified CRM API — Accounts. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/accounts
+      name: accounts
+      description: REST surface for accounts.
+      operations:
+      - method: POST
+        name: createaccount
+        description: Create account
+        call: crm-accounts.createaccount
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: listaccounts
+        description: List accounts
+        call: crm-accounts.listaccounts
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/accounts/upsert
+      name: accounts-upsert
+      description: REST surface for accounts-_upsert.
+      operations:
+      - method: POST
+        name: upsertaccount
+        description: Upsert account
+        call: crm-accounts.upsertaccount
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/accounts/{account-id}
+      name: accounts-account-id
+      description: REST surface for accounts-account_id.
+      operations:
+      - method: GET
+        name: getaccount
+        description: Get account
+        call: crm-accounts.getaccount
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: updateaccount
+        description: Update account
+        call: crm-accounts.updateaccount
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: crm-accounts-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Unified CRM API — Accounts. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: create-account
+      description: Create account
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: crm-accounts.createaccount
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-accounts
+      description: List accounts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: crm-accounts.listaccounts
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: upsert-account
+      description: Upsert account
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: crm-accounts.upsertaccount
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-account
+      description: Get account
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: crm-accounts.getaccount
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-account
+      description: Update account
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: crm-accounts.updateaccount
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

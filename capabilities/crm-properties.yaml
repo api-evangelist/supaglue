@@ -1,0 +1,216 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Unified CRM API — Properties
+  description: 'Unified CRM API — Properties. 5 operations. Lead operation: List properties. Self-contained Naftiko capability
+    covering one Supaglue business surface.'
+  tags:
+  - Supaglue
+  - Properties
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SUPAGLUE_API_KEY: SUPAGLUE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: crm-properties
+    baseUri: https://api.supaglue.io/crm/v2
+    description: Unified CRM API — Properties business capability. Self-contained, no shared references.
+    resources:
+    - name: metadata-properties-object_name
+      path: /metadata/properties/{object_name}
+      operations:
+      - name: listpropertiespreview
+        method: GET
+        description: List properties
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createproperty
+        method: POST
+        description: Create property
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: metadata-properties-object_name-register
+      path: /metadata/properties/{object_name}/register
+      operations:
+      - name: registerproperty
+        method: POST
+        description: Register Property (preview)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: metadata-properties-object_name-property_name
+      path: /metadata/properties/{object_name}/{property_name}
+      operations:
+      - name: getproperty
+        method: GET
+        description: Get property (preview)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updateproperty
+        method: PATCH
+        description: Update property (preview)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: x-api-key
+      value: '{{env.SUPAGLUE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: crm-properties-rest
+    port: 8080
+    description: REST adapter for Unified CRM API — Properties. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/metadata/properties/{object-name}
+      name: metadata-properties-object-name
+      description: REST surface for metadata-properties-object_name.
+      operations:
+      - method: GET
+        name: listpropertiespreview
+        description: List properties
+        call: crm-properties.listpropertiespreview
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createproperty
+        description: Create property
+        call: crm-properties.createproperty
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/metadata/properties/{object-name}/register
+      name: metadata-properties-object-name-register
+      description: REST surface for metadata-properties-object_name-register.
+      operations:
+      - method: POST
+        name: registerproperty
+        description: Register Property (preview)
+        call: crm-properties.registerproperty
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/metadata/properties/{object-name}/{property-name}
+      name: metadata-properties-object-name-property-name
+      description: REST surface for metadata-properties-object_name-property_name.
+      operations:
+      - method: GET
+        name: getproperty
+        description: Get property (preview)
+        call: crm-properties.getproperty
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: updateproperty
+        description: Update property (preview)
+        call: crm-properties.updateproperty
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: crm-properties-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Unified CRM API — Properties. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-properties
+      description: List properties
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: crm-properties.listpropertiespreview
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-property
+      description: Create property
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: crm-properties.createproperty
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: register-property-preview
+      description: Register Property (preview)
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: crm-properties.registerproperty
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-property-preview
+      description: Get property (preview)
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: crm-properties.getproperty
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-property-preview
+      description: Update property (preview)
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: crm-properties.updateproperty
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

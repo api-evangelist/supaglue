@@ -1,0 +1,132 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Management API — ConnectionSyncConfigs
+  description: 'Management API — ConnectionSyncConfigs. 3 operations. Lead operation: Get connection sync config. Self-contained
+    Naftiko capability covering one Supaglue business surface.'
+  tags:
+  - Supaglue
+  - ConnectionSyncConfigs
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SUPAGLUE_API_KEY: SUPAGLUE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: management-connectionsyncconfigs
+    baseUri: https://api.supaglue.io/mgmt/v2
+    description: Management API — ConnectionSyncConfigs business capability. Self-contained, no shared references.
+    resources:
+    - name: connection_sync_configs
+      path: /connection_sync_configs
+      operations:
+      - name: getconnectionsyncconfig
+        method: GET
+        description: Get connection sync config
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: upsertconnectionsyncconfig
+        method: PUT
+        description: Upsert connection sync config
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteconnectionsyncconfig
+        method: DELETE
+        description: Delete connection sync config
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: x-api-key
+      value: '{{env.SUPAGLUE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: management-connectionsyncconfigs-rest
+    port: 8080
+    description: REST adapter for Management API — ConnectionSyncConfigs. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/connection-sync-configs
+      name: connection-sync-configs
+      description: REST surface for connection_sync_configs.
+      operations:
+      - method: GET
+        name: getconnectionsyncconfig
+        description: Get connection sync config
+        call: management-connectionsyncconfigs.getconnectionsyncconfig
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: upsertconnectionsyncconfig
+        description: Upsert connection sync config
+        call: management-connectionsyncconfigs.upsertconnectionsyncconfig
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteconnectionsyncconfig
+        description: Delete connection sync config
+        call: management-connectionsyncconfigs.deleteconnectionsyncconfig
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: management-connectionsyncconfigs-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Management API — ConnectionSyncConfigs. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: get-connection-sync-config
+      description: Get connection sync config
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-connectionsyncconfigs.getconnectionsyncconfig
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: upsert-connection-sync-config
+      description: Upsert connection sync config
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: management-connectionsyncconfigs.upsertconnectionsyncconfig
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-connection-sync-config
+      description: Delete connection sync config
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: management-connectionsyncconfigs.deleteconnectionsyncconfig
+      outputParameters:
+      - type: object
+        mapping: $.
