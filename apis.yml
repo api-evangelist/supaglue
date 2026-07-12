@@ -103,6 +103,10 @@ apis:
         url: >-
           https://raw.githubusercontent.com/api-evangelist/supaglue/refs/heads/main/openapi/supaglue-ticketing-api-openapi.yml
 common:
+  - type: DomainSecurity
+    url: security/supaglue-domain-security.yml
+  - type: Authentication
+    url: authentication/supaglue-authentication.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/supaglue
   - type: Website
