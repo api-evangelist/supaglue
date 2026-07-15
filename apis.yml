@@ -103,6 +103,8 @@ apis:
         url: >-
           https://raw.githubusercontent.com/api-evangelist/supaglue/refs/heads/main/openapi/supaglue-ticketing-api-openapi.yml
 common:
+  - type: AgenticAccess
+    url: agentic-access/supaglue-agentic-access.yml
   - type: DomainSecurity
     url: security/supaglue-domain-security.yml
   - type: Authentication
