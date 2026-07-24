@@ -1,0 +1,462 @@
+openapi: 3.0.3
+info:
+  version: 0.25.7
+  title: Unified CRM Accounts EntityMappings API
+  contact:
+    name: Supaglue
+    email: docs@supaglue.com
+    url: https://supaglue.com
+  description: '#### Introduction
+
+
+    Welcome to the Unified API (CRM) documentation. You can use this API to write to multiple third-party providers within the CRM category.
+
+
+    [View common schema for CRM](https://docs.supaglue.com/platform/common-schemas/crm)
+
+
+    #### Base API URL
+
+    ```
+
+    https://api.supaglue.io/crm/v2
+
+    ```
+
+    '
+servers:
+- url: https://api.supaglue.io/crm/v2
+  description: Supaglue API
+tags:
+- name: EntityMappings
+  description: An [`Entity Mapping`](https://docs.supaglue.com/platform/entities/overview#entity-mapping) maps an [Entity](https://docs.supaglue.com/platform/entities/overview) to a customer's Provider object and fields. Use Entity Mappings when you use [Entities](https://docs.supaglue.com/platform/entities/overview) as your data model.
+paths:
+  /entity_mappings:
+    parameters:
+    - $ref: '#/components/parameters/x-customer-id'
+    - $ref: '#/components/parameters/x-provider-name'
+    get:
+      deprecated: true
+      operationId: listEntityMappings
+      summary: List entity mappings.
+      tags:
+      - EntityMappings
+      security:
+      - x-api-key: []
+      parameters: []
+      responses:
+        '200':
+          description: List of entity mappings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/merged_entity_mapping'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+        '501':
+          $ref: '#/components/responses/notImplemented'
+  /entity_mappings/{entity_id}:
+    parameters:
+    - $ref: '#/components/parameters/x-customer-id'
+    - $ref: '#/components/parameters/x-provider-name'
+    - name: entity_id
+      in: path
+      required: true
+      schema:
+        type: string
+      example: 0258cbc6-6020-430a-848e-aafacbadf4ae
+    put:
+      deprecated: true
+      operationId: upsertEntityMapping
+      summary: Upsert entity mapping
+      tags:
+      - EntityMappings
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/connection_entity_mapping'
+      responses:
+        '200':
+          description: Entity Mapping
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessableEntity'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+        '501':
+          $ref: '#/components/responses/notImplemented'
+    delete:
+      deprecated: true
+      operationId: deleteEntityMapping
+      summary: Delete entity mapping
+      tags:
+      - EntityMappings
+      security:
+      - x-api-key: []
+      responses:
+        '204':
+          description: Entity Mapping
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessableEntity'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+        '501':
+          $ref: '#/components/responses/notImplemented'
+components:
+  schemas:
+    errors:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: A unique identifier for the instance of the error. Provide this to support when contacting Supaglue.
+            example: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
+          detail:
+            type: string
+            description: A detailed description of the error.
+            example: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+          problem_type:
+            type: string
+            description: The Supaglue error code associated with the error.
+            example: MISSING_REQUIRED_FIELD
+            deprecated: true
+          title:
+            type: string
+            description: A brief description of the error. The schema and type of message will vary by Provider.
+            example: 'Property values were not valid
+
+              '
+          code:
+            type: string
+            description: The Supaglue error code associated with the error.
+            example: MISSING_REQUIRED_FIELD
+          status:
+            type: string
+            description: The HTTP status code associated with the error.
+            example: '400'
+          meta:
+            type: object
+            description: Additional metadata about the error.
+            properties:
+              cause:
+                type: object
+                description: The cause of the error. Usually the underlying error from the remote Provider.
+                example:
+                  code: 400
+                  body:
+                    status: error
+                    message: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+                    correlationId: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                    category: VALIDATION_ERROR
+                  headers:
+                    access-control-allow-credentials: 'false'
+                    cf-cache-status: DYNAMIC
+                    cf-ray: 8053d17b9dae9664-SJC
+                    connection: close
+                    content-length: '361'
+                    content-type: application/json;charset=utf-8
+                    date: Mon, 11 Sep 2023 23:51:22 GMT
+                    nel: '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+                    report-to: '{"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc"}],"group":"cf-nel","max_age":604800}'
+                    server: cloudflare
+                    strict-transport-security: max-age=31536000; includeSubDomains; preload
+                    vary: origin, Accept-Encoding
+                    x-content-type-options: nosniff
+                    x-envoy-upstream-service-time: '91'
+                    x-evy-trace-listener: listener_https
+                    x-evy-trace-route-configuration: listener_https/all
+                    x-evy-trace-route-service-name: envoyset-translator
+                    x-evy-trace-served-by-pod: iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2
+                    x-evy-trace-virtual-host: all
+                    x-hubspot-correlation-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                    x-hubspot-ratelimit-interval-milliseconds: '10000'
+                    x-hubspot-ratelimit-max: '100'
+                    x-hubspot-ratelimit-remaining: '99'
+                    x-hubspot-ratelimit-secondly: '10'
+                    x-hubspot-ratelimit-secondly-remaining: '9'
+                    x-request-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                    x-trace: 2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000
+              origin:
+                type: string
+                enum:
+                - remote-provider
+                - supaglue
+                description: The origin of the error.
+                example: remote-provider
+              application_name:
+                type: string
+                description: The name of the application that generated the error.
+                example: MyCompany Production
+            required:
+            - origin
+            additionalProperties: true
+        required:
+        - id
+        - detail
+        - problem_type
+        - title
+        - code
+        - status
+        - meta
+        example:
+        - meta:
+            cause:
+              code: 400
+              body:
+                status: error
+                message: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+                correlationId: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                category: VALIDATION_ERROR
+              headers:
+                access-control-allow-credentials: 'false'
+                cf-cache-status: DYNAMIC
+                cf-ray: 8053d17b9dae9664-SJC
+                connection: close
+                content-length: '361'
+                content-type: application/json;charset=utf-8
+                date: Mon, 11 Sep 2023 23:51:22 GMT
+                nel: '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+                report-to: '{"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc"}],"group":"cf-nel","max_age":604800}'
+                server: cloudflare
+                strict-transport-security: max-age=31536000; includeSubDomains; preload
+                vary: origin, Accept-Encoding
+                x-content-type-options: nosniff
+                x-envoy-upstream-service-time: '91'
+                x-evy-trace-listener: listener_https
+                x-evy-trace-route-configuration: listener_https/all
+                x-evy-trace-route-service-name: envoyset-translator
+                x-evy-trace-served-by-pod: iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2
+                x-evy-trace-virtual-host: all
+                x-hubspot-correlation-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                x-hubspot-ratelimit-interval-milliseconds: '10000'
+                x-hubspot-ratelimit-max: '100'
+                x-hubspot-ratelimit-remaining: '99'
+                x-hubspot-ratelimit-secondly: '10'
+                x-hubspot-ratelimit-secondly-remaining: '9'
+                x-request-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                x-trace: 2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000
+          detail: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+          problem_type: MISSING_REQUIRED_FIELD
+          title: 'Property values were not valid
+
+            '
+          code: MISSING_REQUIRED_FIELD
+          status: '400'
+          id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
+    standard_or_custom_object:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - standard
+          - custom
+        name:
+          type: string
+      required:
+      - type
+      - name
+    merged_entity_mapping:
+      type: object
+      properties:
+        entity_id:
+          type: string
+        entity_name:
+          type: string
+        allow_additional_field_mappings:
+          type: boolean
+        object:
+          allOf:
+          - $ref: '#/components/schemas/standard_or_custom_object'
+          - type: object
+            properties:
+              from:
+                type: string
+                enum:
+                - developer
+                - customer
+            required:
+            - from
+        field_mappings:
+          type: array
+          items:
+            type: object
+            properties:
+              entity_field:
+                type: string
+              mapped_field:
+                type: string
+              from:
+                type: string
+                enum:
+                - developer
+                - customer
+              is_additional:
+                type: boolean
+            required:
+            - entity_field
+            - is_additional
+      required:
+      - entity_id
+      - entity_name
+      - allow_additional_field_mappings
+      - field_mappings
+    connection_entity_mapping:
+      type: object
+      deprecated: true
+      properties:
+        entity_id:
+          type: string
+        object:
+          $ref: '#/components/schemas/standard_or_custom_object'
+        field_mappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/entity_field_mapping'
+      required:
+      - entity_id
+    entity_field_mapping:
+      type: object
+      deprecated: true
+      properties:
+        entity_field:
+          type: string
+          description: The name of the field in your application.
+          example: apolla_first_name
+        mapped_field:
+          type: string
+          description: The name of the field in your customer's third-party Provider tool (e.g. Salesforce).
+          example: FirstName
+      required:
+      - entity_field
+      - mapped_field
+  responses:
+    conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+  parameters:
+    x-customer-id:
+      name: x-customer-id
+      in: header
+      schema:
+        type: string
+      example: my-customer-1
+      description: The customer ID that uniquely identifies the customer in your application
+      required: true
+    x-provider-name:
+      name: x-provider-name
+      in: header
+      schema:
+        type: string
+      example: salesforce
+      description: The provider name
+      required: true
+  securitySchemes:
+    x-api-key:
+      type: apiKey
+      name: x-api-key
+      in: header
+      description: API key to allow developers to access the API

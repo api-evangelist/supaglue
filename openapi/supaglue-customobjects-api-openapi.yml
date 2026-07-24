@@ -1,0 +1,648 @@
+openapi: 3.0.3
+info:
+  version: 0.25.7
+  title: Unified CRM Accounts CustomObjects API
+  contact:
+    name: Supaglue
+    email: docs@supaglue.com
+    url: https://supaglue.com
+  description: '#### Introduction
+
+
+    Welcome to the Unified API (CRM) documentation. You can use this API to write to multiple third-party providers within the CRM category.
+
+
+    [View common schema for CRM](https://docs.supaglue.com/platform/common-schemas/crm)
+
+
+    #### Base API URL
+
+    ```
+
+    https://api.supaglue.io/crm/v2
+
+    ```
+
+    '
+servers:
+- url: https://api.supaglue.io/crm/v2
+  description: Supaglue API
+tags:
+- name: CustomObjects
+  description: A `Custom Object` is an instance of a `Custom Object Schema`.
+paths:
+  /custom_objects/{object_name}/records:
+    parameters:
+    - $ref: '#/components/parameters/x-customer-id'
+    - $ref: '#/components/parameters/x-provider-name'
+    - $ref: '#/components/parameters/object_name'
+    post:
+      operationId: createCustomObjectRecord
+      summary: Create custom object record
+      tags:
+      - CustomObjects
+      security:
+      - x-api-key: []
+      description: 'Create custom object record
+
+
+        Support:
+
+
+        | Provider    | Supported |
+
+        | ----------- | --------- |
+
+        | Hubspot     | Yes       |
+
+        | Salesforce  | Yes       |
+
+        | Pipedrive   | No        |
+
+        | MS Dynamics | No        |
+
+        '
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                record:
+                  $ref: '#/components/schemas/create_update_custom_object_record'
+              required:
+              - record
+      responses:
+        '201':
+          description: Custom Object Record created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  record:
+                    $ref: '#/components/schemas/created_record'
+                  warnings:
+                    $ref: '#/components/schemas/warnings'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessableEntity'
+        '499':
+          $ref: '#/components/responses/remoteProviderError'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+        '501':
+          $ref: '#/components/responses/notImplemented'
+    get:
+      operationId: listCustomObjectRecords
+      summary: List custom object records
+      tags:
+      - CustomObjects
+      description: 'List custom object records
+
+        Note: This endpoint will only work if a Sync is setup with the Supaglue managed destination.
+
+
+        Support:
+
+
+        | Provider    | Supported |
+
+        | ----------- | --------- |
+
+        | Hubspot     | Yes       |
+
+        | Salesforce  | Yes       |
+
+        | Pipedrive   | No        |
+
+        | MS Dynamics | No        |
+
+        '
+      security:
+      - x-api-key: []
+      parameters:
+      - $ref: '#/components/parameters/read_from_cache'
+      - $ref: '#/components/parameters/modified_after'
+      - $ref: '#/components/parameters/page_size'
+      - $ref: '#/components/parameters/cursor'
+      responses:
+        '200':
+          description: Paginated Custom Objects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pagination:
+                    $ref: '#/components/schemas/pagination'
+                  records:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/custom_object_record'
+                required:
+                - pagination
+                - records
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '499':
+          $ref: '#/components/responses/remoteProviderError'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+        '501':
+          $ref: '#/components/responses/notImplemented'
+  /custom_objects/{object_name}/records/{record_id}:
+    parameters:
+    - $ref: '#/components/parameters/x-customer-id'
+    - $ref: '#/components/parameters/x-provider-name'
+    - $ref: '#/components/parameters/object_name'
+    - name: record_id
+      in: path
+      required: true
+      description: The ID of the record to retrieve or update
+      schema:
+        type: string
+      example: 82de27cb-6f8c-4278-b783-82d1d916eddc
+    patch:
+      operationId: updateCustomObjectRecord
+      summary: Update custom object record
+      tags:
+      - CustomObjects
+      security:
+      - x-api-key: []
+      description: 'Update custom object record
+
+
+        Support:
+
+
+        | Provider    | Supported |
+
+        | ----------- | --------- |
+
+        | Hubspot     | Yes       |
+
+        | Salesforce  | Yes       |
+
+        | Pipedrive   | No        |
+
+        | MS Dynamics | No        |
+
+        '
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                record:
+                  $ref: '#/components/schemas/create_update_custom_object_record'
+              required:
+              - record
+      responses:
+        '200':
+          description: Custom Object Record created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  record:
+                    $ref: '#/components/schemas/created_record'
+                  warnings:
+                    $ref: '#/components/schemas/warnings'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessableEntity'
+        '499':
+          $ref: '#/components/responses/remoteProviderError'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+        '501':
+          $ref: '#/components/responses/notImplemented'
+    get:
+      operationId: getCustomObjectRecord
+      summary: Get custom object record
+      tags:
+      - CustomObjects
+      security:
+      - x-api-key: []
+      description: 'Get custom object record
+
+
+        Support:
+
+
+        | Provider    | Supported |
+
+        | ----------- | --------- |
+
+        | Hubspot     | Yes       |
+
+        | Salesforce  | Yes       |
+
+        | Pipedrive   | No        |
+
+        | MS Dynamics | No        |
+
+        '
+      responses:
+        '200':
+          description: Custom Object Record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/custom_object_record'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '499':
+          $ref: '#/components/responses/remoteProviderError'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+        '501':
+          $ref: '#/components/responses/notImplemented'
+components:
+  schemas:
+    create_update_custom_object_record:
+      type: object
+      additionalProperties: true
+    warnings:
+      type: array
+      items:
+        type: object
+        properties:
+          detail:
+            type: string
+          problem_type:
+            type: string
+          title:
+            type: string
+    created_record:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+    custom_object_record:
+      type: object
+      properties:
+        id:
+          type: string
+        custom_object_name:
+          type: string
+        data:
+          type: object
+          additionalProperties: true
+        is_deleted:
+          type: boolean
+        last_modified_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - custom_object_name
+      - data
+      - is_deleted
+      - last_modified_at
+      example:
+        id: 001Fn00023f8oYYIA0
+        custom_object_name: MyCustomObject__c
+        data:
+          Name: Acme Corp
+          Description: We create the best embedded integration platforms.
+        is_deleted: false
+        last_modified_at: '2021-01-01T00:00:00Z'
+    errors:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: A unique identifier for the instance of the error. Provide this to support when contacting Supaglue.
+            example: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
+          detail:
+            type: string
+            description: A detailed description of the error.
+            example: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+          problem_type:
+            type: string
+            description: The Supaglue error code associated with the error.
+            example: MISSING_REQUIRED_FIELD
+            deprecated: true
+          title:
+            type: string
+            description: A brief description of the error. The schema and type of message will vary by Provider.
+            example: 'Property values were not valid
+
+              '
+          code:
+            type: string
+            description: The Supaglue error code associated with the error.
+            example: MISSING_REQUIRED_FIELD
+          status:
+            type: string
+            description: The HTTP status code associated with the error.
+            example: '400'
+          meta:
+            type: object
+            description: Additional metadata about the error.
+            properties:
+              cause:
+                type: object
+                description: The cause of the error. Usually the underlying error from the remote Provider.
+                example:
+                  code: 400
+                  body:
+                    status: error
+                    message: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+                    correlationId: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                    category: VALIDATION_ERROR
+                  headers:
+                    access-control-allow-credentials: 'false'
+                    cf-cache-status: DYNAMIC
+                    cf-ray: 8053d17b9dae9664-SJC
+                    connection: close
+                    content-length: '361'
+                    content-type: application/json;charset=utf-8
+                    date: Mon, 11 Sep 2023 23:51:22 GMT
+                    nel: '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+                    report-to: '{"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc"}],"group":"cf-nel","max_age":604800}'
+                    server: cloudflare
+                    strict-transport-security: max-age=31536000; includeSubDomains; preload
+                    vary: origin, Accept-Encoding
+                    x-content-type-options: nosniff
+                    x-envoy-upstream-service-time: '91'
+                    x-evy-trace-listener: listener_https
+                    x-evy-trace-route-configuration: listener_https/all
+                    x-evy-trace-route-service-name: envoyset-translator
+                    x-evy-trace-served-by-pod: iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2
+                    x-evy-trace-virtual-host: all
+                    x-hubspot-correlation-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                    x-hubspot-ratelimit-interval-milliseconds: '10000'
+                    x-hubspot-ratelimit-max: '100'
+                    x-hubspot-ratelimit-remaining: '99'
+                    x-hubspot-ratelimit-secondly: '10'
+                    x-hubspot-ratelimit-secondly-remaining: '9'
+                    x-request-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                    x-trace: 2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000
+              origin:
+                type: string
+                enum:
+                - remote-provider
+                - supaglue
+                description: The origin of the error.
+                example: remote-provider
+              application_name:
+                type: string
+                description: The name of the application that generated the error.
+                example: MyCompany Production
+            required:
+            - origin
+            additionalProperties: true
+        required:
+        - id
+        - detail
+        - problem_type
+        - title
+        - code
+        - status
+        - meta
+        example:
+        - meta:
+            cause:
+              code: 400
+              body:
+                status: error
+                message: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+                correlationId: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                category: VALIDATION_ERROR
+              headers:
+                access-control-allow-credentials: 'false'
+                cf-cache-status: DYNAMIC
+                cf-ray: 8053d17b9dae9664-SJC
+                connection: close
+                content-length: '361'
+                content-type: application/json;charset=utf-8
+                date: Mon, 11 Sep 2023 23:51:22 GMT
+                nel: '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+                report-to: '{"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc"}],"group":"cf-nel","max_age":604800}'
+                server: cloudflare
+                strict-transport-security: max-age=31536000; includeSubDomains; preload
+                vary: origin, Accept-Encoding
+                x-content-type-options: nosniff
+                x-envoy-upstream-service-time: '91'
+                x-evy-trace-listener: listener_https
+                x-evy-trace-route-configuration: listener_https/all
+                x-evy-trace-route-service-name: envoyset-translator
+                x-evy-trace-served-by-pod: iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2
+                x-evy-trace-virtual-host: all
+                x-hubspot-correlation-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                x-hubspot-ratelimit-interval-milliseconds: '10000'
+                x-hubspot-ratelimit-max: '100'
+                x-hubspot-ratelimit-remaining: '99'
+                x-hubspot-ratelimit-secondly: '10'
+                x-hubspot-ratelimit-secondly-remaining: '9'
+                x-request-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                x-trace: 2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000
+          detail: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+          problem_type: MISSING_REQUIRED_FIELD
+          title: 'Property values were not valid
+
+            '
+          code: MISSING_REQUIRED_FIELD
+          status: '400'
+          id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
+    pagination:
+      type: object
+      properties:
+        next:
+          type: string
+          nullable: true
+          example: eyJpZCI6IjQyNTc5ZjczLTg1MjQtNDU3MC05YjY3LWVjYmQ3MDJjNmIxNCIsInJldmVyc2UiOmZhbHNlfQ==
+        previous:
+          type: string
+          nullable: true
+          example: eyJpZCI6IjBjZDhmYmZkLWU5NmQtNDEwZC05ZjQxLWIwMjU1YjdmNGI4NyIsInJldmVyc2UiOnRydWV9
+        total_count:
+          type: number
+          example: 100
+      required:
+      - next
+      - previous
+  responses:
+    conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    remoteProviderError:
+      description: Remote provider error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+  parameters:
+    read_from_cache:
+      name: read_from_cache
+      in: query
+      schema:
+        type: boolean
+      example: true
+      description: "Whether to read from Supaglue's Managed Destination cache or to read directly from the provider. \n\n\n**NOTE**: `read_from_cache=true` requires you to have the object synced to the Supaglue Managed Destination.\n"
+    page_size:
+      name: page_size
+      in: query
+      schema:
+        type: string
+      example: 123
+      description: 'Number of results to return per page. (Max: 1000)'
+    x-customer-id:
+      name: x-customer-id
+      in: header
+      schema:
+        type: string
+      example: my-customer-1
+      description: The customer ID that uniquely identifies the customer in your application
+      required: true
+    x-provider-name:
+      name: x-provider-name
+      in: header
+      schema:
+        type: string
+      example: salesforce
+      description: The provider name
+      required: true
+    modified_after:
+      name: modified_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+      description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
+      example: '2023-02-23T00:00:00Z'
+    object_name:
+      name: object_name
+      in: path
+      schema:
+        type: string
+      example: MyCustomObject__c
+      description: The unique name of the custom object. For Salesforce, this should end with __c. For Hubspot, this will typically be the singular form of the object.
+      required: true
+    cursor:
+      name: cursor
+      in: query
+      schema:
+        type: string
+      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
+      description: The pagination cursor value
+  securitySchemes:
+    x-api-key:
+      type: apiKey
+      name: x-api-key
+      in: header
+      description: API key to allow developers to access the API

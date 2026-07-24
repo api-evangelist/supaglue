@@ -1,0 +1,889 @@
+openapi: 3.0.3
+info:
+  version: 0.25.7
+  title: Unified CRM Accounts Lists API
+  contact:
+    name: Supaglue
+    email: docs@supaglue.com
+    url: https://supaglue.com
+  description: '#### Introduction
+
+
+    Welcome to the Unified API (CRM) documentation. You can use this API to write to multiple third-party providers within the CRM category.
+
+
+    [View common schema for CRM](https://docs.supaglue.com/platform/common-schemas/crm)
+
+
+    #### Base API URL
+
+    ```
+
+    https://api.supaglue.io/crm/v2
+
+    ```
+
+    '
+servers:
+- url: https://api.supaglue.io/crm/v2
+  description: Supaglue API
+tags:
+- name: Lists
+  description: The `List` Object represents a collection of CRM records.
+paths:
+  /lists:
+    parameters:
+    - $ref: '#/components/parameters/x-customer-id'
+    - $ref: '#/components/parameters/x-provider-name'
+    get:
+      operationId: listLists
+      summary: List lists
+      tags:
+      - Lists
+      security:
+      - x-api-key: []
+      parameters:
+      - $ref: '#/components/parameters/remote_provider_page_size'
+      - $ref: '#/components/parameters/cursor'
+      - $ref: '#/components/parameters/object_type'
+      responses:
+        '200':
+          description: List Lists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pagination:
+                    $ref: '#/components/schemas/pagination'
+                  records:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/list_metadata'
+                required:
+                - pagination
+                - records
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '499':
+          $ref: '#/components/responses/remoteProviderError'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+        '501':
+          $ref: '#/components/responses/notImplemented'
+  /lists/{list_id}:
+    parameters:
+    - $ref: '#/components/parameters/x-customer-id'
+    - $ref: '#/components/parameters/x-provider-name'
+    - name: list_id
+      in: path
+      required: true
+      schema:
+        type: string
+      example: 220e715a-0cbc-4d2d-8420-cd729f12f094
+    get:
+      operationId: listListMemberships
+      summary: List list memberships
+      description: 'Support:
+
+
+        | Provider   | Object                                      | Common Schema support | Notes                                 |
+
+        | ---------- | ------------------------------------------- | --------------------- | ------------------------------------- |
+
+        | Hubspot    | `contact`, `account`                        | Yes                   | Raw data response from V3 API         |
+
+        | Salesforce | `contact`, `account`, `lead`, `opportunity` | Yes                   | Raw data response from V57.0 REST API |
+
+        '
+      tags:
+      - Lists
+      security:
+      - x-api-key: []
+      parameters:
+      - $ref: '#/components/parameters/remote_provider_page_size'
+      - $ref: '#/components/parameters/cursor'
+      - $ref: '#/components/parameters/object_type'
+      responses:
+        '200':
+          description: List membership
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pagination:
+                    $ref: '#/components/schemas/pagination'
+                  records:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/list_membership'
+                required:
+                - pagination
+                - records
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '499':
+          $ref: '#/components/responses/remoteProviderError'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+        '501':
+          $ref: '#/components/responses/notImplemented'
+components:
+  schemas:
+    lifecycle_stage:
+      type: string
+      nullable: true
+      enum:
+      - subscriber
+      - lead
+      - marketingqualifiedlead
+      - salesqualifiedlead
+      - opportunity
+      - customer
+      - evangelist
+      - other
+    lead:
+      type: object
+      properties:
+        addresses:
+          $ref: '#/components/schemas/addresses'
+        company:
+          type: string
+          nullable: true
+          example: Supaglue
+        converted_account_id:
+          type: string
+          nullable: true
+          example: 88cc44ca-7a34-4e8b-b0da-51c3aae34daf
+        converted_account:
+          $ref: '#/components/schemas/account'
+        converted_contact_id:
+          type: string
+          nullable: true
+          example: 8c8de778-a219-4d6c-848c-1d57b52149f6
+        converted_contact:
+          $ref: '#/components/schemas/contact'
+        converted_date:
+          type: string
+          nullable: true
+          format: date-time
+          example: '2023-02-27T00:00:00Z'
+        email_addresses:
+          $ref: '#/components/schemas/email_addresses'
+        first_name:
+          type: string
+          nullable: true
+          example: George
+        id:
+          type: string
+          example: 54312
+        last_name:
+          type: string
+          nullable: true
+          example: Xing
+        lead_source:
+          type: string
+          nullable: true
+          example: API Blogger
+        owner_id:
+          type: string
+          nullable: true
+          example: 62e5e0f7-becd-4ae2-be82-8b4e1d5ed8a2
+        phone_numbers:
+          $ref: '#/components/schemas/phone_numbers'
+        title:
+          type: string
+          nullable: true
+          example: Co-Founder
+        created_at:
+          type: string
+          nullable: true
+          format: date-time
+          example: '2023-02-10T00:00:00Z'
+        updated_at:
+          type: string
+          nullable: true
+          format: date-time
+          example: '2023-02-10T00:00:00Z'
+        is_deleted:
+          type: boolean
+          example: false
+        last_modified_at:
+          type: string
+          format: date-time
+          example: '2022-02-27T00:00:00Z'
+      required:
+      - addresses
+      - company
+      - converted_account_id
+      - converted_contact_id
+      - converted_date
+      - id
+      - last_name
+      - lead_source
+      - owner_id
+      - phone_numbers
+      - title
+      - created_at
+      - updated_at
+      - is_deleted
+      - last_modified_at
+    account:
+      type: object
+      properties:
+        addresses:
+          $ref: '#/components/schemas/addresses'
+        description:
+          type: string
+          nullable: true
+          example: Integration API
+        id:
+          type: string
+          example: 1234
+        industry:
+          type: string
+          nullable: true
+          example: API's
+        last_activity_at:
+          type: string
+          nullable: true
+          format: date-time
+          example: '2022-02-27T00:00:00Z'
+        name:
+          type: string
+          nullable: true
+          example: Sample Customer
+        number_of_employees:
+          type: integer
+          nullable: true
+          example: 276000
+        owner_id:
+          type: string
+          nullable: true
+          example: d8ceb3ff-8b7f-4fa7-b8de-849292f6ca69
+        phone_numbers:
+          $ref: '#/components/schemas/phone_numbers'
+        lifecycle_stage:
+          $ref: '#/components/schemas/lifecycle_stage'
+        website:
+          type: string
+          nullable: true
+          example: https://supaglue.com/
+        created_at:
+          type: string
+          nullable: true
+          format: date-time
+          example: '2022-02-27T00:00:00Z'
+        updated_at:
+          type: string
+          nullable: true
+          format: date-time
+          example: '2022-02-27T00:00:00Z'
+        is_deleted:
+          type: boolean
+          example: false
+        last_modified_at:
+          type: string
+          format: date-time
+          example: '2022-02-27T00:00:00Z'
+      required:
+      - addresses
+      - description
+      - id
+      - industry
+      - last_activity_at
+      - name
+      - number_of_employees
+      - owner_id
+      - phone_numbers
+      - website
+      - lifecycle_stage
+      - created_at
+      - updated_at
+      - is_deleted
+      - last_modified_at
+    addresses:
+      type: array
+      items:
+        type: object
+        properties:
+          address_type:
+            type: string
+            enum:
+            - primary
+            - mailing
+            - other
+            - billing
+            - shipping
+          city:
+            type: string
+            nullable: true
+            example: San Francisco
+          country:
+            type: string
+            nullable: true
+            example: USA
+          postal_code:
+            type: string
+            nullable: true
+            example: '94107'
+          state:
+            type: string
+            nullable: true
+            example: CA
+          street_1:
+            type: string
+            nullable: true
+            example: 525 Brannan
+          street_2:
+            type: string
+            nullable: true
+            example: null
+        required:
+        - address_type
+        - city
+        - country
+        - postal_code
+        - state
+        - street_1
+        - street_2
+      example:
+      - address_type: shipping
+        city: San Francisco
+        country: US
+        postal_code: '94107'
+        state: CA
+        street_1: 525 Brannan
+        street_2: null
+    email_addresses:
+      type: array
+      items:
+        type: object
+        properties:
+          email_address:
+            type: string
+            example: hello@supaglue.com
+          email_address_type:
+            type: string
+            enum:
+            - primary
+            - work
+            - other
+        required:
+        - email_address
+        - email_address_type
+      example:
+      - email_address: hello@supaglue.com
+        email_address_type: work
+    opportunity:
+      type: object
+      properties:
+        account_id:
+          type: string
+          nullable: true
+          example: fd089246-09b1-4e3b-a60a-7a76314bbcce
+        amount:
+          type: integer
+          nullable: true
+          example: 100000
+        close_date:
+          type: string
+          nullable: true
+          format: date-time
+          example: '2023-02-27T00:00:00Z'
+        description:
+          type: string
+          nullable: true
+          example: Wants to use open source unified API for third-party integrations
+        id:
+          type: string
+          example: 54312
+        last_activity_at:
+          type: string
+          nullable: true
+          format: date-time
+          example: '2023-02-27T00:00:00Z'
+        name:
+          type: string
+          nullable: true
+          example: Needs third-party integrations
+        owner_id:
+          type: string
+          nullable: true
+          example: d8ceb3ff-8b7f-4fa7-b8de-849292f6ca69
+        pipeline:
+          type: string
+          nullable: true
+        stage:
+          type: string
+          nullable: true
+          example: Closed Won
+        status:
+          type: string
+          nullable: true
+          example: OPEN
+        created_at:
+          type: string
+          nullable: true
+          format: date-time
+          example: '2023-02-27T00:00:00Z'
+        updated_at:
+          type: string
+          nullable: true
+          format: date-time
+          example: '2023-02-27T00:00:00Z'
+        is_deleted:
+          type: boolean
+          example: false
+        last_modified_at:
+          type: string
+          format: date-time
+          example: '2022-02-27T00:00:00Z'
+      required:
+      - account_id
+      - amount
+      - description
+      - id
+      - last_activity_at
+      - name
+      - owner_id
+      - stage
+      - status
+      - pipeline
+      - created_at
+      - updated_at
+      - is_deleted
+      - last_modified_at
+    contact:
+      type: object
+      properties:
+        account_id:
+          type: string
+          nullable: true
+          example: fd089246-09b1-4e3b-a60a-7a76314bbcce
+        owner_id:
+          type: string
+          nullable: true
+          example: 23e640fe-6105-4a11-a636-3aa6b6c6e762
+        addresses:
+          $ref: '#/components/schemas/addresses'
+        email_addresses:
+          $ref: '#/components/schemas/email_addresses'
+        first_name:
+          type: string
+          nullable: true
+          example: George
+        id:
+          type: string
+          example: 54312
+        last_activity_at:
+          type: string
+          nullable: true
+          format: date-time
+          example: '2022-02-27T00:00:00Z'
+        last_name:
+          type: string
+          nullable: true
+          example: Xing
+        phone_numbers:
+          $ref: '#/components/schemas/phone_numbers'
+        lifecycle_stage:
+          $ref: '#/components/schemas/lifecycle_stage'
+        created_at:
+          type: string
+          nullable: true
+          format: date-time
+          example: '2022-02-27T00:00:00Z'
+        updated_at:
+          type: string
+          nullable: true
+          format: date-time
+          example: '2022-02-27T00:00:00Z'
+        is_deleted:
+          type: boolean
+          example: false
+        last_modified_at:
+          type: string
+          format: date-time
+          example: '2022-02-27T00:00:00Z'
+        raw_data:
+          type: object
+          additionalProperties: true
+      required:
+      - account_id
+      - owner_id
+      - description
+      - id
+      - addresses
+      - email_addresses
+      - first_name
+      - last_activity_at
+      - last_name
+      - phone_numbers
+      - lifecycle_stage
+      - created_at
+      - updated_at
+      - is_deleted
+      - last_modified_at
+    phone_numbers:
+      type: array
+      items:
+        type: object
+        properties:
+          phone_number:
+            type: string
+            nullable: true
+            example: '+14151234567'
+          phone_number_type:
+            type: string
+            enum:
+            - primary
+            - mobile
+            - fax
+            - other
+        required:
+        - phone_number
+        - phone_number_type
+      example:
+      - phone_number: '+14151234567'
+        phone_number_type: primary
+    errors:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: A unique identifier for the instance of the error. Provide this to support when contacting Supaglue.
+            example: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
+          detail:
+            type: string
+            description: A detailed description of the error.
+            example: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+          problem_type:
+            type: string
+            description: The Supaglue error code associated with the error.
+            example: MISSING_REQUIRED_FIELD
+            deprecated: true
+          title:
+            type: string
+            description: A brief description of the error. The schema and type of message will vary by Provider.
+            example: 'Property values were not valid
+
+              '
+          code:
+            type: string
+            description: The Supaglue error code associated with the error.
+            example: MISSING_REQUIRED_FIELD
+          status:
+            type: string
+            description: The HTTP status code associated with the error.
+            example: '400'
+          meta:
+            type: object
+            description: Additional metadata about the error.
+            properties:
+              cause:
+                type: object
+                description: The cause of the error. Usually the underlying error from the remote Provider.
+                example:
+                  code: 400
+                  body:
+                    status: error
+                    message: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+                    correlationId: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                    category: VALIDATION_ERROR
+                  headers:
+                    access-control-allow-credentials: 'false'
+                    cf-cache-status: DYNAMIC
+                    cf-ray: 8053d17b9dae9664-SJC
+                    connection: close
+                    content-length: '361'
+                    content-type: application/json;charset=utf-8
+                    date: Mon, 11 Sep 2023 23:51:22 GMT
+                    nel: '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+                    report-to: '{"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc"}],"group":"cf-nel","max_age":604800}'
+                    server: cloudflare
+                    strict-transport-security: max-age=31536000; includeSubDomains; preload
+                    vary: origin, Accept-Encoding
+                    x-content-type-options: nosniff
+                    x-envoy-upstream-service-time: '91'
+                    x-evy-trace-listener: listener_https
+                    x-evy-trace-route-configuration: listener_https/all
+                    x-evy-trace-route-service-name: envoyset-translator
+                    x-evy-trace-served-by-pod: iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2
+                    x-evy-trace-virtual-host: all
+                    x-hubspot-correlation-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                    x-hubspot-ratelimit-interval-milliseconds: '10000'
+                    x-hubspot-ratelimit-max: '100'
+                    x-hubspot-ratelimit-remaining: '99'
+                    x-hubspot-ratelimit-secondly: '10'
+                    x-hubspot-ratelimit-secondly-remaining: '9'
+                    x-request-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                    x-trace: 2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000
+              origin:
+                type: string
+                enum:
+                - remote-provider
+                - supaglue
+                description: The origin of the error.
+                example: remote-provider
+              application_name:
+                type: string
+                description: The name of the application that generated the error.
+                example: MyCompany Production
+            required:
+            - origin
+            additionalProperties: true
+        required:
+        - id
+        - detail
+        - problem_type
+        - title
+        - code
+        - status
+        - meta
+        example:
+        - meta:
+            cause:
+              code: 400
+              body:
+                status: error
+                message: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+                correlationId: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                category: VALIDATION_ERROR
+              headers:
+                access-control-allow-credentials: 'false'
+                cf-cache-status: DYNAMIC
+                cf-ray: 8053d17b9dae9664-SJC
+                connection: close
+                content-length: '361'
+                content-type: application/json;charset=utf-8
+                date: Mon, 11 Sep 2023 23:51:22 GMT
+                nel: '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+                report-to: '{"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc"}],"group":"cf-nel","max_age":604800}'
+                server: cloudflare
+                strict-transport-security: max-age=31536000; includeSubDomains; preload
+                vary: origin, Accept-Encoding
+                x-content-type-options: nosniff
+                x-envoy-upstream-service-time: '91'
+                x-evy-trace-listener: listener_https
+                x-evy-trace-route-configuration: listener_https/all
+                x-evy-trace-route-service-name: envoyset-translator
+                x-evy-trace-served-by-pod: iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2
+                x-evy-trace-virtual-host: all
+                x-hubspot-correlation-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                x-hubspot-ratelimit-interval-milliseconds: '10000'
+                x-hubspot-ratelimit-max: '100'
+                x-hubspot-ratelimit-remaining: '99'
+                x-hubspot-ratelimit-secondly: '10'
+                x-hubspot-ratelimit-secondly-remaining: '9'
+                x-request-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                x-trace: 2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000
+          detail: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+          problem_type: MISSING_REQUIRED_FIELD
+          title: 'Property values were not valid
+
+            '
+          code: MISSING_REQUIRED_FIELD
+          status: '400'
+          id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
+    pagination:
+      type: object
+      properties:
+        next:
+          type: string
+          nullable: true
+          example: eyJpZCI6IjQyNTc5ZjczLTg1MjQtNDU3MC05YjY3LWVjYmQ3MDJjNmIxNCIsInJldmVyc2UiOmZhbHNlfQ==
+        previous:
+          type: string
+          nullable: true
+          example: eyJpZCI6IjBjZDhmYmZkLWU5NmQtNDEwZC05ZjQxLWIwMjU1YjdmNGI4NyIsInJldmVyc2UiOnRydWV9
+        total_count:
+          type: number
+          example: 100
+      required:
+      - next
+      - previous
+    list_membership:
+      oneOf:
+      - $ref: '#/components/schemas/contact'
+      - $ref: '#/components/schemas/account'
+      - $ref: '#/components/schemas/lead'
+      - $ref: '#/components/schemas/opportunity'
+    list_metadata:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 00BDn00000RHS32MAH
+          description: The provider-specific unique identifier for this list.
+        object_type:
+          type: string
+          enum:
+          - contact
+          - account
+          - lead
+          - opportunity
+        name:
+          type: string
+          example: RecentlyViewedContacts
+          description: The developer name of this list.
+        label:
+          type: string
+          example: Recently Viewed Contacts
+          description: The label for this list.
+        raw_data:
+          type: object
+          description: The raw data from the provider for this list.
+          additionalProperties: true
+          example:
+            attributes:
+              type: ListView
+              url: /services/data/v57.0/sobjects/ListView/00BDn00000RHS32MAH
+            Id: 00BDn00000RHS32MAH
+            Name: Recently Viewed Contacts
+            DeveloperName: RecentlyViewedContacts
+            NamespacePrefix: null
+            SobjectType: Contact
+            IsSoqlCompatible: true
+            CreatedDate: 2023-05-26T22:25:47.000+0000
+            CreatedById: 005Dn0000079fN6IAI
+            LastModifiedDate: 2023-05-26T22:25:47.000+0000
+            LastModifiedById: 005Dn0000079fN6IAI
+            SystemModstamp: 2023-05-26T22:25:47.000+0000
+            LastViewedDate: null
+            LastReferencedDate: null
+      required:
+      - id
+      - object_type
+      - name
+      - label
+      - raw_data
+  parameters:
+    remote_provider_page_size:
+      name: page_size
+      in: query
+      schema:
+        type: string
+      example: 100
+      description: 'Number of results to return per page. (Max: 100)'
+    object_type:
+      name: object_type
+      in: query
+      schema:
+        type: string
+        enum:
+        - contact
+        - account
+        - opportunity
+        - lead
+      example: contact
+      description: "The Supaglue common object type to fetch a list for.\n\nSupport:\n\n<table>\n  <thead>\n    <tr>\n    <th>Provider</th>\n    <th>Object Type</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>Salesforce</td>\n      <td>countact, account, opportunity, lead</td>\n    </tr>\n    <tr>\n      <td>Hubspot</td>\n      <td>contact, account</td>\n    </tr>\n  </tbody>\n  </table>\n"
+      required: true
+    x-provider-name:
+      name: x-provider-name
+      in: header
+      schema:
+        type: string
+      example: salesforce
+      description: The provider name
+      required: true
+    x-customer-id:
+      name: x-customer-id
+      in: header
+      schema:
+        type: string
+      example: my-customer-1
+      description: The customer ID that uniquely identifies the customer in your application
+      required: true
+    cursor:
+      name: cursor
+      in: query
+      schema:
+        type: string
+      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
+      description: The pagination cursor value
+  responses:
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    remoteProviderError:
+      description: Remote provider error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+  securitySchemes:
+    x-api-key:
+      type: apiKey
+      name: x-api-key
+      in: header
+      description: API key to allow developers to access the API

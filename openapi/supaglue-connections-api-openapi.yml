@@ -1,0 +1,905 @@
+openapi: 3.0.3
+info:
+  version: 0.25.7
+  title: Unified CRM Accounts Connections API
+  contact:
+    name: Supaglue
+    email: docs@supaglue.com
+    url: https://supaglue.com
+  description: '#### Introduction
+
+
+    Welcome to the Unified API (CRM) documentation. You can use this API to write to multiple third-party providers within the CRM category.
+
+
+    [View common schema for CRM](https://docs.supaglue.com/platform/common-schemas/crm)
+
+
+    #### Base API URL
+
+    ```
+
+    https://api.supaglue.io/crm/v2
+
+    ```
+
+    '
+servers:
+- url: https://api.supaglue.io/crm/v2
+  description: Supaglue API
+tags:
+- name: Connections
+  description: A `Connection` represents a Customer's connection to a Provider.
+paths:
+  /customers/{customer_id}/connections:
+    parameters:
+    - name: customer_id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      operationId: getConnections
+      tags:
+      - Connections
+      security:
+      - x-api-key: []
+      summary: List connections
+      description: Get a list of connections
+      responses:
+        '200':
+          description: Connections
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/connection'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessableEntity'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+        '501':
+          $ref: '#/components/responses/notImplemented'
+    post:
+      operationId: createConnection
+      summary: Create a connection
+      description: This endpoint is for providers that use API key or access key for authentication. Please use [Embedded Links](https://docs.supaglue.com/platform/managed-auth#oauth-20) for providers that support Oauth2 for authentication.
+      tags:
+      - Connections
+      parameters: []
+      security:
+      - x-api-key: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+              - type: object
+                title: apollo
+                properties:
+                  provider_name:
+                    type: string
+                    enum:
+                    - apollo
+                    example: apollo
+                  type:
+                    type: string
+                    enum:
+                    - api_key
+                    example: api_key
+                  api_key:
+                    type: string
+                    description: API key for the connected customer.
+                    example: e0c5545d-77b8-458d-b4bf-fc701a9cecac
+                required:
+                - provider_name
+                - type
+                - api_key
+              - type: object
+                title: gong
+                properties:
+                  provider_name:
+                    type: string
+                    enum:
+                    - gong
+                    example: gong
+                  type:
+                    type: string
+                    enum:
+                    - access_key_secret
+                    example: access_key_secret
+                  access_key:
+                    type: string
+                    description: Access key for the connected customer.
+                    example: e0c5545d-77b8-458d-b4bf-fc701a9cecac
+                  access_key_secret:
+                    type: string
+                    description: Access key secret for the connected customer.
+                    example: 258a80aa-2e9b-40b0-8d7a-28f858a856f3
+                required:
+                - provider_name
+                - type
+                - access_key
+                - access_key_secret
+              - type: object
+                title: salesforce
+                properties:
+                  provider_name:
+                    type: string
+                    enum:
+                    - salesforce
+                    example: salesforce
+                  type:
+                    type: string
+                    enum:
+                    - oauth2
+                    example: oauth2
+                  refresh_token:
+                    type: string
+                  instance_url:
+                    type: string
+                  login_url:
+                    type: string
+                required:
+                - provider_name
+                - type
+                - refresh_token
+                - instance_url
+              - type: object
+                title: hubspot
+                properties:
+                  provider_name:
+                    type: string
+                    enum:
+                    - hubspot
+                    example: hubspot
+                  type:
+                    type: string
+                    enum:
+                    - oauth2
+                    example: oauth2
+                  refresh_token:
+                    type: string
+                required:
+                - provider_name
+                - type
+                - refresh_token
+      responses:
+        '200':
+          description: Connection created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connection'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessableEntity'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+        '501':
+          $ref: '#/components/responses/notImplemented'
+  /customers/{customer_id}/connections/_provider_user_id:
+    parameters:
+    - name: customer_id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      operationId: getProviderUserId
+      summary: Get logged in User ID and details
+      description: 'This endpoint returns the ID of the logged in (common schema) User and details.
+
+
+        The common schema User ID maps to the following 3rd-party provider object IDs:
+
+
+        | Provider   | Remote object ID  |
+
+        | ---------- | ----------------- |
+
+        | Salesforce | User              |
+
+        | Hubspot    | V3 Owner          |
+
+        | Dynamics   | Azure System User |
+
+        | Intercom   | Admin             |
+
+        '
+      tags:
+      - Connections
+      security:
+      - x-api-key: []
+      parameters:
+      - name: x-sg-minor-version
+        in: header
+        schema:
+          type: string
+          enum:
+          - '1'
+          example: 1
+      - name: provider_name
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - hubspot
+          - ms_dynamics_365_sales
+          - intercom
+          example: hubspot
+      responses:
+        '200':
+          description: UserId
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user_id:
+                    type: string
+                    description: The ID of the logged in user that originates from your customer's third-party Provider. Refer to the table above for the Provider ID mapping.
+                  raw_details:
+                    type: object
+                    additionalProperties: true
+                    description: The raw data from the your customer's third-party Provider.
+                  additional_raw_details:
+                    type: object
+                    additionalProperties: true
+                    description: For some third-party Providers, there may be additional data used to lookup the common schema User ID (e.g. with Hubspot)
+                example:
+                  user_id: 70115e3c-2700-4112-b28f-2706e08570e6
+                  raw_details:
+                    user_id: 70115e3c-2700-4112-b28f-2706e08570e6
+                    user: test@something.com
+                    scopes:
+                    - contacts
+                    - automation
+                    - oauth
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessableEntity'
+        '499':
+          $ref: '#/components/responses/remoteProviderError'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+        '501':
+          $ref: '#/components/responses/notImplemented'
+  /customers/{customer_id}/connections/{provider_name}:
+    parameters:
+    - name: customer_id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: provider_name
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/provider_name'
+    get:
+      operationId: getConnection
+      summary: Get connection
+      tags:
+      - Connections
+      security:
+      - x-api-key: []
+      responses:
+        '200':
+          description: Connection
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connection'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+        '501':
+          $ref: '#/components/responses/notImplemented'
+    delete:
+      operationId: deleteConnection
+      summary: Delete connection
+      tags:
+      - Connections
+      security:
+      - x-api-key: []
+      responses:
+        '204':
+          description: An empty body is returned on successful deletion.
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessableEntity'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+        '501':
+          $ref: '#/components/responses/notImplemented'
+  /customers/{customer_id}/connections/{provider_name}/_rate_limit_info:
+    parameters:
+    - name: customer_id
+      in: path
+      required: true
+      schema:
+        type: string
+    - name: provider_name
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/provider_name'
+    get:
+      operationId: getConnectionRateLimitInfo
+      summary: Get connection rate limit info
+      description: 'Get rate limit info for a connection. This endpoint is only available for
+
+        salesforce and apollo connections.
+
+        '
+      tags:
+      - Connections
+      security:
+      - x-api-key: []
+      responses:
+        '200':
+          description: Connection rate limit info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rate_limit_info'
+components:
+  schemas:
+    connection_entity_mapping:
+      type: object
+      deprecated: true
+      properties:
+        entity_id:
+          type: string
+        object:
+          $ref: '#/components/schemas/standard_or_custom_object'
+        field_mappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/entity_field_mapping'
+      required:
+      - entity_id
+    object_field_mapping:
+      type: object
+      properties:
+        schema_field:
+          type: string
+          example: apolla_first_name
+        mapped_field:
+          type: string
+          example: FirstName
+      required:
+      - schema_field
+    rate_limit_info:
+      type: object
+      properties:
+        daily:
+          $ref: '#/components/schemas/single_rate_limit_info'
+        hourly:
+          $ref: '#/components/schemas/single_rate_limit_info'
+        other:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/single_rate_limit_info'
+    category:
+      type: string
+      enum:
+      - crm
+      - engagement
+      - enrichment
+      - marketing_automation
+      - no_category
+      example: crm
+    provider_name:
+      type: string
+      enum:
+      - hubspot
+      - salesforce
+      - pipedrive
+      - zendesk_sell
+      - ms_dynamics_365_sales
+      - zoho_crm
+      - capsule
+      - outreach
+      - gong
+      - apollo
+      - salesloft
+      - intercom
+      - linear
+      - clearbit
+      - 6sense
+      - marketo
+      - salesforce_marketing_cloud_account_engagement
+      - slack
+      example: hubspot
+    connection_sync_config:
+      type: object
+      properties:
+        destination_config:
+          description: An object to override the default Destination configuration per connection.
+          oneOf:
+          - description: Config specific to Postgres destination
+            type: object
+            title: Postgres
+            properties:
+              type:
+                type: string
+                enum:
+                - postgres
+              schema:
+                type: string
+                description: The schema you'd like to sync to. This schema must already exist. Supaglue will not create it. If not specified, the schema specified in the Postgres Destination will be used.
+                example: customer_1_schema
+            required:
+            - type
+            - schema
+          - description: Config specific to BigQuery destination
+            type: object
+            title: BigQuery
+            properties:
+              type:
+                type: string
+                enum:
+                - bigquery
+              dataset:
+                type: string
+                description: The dataset you'd like to sync to. This dataset must already exist. Supaglue will not create it. If not specified, the dataset specified in the BigQuery Destination will be used.
+                example: customer_1_dataset
+            required:
+            - type
+            - dataset
+        standard_objects:
+          description: A list of case-sensitive Provider standard objects to by synced. If specified, this list will take override the custom_objects list in SyncConfig.
+          type: array
+          items:
+            oneOf:
+            - type: object
+              title: All
+              properties:
+                object:
+                  type: string
+                  description: The Provider object name (case sensitive)
+                  example: Contact
+              required:
+              - object
+            - type: object
+              title: Postgres/BigQuery (Preview)
+              properties:
+                object:
+                  type: string
+                  description: The Provider object name (case sensitive)
+                  example: Contact
+                table:
+                  type: string
+                  description: The table to write the object to. If specified, this will override the default table used by Supaglue.
+                  example: my_contacts
+              required:
+              - object
+              - table
+        custom_objects:
+          description: '(Preview) A list of case-sensitive Provider custom objects to be synced. If specified, this list will take override the custom_objects list in SyncConfig.
+
+            '
+          type: array
+          items:
+            oneOf:
+            - type: object
+              title: All
+              properties:
+                object:
+                  type: string
+                  description: The Provider object name (case sensitive)
+                  example: Contact__c
+              required:
+              - object
+            - type: object
+              title: Postgres/BigQuery (Preview)
+              properties:
+                object:
+                  type: string
+                  description: The Provider object name (case sensitive)
+                  example: Contact__c
+                table:
+                  type: string
+                  description: The table to write the object to. If specified, this will override the default table used by Supaglue.
+                  example: my_contacts
+              required:
+              - object
+              - table
+    entity_field_mapping:
+      type: object
+      deprecated: true
+      properties:
+        entity_field:
+          type: string
+          description: The name of the field in your application.
+          example: apolla_first_name
+        mapped_field:
+          type: string
+          description: The name of the field in your customer's third-party Provider tool (e.g. Salesforce).
+          example: FirstName
+      required:
+      - entity_field
+      - mapped_field
+    connection:
+      type: object
+      properties:
+        id:
+          type: string
+          example: e888cedf-e9d0-42c5-9485-2d72984faef2
+        application_id:
+          type: string
+          example: d8ceb3ff-8b7f-4fa7-b8de-849292f6ca69
+        customer_id:
+          type: string
+          example: my-customer-1
+        provider_id:
+          type: string
+          example: 677fcfca-cf89-4387-a189-71c885be67bc
+        provider_name:
+          $ref: '#/components/schemas/provider_name'
+        category:
+          $ref: '#/components/schemas/category'
+        instance_url:
+          type: string
+          example: https://app.hubspot.com/contacts/123456
+          description: Instance URL for the connected customer.
+        schema_mappings_config:
+          description: This is for field mappings when you data model using [Objects](https://docs.supaglue.com/platform/objects/overview#schemas). The field mappings here are set by your customers using the [Field Mappings API](https://docs.supaglue.com/api/v2/mgmt/update-object-field-mappings).
+          type: object
+          deprecated: true
+          properties:
+            common_objects:
+              type: array
+              items:
+                type: object
+                properties:
+                  object:
+                    type: string
+                    example: Contact__c
+                  field_mappings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/object_field_mapping'
+                required:
+                - object
+                - field_mappings
+            standard_objects:
+              type: array
+              items:
+                type: object
+                properties:
+                  object:
+                    type: string
+                    example: Contact
+                  field_mappings:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/object_field_mapping'
+                example: null
+                required:
+                - object
+                - field_mappings
+        entity_mappings:
+          type: array
+          description: This is for object/field mappings when you data model using [Entities](https://docs.supaglue.com/platform/entities/overview#entity-mapping). The object/field mappings here are set by your customers using the [Entity Mappings API](https://docs.supaglue.com/api/v2/mgmt/upsert-entity-mapping).
+          deprecated: true
+          items:
+            $ref: '#/components/schemas/connection_entity_mapping'
+          example: []
+        connection_sync_config:
+          $ref: '#/components/schemas/connection_sync_config'
+      required:
+      - id
+      - application_id
+      - customer_id
+      - provider_id
+      - provider_name
+      - category
+      - instance_url
+    errors:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: A unique identifier for the instance of the error. Provide this to support when contacting Supaglue.
+            example: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
+          detail:
+            type: string
+            description: A detailed description of the error.
+            example: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+          problem_type:
+            type: string
+            description: The Supaglue error code associated with the error.
+            example: MISSING_REQUIRED_FIELD
+            deprecated: true
+          title:
+            type: string
+            description: A brief description of the error. The schema and type of message will vary by Provider.
+            example: 'Property values were not valid
+
+              '
+          code:
+            type: string
+            description: The Supaglue error code associated with the error.
+            example: MISSING_REQUIRED_FIELD
+          status:
+            type: string
+            description: The HTTP status code associated with the error.
+            example: '400'
+          meta:
+            type: object
+            description: Additional metadata about the error.
+            properties:
+              cause:
+                type: object
+                description: The cause of the error. Usually the underlying error from the remote Provider.
+                example:
+                  code: 400
+                  body:
+                    status: error
+                    message: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+                    correlationId: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                    category: VALIDATION_ERROR
+                  headers:
+                    access-control-allow-credentials: 'false'
+                    cf-cache-status: DYNAMIC
+                    cf-ray: 8053d17b9dae9664-SJC
+                    connection: close
+                    content-length: '361'
+                    content-type: application/json;charset=utf-8
+                    date: Mon, 11 Sep 2023 23:51:22 GMT
+                    nel: '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+                    report-to: '{"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc"}],"group":"cf-nel","max_age":604800}'
+                    server: cloudflare
+                    strict-transport-security: max-age=31536000; includeSubDomains; preload
+                    vary: origin, Accept-Encoding
+                    x-content-type-options: nosniff
+                    x-envoy-upstream-service-time: '91'
+                    x-evy-trace-listener: listener_https
+                    x-evy-trace-route-configuration: listener_https/all
+                    x-evy-trace-route-service-name: envoyset-translator
+                    x-evy-trace-served-by-pod: iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2
+                    x-evy-trace-virtual-host: all
+                    x-hubspot-correlation-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                    x-hubspot-ratelimit-interval-milliseconds: '10000'
+                    x-hubspot-ratelimit-max: '100'
+                    x-hubspot-ratelimit-remaining: '99'
+                    x-hubspot-ratelimit-secondly: '10'
+                    x-hubspot-ratelimit-secondly-remaining: '9'
+                    x-request-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                    x-trace: 2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000
+              origin:
+                type: string
+                enum:
+                - remote-provider
+                - supaglue
+                description: The origin of the error.
+                example: remote-provider
+              application_name:
+                type: string
+                description: The name of the application that generated the error.
+                example: MyCompany Production
+            required:
+            - origin
+            additionalProperties: true
+        required:
+        - id
+        - detail
+        - problem_type
+        - title
+        - code
+        - status
+        - meta
+        example:
+        - meta:
+            cause:
+              code: 400
+              body:
+                status: error
+                message: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+                correlationId: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                category: VALIDATION_ERROR
+              headers:
+                access-control-allow-credentials: 'false'
+                cf-cache-status: DYNAMIC
+                cf-ray: 8053d17b9dae9664-SJC
+                connection: close
+                content-length: '361'
+                content-type: application/json;charset=utf-8
+                date: Mon, 11 Sep 2023 23:51:22 GMT
+                nel: '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+                report-to: '{"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc"}],"group":"cf-nel","max_age":604800}'
+                server: cloudflare
+                strict-transport-security: max-age=31536000; includeSubDomains; preload
+                vary: origin, Accept-Encoding
+                x-content-type-options: nosniff
+                x-envoy-upstream-service-time: '91'
+                x-evy-trace-listener: listener_https
+                x-evy-trace-route-configuration: listener_https/all
+                x-evy-trace-route-service-name: envoyset-translator
+                x-evy-trace-served-by-pod: iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2
+                x-evy-trace-virtual-host: all
+                x-hubspot-correlation-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                x-hubspot-ratelimit-interval-milliseconds: '10000'
+                x-hubspot-ratelimit-max: '100'
+                x-hubspot-ratelimit-remaining: '99'
+                x-hubspot-ratelimit-secondly: '10'
+                x-hubspot-ratelimit-secondly-remaining: '9'
+                x-request-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                x-trace: 2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000
+          detail: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+          problem_type: MISSING_REQUIRED_FIELD
+          title: 'Property values were not valid
+
+            '
+          code: MISSING_REQUIRED_FIELD
+          status: '400'
+          id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
+    standard_or_custom_object:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - standard
+          - custom
+        name:
+          type: string
+      required:
+      - type
+      - name
+    single_rate_limit_info:
+      type: object
+      properties:
+        limit:
+          type: integer
+          example: 1000
+        remaining:
+          type: integer
+          example: 900
+        reset_time:
+          type: integer
+          description: The time (in epoch seconds) at which the rate limit will reset. If missing, the rate limit is a sliding window.
+          example: 1615219200
+      required:
+      - limit
+      - remaining
+  responses:
+    conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    remoteProviderError:
+      description: Remote provider error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+  securitySchemes:
+    x-api-key:
+      type: apiKey
+      name: x-api-key
+      in: header
+      description: API key to allow developers to access the API

@@ -1,0 +1,624 @@
+openapi: 3.0.3
+info:
+  version: 0.25.7
+  title: Unified CRM Accounts SyncConfigs API
+  contact:
+    name: Supaglue
+    email: docs@supaglue.com
+    url: https://supaglue.com
+  description: '#### Introduction
+
+
+    Welcome to the Unified API (CRM) documentation. You can use this API to write to multiple third-party providers within the CRM category.
+
+
+    [View common schema for CRM](https://docs.supaglue.com/platform/common-schemas/crm)
+
+
+    #### Base API URL
+
+    ```
+
+    https://api.supaglue.io/crm/v2
+
+    ```
+
+    '
+servers:
+- url: https://api.supaglue.io/crm/v2
+  description: Supaglue API
+tags:
+- name: SyncConfigs
+  description: A `SyncConfig` is a configuration for how to sync your Customers' data from a Provider to a Destination on a schedule.
+paths:
+  /sync_configs:
+    get:
+      operationId: getSyncConfigs
+      tags:
+      - SyncConfigs
+      security:
+      - x-api-key: []
+      summary: List Sync Configs
+      description: Get a list of Sync Configs
+      responses:
+        '200':
+          description: SyncConfigs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/sync_config'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+        '501':
+          $ref: '#/components/responses/notImplemented'
+    post:
+      operationId: createSyncConfig
+      summary: Create Sync Config
+      tags:
+      - SyncConfigs
+      security:
+      - x-api-key: []
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/create_sync_config'
+      responses:
+        '201':
+          description: SyncConfig created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sync_config'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessableEntity'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+        '501':
+          $ref: '#/components/responses/notImplemented'
+  /sync_configs/{sync_config_id}:
+    parameters:
+    - name: sync_config_id
+      in: path
+      required: true
+      schema:
+        type: string
+      example: d583ec72-55d4-4f35-9668-f6c759674cc1
+    get:
+      operationId: getSyncConfig
+      summary: Get Sync Config
+      tags:
+      - SyncConfigs
+      security:
+      - x-api-key: []
+      responses:
+        '200':
+          description: SyncConfig
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sync_config'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+        '501':
+          $ref: '#/components/responses/notImplemented'
+    put:
+      operationId: updateSyncConfig
+      summary: Update Sync Config
+      description: ':::danger
+
+        If `force_delete_syncs` is set to true, any syncs for any deleted objects will be cascadingly deleted for all customers with this sync config.
+
+        :::
+
+        '
+      tags:
+      - SyncConfigs
+      security:
+      - x-api-key: []
+      parameters:
+      - name: force_delete_syncs
+        in: query
+        required: false
+        schema:
+          type: boolean
+        description: If true, any syncs for any deleted objects will be cascadingly deleted for all customers with this sync config
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/update_sync_config'
+      responses:
+        '200':
+          description: SyncConfig
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sync_config'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessableEntity'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+        '501':
+          $ref: '#/components/responses/notImplemented'
+    delete:
+      operationId: deleteSyncConfig
+      summary: Delete Sync Config
+      description: ':::danger
+
+        If `force_delete_syncs` is set to true, all syncs for all customers with this sync config will be cascadingly deleted.
+
+        :::
+
+        '
+      tags:
+      - SyncConfigs
+      security:
+      - x-api-key: []
+      parameters:
+      - name: force_delete_syncs
+        in: query
+        required: false
+        schema:
+          type: boolean
+        description: If true, all syncs for all customers with this sync config will be cascadingly deleted
+      responses:
+        '200':
+          description: SyncConfig
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sync_config'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessableEntity'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+        '501':
+          $ref: '#/components/responses/notImplemented'
+components:
+  schemas:
+    errors:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: A unique identifier for the instance of the error. Provide this to support when contacting Supaglue.
+            example: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
+          detail:
+            type: string
+            description: A detailed description of the error.
+            example: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+          problem_type:
+            type: string
+            description: The Supaglue error code associated with the error.
+            example: MISSING_REQUIRED_FIELD
+            deprecated: true
+          title:
+            type: string
+            description: A brief description of the error. The schema and type of message will vary by Provider.
+            example: 'Property values were not valid
+
+              '
+          code:
+            type: string
+            description: The Supaglue error code associated with the error.
+            example: MISSING_REQUIRED_FIELD
+          status:
+            type: string
+            description: The HTTP status code associated with the error.
+            example: '400'
+          meta:
+            type: object
+            description: Additional metadata about the error.
+            properties:
+              cause:
+                type: object
+                description: The cause of the error. Usually the underlying error from the remote Provider.
+                example:
+                  code: 400
+                  body:
+                    status: error
+                    message: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+                    correlationId: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                    category: VALIDATION_ERROR
+                  headers:
+                    access-control-allow-credentials: 'false'
+                    cf-cache-status: DYNAMIC
+                    cf-ray: 8053d17b9dae9664-SJC
+                    connection: close
+                    content-length: '361'
+                    content-type: application/json;charset=utf-8
+                    date: Mon, 11 Sep 2023 23:51:22 GMT
+                    nel: '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+                    report-to: '{"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc"}],"group":"cf-nel","max_age":604800}'
+                    server: cloudflare
+                    strict-transport-security: max-age=31536000; includeSubDomains; preload
+                    vary: origin, Accept-Encoding
+                    x-content-type-options: nosniff
+                    x-envoy-upstream-service-time: '91'
+                    x-evy-trace-listener: listener_https
+                    x-evy-trace-route-configuration: listener_https/all
+                    x-evy-trace-route-service-name: envoyset-translator
+                    x-evy-trace-served-by-pod: iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2
+                    x-evy-trace-virtual-host: all
+                    x-hubspot-correlation-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                    x-hubspot-ratelimit-interval-milliseconds: '10000'
+                    x-hubspot-ratelimit-max: '100'
+                    x-hubspot-ratelimit-remaining: '99'
+                    x-hubspot-ratelimit-secondly: '10'
+                    x-hubspot-ratelimit-secondly-remaining: '9'
+                    x-request-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                    x-trace: 2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000
+              origin:
+                type: string
+                enum:
+                - remote-provider
+                - supaglue
+                description: The origin of the error.
+                example: remote-provider
+              application_name:
+                type: string
+                description: The name of the application that generated the error.
+                example: MyCompany Production
+            required:
+            - origin
+            additionalProperties: true
+        required:
+        - id
+        - detail
+        - problem_type
+        - title
+        - code
+        - status
+        - meta
+        example:
+        - meta:
+            cause:
+              code: 400
+              body:
+                status: error
+                message: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+                correlationId: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                category: VALIDATION_ERROR
+              headers:
+                access-control-allow-credentials: 'false'
+                cf-cache-status: DYNAMIC
+                cf-ray: 8053d17b9dae9664-SJC
+                connection: close
+                content-length: '361'
+                content-type: application/json;charset=utf-8
+                date: Mon, 11 Sep 2023 23:51:22 GMT
+                nel: '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+                report-to: '{"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc"}],"group":"cf-nel","max_age":604800}'
+                server: cloudflare
+                strict-transport-security: max-age=31536000; includeSubDomains; preload
+                vary: origin, Accept-Encoding
+                x-content-type-options: nosniff
+                x-envoy-upstream-service-time: '91'
+                x-evy-trace-listener: listener_https
+                x-evy-trace-route-configuration: listener_https/all
+                x-evy-trace-route-service-name: envoyset-translator
+                x-evy-trace-served-by-pod: iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2
+                x-evy-trace-virtual-host: all
+                x-hubspot-correlation-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                x-hubspot-ratelimit-interval-milliseconds: '10000'
+                x-hubspot-ratelimit-max: '100'
+                x-hubspot-ratelimit-remaining: '99'
+                x-hubspot-ratelimit-secondly: '10'
+                x-hubspot-ratelimit-secondly-remaining: '9'
+                x-request-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                x-trace: 2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000
+          detail: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+          problem_type: MISSING_REQUIRED_FIELD
+          title: 'Property values were not valid
+
+            '
+          code: MISSING_REQUIRED_FIELD
+          status: '400'
+          id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
+    sync_config_data:
+      type: object
+      properties:
+        default_config:
+          $ref: '#/components/schemas/sync_strategy_config'
+        common_objects:
+          description: A list of Supaglue objects to be synced.
+          type: array
+          items:
+            type: object
+            properties:
+              object:
+                type: string
+                description: The Supaglue object name
+                example: contact
+              sync_strategy_override:
+                $ref: '#/components/schemas/sync_strategy_config'
+              associations_to_fetch:
+                type: array
+                description: "A list of associated objects to fetch when syncing this object. \nIf empty or unspecified, no additional associations will be fetched other than the ones required to populate the common model.\nOnly relevant for Hubspot.\n"
+                items:
+                  type: string
+                  description: Name of the associated object to fetch
+                  example: account
+            required:
+            - object
+        standard_objects:
+          description: A list of case-sensitive Provider objects to be synced.
+          type: array
+          items:
+            type: object
+            properties:
+              object:
+                type: string
+                description: The Provider object name (case sensitive)
+                example: Contact
+              sync_strategy_override:
+                $ref: '#/components/schemas/sync_strategy_config'
+              associations_to_fetch:
+                type: array
+                description: "A list of associated objects to fetch when syncing this object. \nIf empty or unspecified, no associations will be fetched.\nOnly relevant for Hubspot.\n"
+                items:
+                  type: string
+                  description: Name of the associated object to fetch
+                  example: account
+            required:
+            - object
+        custom_objects:
+          description: A list of case-sensitive custom objects to be synced. Only supported for Salesforce and Hubspot.
+          type: array
+          items:
+            type: object
+            properties:
+              object:
+                type: string
+                description: The custom object name (case sensitive). For Salesforce, this should end with `__c`.
+                example: MyCustomObject__c
+              sync_strategy_override:
+                $ref: '#/components/schemas/sync_strategy_config'
+              associations_to_fetch:
+                type: array
+                description: "A list of associated objects to fetch when syncing this object. \nIf empty or unspecified, no associations will be fetched.\nOnly relevant for Hubspot.\n"
+                items:
+                  type: string
+                  description: Name of the associated object to fetch
+                  example: account
+            required:
+            - object
+        entities:
+          type: array
+          deprecated: true
+          items:
+            type: object
+            properties:
+              entity_id:
+                type: string
+                example: 3a82409f-c98f-4d25-bbd8-3335de3f12cc
+            required:
+            - entity_id
+      required:
+      - default_config
+    create_sync_config:
+      type: object
+      properties:
+        destination_name:
+          type: string
+          example: object
+        provider_name:
+          $ref: '#/components/schemas/provider_name'
+        config:
+          $ref: '#/components/schemas/sync_config_data'
+      required:
+      - destination_name
+      - provider_name
+      - config
+    provider_name:
+      type: string
+      enum:
+      - hubspot
+      - salesforce
+      - pipedrive
+      - zendesk_sell
+      - ms_dynamics_365_sales
+      - zoho_crm
+      - capsule
+      - outreach
+      - gong
+      - apollo
+      - salesloft
+      - intercom
+      - linear
+      - clearbit
+      - 6sense
+      - marketo
+      - salesforce_marketing_cloud_account_engagement
+      - slack
+      example: hubspot
+    update_sync_config:
+      type: object
+      properties:
+        config:
+          $ref: '#/components/schemas/sync_config_data'
+      required:
+      - config
+    sync_config:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 465fdcb7-26b4-4090-894c-67cab41022bb
+        application_id:
+          type: string
+          example: 9572d08b-f19f-48cc-a992-1eb7031d3f6a
+        destination_name:
+          type: string
+          example: postgres
+        provider_name:
+          $ref: '#/components/schemas/provider_name'
+        config:
+          $ref: '#/components/schemas/sync_config_data'
+      required:
+      - id
+      - application_id
+      - destination_name
+      - provider_name
+      - config
+    sync_strategy_config:
+      type: object
+      description: Configuration options for "how" to sync.
+      properties:
+        period_ms:
+          type: integer
+          minimum: 60000
+          example: 60000
+          description: The period (in milliseconds) to run the sync.
+        strategy:
+          type: string
+          enum:
+          - full then incremental
+          - full only
+          description: \"full then incremental\" will run a full sync on the first run, then incremental syncs. \"full only\" will run a full sync on every run.
+        auto_start_on_connection:
+          type: boolean
+          description: 'If true, the sync will start automatically when the connection is created.
+
+            Default: true
+
+            '
+        full_sync_every_n_incrementals:
+          type: number
+          description: If set, Supaglue will run a full sync after N consecutive incremental syncs.
+      required:
+      - period_ms
+      - strategy
+  responses:
+    conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+  securitySchemes:
+    x-api-key:
+      type: apiKey
+      name: x-api-key
+      in: header
+      description: API key to allow developers to access the API

@@ -1,0 +1,1066 @@
+openapi: 3.0.3
+info:
+  version: 0.25.7
+  title: Unified CRM Accounts Destinations API
+  contact:
+    name: Supaglue
+    email: docs@supaglue.com
+    url: https://supaglue.com
+  description: '#### Introduction
+
+
+    Welcome to the Unified API (CRM) documentation. You can use this API to write to multiple third-party providers within the CRM category.
+
+
+    [View common schema for CRM](https://docs.supaglue.com/platform/common-schemas/crm)
+
+
+    #### Base API URL
+
+    ```
+
+    https://api.supaglue.io/crm/v2
+
+    ```
+
+    '
+servers:
+- url: https://api.supaglue.io/crm/v2
+  description: Supaglue API
+tags:
+- name: Destinations
+  description: A `Destination` is a data store where we write data in your infrastructure.
+paths:
+  /destinations:
+    get:
+      operationId: getDestinations
+      tags:
+      - Destinations
+      security:
+      - x-api-key: []
+      summary: List destinations
+      description: Get a list of destinations
+      responses:
+        '200':
+          description: Destinations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/destination'
+                example:
+                - id: 92bc3460-a301-4116-8d1f-6e5f8252c2e2
+                  application_id: 9b9a31bb-9fe4-4fa5-ba84-4c035a27f258
+                  name: My Postgres Destination
+                  type: postgres
+                  config:
+                    host: production-db-new.cluster-cdhnnutnlctj.us-west-2.rds.amazonaws.com
+                    port: 5432
+                    database: my_database
+                    schema: public
+                    user: user
+                    password: password
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+        '501':
+          $ref: '#/components/responses/notImplemented'
+    post:
+      operationId: createDestination
+      summary: Create destination
+      tags:
+      - Destinations
+      security:
+      - x-api-key: []
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/create_destination'
+      responses:
+        '201':
+          description: Destination created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/destination'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessableEntity'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+        '501':
+          $ref: '#/components/responses/notImplemented'
+  /destinations/{destination_id}:
+    parameters:
+    - name: destination_id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      operationId: getDestination
+      summary: Get destination
+      tags:
+      - Destinations
+      security:
+      - x-api-key: []
+      responses:
+        '200':
+          description: Destination
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/destination'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+        '501':
+          $ref: '#/components/responses/notImplemented'
+    put:
+      operationId: updateDestination
+      summary: Update destination
+      tags:
+      - Destinations
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/update_destination'
+      responses:
+        '200':
+          description: Destination
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/destination'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '409':
+          $ref: '#/components/responses/conflict'
+        '422':
+          $ref: '#/components/responses/unprocessableEntity'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+        '501':
+          $ref: '#/components/responses/notImplemented'
+components:
+  schemas:
+    update_destination:
+      example:
+        name: My Postgres Destination
+        type: postgres
+        config:
+          host: production-db-new.cluster-cdhnnutnlctj.us-west-2.rds.amazonaws.com
+          port: 5432
+          database: postgres_prod_db
+          schema: public
+          user: myuser
+          password: mysensitivepassword
+      oneOf:
+      - type: object
+        title: postgres
+        properties:
+          name:
+            type: string
+            example: My Postgres Destination
+          type:
+            type: string
+            enum:
+            - postgres
+            example: postgres
+          config:
+            $ref: '#/components/schemas/postgres_config_at_least_safe'
+          version:
+            type: number
+            example: number
+        required:
+        - name
+        - type
+        - config
+        - version
+      - type: object
+        title: bigquery
+        properties:
+          name:
+            type: string
+            example: My BigQuery Destination
+          type:
+            type: string
+            enum:
+            - bigquery
+            example: bigquery
+          config:
+            $ref: '#/components/schemas/bigquery_config_at_least_safe'
+          version:
+            type: number
+            example: number
+        required:
+        - name
+        - type
+        - config
+        - version
+    snowflake_config_unsafe:
+      type: object
+      properties:
+        host:
+          type: string
+          example: paa05704.us-east-1
+        role:
+          type: string
+          example: supaglue
+        warehouse:
+          type: string
+          example: compute
+        database:
+          type: string
+          example: my_database
+        schema:
+          type: string
+          example: schema
+        username:
+          type: string
+          example: snowflake_user
+        password:
+          type: string
+          example: 12345fakepassword
+      required:
+      - host
+      - role
+      - warehouse
+      - database
+      - schema
+      - username
+      - password
+    postgres_config_at_least_safe:
+      type: object
+      properties:
+        host:
+          type: string
+          example: production-db-new.cluster-cdhnnutnlctj.us-west-2.rds.amazonaws.com
+        port:
+          type: number
+          example: 5432
+        database:
+          type: string
+          example: postgres_prod_db
+        schema:
+          type: string
+          example: public
+        user:
+          type: string
+          example: myuser
+        password:
+          type: string
+          example: mysensitivepassword
+      required:
+      - host
+      - port
+      - database
+      - schema
+      - user
+    s3_config_safe:
+      type: object
+      properties:
+        bucket:
+          type: string
+          example: s3://my-bucket-name
+        region:
+          type: string
+          example: us-west-2
+        access_key_id:
+          type: string
+          example: AKIDFIAKFISDKFSI
+      required:
+      - bucket
+      - region
+      - access_key_id
+    bigquery_config_safe:
+      type: object
+      properties:
+        project_id:
+          type: string
+          example: my-gcp-project-id
+        dataset:
+          type: string
+          example: my_bigquery_dataset
+        credentials:
+          type: object
+          properties:
+            client_email:
+              type: string
+              example: my_bigquery_service_account@my_project.iam.gserviceaccount.com
+          required:
+          - client_email
+      required:
+      - project_id
+      - dataset
+      - credentials
+    create_destination:
+      oneOf:
+      - type: object
+        title: postgres
+        properties:
+          name:
+            type: string
+            example: My Postgres Destination
+          type:
+            type: string
+            enum:
+            - postgres
+            example: postgres
+          config:
+            $ref: '#/components/schemas/postgres_config_unsafe'
+        required:
+        - name
+        - type
+        - config
+      - type: object
+        title: supaglue
+        description: A Supaglue-hosted Postgres database destination for Listing APIs.
+        properties:
+          type:
+            type: string
+            enum:
+            - supaglue
+            example: supaglue
+        required:
+        - type
+      - type: object
+        title: bigquery
+        properties:
+          name:
+            type: string
+            example: My BigQuery Destination
+          type:
+            type: string
+            enum:
+            - bigquery
+            example: bigquery
+          config:
+            $ref: '#/components/schemas/bigquery_config_unsafe'
+        required:
+        - name
+        - type
+        - config
+      - type: object
+        title: snowflake
+        properties:
+          name:
+            type: string
+            example: My Snowflake Destination
+          type:
+            type: string
+            enum:
+            - snowflake
+            example: snowflake
+          config:
+            $ref: '#/components/schemas/snowflake_config_unsafe'
+        required:
+        - name
+        - type
+        - config
+      - type: object
+        title: redshift
+        properties:
+          name:
+            type: string
+            example: My Redshift Destination
+          type:
+            type: string
+            enum:
+            - redshift
+            example: redshift
+          config:
+            $ref: '#/components/schemas/redshift_config_unsafe'
+        required:
+        - name
+        - type
+        - config
+    postgres_config_unsafe:
+      type: object
+      properties:
+        host:
+          type: string
+          example: production-db-new.cluster-cdhnnutnlctj.us-west-2.rds.amazonaws.com
+        port:
+          type: number
+          example: 5432
+        database:
+          type: string
+          example: postgres_prod_db
+        schema:
+          type: string
+          example: public
+        user:
+          type: string
+          example: myuser
+        ssl_mode:
+          type: string
+          enum:
+          - disable
+          - no-verify
+          - prefer
+          - require
+          - verify-ca
+          - verify-full
+          example: disable
+        password:
+          type: string
+          example: mysensitivepassword
+        server_ca_cert:
+          type: string
+          example: '---BEGIN CERTIFICATE-----'
+        client_cert:
+          type: string
+          example: '---BEGIN CERTIFICATE-----'
+        client_key:
+          type: string
+          example: '---BEGIN RSA PRIVATE KEY-----'
+        server_name:
+          type: string
+          example: 1-dd8643d8-f1ce-420f-a867-66b78a4734be.us-central1.sql.goog
+      required:
+      - host
+      - port
+      - database
+      - schema
+      - user
+      - password
+    snowflake_config_safe:
+      type: object
+      properties:
+        host:
+          type: string
+          example: paa05704.us-east-1
+        role:
+          type: string
+          example: supaglue
+        warehouse:
+          type: string
+          example: compute
+        database:
+          type: string
+          example: my_database
+        schema:
+          type: string
+          example: schema
+        username:
+          type: string
+          example: snowflake_user
+      required:
+      - host
+      - role
+      - warehouse
+      - database
+      - schema
+      - username
+    postgres_config_safe:
+      type: object
+      properties:
+        host:
+          type: string
+          example: production-db-new.cluster-cdhnnutnlctj.us-west-2.rds.amazonaws.com
+        port:
+          type: number
+          example: 5432
+        database:
+          type: string
+          example: postgres_prod_db
+        schema:
+          type: string
+          example: public
+        user:
+          type: string
+          example: myuser
+        ssl_mode:
+          type: string
+          enum:
+          - disable
+          - no-verify
+          - prefer
+          - require
+          - verify-ca
+          - verify-full
+          example: disable
+      required:
+      - host
+      - port
+      - database
+      - schema
+      - user
+    bigquery_config_unsafe:
+      type: object
+      properties:
+        project_id:
+          type: string
+          example: my-gcp-project-id
+        dataset:
+          type: string
+          example: my_bigquery_dataset
+        credentials:
+          type: object
+          properties:
+            client_email:
+              type: string
+              example: my_bigquery_service_account@my_project.iam.gserviceaccount.com
+            private_key:
+              type: string
+              example: '-----BEGIN PRIVATE KEY-----\nMII...'
+          required:
+          - client_email
+          - private_key
+      required:
+      - project_id
+      - dataset
+      - credentials
+    redshift_config_unsafe:
+      type: object
+      properties:
+        host:
+          type: string
+          example: paa05704.us-east-1
+        port:
+          type: number
+          example: 5439
+        username:
+          type: string
+          example: redshift_user
+        database:
+          type: string
+          example: my_database
+        schema:
+          type: string
+          example: schema
+        upload_method:
+          type: string
+          example: s3_staging
+        s3_key_id:
+          type: string
+          example: AKIDFIAKFISDKFSI
+        s3_bucket_name:
+          type: string
+          example: my_bucket
+        s3_bucket_region:
+          type: string
+          example: us-west-2
+        s3_access_key:
+          type: string
+          example: ASDFKSFSFKSDKFSK
+      required:
+      - host
+      - port
+      - username
+      - database
+      - schema
+      - upload_method
+      - s3_key_id
+      - s3_bucket_name
+      - s3_bucket_region
+      - s3_access_key
+    bigquery_config_at_least_safe:
+      type: object
+      properties:
+        project_id:
+          type: string
+          example: my-gcp-project-id
+        dataset:
+          type: string
+          example: my_bigquery_dataset
+        credentials:
+          type: object
+          properties:
+            client_email:
+              type: string
+              example: my_bigquery_service_account@my_project.iam.gserviceaccount.com
+            private_key:
+              type: string
+              example: '-----BEGIN PRIVATE KEY-----\nMII...'
+          required:
+          - client_email
+          - private_key
+      required:
+      - project_id
+      - dataset
+      - credentials
+    errors:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: A unique identifier for the instance of the error. Provide this to support when contacting Supaglue.
+            example: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
+          detail:
+            type: string
+            description: A detailed description of the error.
+            example: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+          problem_type:
+            type: string
+            description: The Supaglue error code associated with the error.
+            example: MISSING_REQUIRED_FIELD
+            deprecated: true
+          title:
+            type: string
+            description: A brief description of the error. The schema and type of message will vary by Provider.
+            example: 'Property values were not valid
+
+              '
+          code:
+            type: string
+            description: The Supaglue error code associated with the error.
+            example: MISSING_REQUIRED_FIELD
+          status:
+            type: string
+            description: The HTTP status code associated with the error.
+            example: '400'
+          meta:
+            type: object
+            description: Additional metadata about the error.
+            properties:
+              cause:
+                type: object
+                description: The cause of the error. Usually the underlying error from the remote Provider.
+                example:
+                  code: 400
+                  body:
+                    status: error
+                    message: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+                    correlationId: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                    category: VALIDATION_ERROR
+                  headers:
+                    access-control-allow-credentials: 'false'
+                    cf-cache-status: DYNAMIC
+                    cf-ray: 8053d17b9dae9664-SJC
+                    connection: close
+                    content-length: '361'
+                    content-type: application/json;charset=utf-8
+                    date: Mon, 11 Sep 2023 23:51:22 GMT
+                    nel: '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+                    report-to: '{"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc"}],"group":"cf-nel","max_age":604800}'
+                    server: cloudflare
+                    strict-transport-security: max-age=31536000; includeSubDomains; preload
+                    vary: origin, Accept-Encoding
+                    x-content-type-options: nosniff
+                    x-envoy-upstream-service-time: '91'
+                    x-evy-trace-listener: listener_https
+                    x-evy-trace-route-configuration: listener_https/all
+                    x-evy-trace-route-service-name: envoyset-translator
+                    x-evy-trace-served-by-pod: iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2
+                    x-evy-trace-virtual-host: all
+                    x-hubspot-correlation-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                    x-hubspot-ratelimit-interval-milliseconds: '10000'
+                    x-hubspot-ratelimit-max: '100'
+                    x-hubspot-ratelimit-remaining: '99'
+                    x-hubspot-ratelimit-secondly: '10'
+                    x-hubspot-ratelimit-secondly-remaining: '9'
+                    x-request-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                    x-trace: 2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000
+              origin:
+                type: string
+                enum:
+                - remote-provider
+                - supaglue
+                description: The origin of the error.
+                example: remote-provider
+              application_name:
+                type: string
+                description: The name of the application that generated the error.
+                example: MyCompany Production
+            required:
+            - origin
+            additionalProperties: true
+        required:
+        - id
+        - detail
+        - problem_type
+        - title
+        - code
+        - status
+        - meta
+        example:
+        - meta:
+            cause:
+              code: 400
+              body:
+                status: error
+                message: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+                correlationId: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                category: VALIDATION_ERROR
+              headers:
+                access-control-allow-credentials: 'false'
+                cf-cache-status: DYNAMIC
+                cf-ray: 8053d17b9dae9664-SJC
+                connection: close
+                content-length: '361'
+                content-type: application/json;charset=utf-8
+                date: Mon, 11 Sep 2023 23:51:22 GMT
+                nel: '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+                report-to: '{"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc"}],"group":"cf-nel","max_age":604800}'
+                server: cloudflare
+                strict-transport-security: max-age=31536000; includeSubDomains; preload
+                vary: origin, Accept-Encoding
+                x-content-type-options: nosniff
+                x-envoy-upstream-service-time: '91'
+                x-evy-trace-listener: listener_https
+                x-evy-trace-route-configuration: listener_https/all
+                x-evy-trace-route-service-name: envoyset-translator
+                x-evy-trace-served-by-pod: iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2
+                x-evy-trace-virtual-host: all
+                x-hubspot-correlation-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                x-hubspot-ratelimit-interval-milliseconds: '10000'
+                x-hubspot-ratelimit-max: '100'
+                x-hubspot-ratelimit-remaining: '99'
+                x-hubspot-ratelimit-secondly: '10'
+                x-hubspot-ratelimit-secondly-remaining: '9'
+                x-request-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                x-trace: 2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000
+          detail: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+          problem_type: MISSING_REQUIRED_FIELD
+          title: 'Property values were not valid
+
+            '
+          code: MISSING_REQUIRED_FIELD
+          status: '400'
+          id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
+    redshift_config_safe:
+      type: object
+      properties:
+        host:
+          type: string
+          example: paa05704.us-east-1
+        port:
+          type: number
+          example: 5439
+        username:
+          type: string
+          example: redshift_user
+        database:
+          type: string
+          example: my_database
+        schema:
+          type: string
+          example: schema
+        upload_method:
+          type: string
+          example: s3_staging
+        s3_key_id:
+          type: string
+          example: AKIDFIAKFISDKFSI
+        s3_bucket_name:
+          type: string
+          example: my_bucket
+        s3_bucket_region:
+          type: string
+          example: us-west-2
+      required:
+      - host
+      - port
+      - username
+      - database
+      - schema
+      - upload_method
+      - s3_key_id
+      - s3_bucket_name
+      - s3_bucket_region
+    destination:
+      example:
+        id: 2cce5aed-e8fc-41b2-bff6-6ddbc1f99285
+        application_id: e52286c9-3038-4fa2-a2b8-3ec9759d20cb
+        name: My Postgres Destination
+        type: postgres
+        config:
+          host: production-db-new.cluster-cdhnnutnlctj.us-west-2.rds.amazonaws.com
+          port: 5432
+          database: postgres_prod_db
+          schema: public
+          user: myuser
+      oneOf:
+      - type: object
+        title: postgres
+        properties:
+          id:
+            type: string
+            example: d455d20b-f6dc-4bc3-ab14-b4f21c4b4835
+          application_id:
+            type: string
+            example: 726fb798-d854-4c59-9a23-57e3e2f73eae
+          name:
+            type: string
+            example: My Postgres Destination
+          type:
+            type: string
+            enum:
+            - postgres
+            example: postgres
+          config:
+            $ref: '#/components/schemas/postgres_config_safe'
+          version:
+            type: number
+            example: 1
+            description: A monotonically increasing version number of the destination configuration
+        required:
+        - id
+        - application_id
+        - name
+        - type
+        - config
+        - version
+      - type: object
+        title: supaglue
+        description: A Supaglue-hosted Postgres database destination for Listing APIs.
+        properties:
+          id:
+            type: string
+            example: d455d20b-f6dc-4bc3-ab14-b4f21c4b4835
+          application_id:
+            type: string
+            example: 726fb798-d854-4c59-9a23-57e3e2f73eae
+          type:
+            type: string
+            enum:
+            - supaglue
+            example: supaglue
+          version:
+            type: number
+            example: 1
+            description: A monotonically increasing version number of the destination configuration
+        required:
+        - id
+        - application_id
+        - type
+        - version
+      - type: object
+        title: bigquery
+        properties:
+          id:
+            type: string
+            example: e888cedf-e9d0-42c5-9485-2d72984faef2
+          application_id:
+            type: string
+            example: 9572d08b-f19f-48cc-a992-1eb7031d3f6a
+          name:
+            type: string
+            example: My BigQuery Destination
+          type:
+            type: string
+            enum:
+            - bigquery
+            example: bigquery
+          config:
+            $ref: '#/components/schemas/bigquery_config_safe'
+          version:
+            type: number
+            example: 1
+            description: A monotonically increasing version number of the destination configuration
+        required:
+        - id
+        - application_id
+        - name
+        - type
+        - config
+        - version
+      - type: object
+        title: snowflake
+        properties:
+          id:
+            type: string
+            example: e888cedf-e9d0-42c5-9485-2d72984faef2
+          application_id:
+            type: string
+            example: 9572d08b-f19f-48cc-a992-1eb7031d3f6a
+          name:
+            type: string
+            example: My Snowflake Destination
+          type:
+            type: string
+            enum:
+            - snowflake
+            example: snowflake
+          config:
+            $ref: '#/components/schemas/snowflake_config_safe'
+          version:
+            type: number
+            example: 1
+            description: A monotonically increasing version number of the destination configuration
+        required:
+        - id
+        - application_id
+        - name
+        - type
+        - config
+        - version
+      - type: object
+        title: redshift
+        properties:
+          id:
+            type: string
+            example: e888cedf-e9d0-42c5-9485-2d72984faef2
+          application_id:
+            type: string
+            example: 9572d08b-f19f-48cc-a992-1eb7031d3f6a
+          name:
+            type: string
+            example: My Redshift Destination
+          type:
+            type: string
+            enum:
+            - redshift
+            example: redshift
+          config:
+            $ref: '#/components/schemas/redshift_config_safe'
+          version:
+            type: number
+            example: 1
+            description: A monotonically increasing version number of the destination configuration
+        required:
+        - id
+        - application_id
+        - name
+        - type
+        - config
+        - version
+      - type: object
+        title: s3
+        properties:
+          id:
+            type: string
+            example: e888cedf-e9d0-42c5-9485-2d72984faef2
+          application_id:
+            type: string
+            example: 9572d08b-f19f-48cc-a992-1eb7031d3f6a
+          name:
+            type: string
+            example: My S3 Destination
+          type:
+            type: string
+            enum:
+            - s3
+            example: s3
+          config:
+            $ref: '#/components/schemas/s3_config_safe'
+          version:
+            type: number
+            example: 1
+            description: A monotonically increasing version number of the destination configuration
+        required:
+        - id
+        - application_id
+        - name
+        - type
+        - config
+        - version
+  responses:
+    conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+  securitySchemes:
+    x-api-key:
+      type: apiKey
+      name: x-api-key
+      in: header
+      description: API key to allow developers to access the API

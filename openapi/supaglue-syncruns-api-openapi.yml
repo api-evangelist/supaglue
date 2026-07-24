@@ -1,0 +1,512 @@
+openapi: 3.0.3
+info:
+  version: 0.25.7
+  title: Unified CRM Accounts SyncRuns API
+  contact:
+    name: Supaglue
+    email: docs@supaglue.com
+    url: https://supaglue.com
+  description: '#### Introduction
+
+
+    Welcome to the Unified API (CRM) documentation. You can use this API to write to multiple third-party providers within the CRM category.
+
+
+    [View common schema for CRM](https://docs.supaglue.com/platform/common-schemas/crm)
+
+
+    #### Base API URL
+
+    ```
+
+    https://api.supaglue.io/crm/v2
+
+    ```
+
+    '
+servers:
+- url: https://api.supaglue.io/crm/v2
+  description: Supaglue API
+tags:
+- name: SyncRuns
+  description: A `SyncRun` is a single execution of a Sync at a point in time.
+paths:
+  /sync-runs:
+    get:
+      operationId: getSyncRuns
+      tags:
+      - SyncRuns
+      security:
+      - x-api-key: []
+      summary: Get SyncRuns
+      description: Get a list of SyncRuns.
+      parameters:
+      - name: cursor
+        in: query
+        schema:
+          type: string
+        example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
+        description: The pagination cursor value
+      - name: page_size
+        in: query
+        schema:
+          type: string
+        example: '100'
+        description: Number of results to return per page
+      - name: customer_id
+        in: query
+        schema:
+          type: string
+        example: my-customer-1
+        description: The customer ID that uniquely identifies the customer in your application
+      - name: provider_name
+        in: query
+        schema:
+          type: string
+        example: salesforce
+        description: The provider name
+      - name: object_type
+        in: query
+        schema:
+          type: string
+          enum:
+          - common
+          - standard
+          - custom
+        example: standard
+      - name: object
+        in: query
+        schema:
+          type: string
+        example: account
+        description: The object to filter by
+      - name: entity_id
+        deprecated: true
+        in: query
+        schema:
+          type: string
+        example: e74b5a4f-f252-4a6c-940c-f35873498543
+        description: The entity id to filter by
+      - name: status
+        in: query
+        schema:
+          type: string
+        example: SUCCESS
+        description: The status to filter by (case-insensitive)
+      - name: start_timestamp
+        in: query
+        schema:
+          type: string
+        example: '>2021-01-06T03:24:53.434326Z'
+        description: The start time to filter by. Should start with one of [`>`, `<`] followed by an ISO 8601 timestamp.
+      - name: end_timestamp
+        in: query
+        schema:
+          type: string
+        example: '>2021-01-06T03:24:53.434326Z'
+        description: The end time to filter by. Should start with [`>`, `<`] followed by an ISO 8601 timestamp.
+      responses:
+        '200':
+          description: SyncRun
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/pagination'
+                - type: object
+                  properties:
+                    results:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/sync_run'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+        '501':
+          $ref: '#/components/responses/notImplemented'
+components:
+  schemas:
+    errors:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: A unique identifier for the instance of the error. Provide this to support when contacting Supaglue.
+            example: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
+          detail:
+            type: string
+            description: A detailed description of the error.
+            example: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+          problem_type:
+            type: string
+            description: The Supaglue error code associated with the error.
+            example: MISSING_REQUIRED_FIELD
+            deprecated: true
+          title:
+            type: string
+            description: A brief description of the error. The schema and type of message will vary by Provider.
+            example: 'Property values were not valid
+
+              '
+          code:
+            type: string
+            description: The Supaglue error code associated with the error.
+            example: MISSING_REQUIRED_FIELD
+          status:
+            type: string
+            description: The HTTP status code associated with the error.
+            example: '400'
+          meta:
+            type: object
+            description: Additional metadata about the error.
+            properties:
+              cause:
+                type: object
+                description: The cause of the error. Usually the underlying error from the remote Provider.
+                example:
+                  code: 400
+                  body:
+                    status: error
+                    message: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+                    correlationId: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                    category: VALIDATION_ERROR
+                  headers:
+                    access-control-allow-credentials: 'false'
+                    cf-cache-status: DYNAMIC
+                    cf-ray: 8053d17b9dae9664-SJC
+                    connection: close
+                    content-length: '361'
+                    content-type: application/json;charset=utf-8
+                    date: Mon, 11 Sep 2023 23:51:22 GMT
+                    nel: '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+                    report-to: '{"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc"}],"group":"cf-nel","max_age":604800}'
+                    server: cloudflare
+                    strict-transport-security: max-age=31536000; includeSubDomains; preload
+                    vary: origin, Accept-Encoding
+                    x-content-type-options: nosniff
+                    x-envoy-upstream-service-time: '91'
+                    x-evy-trace-listener: listener_https
+                    x-evy-trace-route-configuration: listener_https/all
+                    x-evy-trace-route-service-name: envoyset-translator
+                    x-evy-trace-served-by-pod: iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2
+                    x-evy-trace-virtual-host: all
+                    x-hubspot-correlation-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                    x-hubspot-ratelimit-interval-milliseconds: '10000'
+                    x-hubspot-ratelimit-max: '100'
+                    x-hubspot-ratelimit-remaining: '99'
+                    x-hubspot-ratelimit-secondly: '10'
+                    x-hubspot-ratelimit-secondly-remaining: '9'
+                    x-request-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                    x-trace: 2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000
+              origin:
+                type: string
+                enum:
+                - remote-provider
+                - supaglue
+                description: The origin of the error.
+                example: remote-provider
+              application_name:
+                type: string
+                description: The name of the application that generated the error.
+                example: MyCompany Production
+            required:
+            - origin
+            additionalProperties: true
+        required:
+        - id
+        - detail
+        - problem_type
+        - title
+        - code
+        - status
+        - meta
+        example:
+        - meta:
+            cause:
+              code: 400
+              body:
+                status: error
+                message: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+                correlationId: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                category: VALIDATION_ERROR
+              headers:
+                access-control-allow-credentials: 'false'
+                cf-cache-status: DYNAMIC
+                cf-ray: 8053d17b9dae9664-SJC
+                connection: close
+                content-length: '361'
+                content-type: application/json;charset=utf-8
+                date: Mon, 11 Sep 2023 23:51:22 GMT
+                nel: '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+                report-to: '{"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc"}],"group":"cf-nel","max_age":604800}'
+                server: cloudflare
+                strict-transport-security: max-age=31536000; includeSubDomains; preload
+                vary: origin, Accept-Encoding
+                x-content-type-options: nosniff
+                x-envoy-upstream-service-time: '91'
+                x-evy-trace-listener: listener_https
+                x-evy-trace-route-configuration: listener_https/all
+                x-evy-trace-route-service-name: envoyset-translator
+                x-evy-trace-served-by-pod: iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2
+                x-evy-trace-virtual-host: all
+                x-hubspot-correlation-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                x-hubspot-ratelimit-interval-milliseconds: '10000'
+                x-hubspot-ratelimit-max: '100'
+                x-hubspot-ratelimit-remaining: '99'
+                x-hubspot-ratelimit-secondly: '10'
+                x-hubspot-ratelimit-secondly-remaining: '9'
+                x-request-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                x-trace: 2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000
+          detail: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+          problem_type: MISSING_REQUIRED_FIELD
+          title: 'Property values were not valid
+
+            '
+          code: MISSING_REQUIRED_FIELD
+          status: '400'
+          id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
+    pagination:
+      type: object
+      properties:
+        next:
+          type: string
+          nullable: true
+          example: eyJpZCI6IjQyNTc5ZjczLTg1MjQtNDU3MC05YjY3LWVjYmQ3MDJjNmIxNCIsInJldmVyc2UiOmZhbHNlfQ==
+        previous:
+          type: string
+          nullable: true
+          example: eyJpZCI6IjBjZDhmYmZkLWU5NmQtNDEwZC05ZjQxLWIwMjU1YjdmNGI4NyIsInJldmVyc2UiOnRydWV9
+        total_count:
+          type: number
+          example: 100
+      required:
+      - next
+      - previous
+    sync_run:
+      oneOf:
+      - type: object
+        title: 'Data model: Objects'
+        properties:
+          id:
+            type: string
+            example: 20eb4da3-6b38-4ec6-a82d-ecee59a9d6d9
+          sync_id:
+            type: string
+            example: 629525f8-f6f7-436c-80fa-1cb23acc5bf8
+          object_type:
+            type: string
+            enum:
+            - common
+            - standard
+            - custom
+          object:
+            type: string
+          error_message:
+            type: string
+            nullable: true
+          start_timestamp:
+            type: string
+            example: '2023-02-22T19:55:17.559537Z'
+          end_timestamp:
+            type: string
+            nullable: true
+            example: '2023-02-22T20:55:17.559537Z'
+          application_id:
+            type: string
+            example: 974125fa-ffb6-47fc-b12f-44c566fc5da1
+          customer_id:
+            type: string
+            example: my-customer-1
+          provider_name:
+            $ref: '#/components/schemas/provider_name'
+          category:
+            $ref: '#/components/schemas/category'
+          connection_id:
+            type: string
+            example: 3217ea51-11c8-43c9-9547-6f197e02e5e4
+          status:
+            type: string
+            enum:
+            - SUCCESS
+            - IN_PROGRESS
+            - FAILURE
+          num_records_synced:
+            type: number
+            nullable: true
+            example: 100
+        required:
+        - id
+        - sync_id
+        - object_type
+        - object
+        - start_timestamp
+        - end_timestamp
+        - application_id
+        - customer_id
+        - status
+        - error_message
+        - provider_name
+        - category
+        - connection_id
+        - num_records_synced
+      - type: object
+        title: 'Data model: Entities'
+        deprecated: true
+        properties:
+          id:
+            type: string
+            example: 20eb4da3-6b38-4ec6-a82d-ecee59a9d6d9
+          sync_id:
+            type: string
+            example: 629525f8-f6f7-436c-80fa-1cb23acc5bf8
+          entity_id:
+            type: string
+            deprecated: true
+          error_message:
+            type: string
+            nullable: true
+          start_timestamp:
+            type: string
+            example: '2023-02-22T19:55:17.559537Z'
+          end_timestamp:
+            type: string
+            nullable: true
+            example: '2023-02-22T20:55:17.559537Z'
+          application_id:
+            type: string
+            example: 974125fa-ffb6-47fc-b12f-44c566fc5da1
+          customer_id:
+            type: string
+            example: my-customer-1
+          provider_name:
+            $ref: '#/components/schemas/provider_name'
+          category:
+            $ref: '#/components/schemas/category'
+          connection_id:
+            type: string
+            example: 3217ea51-11c8-43c9-9547-6f197e02e5e4
+          status:
+            type: string
+            enum:
+            - SUCCESS
+            - IN_PROGRESS
+            - FAILURE
+          num_records_synced:
+            type: number
+            nullable: true
+            example: 100
+        required:
+        - id
+        - sync_id
+        - entity_id
+        - start_timestamp
+        - end_timestamp
+        - application_id
+        - customer_id
+        - status
+        - error_message
+        - provider_name
+        - category
+        - connection_id
+        - num_records_synced
+    provider_name:
+      type: string
+      enum:
+      - hubspot
+      - salesforce
+      - pipedrive
+      - zendesk_sell
+      - ms_dynamics_365_sales
+      - zoho_crm
+      - capsule
+      - outreach
+      - gong
+      - apollo
+      - salesloft
+      - intercom
+      - linear
+      - clearbit
+      - 6sense
+      - marketo
+      - salesforce_marketing_cloud_account_engagement
+      - slack
+      example: hubspot
+    category:
+      type: string
+      enum:
+      - crm
+      - engagement
+      - enrichment
+      - marketing_automation
+      - no_category
+      example: crm
+  responses:
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+  securitySchemes:
+    x-api-key:
+      type: apiKey
+      name: x-api-key
+      in: header
+      description: API key to allow developers to access the API
