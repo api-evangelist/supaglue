@@ -1,13 +1,15 @@
 aid: supaglue
 name: Supaglue
-description: >-
-  Supaglue is an open-source unified API platform that enables B2B SaaS developers to build product integrations with
-  CRM, HRIS, sales engagement, ticketing, and other business applications. It provides a unified API layer that
-  abstracts away provider-specific differences, managed OAuth authentication, data syncing to data warehouses (BigQuery,
-  Snowflake, Redshift, Postgres), and a management API for configuring customers, connections, and sync configurations.
-  Supported providers include Salesforce, HubSpot, Pipedrive, Zendesk, Slack, and 15+ others. The platform is available
-  as a managed cloud service (api.supaglue.io) and as a self-hosted open-source deployment. The GitHub organization is
-  github.com/supaglue-labs.
+description: 'Supaglue was an open-source unified API platform for B2B SaaS product integrations: a single contract
+  for CRM, engagement, ticketing, enrichment and marketing-automation objects projected across 30+ third-party providers
+  (Salesforce, HubSpot, Pipedrive, Outreach, Salesloft, Zendesk, Apollo and more), plus managed OAuth to those providers,
+  managed syncs into the customer''s own warehouse (Postgres, BigQuery, Snowflake, Redshift, S3), a passthrough
+  escape hatch to native provider APIs, and a Management API to configure customers, connections, schemas, entities
+  and sync schedules. Nine first-party OpenAPI documents (v2, x-api-key auth) and nine typed webhook events were
+  published. THE SERVICE IS RETIRED: the GitHub repository (github.com/supaglue-labs) was archived by its owner
+  on 2024-03-10, api.supaglue.io and app.supaglue.io no longer resolve, and supaglue.com now redirects to a HugeDomains
+  sale listing. The MIT-licensed code remains self-hostable, and the contract is preserved here as the historical
+  record of a well-shaped unified API.'
 type: Index
 accessModel:
   pricing: paid
@@ -24,121 +26,108 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/supaglue.png
 tags:
-  - CRM
-  - HRIS
-  - Unified API
-  - Open Source
-  - Integrations
-  - Sales Engagement
+- CRM
+- HRIS
+- Unified API
+- Open Source
+- Integrations
+- Sales Engagement
+- Ticketing
+- Data Synchronization
+- Marketing Automation
+- Enrichment
+- Webhooks
+- Archived
 url: https://raw.githubusercontent.com/api-evangelist/supaglue/refs/heads/main/apis.yml
 created: '2026-03-27'
-modified: '2026-05-19'
+modified: '2026-08-13'
 specificationVersion: '0.19'
 apis:
 - aid: supaglue:supaglue-accounts-api
   name: Supaglue Accounts API
   description: The `Account` Common Object represents a "company" in CRMs.
-  humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
+  humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
   tags:
   - Accounts
   properties:
   - type: OpenAPI
     url: openapi/supaglue-accounts-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - type: APIReference
+    url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-associations-api
   name: Supaglue Associations API
   description: The Associations API from Supaglue — 1 operation(s) for associations.
-  humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
+  humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
   tags:
   - Associations
   properties:
   - type: OpenAPI
     url: openapi/supaglue-associations-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - type: APIReference
+    url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-associationschemas-api
   name: Supaglue AssociationSchemas API
   description: An `Association Schema` is an object describing an association between two entities.
-  humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
+  humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
   tags:
   - AssociationSchemas
   properties:
   - type: OpenAPI
     url: openapi/supaglue-associationschemas-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - type: APIReference
+    url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-attachments-api
   name: Supaglue Attachments API
   description: The Attachment object is used to represent an attachment for a ticket.
-  humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
+  humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/ticketing
   tags:
   - Attachments
   properties:
   - type: OpenAPI
     url: openapi/supaglue-attachments-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - type: APIReference
+    url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/ticketing
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-collections-api
   name: Supaglue Collections API
-  description: >-
-    The Collection object is used to represent collections of tickets. Collections may include other collections
-    as sub collections.
-  humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
+  description: The Collection object is used to represent collections of tickets. Collections may include other
+    collections as sub collections.
+  humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/ticketing
   tags:
   - Collections
   properties:
   - type: OpenAPI
     url: openapi/supaglue-collections-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - type: APIReference
+    url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/ticketing
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-comments-api
   name: Supaglue Comments API
   description: The Comment object is used to represent a comment on a ticket.
-  humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
+  humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/ticketing
   tags:
   - Comments
   properties:
   - type: OpenAPI
     url: openapi/supaglue-comments-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - type: APIReference
+    url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/ticketing
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-connections-api
   name: Supaglue Connections API
   description: A `Connection` represents a Customer's connection to a Provider.
@@ -149,17 +138,11 @@ apis:
   - type: OpenAPI
     url: openapi/supaglue-connections-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-connectionsyncconfigs-api
   name: Supaglue ConnectionSyncConfigs API
-  description: >-
-    A `ConnectionSyncConfig` is a configuration for how to sync a specific Customer's data from a Provider
+  description: A `ConnectionSyncConfig` is a configuration for how to sync a specific Customer's data from a Provider
     to a Destination on a schedule.
   humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
   tags:
@@ -168,30 +151,22 @@ apis:
   - type: OpenAPI
     url: openapi/supaglue-connectionsyncconfigs-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-contacts-api
   name: Supaglue Contacts API
   description: The `Contact` Common Object represents a "contact" in CRMs.
-  humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
+  humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
   tags:
   - Contacts
   properties:
   - type: OpenAPI
     url: openapi/supaglue-contacts-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - type: APIReference
+    url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-customers-api
   name: Supaglue Customers API
   description: A `Customer` represents one of your customers.
@@ -202,47 +177,36 @@ apis:
   - type: OpenAPI
     url: openapi/supaglue-customers-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-customobjects-api
   name: Supaglue CustomObjects API
   description: A `Custom Object` is an instance of a `Custom Object Schema`.
-  humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
+  humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
   tags:
   - CustomObjects
   properties:
   - type: OpenAPI
     url: openapi/supaglue-customobjects-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - type: APIReference
+    url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-customobjectschemas-api
   name: Supaglue CustomObjectSchemas API
   description: A `Custom Object Schema` is an object schema defined by the user.
-  humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
+  humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
   tags:
   - CustomObjectSchemas
   properties:
   - type: OpenAPI
     url: openapi/supaglue-customobjectschemas-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - type: APIReference
+    url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-destinations-api
   name: Supaglue Destinations API
   description: A `Destination` is a data store where we write data in your infrastructure.
@@ -253,18 +217,12 @@ apis:
   - type: OpenAPI
     url: openapi/supaglue-destinations-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-entities-api
   name: Supaglue Entities API
-  description: >-
-    An [`Entity`](https://docs.supaglue.com/platform/entities/overview) allows you to represent your application
-    data models in Supaglue so customers can map their different Provider objects and fields. Supaglue
+  description: An [`Entity`](https://docs.supaglue.com/platform/entities/overview) allows you to represent your
+    application data models in Supaglue so customers can map their different Provider objects and fields. Supaglue
     uses Entities for Managed Syncs and Actions API.
   humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
   tags:
@@ -273,20 +231,13 @@ apis:
   - type: OpenAPI
     url: openapi/supaglue-entities-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-entitymappings-api
   name: Supaglue EntityMappings API
-  description: >-
-    An [`Entity Mapping`](https://docs.supaglue.com/platform/entities/overview#entity-mapping) maps an
-    [Entity](https://docs.supaglue.com/platform/entities/overview) to a customer's Provider object and
-    fields. Use Entity Mappings when you use [Entities](https://docs.supaglue.com/platform/entities/overview)
-    as your data model.
+  description: An [`Entity Mapping`](https://docs.supaglue.com/platform/entities/overview#entity-mapping) maps an
+    [Entity](https://docs.supaglue.com/platform/entities/overview) to a customer's Provider object and fields. Use
+    Entity Mappings when you use [Entities](https://docs.supaglue.com/platform/entities/overview) as your data model.
   humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
   tags:
   - EntityMappings
@@ -294,51 +245,39 @@ apis:
   - type: OpenAPI
     url: openapi/supaglue-entitymappings-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-leads-api
   name: Supaglue Leads API
   description: The `Lead` Common Object represents a "potential customer" in CRMs.
-  humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
+  humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
   tags:
   - Leads
   properties:
   - type: OpenAPI
     url: openapi/supaglue-leads-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - type: APIReference
+    url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-lists-api
   name: Supaglue Lists API
   description: The `List` Object represents a collection of CRM records.
-  humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
+  humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
   tags:
   - Lists
   properties:
   - type: OpenAPI
     url: openapi/supaglue-lists-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - type: APIReference
+    url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-magic-links-api
   name: Supaglue Magic Links API
-  description: >-
-    A `Magic Link` is a secure URL that allows your customers to connect their accounts to Supaglue.
+  description: A `Magic Link` is a secure URL that allows your customers to connect their accounts to Supaglue.
   humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
   tags:
   - Magic Links
@@ -346,66 +285,51 @@ apis:
   - type: OpenAPI
     url: openapi/supaglue-magic-links-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-mailboxes-api
   name: Supaglue Mailboxes API
-  description: >-
-    The `Mailbox` Common Object is used to represent email mailbox, used within the application for sending
+  description: The `Mailbox` Common Object is used to represent email mailbox, used within the application for sending
     and syncing emails.
-  humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
+  humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/engagement
   tags:
   - Mailboxes
   properties:
   - type: OpenAPI
     url: openapi/supaglue-mailboxes-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - type: APIReference
+    url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/engagement
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-opportunities-api
   name: Supaglue Opportunities API
   description: The `Opportunity` Common Object represents a "deal opportunity" in CRMs.
-  humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
+  humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
   tags:
   - Opportunities
   properties:
   - type: OpenAPI
     url: openapi/supaglue-opportunities-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - type: APIReference
+    url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-properties-api
   name: Supaglue Properties API
   description: A `Property` is a field in a Provider Object.
-  humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
+  humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
   tags:
   - Properties
   properties:
   - type: OpenAPI
     url: openapi/supaglue-properties-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - type: APIReference
+    url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-providers-api
   name: Supaglue Providers API
   description: A `Provider` is a third-party SaaS tool we can connect to (e.g. Salesforce).
@@ -416,17 +340,11 @@ apis:
   - type: OpenAPI
     url: openapi/supaglue-providers-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-schemamappings-api
   name: Supaglue SchemaMappings API
-  description: >-
-    A `Schema Mapping` is a mapping between a [Schema](https://docs.supaglue.com/platform/objects/overview#schemas)
+  description: A `Schema Mapping` is a mapping between a [Schema](https://docs.supaglue.com/platform/objects/overview#schemas)
     field and fields in your customer's Provider object.
   humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
   tags:
@@ -435,19 +353,12 @@ apis:
   - type: OpenAPI
     url: openapi/supaglue-schemamappings-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-schemas-api
   name: Supaglue Schemas API
-  description: >-
-    A [`Schema`](https://docs.supaglue.com/platform/objects/overview#schemas) allows you to normalize
-    fields for customers across a single Provider object. Supaglue uses Schemas for Managed Syncs and
-    Actions API.
+  description: A [`Schema`](https://docs.supaglue.com/platform/objects/overview#schemas) allows you to normalize
+    fields for customers across a single Provider object. Supaglue uses Schemas for Managed Syncs and Actions API.
   humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
   tags:
   - Schemas
@@ -455,88 +366,68 @@ apis:
   - type: OpenAPI
     url: openapi/supaglue-schemas-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-sequence-states-api
   name: Supaglue Sequence States API
-  description: >-
-    The `Sequence State` Common Object represents the state of a contact in a sequence, commonly known
+  description: The `Sequence State` Common Object represents the state of a contact in a sequence, commonly known
     as a "sequence membership".
-  humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
+  humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/engagement
   tags:
   - Sequence States
   properties:
   - type: OpenAPI
     url: openapi/supaglue-sequence-states-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - type: APIReference
+    url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/engagement
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-sequences-api
   name: Supaglue Sequences API
   description: The `Sequence` Common Object represents a "sequence" in Engagements.
-  humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
+  humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/engagement
   tags:
   - Sequences
   properties:
   - type: OpenAPI
     url: openapi/supaglue-sequences-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - type: APIReference
+    url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/engagement
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-standardobjects-api
   name: Supaglue StandardObjects API
   description: The StandardObjects API from Supaglue — 2 operation(s) for standardobjects.
-  humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
+  humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
   tags:
   - StandardObjects
   properties:
   - type: OpenAPI
     url: openapi/supaglue-standardobjects-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - type: APIReference
+    url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-standardobjectschemas-api
   name: Supaglue StandardObjectSchemas API
-  description: >-
-    A `Standard Object Schema` is an object schema of a standard object type supported by the provider.
-  humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
+  description: A `Standard Object Schema` is an object schema of a standard object type supported by the provider.
+  humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
   tags:
   - StandardObjectSchemas
   properties:
   - type: OpenAPI
     url: openapi/supaglue-standardobjectschemas-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - type: APIReference
+    url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-syncconfigs-api
   name: Supaglue SyncConfigs API
-  description: >-
-    A `SyncConfig` is a configuration for how to sync your Customers' data from a Provider to a Destination
+  description: A `SyncConfig` is a configuration for how to sync your Customers' data from a Provider to a Destination
     on a schedule.
   humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
   tags:
@@ -545,13 +436,8 @@ apis:
   - type: OpenAPI
     url: openapi/supaglue-syncconfigs-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-syncruns-api
   name: Supaglue SyncRuns API
   description: A `SyncRun` is a single execution of a Sync at a point in time.
@@ -562,17 +448,11 @@ apis:
   - type: OpenAPI
     url: openapi/supaglue-syncruns-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-syncs-api
   name: Supaglue Syncs API
-  description: >-
-    A `Sync` is a way for a Customer to sync data from a Provider to a Destination on a schedule.
+  description: A `Sync` is a way for a Customer to sync data from a Provider to a Destination on a schedule.
   humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
   tags:
   - Syncs
@@ -580,100 +460,260 @@ apis:
   - type: OpenAPI
     url: openapi/supaglue-syncs-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-tags-api
   name: Supaglue Tags API
   description: The Tag object is used to represent a tag or label for a ticket.
-  humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
+  humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/ticketing
   tags:
   - Tags
   properties:
   - type: OpenAPI
     url: openapi/supaglue-tags-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - type: APIReference
+    url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/ticketing
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-teams-api
   name: Supaglue Teams API
   description: The Team object is used to represent a team within the company receiving the ticket.
-  humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
+  humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/ticketing
   tags:
   - Teams
   properties:
   - type: OpenAPI
     url: openapi/supaglue-teams-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - type: APIReference
+    url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/ticketing
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-tickets-api
   name: Supaglue Tickets API
   description: The Ticket object is used to represent a ticket or a task within a system.
-  humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
+  humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/ticketing
   tags:
   - Tickets
   properties:
   - type: OpenAPI
     url: openapi/supaglue-tickets-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
-  - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - type: APIReference
+    url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/ticketing
+  baseURL: https://api.supaglue.io/crm/v2
 - aid: supaglue:supaglue-users-api
   name: Supaglue Users API
   description: The `User` Common Object represents a "user" that can log in to CRMs.
-  humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
+  humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
   tags:
   - Users
   properties:
   - type: OpenAPI
     url: openapi/supaglue-users-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/mgmt/management-api
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - type: APIReference
+    url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
+  baseURL: https://api.supaglue.io/crm/v2
+- aid: supaglue:supaglue-actions-api
+  name: Supaglue Actions API
+  description: 'The Actions API is Supaglue''s escape hatch: sendPassthroughRequest forwards a raw method, path,
+    headers, query and body to the customer''s native third-party provider API using the credentials Supaglue manages,
+    so anything the unified model does not express is still reachable.'
+  humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/actions
+  baseURL: https://api.supaglue.io/actions/v2
+  tags:
+  - Passthrough
+  properties:
+  - type: OpenAPI
+    url: openapi/supaglue-actions-api-openapi.yml
+  - type: OpenAPI
+    url: openapi/_original/supaglue-actions-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/crm/unified-crm-api
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - type: APIReference
+    url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/actions
+  - type: Overlay
+    url: overlays/supaglue-actions-overlay.yaml
+- aid: supaglue:supaglue-data-api
+  name: Supaglue Data Listing API
+  description: The Data Listing API exposes provider-native record listings — Salesforce accounts and contacts,
+    HubSpot companies and contacts — read straight from the Managed Destination rather than through the unified
+    common-object model.
+  humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/data
+  baseURL: https://api.supaglue.io/data/v2
+  tags:
+  - Salesforce
+  - Hubspot
+  properties:
+  - type: OpenAPI
+    url: openapi/supaglue-data-api-openapi.yml
+  - type: OpenAPI
+    url: openapi/_original/supaglue-data-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/engagement
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - type: APIReference
+    url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/data
+  - type: Overlay
+    url: overlays/supaglue-data-overlay.yaml
+- aid: supaglue:supaglue-enrichment-api
+  name: Supaglue Unified Enrichment API
+  description: The Unified Enrichment API provides a single enrichPerson operation across enrichment providers (Clearbit,
+    6sense, ZoomInfo), returning a normalized person record for an email address.
+  humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/enrichment
+  baseURL: https://api.supaglue.io/enrichment/v2
+  tags:
+  - Persons
+  properties:
+  - type: OpenAPI
+    url: openapi/supaglue-enrichment-api-openapi.yml
+  - type: OpenAPI
+    url: openapi/_original/supaglue-enrichment-api-openapi.yml
   - type: Documentation
-    url: https://docs.supaglue.com/api/v2/ticketing
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - type: APIReference
+    url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/enrichment
+  - type: Overlay
+    url: overlays/supaglue-enrichment-overlay.yaml
+- aid: supaglue:supaglue-marketing-automation-api
+  name: Supaglue Unified Marketing Automation API
+  description: The Unified Marketing Automation API lists a provider's forms, reads a form's field definitions,
+    and submits a form on behalf of a customer — one contract across marketing-automation providers such as HubSpot,
+    Marketo and Salesforce Marketing Cloud Account Engagement.
+  humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/marketing-automation
+  baseURL: https://api.supaglue.io/marketing-automation/v2
+  tags:
+  - Forms
+  properties:
+  - type: OpenAPI
+    url: openapi/supaglue-marketing-automation-api-openapi.yml
+  - type: OpenAPI
+    url: openapi/_original/supaglue-marketing-automation-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - type: APIReference
+    url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/marketing-automation
+  - type: Overlay
+    url: overlays/supaglue-marketing-automation-overlay.yaml
+- aid: supaglue:supaglue-metadata-api
+  name: Supaglue Metadata API
+  description: The Metadata API lists a provider's standard objects, custom objects and properties. Two of its three
+    operations are explicitly marked deprecated in favour of the equivalents on the Unified CRM API.
+  humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/metadata
+  baseURL: https://api.supaglue.io/metadata/v2
+  tags:
+  - CustomObjects
+  - StandardObjects
+  - Properties
+  properties:
+  - type: OpenAPI
+    url: openapi/supaglue-metadata-api-openapi.yml
+  - type: OpenAPI
+    url: openapi/_original/supaglue-metadata-api-openapi.yml
+  - type: Documentation
+    url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - type: APIReference
+    url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/metadata
+  - type: Overlay
+    url: overlays/supaglue-metadata-overlay.yaml
 common:
-  - type: AgenticAccess
-    url: agentic-access/supaglue-agentic-access.yml
-  - type: DomainSecurity
-    url: security/supaglue-domain-security.yml
-  - type: Authentication
-    url: authentication/supaglue-authentication.yml
-  - type: LinkedIn
-    url: https://www.linkedin.com/company/supaglue
-  - type: Website
-    url: https://www.supaglue.com/
-  - type: Documentation
-    url: https://docs.supaglue.com/
-  - type: GitHubOrganization
-    url: https://github.com/supaglue-labs
-  - type: GettingStarted
-    url: https://docs.supaglue.com/getting-started
-  - type: API Introduction
-    url: https://docs.supaglue.com/api/introduction
+- type: AgenticAccess
+  url: agentic-access/supaglue-agentic-access.yml
+- type: Authentication
+  url: authentication/supaglue-authentication.yml
+- type: Conventions
+  url: conventions/supaglue-conventions.yml
+- type: ErrorCatalog
+  url: errors/supaglue-problem-types.yml
+- type: DataModel
+  url: data-model/supaglue-data-model.yml
+- type: Lifecycle
+  url: lifecycle/supaglue-lifecycle.yml
+- type: ChangeLog
+  url: changelog/supaglue-changelog.yml
+- type: Conformance
+  url: conformance/supaglue-conformance.yml
+- type: Compliance
+  url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/security_legal/security.md
+- type: Components
+  url: components/supaglue-components.yml
+- type: Packages
+  url: packages/supaglue-packages.yml
+- type: Webhooks
+  url: asyncapi/supaglue-webhooks.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/supaglue-llms.txt
+- type: DomainSecurity
+  url: security/supaglue-domain-security.yml
+- type: VulnerabilityDisclosure
+  url: security/supaglue-vulnerability-disclosure.yml
+- type: Security
+  url: https://github.com/supaglue-labs/supaglue/blob/main/SECURITY.md
+- type: RateLimits
+  url: rate-limits/supaglue-rate-limits.yml
+- type: Plans
+  url: plans/supaglue-plans-pricing.yml
+- type: FinOps
+  url: finops/supaglue-finops.yml
+- type: Overlay
+  name: Supaglue actions overlay
+  url: overlays/supaglue-actions-overlay.yaml
+- type: Overlay
+  name: Supaglue crm overlay
+  url: overlays/supaglue-crm-overlay.yaml
+- type: Overlay
+  name: Supaglue data overlay
+  url: overlays/supaglue-data-overlay.yaml
+- type: Overlay
+  name: Supaglue engagement overlay
+  url: overlays/supaglue-engagement-overlay.yaml
+- type: Overlay
+  name: Supaglue enrichment overlay
+  url: overlays/supaglue-enrichment-overlay.yaml
+- type: Overlay
+  name: Supaglue management overlay
+  url: overlays/supaglue-management-overlay.yaml
+- type: Overlay
+  name: Supaglue marketing-automation overlay
+  url: overlays/supaglue-marketing-automation-overlay.yaml
+- type: Overlay
+  name: Supaglue metadata overlay
+  url: overlays/supaglue-metadata-overlay.yaml
+- type: Overlay
+  name: Supaglue ticketing overlay
+  url: overlays/supaglue-ticketing-overlay.yaml
+- type: Documentation
+  url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs
+- type: APIReference
+  url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2
+- type: GettingStarted
+  url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/quickstart.mdx
+- type: API Introduction
+  url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+- type: SourceCode
+  url: https://github.com/supaglue-labs/supaglue
+- type: GitHubOrganization
+  url: https://github.com/supaglue-labs
+- type: Roadmap
+  url: https://github.com/orgs/supaglue-labs/projects/4/views/1
+- type: TermsOfService
+  url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/security_legal/terms.md
+- type: PrivacyPolicy
+  url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/security_legal/privacy.md
+- type: LinkedIn
+  url: https://www.linkedin.com/company/supaglue
+- type: X (Twitter)
+  url: https://twitter.com/supaglue_labs
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-08-13'
+  status: enriched
+  artifacts_added: 36
+  pass: local-v1
