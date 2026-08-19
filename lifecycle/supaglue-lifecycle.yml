@@ -1,0 +1,71 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://github.com/supaglue-labs/supaglue (repository banner + releases) and
+  openapi/_original/*.yml
+status: retired
+note: >-
+  Supaglue is over. The GitHub repository was archived by the owner on 10 March 2024 and is
+  read-only; the last commit landed 15 February 2024. The hosted product's hosts no longer exist —
+  api.supaglue.io and app.supaglue.io do not resolve — and supaglue.com now redirects to a
+  HugeDomains listing offering the domain for sale, so the vendor no longer controls its own
+  namespace. The MIT-licensed code can still be self-hosted from the archive; nothing else survives.
+  There is no deprecation policy, no Sunset/Deprecation header support and no status page: the
+  service did not wind down through a published lifecycle, it simply stopped.
+versioning:
+  scheme: uri-path
+  current: v2
+  pattern: https://api.supaglue.io/{service}/v2
+  software_versioning: semver, published as GitHub releases/tags of the open-source distribution
+  latest_tag: v0.25.7
+  latest_release: v0.25.2
+  docs: https://github.com/supaglue-labs/supaglue/releases
+deprecation:
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  note: >-
+    No RFC 8594 Sunset/Deprecation support and no written deprecation policy. Deprecation was
+    signalled only inside the specs — a whole service (metadata) and individual fields were marked
+    deprecated in place.
+sla:
+  url: null
+  uptime_target: null
+status_page: null
+support:
+  community_slack: https://join.slack.com/t/supagluecommunity/shared_invite/zt-1o2hiozzl-ZRQswNzlT5W4sXwrQnVlDg
+  community_slack_status: 403 — the shared invite link has expired
+  github_issues: https://github.com/supaglue-labs/supaglue/issues
+  note: Issues remain readable but the repository is archived, so none can be filed or answered.
+retirement:
+  repository_archived: '2024-03-10'
+  last_commit: '2024-02-15'
+  hosted_api_host: api.supaglue.io
+  hosted_api_status: NXDOMAIN (does not resolve, probed 2026-08-13)
+  website_status: 302 to https://www.hugedomains.com/domain_profile.cfm?d=supaglue.com
+  docs_status: docs.supaglue.com 302s to the same domain-sale page
+  legal_entity: Supergrain, Inc. (named in the published Terms)
+  self_host: >-
+    MIT-licensed; docker-compose and helm charts remain in the archive
+    (github.com/supaglue-labs/helm-charts).
+deprecated_operations:
+  - file: openapi/_original/supaglue-metadata-api-openapi.yml
+    operation: listCustomObjects
+    signal: summary reads "List custom objects (deprecated)"
+    superseded_by: listCustomObjectSchemas (crm/v2 /metadata/custom_objects)
+  - file: openapi/_original/supaglue-metadata-api-openapi.yml
+    operation: listPropertiesDeprecated
+    signal: summary reads "List properties (deprecated)"
+    superseded_by: listPropertiesPreview (crm/v2 /metadata/properties/{object_name})
+deprecated_fields:
+  - schema: errors[].problem_type
+    files: openapi/_original/*.yml
+    superseded_by: errors[].code
+preview_surfaces:
+  - service: ticketing
+    signal: info.title reads "Unified Ticketing API (Preview)"
+  - service: crm
+    signal: five Properties operations carry "(preview)" in their summaries
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

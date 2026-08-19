@@ -1,0 +1,34 @@
+generated: '2026-08-13'
+method: generated
+source: >-
+  openapi/_original/*.yml (every operationId verified against the specs) plus
+  conventions/supaglue-conventions.yml, errors/supaglue-problem-types.yml and
+  asyncapi/supaglue-webhooks.yml
+note: >-
+  Three skills covering the three things Supaglue actually did: connect a customer's SaaS account,
+  read and write through the unified contract, and sync it into the customer's own warehouse. Every
+  step names a real operationId from the archived v0.25.7 specs — none is invented. Each skill opens
+  by stating that the hosted service is gone and that these instructions apply to a self-hosted
+  deployment, because an agent that followed them against api.supaglue.io would get NXDOMAIN.
+skill_count: 3
+skills:
+  - file: supaglue-connect-a-customer.md
+    name: Connect a customer to a third-party provider
+    api: openapi/_original/supaglue-management-api-openapi.yml
+    operations: [upsertCustomer, createProvider, getProviders, createMagicLink, getConnections,
+      getConnection, getProviderUserId]
+  - file: supaglue-read-and-write-crm-records.md
+    name: Read and write CRM records through the unified API
+    api: openapi/_original/supaglue-crm-api-openapi.yml
+    operations: [listContacts, getContact, createContact, updateContact, upsertContact,
+      searchContacts, listAccounts, upsertAccount, listOpportunities, updateOpportunity, listLeads,
+      upsertLead]
+  - file: supaglue-run-a-managed-sync.md
+    name: Configure and run a managed sync into your warehouse
+    api: openapi/_original/supaglue-management-api-openapi.yml
+    operations: [createDestination, getDestinations, updateDestination, createSyncConfig,
+      getSyncConfigs, updateSyncConfig, upsertConnectionSyncConfig, getSyncs, triggerSync, pauseSync,
+      resumeSync, getSyncRuns]
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

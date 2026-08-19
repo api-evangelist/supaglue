@@ -1,0 +1,103 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/security_legal/security.md,
+  https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx and
+  openapi/_original/*.yml
+note: >-
+  Two different things are recorded here and they should not be blurred. Supaglue's OWN API is a
+  plain API-key REST surface — no OAuth, no OIDC, no problem+json. The OAuth 2.0 conformance below
+  belongs to its MANAGED AUTH broker, which ran the authorization-code flow against third-party
+  providers on the customer's behalf. The SOC 2 claim is the company's own published statement from
+  2023 and is historical: Supergrain, Inc. shut the service down and the report request address
+  (hello@supaglue.com) sits on a domain that is now listed for sale.
+standards:
+  - id: openapi-3.0
+    conforms: true
+    evidence: >-
+      Eight of nine service specs declare openapi 3.0.3 (crm, engagement, ticketing, enrichment,
+      marketing-automation, metadata, actions, data).
+  - id: openapi-3.1
+    conforms: true
+    evidence: >-
+      The Management API declares openapi 3.1.0 and uses the native `webhooks:` root object for nine
+      typed events.
+  - id: oauth2-authorization-code
+    conforms: true
+    scope: managed auth to third-party providers, not to Supaglue's own API
+    evidence: >-
+      docs/platform/managed-auth.mdx documents RFC 6749 authorization-code flow via the Embedded
+      Link at https://api.supaglue.io/oauth/connect, with Supaglue storing and refreshing the
+      provider tokens.
+  - id: api-key-auth
+    conforms: true
+    evidence: >-
+      components.securitySchemes declares a single apiKey scheme, `x-api-key`, in the header, applied
+      per-operation across every spec.
+  - id: oidc
+    conforms: false
+    evidence: >-
+      No OpenID Connect discovery or openIdConnect security scheme anywhere in the specs; no
+      /.well-known/openid-configuration was ever served (all probes are soft-200 parking pages).
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: >-
+      Errors are application/json with a top-level `errors` ARRAY (id/detail/title/code/status/meta),
+      not application/problem+json. See errors/supaglue-problem-types.yml.
+  - id: rfc8594-sunset
+    conforms: false
+    evidence: No Sunset or Deprecation headers documented or present in the specs.
+  - id: rfc9116-security-txt
+    conforms: false
+    evidence: >-
+      No security.txt was served on any Supaglue host; every /.well-known/security.txt probe is a
+      soft-200 from a parked domain. A SECURITY.md exists in the repository instead.
+  - id: cursor-pagination
+    conforms: true
+    evidence: >-
+      Uniform cursor pagination on every list operation — {pagination:{next,previous,total_count},
+      records:[...]} with `cursor` and `page_size` query parameters.
+  - id: idempotency-key
+    conforms: false
+    evidence: >-
+      No Idempotency-Key header in any spec or doc. Safe retries are expressed as explicit `_upsert`
+      operations instead.
+  - id: webhooks-signed
+    conforms: true
+    evidence: >-
+      Notification webhooks are delivered through Svix with per-endpoint signing keys, a timestamp,
+      and a five-minute replay window (docs/platform/notification-webhooks.md).
+  - id: soc2
+    conforms: true
+    historical: true
+    evidence: >-
+      "Supaglue is SOC 2 compliant" — docs/docs/security_legal/security.md. Report available on
+      request to hello@supaglue.com; the type (I or II) and audit period were never published, and
+      the company has since shut down.
+  - id: gdpr
+    conforms: unknown
+    evidence: >-
+      A privacy policy was published (docs/docs/security_legal/privacy.md, last updated 2023-02-09)
+      but it makes no explicit GDPR/DPA commitment that could be recorded here.
+  - id: fhir-r4
+    conforms: false
+  - id: scim2
+    conforms: false
+  - id: json-api
+    conforms: false
+compliance_program:
+  published: true
+  historical: true
+  url: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/security_legal/security.md
+  certifications: [SOC 2]
+  hosting: AWS, all servers in the United States
+  encryption: TLS in transit; encrypted and replicated at rest
+  access_control: dedicated employee accounts, two-factor authentication, as-needed infra access
+  sso: G Suite SSO with domain restriction
+  note: >-
+    Recorded from the provider's own published security page, which survives in the archived
+    repository. It is not a live trust center — there is no trust.supaglue.com, and the probe found
+    none.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

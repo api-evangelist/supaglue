@@ -1,0 +1,492 @@
+generated: '2026-08-13'
+method: derived
+status: candidate
+source: derived from the 9 first-party OpenAPI documents in openapi/_original/
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: api-key
+  verified: derived
+note: 'Supaglue never shipped an MCP server: the project was archived on 2024-03-10, before MCP existed,
+  and no hosted or stdio server exists under supaglue-labs or on npm. The tools below are a DERIVED candidate
+  list, one per real operationId, offered only as a mapping of what a server over this contract would
+  expose. Nothing here is callable — api.supaglue.io does not resolve.'
+server:
+  name: supaglue
+  transport: null
+  url: null
+tool_count: 157
+tools:
+- name: supaglue_actions_send_passthrough_request
+  description: Send passthrough request
+  source_operation: openapi/_original/supaglue-actions-api-openapi.yml#sendPassthroughRequest
+- name: supaglue_crm_create_account
+  description: Create account
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#createAccount
+- name: supaglue_crm_list_accounts
+  description: List accounts
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#listAccounts
+- name: supaglue_crm_upsert_account
+  description: Upsert account
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#upsertAccount
+- name: supaglue_crm_get_account
+  description: Get account
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#getAccount
+- name: supaglue_crm_update_account
+  description: Update account
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#updateAccount
+- name: supaglue_crm_create_contact
+  description: Create contact
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#createContact
+- name: supaglue_crm_list_contacts
+  description: List contacts
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#listContacts
+- name: supaglue_crm_search_contacts
+  description: Search contacts
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#searchContacts
+- name: supaglue_crm_upsert_contact
+  description: Upsert contact
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#upsertContact
+- name: supaglue_crm_get_contact
+  description: Get contact
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#getContact
+- name: supaglue_crm_update_contact
+  description: Update contact
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#updateContact
+- name: supaglue_crm_create_lead
+  description: Create lead
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#createLead
+- name: supaglue_crm_list_leads
+  description: List leads
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#listLeads
+- name: supaglue_crm_upsert_lead
+  description: Upsert lead
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#upsertLead
+- name: supaglue_crm_search_leads
+  description: Search leads
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#searchLeads
+- name: supaglue_crm_get_lead
+  description: Get lead
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#getLead
+- name: supaglue_crm_update_lead
+  description: Update lead
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#updateLead
+- name: supaglue_crm_create_opportunity
+  description: Create opportunity
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#createOpportunity
+- name: supaglue_crm_list_opportunities
+  description: List opportunities
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#listOpportunities
+- name: supaglue_crm_get_opportunity
+  description: Get opportunity
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#getOpportunity
+- name: supaglue_crm_update_opportunity
+  description: Update opportunity
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#updateOpportunity
+- name: supaglue_crm_list_users
+  description: List users
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#listUsers
+- name: supaglue_crm_get_user
+  description: Get user
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#getUser
+- name: supaglue_crm_create_custom_object_record
+  description: Create custom object record
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#createCustomObjectRecord
+- name: supaglue_crm_list_custom_object_records
+  description: List custom object records
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#listCustomObjectRecords
+- name: supaglue_crm_update_custom_object_record
+  description: Update custom object record
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#updateCustomObjectRecord
+- name: supaglue_crm_get_custom_object_record
+  description: Get custom object record
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#getCustomObjectRecord
+- name: supaglue_crm_create_standard_object_record
+  description: Create standard object record
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#createStandardObjectRecord
+- name: supaglue_crm_list_standard_object_records
+  description: List standard object records
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#listStandardObjectRecords
+- name: supaglue_crm_update_standard_object_record
+  description: Update standard object record
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#updateStandardObjectRecord
+- name: supaglue_crm_get_standard_object_record
+  description: Get standard object record
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#getStandardObjectRecord
+- name: supaglue_crm_list_associations
+  description: List associations for a record and target object
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#listAssociations
+- name: supaglue_crm_upsert_association
+  description: Upsert association
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#upsertAssociation
+- name: supaglue_crm_list_association_schemas
+  description: List association schemas
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#listAssociationSchemas
+- name: supaglue_crm_create_association_schema
+  description: Create association schema
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#createAssociationSchema
+- name: supaglue_crm_list_custom_object_schemas
+  description: List custom object schemas
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#listCustomObjectSchemas
+- name: supaglue_crm_create_custom_object_schema
+  description: Create custom object schema
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#createCustomObjectSchema
+- name: supaglue_crm_list_standard_object_schemas
+  description: List standard object schemas
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#listStandardObjectSchemas
+- name: supaglue_crm_list_properties_preview
+  description: List properties
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#listPropertiesPreview
+- name: supaglue_crm_create_property
+  description: Create property
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#createProperty
+- name: supaglue_crm_get_property
+  description: Get property (preview)
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#getProperty
+- name: supaglue_crm_update_property
+  description: Update property (preview)
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#updateProperty
+- name: supaglue_crm_register_property
+  description: Register Property (preview)
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#registerProperty
+- name: supaglue_crm_get_custom_object_schema
+  description: Get custom object schema details
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#getCustomObjectSchema
+- name: supaglue_crm_update_custom_object_schema
+  description: Update custom object schema
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#updateCustomObjectSchema
+- name: supaglue_crm_list_lists
+  description: List lists
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#listLists
+- name: supaglue_crm_list_list_memberships
+  description: List list memberships
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#listListMemberships
+- name: supaglue_data_list_salesforce_contacts
+  description: List contacts
+  source_operation: openapi/_original/supaglue-data-api-openapi.yml#listSalesforceContacts
+- name: supaglue_data_list_salesforce_accounts
+  description: List accounts
+  source_operation: openapi/_original/supaglue-data-api-openapi.yml#listSalesforceAccounts
+- name: supaglue_data_list_hubspot_contacts
+  description: List contacts
+  source_operation: openapi/_original/supaglue-data-api-openapi.yml#listHubspotContacts
+- name: supaglue_data_list_hubspot_companies
+  description: List companies
+  source_operation: openapi/_original/supaglue-data-api-openapi.yml#listHubspotCompanies
+- name: supaglue_engagement_create_account
+  description: Create account
+  source_operation: openapi/_original/supaglue-engagement-api-openapi.yml#createAccount
+- name: supaglue_engagement_list_accounts
+  description: List accounts
+  source_operation: openapi/_original/supaglue-engagement-api-openapi.yml#listAccounts
+- name: supaglue_engagement_search_accounts
+  description: Search accounts
+  source_operation: openapi/_original/supaglue-engagement-api-openapi.yml#searchAccounts
+- name: supaglue_engagement_get_account
+  description: Get account
+  source_operation: openapi/_original/supaglue-engagement-api-openapi.yml#getAccount
+- name: supaglue_engagement_update_account
+  description: Update account
+  source_operation: openapi/_original/supaglue-engagement-api-openapi.yml#updateAccount
+- name: supaglue_engagement_upsert_account
+  description: Upsert account
+  source_operation: openapi/_original/supaglue-engagement-api-openapi.yml#upsertAccount
+- name: supaglue_engagement_create_contact
+  description: Create contact
+  source_operation: openapi/_original/supaglue-engagement-api-openapi.yml#createContact
+- name: supaglue_engagement_list_contacts
+  description: List contacts
+  source_operation: openapi/_original/supaglue-engagement-api-openapi.yml#listContacts
+- name: supaglue_engagement_search_contacts
+  description: Search contacts
+  source_operation: openapi/_original/supaglue-engagement-api-openapi.yml#searchContacts
+- name: supaglue_engagement_get_contact
+  description: Get contact
+  source_operation: openapi/_original/supaglue-engagement-api-openapi.yml#getContact
+- name: supaglue_engagement_update_contact
+  description: Update contact
+  source_operation: openapi/_original/supaglue-engagement-api-openapi.yml#updateContact
+- name: supaglue_engagement_list_users
+  description: List users
+  source_operation: openapi/_original/supaglue-engagement-api-openapi.yml#listUsers
+- name: supaglue_engagement_get_user
+  description: Get user
+  source_operation: openapi/_original/supaglue-engagement-api-openapi.yml#getUser
+- name: supaglue_engagement_list_mailboxes
+  description: List mailboxes
+  source_operation: openapi/_original/supaglue-engagement-api-openapi.yml#listMailboxes
+- name: supaglue_engagement_get_mailbox
+  description: Get mailbox
+  source_operation: openapi/_original/supaglue-engagement-api-openapi.yml#getMailbox
+- name: supaglue_engagement_create_sequence
+  description: Create sequence
+  source_operation: openapi/_original/supaglue-engagement-api-openapi.yml#createSequence
+- name: supaglue_engagement_list_sequences
+  description: List sequences
+  source_operation: openapi/_original/supaglue-engagement-api-openapi.yml#listSequences
+- name: supaglue_engagement_get_sequence
+  description: Get sequence
+  source_operation: openapi/_original/supaglue-engagement-api-openapi.yml#getSequence
+- name: supaglue_engagement_create_sequence_step
+  description: Create sequence step
+  source_operation: openapi/_original/supaglue-engagement-api-openapi.yml#createSequenceStep
+- name: supaglue_engagement_update_sequence_step
+  description: Update Sequence Step
+  source_operation: openapi/_original/supaglue-engagement-api-openapi.yml#updateSequenceStep
+- name: supaglue_engagement_create_sequence_state
+  description: Create sequence state
+  source_operation: openapi/_original/supaglue-engagement-api-openapi.yml#createSequenceState
+- name: supaglue_engagement_list_sequence_states
+  description: List sequence states
+  source_operation: openapi/_original/supaglue-engagement-api-openapi.yml#listSequenceStates
+- name: supaglue_engagement_search_sequence_states
+  description: Search sequence states
+  source_operation: openapi/_original/supaglue-engagement-api-openapi.yml#searchSequenceStates
+- name: supaglue_engagement_batch_create_sequence_state
+  description: Batch create sequence states
+  source_operation: openapi/_original/supaglue-engagement-api-openapi.yml#batchCreateSequenceState
+- name: supaglue_engagement_get_sequence_state
+  description: Get sequence state
+  source_operation: openapi/_original/supaglue-engagement-api-openapi.yml#getSequenceState
+- name: supaglue_enrichment_enrich_person
+  description: Enrich person
+  source_operation: openapi/_original/supaglue-enrichment-api-openapi.yml#enrichPerson
+- name: supaglue_management_get_customers
+  description: List customers
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#getCustomers
+- name: supaglue_management_upsert_customer
+  description: Upsert customer
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#upsertCustomer
+- name: supaglue_management_get_customer
+  description: Get customer
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#getCustomer
+- name: supaglue_management_delete_customer
+  description: Delete customer
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#deleteCustomer
+- name: supaglue_management_get_destinations
+  description: List destinations
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#getDestinations
+- name: supaglue_management_create_destination
+  description: Create destination
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#createDestination
+- name: supaglue_management_get_destination
+  description: Get destination
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#getDestination
+- name: supaglue_management_update_destination
+  description: Update destination
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#updateDestination
+- name: supaglue_management_get_magic_links
+  description: List magic links
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#getMagicLinks
+- name: supaglue_management_create_magic_link
+  description: Create magic link
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#createMagicLink
+- name: supaglue_management_delete_magic_link
+  description: Delete magic link
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#deleteMagicLink
+- name: supaglue_management_list_field_mappings
+  description: List schema mappings
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#listFieldMappings
+- name: supaglue_management_update_object_field_mappings
+  description: Update schema mappings
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#updateObjectFieldMappings
+- name: supaglue_management_list_entity_mappings
+  description: List entity mappings.
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#listEntityMappings
+- name: supaglue_management_upsert_entity_mapping
+  description: Upsert entity mapping
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#upsertEntityMapping
+- name: supaglue_management_delete_entity_mapping
+  description: Delete entity mapping
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#deleteEntityMapping
+- name: supaglue_management_get_schemas
+  description: List schemas
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#getSchemas
+- name: supaglue_management_create_schema
+  description: Create schema
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#createSchema
+- name: supaglue_management_get_schema
+  description: Get schema
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#getSchema
+- name: supaglue_management_update_schema
+  description: Update schema
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#updateSchema
+- name: supaglue_management_delete_schema
+  description: Delete schema
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#deleteSchema
+- name: supaglue_management_get_entities
+  description: List entities
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#getEntities
+- name: supaglue_management_create_entity
+  description: Create entity
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#createEntity
+- name: supaglue_management_get_entity
+  description: Get entity
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#getEntity
+- name: supaglue_management_update_entity
+  description: Update entity
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#updateEntity
+- name: supaglue_management_delete_entity
+  description: Delete entity
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#deleteEntity
+- name: supaglue_management_get_providers
+  description: List providers
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#getProviders
+- name: supaglue_management_create_provider
+  description: Create provider
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#createProvider
+- name: supaglue_management_get_provider
+  description: Get provider
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#getProvider
+- name: supaglue_management_update_provider
+  description: Update provider
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#updateProvider
+- name: supaglue_management_delete_provider
+  description: Delete provider
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#deleteProvider
+- name: supaglue_management_get_sync_configs
+  description: List Sync Configs
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#getSyncConfigs
+- name: supaglue_management_create_sync_config
+  description: Create Sync Config
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#createSyncConfig
+- name: supaglue_management_get_sync_config
+  description: Get Sync Config
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#getSyncConfig
+- name: supaglue_management_update_sync_config
+  description: Update Sync Config
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#updateSyncConfig
+- name: supaglue_management_delete_sync_config
+  description: Delete Sync Config
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#deleteSyncConfig
+- name: supaglue_management_get_connection_sync_config
+  description: Get connection sync config
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#getConnectionSyncConfig
+- name: supaglue_management_upsert_connection_sync_config
+  description: Upsert connection sync config
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#upsertConnectionSyncConfig
+- name: supaglue_management_delete_connection_sync_config
+  description: Delete connection sync config
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#deleteConnectionSyncConfig
+- name: supaglue_management_get_connections
+  description: List connections
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#getConnections
+- name: supaglue_management_create_connection
+  description: Create a connection
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#createConnection
+- name: supaglue_management_get_provider_user_id
+  description: Get logged in User ID and details
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#getProviderUserId
+- name: supaglue_management_get_connection
+  description: Get connection
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#getConnection
+- name: supaglue_management_delete_connection
+  description: Delete connection
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#deleteConnection
+- name: supaglue_management_get_connection_rate_limit_info
+  description: Get connection rate limit info
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#getConnectionRateLimitInfo
+- name: supaglue_management_get_syncs
+  description: Get Syncs
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#getSyncs
+- name: supaglue_management_pause_sync
+  description: Pause sync
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#pauseSync
+- name: supaglue_management_resume_sync
+  description: Resume sync
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#resumeSync
+- name: supaglue_management_trigger_sync
+  description: Trigger sync
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#triggerSync
+- name: supaglue_management_get_sync_runs
+  description: Get SyncRuns
+  source_operation: openapi/_original/supaglue-management-api-openapi.yml#getSyncRuns
+- name: supaglue_marketing_automation_submit_form
+  description: Submit form
+  source_operation: openapi/_original/supaglue-marketing-automation-api-openapi.yml#submitForm
+- name: supaglue_marketing_automation_list_forms
+  description: List forms
+  source_operation: openapi/_original/supaglue-marketing-automation-api-openapi.yml#listForms
+- name: supaglue_marketing_automation_get_form_fields
+  description: Get form fields
+  source_operation: openapi/_original/supaglue-marketing-automation-api-openapi.yml#getFormFields
+- name: supaglue_metadata_list_custom_objects
+  description: List custom objects (deprecated)
+  source_operation: openapi/_original/supaglue-metadata-api-openapi.yml#listCustomObjects
+- name: supaglue_metadata_list_standard_objects
+  description: List standardObjects
+  source_operation: openapi/_original/supaglue-metadata-api-openapi.yml#listStandardObjects
+- name: supaglue_metadata_list_properties_deprecated
+  description: List properties (deprecated)
+  source_operation: openapi/_original/supaglue-metadata-api-openapi.yml#listPropertiesDeprecated
+- name: supaglue_ticketing_list_accounts
+  description: List accounts
+  source_operation: openapi/_original/supaglue-ticketing-api-openapi.yml#listAccounts
+- name: supaglue_ticketing_get_account
+  description: Get account
+  source_operation: openapi/_original/supaglue-ticketing-api-openapi.yml#getAccount
+- name: supaglue_ticketing_list_collections
+  description: List collections
+  source_operation: openapi/_original/supaglue-ticketing-api-openapi.yml#listCollections
+- name: supaglue_ticketing_get_collection
+  description: Get collection
+  source_operation: openapi/_original/supaglue-ticketing-api-openapi.yml#getCollection
+- name: supaglue_ticketing_list_collection_users
+  description: List collection users
+  source_operation: openapi/_original/supaglue-ticketing-api-openapi.yml#listCollectionUsers
+- name: supaglue_ticketing_list_users
+  description: List users
+  source_operation: openapi/_original/supaglue-ticketing-api-openapi.yml#listUsers
+- name: supaglue_ticketing_get_user
+  description: Get user
+  source_operation: openapi/_original/supaglue-ticketing-api-openapi.yml#getUser
+- name: supaglue_ticketing_list_contacts
+  description: List contacts
+  source_operation: openapi/_original/supaglue-ticketing-api-openapi.yml#listContacts
+- name: supaglue_ticketing_get_contact
+  description: Get contact
+  source_operation: openapi/_original/supaglue-ticketing-api-openapi.yml#getContact
+- name: supaglue_ticketing_list_teams
+  description: List teams
+  source_operation: openapi/_original/supaglue-ticketing-api-openapi.yml#listTeams
+- name: supaglue_ticketing_get_team
+  description: Get team
+  source_operation: openapi/_original/supaglue-ticketing-api-openapi.yml#getTeam
+- name: supaglue_ticketing_list_tickets
+  description: List tickets
+  source_operation: openapi/_original/supaglue-ticketing-api-openapi.yml#listTickets
+- name: supaglue_ticketing_create_ticket
+  description: Create ticket
+  source_operation: openapi/_original/supaglue-ticketing-api-openapi.yml#createTicket
+- name: supaglue_ticketing_get_ticket
+  description: Get ticket
+  source_operation: openapi/_original/supaglue-ticketing-api-openapi.yml#getTicket
+- name: supaglue_ticketing_update_ticket
+  description: Update ticket
+  source_operation: openapi/_original/supaglue-ticketing-api-openapi.yml#updateTicket
+- name: supaglue_ticketing_list_comments
+  description: List comments
+  source_operation: openapi/_original/supaglue-ticketing-api-openapi.yml#listComments
+- name: supaglue_ticketing_create_comment
+  description: Create comment
+  source_operation: openapi/_original/supaglue-ticketing-api-openapi.yml#createComment
+- name: supaglue_ticketing_get_comment
+  description: Get comment
+  source_operation: openapi/_original/supaglue-ticketing-api-openapi.yml#getComment
+- name: supaglue_ticketing_list_tags
+  description: List tags
+  source_operation: openapi/_original/supaglue-ticketing-api-openapi.yml#listTags
+- name: supaglue_ticketing_get_tag
+  description: Get tag
+  source_operation: openapi/_original/supaglue-ticketing-api-openapi.yml#getTag
+- name: supaglue_ticketing_list_attachments
+  description: List attachments
+  source_operation: openapi/_original/supaglue-ticketing-api-openapi.yml#listAttachments
+- name: supaglue_ticketing_create_attachment
+  description: Create attachment
+  source_operation: openapi/_original/supaglue-ticketing-api-openapi.yml#createAttachment
+- name: supaglue_ticketing_get_attachment
+  description: Get attachment
+  source_operation: openapi/_original/supaglue-ticketing-api-openapi.yml#getAttachment

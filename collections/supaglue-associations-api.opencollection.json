@@ -1,0 +1,93 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unified CRM Accounts Associations API",
+    "version": "0.25.7"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Associations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List associations for a record and target object",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.supaglue.io/crm/v2/associations",
+            "headers": [
+              {
+                "name": "x-customer-id",
+                "value": "my-customer-1"
+              },
+              {
+                "name": "x-provider-name",
+                "value": "salesforce"
+              }
+            ],
+            "params": [
+              {
+                "name": "source_record_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "source_object",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "target_object",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get a list of associations\n\nSupport:\n\n| Provider    | Supported |\n| ----------- | --------- |\n| Hubspot     | Yes       |\n| Salesforce  | Yes       |\n| Pipedrive   | No        |\n| MS Dynamics | No        |\n"
+        },
+        {
+          "info": {
+            "name": "Upsert association",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.supaglue.io/crm/v2/associations",
+            "headers": [
+              {
+                "name": "x-customer-id",
+                "value": "my-customer-1"
+              },
+              {
+                "name": "x-provider-name",
+                "value": "salesforce"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Upsert association\n\nSupport:\n\n| Provider    | Supported |\n| ----------- | --------- |\n| Hubspot     | Yes       |\n| Salesforce  | Yes       |\n| Pipedrive   | No        |\n| MS Dynamics | No        |\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

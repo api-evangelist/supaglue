@@ -1,0 +1,76 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unified CRM Accounts SchemaMappings API",
+    "version": "0.25.7"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "SchemaMappings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List schema mappings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.supaglue.io/crm/v2/field_mappings",
+            "headers": [
+              {
+                "name": "x-customer-id",
+                "value": "my-customer-1"
+              },
+              {
+                "name": "x-provider-name",
+                "value": "salesforce"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List schema mappings"
+        },
+        {
+          "info": {
+            "name": "Update schema mappings",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.supaglue.io/crm/v2/field_mappings/_update_object",
+            "headers": [
+              {
+                "name": "x-customer-id",
+                "value": "my-customer-1"
+              },
+              {
+                "name": "x-provider-name",
+                "value": "salesforce"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update schema mappings"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

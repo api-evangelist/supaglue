@@ -1,0 +1,97 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  registry.npmjs.org (search + package metadata), pypi.org, and the archived docs/repo at
+  https://github.com/supaglue-labs/supaglue
+note: >-
+  Supaglue shipped NO first-party client SDK. The docs never mention one — the published integration
+  path is a raw HTTPS call carrying `x-api-key` — and no package under a supaglue npm scope exists
+  (@supaglue/* is entirely unpublished; pypi.org/project/supaglue is a 404). What the npm registry
+  does hold is four third-party or throwaway packages, all last published in 2023–2024 and all
+  abandoned, listed below because a consumer searching "supaglue" will find them and needs to know
+  what they are. None is marked official, so NO `SDKs` pointer is emitted for this provider.
+  The one artifact that IS first-party and installable is the self-hosted server itself: the
+  MIT-licensed monorepo and its Helm chart, which is a deployment, not a client library.
+official_sdk_count: 0
+package_count: 4
+packages:
+  - language: typescript
+    registry: npm
+    name: '@speakeasy-sdks/supaglue'
+    url: https://www.npmjs.com/package/@speakeasy-sdks/supaglue
+    install: npm install @speakeasy-sdks/supaglue
+    version: 0.19.1
+    published: '2023-06-11'
+    official: false
+    repository: https://github.com/speakeasy-sdks/supaglue-ts
+    note: >-
+      Generated from Supaglue's OpenAPI by Speakeasy and published under Speakeasy's own npm scope
+      and GitHub org. The README is Supaglue's, and a Supaglue npm account (ndimares) is among the
+      maintainers, but the package is not distributed by Supaglue, is not referenced anywhere in
+      Supaglue's docs, and stopped at v0.19.1 — six minor versions behind the final v0.25.7 API. It
+      is marked unofficial for that reason.
+  - language: typescript
+    registry: npm
+    name: supaglue-crm
+    url: https://www.npmjs.com/package/supaglue-crm
+    install: npm install supaglue-crm
+    version: 0.0.1
+    published: '2023-03-28'
+    official: false
+    repository: null
+    note: >-
+      A single 0.0.1 publish by the same Supaglue-affiliated npm account, carrying the Supaglue
+      README verbatim. Never versioned again and never referenced by the docs — a name reservation,
+      not a shipped SDK.
+  - language: typescript
+    registry: npm
+    name: supaglue-sdk
+    url: https://www.npmjs.com/package/supaglue-sdk
+    install: npm install supaglue-sdk
+    version: 0.0.1
+    published: '2023-12-05'
+    official: false
+    repository: null
+    note: >-
+      Published by an unrelated account (tonyxiao) with an empty description. Third-party; not
+      Supaglue.
+  - language: typescript
+    registry: npm
+    name: '@opensdks/sdk-supaglue'
+    url: https://www.npmjs.com/package/@opensdks/sdk-supaglue
+    install: npm install @opensdks/sdk-supaglue
+    version: 0.0.3
+    published: '2024-02-19'
+    official: false
+    repository: null
+    note: >-
+      Part of the third-party OpenSDKs collection, generated from public OpenAPI documents. Not
+      distributed by Supaglue.
+distributions:
+  - kind: source
+    name: supaglue
+    url: https://github.com/supaglue-labs/supaglue
+    version: v0.25.7
+    published: '2023-12-13'
+    published_note: >-
+      v0.25.7 is the newest TAG; the newest GitHub RELEASE is v0.25.2, dated 2023-12-13. The
+      repository was archived 2024-03-10.
+    license: MIT
+    install: docker compose up (docker-compose.yml ships in the repo)
+    official: true
+  - kind: helm-chart
+    name: supaglue helm charts
+    url: https://github.com/supaglue-labs/helm-charts
+    version: null
+    published: null
+    published_note: >-
+      No release metadata was read from a registry — the chart is distributed from the GitHub
+      repository, not a Helm registry index this pipeline queried.
+    official: true
+registries_checked:
+  - {registry: npm, query: supaglue, result: 4 packages, first_party: 0}
+  - {registry: pypi, query: supaglue, result: 404, first_party: 0}
+  - {registry: npm, query: '@supaglue/* (nextjs, sdk, client, node, types, schemas)', result: all 404, first_party: 0}
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

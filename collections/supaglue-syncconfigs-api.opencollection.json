@@ -1,0 +1,144 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unified CRM Accounts SyncConfigs API",
+    "version": "0.25.7"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "SyncConfigs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Sync Configs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.supaglue.io/crm/v2/sync_configs",
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get a list of Sync Configs"
+        },
+        {
+          "info": {
+            "name": "Create Sync Config",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.supaglue.io/crm/v2/sync_configs",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create Sync Config"
+        },
+        {
+          "info": {
+            "name": "Get Sync Config",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.supaglue.io/crm/v2/sync_configs/:sync_config_id",
+            "params": [
+              {
+                "name": "sync_config_id",
+                "value": "d583ec72-55d4-4f35-9668-f6c759674cc1",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get Sync Config"
+        },
+        {
+          "info": {
+            "name": "Update Sync Config",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.supaglue.io/crm/v2/sync_configs/:sync_config_id",
+            "params": [
+              {
+                "name": "sync_config_id",
+                "value": "d583ec72-55d4-4f35-9668-f6c759674cc1",
+                "type": "path"
+              },
+              {
+                "name": "force_delete_syncs",
+                "value": "",
+                "type": "query",
+                "description": "If true, any syncs for any deleted objects will be cascadingly deleted for all customers with this sync config"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": ":::danger\nIf `force_delete_syncs` is set to true, any syncs for any deleted objects will be cascadingly deleted for all customers with this sync config.\n:::\n"
+        },
+        {
+          "info": {
+            "name": "Delete Sync Config",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.supaglue.io/crm/v2/sync_configs/:sync_config_id",
+            "params": [
+              {
+                "name": "sync_config_id",
+                "value": "d583ec72-55d4-4f35-9668-f6c759674cc1",
+                "type": "path"
+              },
+              {
+                "name": "force_delete_syncs",
+                "value": "",
+                "type": "query",
+                "description": "If true, all syncs for all customers with this sync config will be cascadingly deleted"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": ":::danger\nIf `force_delete_syncs` is set to true, all syncs for all customers with this sync config will be cascadingly deleted.\n:::\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,171 @@
+{
+  "item": [
+    {
+      "id": "e8febb70-f48f-4ac0-9a1c-9d6203648d28",
+      "name": "Passthrough",
+      "description": {
+        "content": "Passthrough operations to underlying providers.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "44797076-f40c-40e1-a144-fd44fb8a4a4a",
+          "name": "Send passthrough request",
+          "request": {
+            "name": "Send passthrough request",
+            "description": {
+              "content": "Send request directly to a provider",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "passthrough"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) The customer ID that uniquely identifies the customer in your application",
+                "key": "x-customer-id",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) The provider name",
+                "key": "x-provider-name",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"<string>\",\n  \"method\": \"<string>\",\n  \"headers\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\"\n  },\n  \"query\": {\n    \"key_0\": \"<string>\"\n  },\n  \"body\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3252c479-e902-422c-842c-48046d9d7b8b",
+              "name": "Passthrough response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "passthrough"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The customer ID that uniquely identifies the customer in your application",
+                    "key": "x-customer-id",
+                    "value": "my-customer-1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The provider name",
+                    "key": "x-provider-name",
+                    "value": "salesforce"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"path\": \"/crm/v3/schemas\",\n  \"method\": \"GET\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"url\": \"https://api.hubapi.com/crm/v3/schemas\",\n  \"status\": 200,\n  \"headers\": {\n    \"x-hubspot-ratelimit-remaining\": 99\n  },\n  \"body\": {\n    \"results\": [\n      {\n        \"labels\": {\n          \"singular\": \"Contract\",\n          \"plural\": \"Contracts\"\n        },\n        \"requiredProperties\": [\n          \"name\",\n          \"description\"\n        ]\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.supaglue.io/actions/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "eb6d13c5-d033-4d83-a5ca-59ca3ffa94e6",
+    "name": "Actions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "#### Introduction\n\nWelcome to the Actions API documentation. Actions are helpful APIs scoped to Providers. They range from handling CRUD operations on objects to performing multi-step workflows.\n\n[![Run in Postman](https://run.pstmn.io/button.svg)](https://www.postman.com/supaglue/workspace/supaglue-public/overview)\n\n#### Base API URL\n```\nhttps://api.supaglue.io/actions/v2\n```\n\n\nContact Support:\n Name: Supaglue\n Email: docs@supaglue.com",
+      "type": "text/plain"
+    }
+  }
+}

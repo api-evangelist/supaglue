@@ -1,0 +1,136 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unified CRM Accounts Comments API",
+    "version": "0.25.7"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Comments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List comments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.supaglue.io/crm/v2/comments",
+            "headers": [
+              {
+                "name": "x-customer-id",
+                "value": "my-customer-1"
+              },
+              {
+                "name": "x-provider-name",
+                "value": "salesforce"
+              }
+            ],
+            "params": [
+              {
+                "name": "modified_after",
+                "value": "2023-02-23T00:00:00Z",
+                "type": "query",
+                "description": "If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded."
+              },
+              {
+                "name": "page_size",
+                "value": "123",
+                "type": "query",
+                "description": "Number of results to return per page. (Max: 1000)"
+              },
+              {
+                "name": "cursor",
+                "value": "cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw",
+                "type": "query",
+                "description": "The pagination cursor value"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": ":::note\nThis feature is only available in Preview to select customers on our Enterprise plan. [Contact us](mailto:team@supaglue.com) for more information.\n:::\n\nReturns a list of Comment objects.\n"
+        },
+        {
+          "info": {
+            "name": "Create comment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.supaglue.io/crm/v2/comments",
+            "headers": [
+              {
+                "name": "x-customer-id",
+                "value": "my-customer-1"
+              },
+              {
+                "name": "x-provider-name",
+                "value": "salesforce"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Creates a Comment object with the given values."
+        },
+        {
+          "info": {
+            "name": "Get comment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.supaglue.io/crm/v2/comments/:comment_id",
+            "headers": [
+              {
+                "name": "x-customer-id",
+                "value": "my-customer-1"
+              },
+              {
+                "name": "x-provider-name",
+                "value": "salesforce"
+              }
+            ],
+            "params": [
+              {
+                "name": "comment_id",
+                "value": "0258cbc6-6020-430a-848e-aafacbadf4ae",
+                "type": "path"
+              },
+              {
+                "name": "include_raw_data",
+                "value": "true",
+                "type": "query",
+                "description": "Whether to include raw data fetched from the 3rd party provider."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": ":::note\nThis feature is only available in Preview to select customers on our Enterprise plan. [Contact us](mailto:team@supaglue.com) for more information.\n:::\n\nReturns a Comment object with the given id.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

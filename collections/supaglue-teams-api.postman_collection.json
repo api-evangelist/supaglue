@@ -1,0 +1,330 @@
+{
+  "item": [
+    {
+      "id": "3c52716b-939a-443e-9896-3891367f2c69",
+      "name": "Teams",
+      "description": {
+        "content": "The Team object is used to represent a team within the company receiving the ticket.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "03218c22-4be5-43a6-a604-f63198d7d91a",
+          "name": "List teams",
+          "request": {
+            "name": "List teams",
+            "description": {
+              "content": ":::note\nThis feature is only available in Preview to select customers on our Enterprise plan. [Contact us](mailto:team@supaglue.com) for more information.\n:::\n\nReturns a list of Team objects.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "teams"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "modified_after",
+                  "value": "<dateTime>",
+                  "description": "If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "<string>",
+                  "description": "Number of results to return per page. (Max: 1000)"
+                },
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<string>",
+                  "description": "The pagination cursor value"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) The customer ID that uniquely identifies the customer in your application",
+                "key": "x-customer-id",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) The provider name",
+                "key": "x-provider-name",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "0b0db400-c2d0-4cd4-9756-658acfd0dc05",
+              "name": "TeamsData",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "teams"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "modified_after",
+                      "value": "2023-02-23T00:00:00Z"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The customer ID that uniquely identifies the customer in your application",
+                    "key": "x-customer-id",
+                    "value": "my-customer-1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The provider name",
+                    "key": "x-provider-name",
+                    "value": "salesforce"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pagination\": {\n    \"next\": \"eyJpZCI6IjQyNTc5ZjczLTg1MjQtNDU3MC05YjY3LWVjYmQ3MDJjNmIxNCIsInJldmVyc2UiOmZhbHNlfQ==\",\n    \"previous\": \"eyJpZCI6IjBjZDhmYmZkLWU5NmQtNDEwZC05ZjQxLWIwMjU1YjdmNGI4NyIsInJldmVyc2UiOnRydWV9\",\n    \"total_count\": 100\n  },\n  \"records\": [\n    {\n      \"name\": \"Platform\",\n      \"decription\": \"Platform and Integrations Team\"\n    },\n    {\n      \"name\": \"Platform\",\n      \"decription\": \"Platform and Integrations Team\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2abaedc2-6d97-4877-9448-3825fb278a6b",
+          "name": "Get team",
+          "request": {
+            "name": "Get team",
+            "description": {
+              "content": ":::note\nThis feature is only available in Preview to select customers on our Enterprise plan. [Contact us](mailto:team@supaglue.com) for more information.\n:::\n\nReturns an Team object with the given id.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "teams",
+                ":team_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "include_raw_data",
+                  "value": "<boolean>",
+                  "description": "Whether to include raw data fetched from the 3rd party provider."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "team_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) The customer ID that uniquely identifies the customer in your application",
+                "key": "x-customer-id",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) The provider name",
+                "key": "x-provider-name",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "115774c0-59c4-4816-b50a-483105bf2de9",
+              "name": "TeamData",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "teams",
+                    ":team_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include_raw_data",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "team_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The customer ID that uniquely identifies the customer in your application",
+                    "key": "x-customer-id",
+                    "value": "my-customer-1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The provider name",
+                    "key": "x-provider-name",
+                    "value": "salesforce"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"Platform\",\n  \"decription\": \"Platform and Integrations Team\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.supaglue.io/crm/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "e8e5e551-481c-4490-8f14-fd201228f1a3",
+    "name": "Unified CRM Accounts Teams API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "#### Introduction\n\nWelcome to the Unified API (CRM) documentation. You can use this API to write to multiple third-party providers within the CRM category.\n\n[View common schema for CRM](https://docs.supaglue.com/platform/common-schemas/crm)\n\n#### Base API URL\n```\nhttps://api.supaglue.io/crm/v2\n```\n\n\nContact Support:\n Name: Supaglue\n Email: docs@supaglue.com",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,198 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Data Listing API",
+    "version": "0.13.13"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Salesforce",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List contacts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.supaglue.io/data/v2/salesforce/contacts",
+            "headers": [
+              {
+                "name": "x-customer-id",
+                "value": "my-customer-1"
+              }
+            ],
+            "params": [
+              {
+                "name": "modified_after",
+                "value": "2023-02-23T00:00:00Z",
+                "type": "query",
+                "description": "If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded."
+              },
+              {
+                "name": "page_size",
+                "value": "123",
+                "type": "query",
+                "description": "Number of results to return per page. (Max: 1000)"
+              },
+              {
+                "name": "cursor",
+                "value": "cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw",
+                "type": "query",
+                "description": "The pagination cursor value"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "**NOTE**: To use the Data Listing API you need to use the Supaglue Managed Destination and select [Standard Objects](https://docs.supaglue.com/next/platform/objects/overview#configuration) to be synced.\n"
+        },
+        {
+          "info": {
+            "name": "List accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.supaglue.io/data/v2/salesforce/accounts",
+            "headers": [
+              {
+                "name": "x-customer-id",
+                "value": "my-customer-1"
+              }
+            ],
+            "params": [
+              {
+                "name": "modified_after",
+                "value": "2023-02-23T00:00:00Z",
+                "type": "query",
+                "description": "If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded."
+              },
+              {
+                "name": "page_size",
+                "value": "123",
+                "type": "query",
+                "description": "Number of results to return per page. (Max: 1000)"
+              },
+              {
+                "name": "cursor",
+                "value": "cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw",
+                "type": "query",
+                "description": "The pagination cursor value"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "**NOTE**: To use the Data Listing API you need to use the Supaglue Managed Destination and select [Standard Objects](https://docs.supaglue.com/next/platform/objects/overview#configuration) to be synced.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Hubspot",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List contacts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.supaglue.io/data/v2/hubspot/contacts",
+            "headers": [
+              {
+                "name": "x-customer-id",
+                "value": "my-customer-1"
+              }
+            ],
+            "params": [
+              {
+                "name": "modified_after",
+                "value": "2023-02-23T00:00:00Z",
+                "type": "query",
+                "description": "If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded."
+              },
+              {
+                "name": "page_size",
+                "value": "123",
+                "type": "query",
+                "description": "Number of results to return per page. (Max: 1000)"
+              },
+              {
+                "name": "cursor",
+                "value": "cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw",
+                "type": "query",
+                "description": "The pagination cursor value"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "**NOTE**: To use the Data Listing API you need to use the Supaglue Managed Destination and select [Standard Objects](https://docs.supaglue.com/next/platform/objects/overview#configuration) to be synced.\n"
+        },
+        {
+          "info": {
+            "name": "List companies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.supaglue.io/data/v2/hubspot/companies",
+            "headers": [
+              {
+                "name": "x-customer-id",
+                "value": "my-customer-1"
+              }
+            ],
+            "params": [
+              {
+                "name": "modified_after",
+                "value": "2023-02-23T00:00:00Z",
+                "type": "query",
+                "description": "If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded."
+              },
+              {
+                "name": "page_size",
+                "value": "123",
+                "type": "query",
+                "description": "Number of results to return per page. (Max: 1000)"
+              },
+              {
+                "name": "cursor",
+                "value": "cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw",
+                "type": "query",
+                "description": "The pagination cursor value"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "**NOTE**: To use the Data Listing API you need to use the Supaglue Managed Destination and select [Standard Objects](https://docs.supaglue.com/next/platform/objects/overview#configuration) to be synced.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

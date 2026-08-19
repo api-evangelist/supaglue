@@ -1,0 +1,106 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/platform/notification-webhooks.md
+  and the `webhooks` block of the OpenAPI 3.1 Management API
+  (openapi/_original/supaglue-management-api-openapi.yml)
+spec_type: none
+asyncapi_published: false
+note: >-
+  Supaglue never published an AsyncAPI document, so no AsyncAPI artifact is saved and none is
+  fabricated. It did publish a real event surface two ways: a documented notification-webhooks page,
+  and — better — a native OpenAPI 3.1 `webhooks:` block in the Management API carrying nine typed
+  events with full request-body schemas. That block is the machine-readable event contract and is
+  already in the repo, so this file indexes it rather than restating it. The delivery platform was
+  Svix; signature verification follows Svix's scheme. api.supaglue.io no longer resolves, so no
+  endpoint can still deliver these events — the catalog is the historical contract.
+delivery:
+  platform: Svix
+  platform_docs: https://docs.svix.com
+  signed: true
+  signature_scheme: Svix (per-endpoint signing key; timestamp included)
+  replay_protection: rejects payloads with a timestamp more than 5 minutes from now
+  consumer_timeout_seconds: 15
+  retries: exponential backoff (Svix)
+  retention_days: 90
+  idempotency: exactly-once semantics provided by Svix
+  configured_in: Management Portal -> Settings -> Webhooks
+  event_type_field: webhook_event_type
+docs:
+  - https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/platform/notification-webhooks.md
+  - https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/tutorials/listen-for-webhooks.mdx
+event_count: 9
+events:
+  - event: sync.complete
+    operation_id: syncComplete
+    summary: Sync complete
+    documented_in_docs: true
+    payload_fields: []
+    note: >-
+      The docs state the payload carries a `result` field indicating SUCCESS or ERROR; the spec's
+      request-body schema for this event is empty, so the field list is taken from prose only.
+  - event: sync.paused
+    operation_id: syncPaused
+    summary: Sync paused
+    documented_in_docs: false
+    payload_fields:
+      [webhook_event_type, run_id, connection_id, customer_id, provider_name, type, object_type,
+       object, pause_reason]
+  - event: connection.created
+    operation_id: connectionCreated
+    summary: Customer connection created
+    documented_in_docs: true
+    payload_fields: [webhook_event_type, customer_id, provider_id, category, provider_name, result]
+  - event: connection.deleted
+    operation_id: connectionDeleted
+    summary: Customer connection deleted
+    documented_in_docs: true
+    payload_fields:
+      [webhook_event_type, connection_id, customer_id, provider_id, category, provider_name, result]
+  - event: entity.entity_mapping.created
+    operation_id: entityEntityMappingCreated
+    summary: Entity mapping created
+    documented_in_docs: false
+    payload_fields:
+      [webhook_event_type, entity_id, application_id, connection_id, customer_id, provider_name,
+       object_name, object_type, result, error_message]
+  - event: entity.entity_mapping.updated
+    operation_id: entityEntityMappingUpdated
+    summary: Entity mapping updated
+    documented_in_docs: false
+    payload_fields:
+      [webhook_event_type, entity_id, application_id, connection_id, customer_id, provider_name,
+       object_name, object_type, result, error_message]
+  - event: entity.entity_mapping.deleted
+    operation_id: entityEntityMappingDeleted
+    summary: Entity mapping deleted
+    documented_in_docs: false
+    payload_fields:
+      [webhook_event_type, entity_id, application_id, connection_id, customer_id, provider_name,
+       object_name, object_type, result, error_message]
+  - event: object.field_mapping.created
+    operation_id: objectFieldMappingCreated
+    summary: Object field mapping created
+    documented_in_docs: false
+    payload_fields:
+      [webhook_event_type, connection_id, application_id, customer_id, provider_name, object_name,
+       object_type, schema_id, result, error_message]
+  - event: object.field_mapping.updated
+    operation_id: objectFieldMappingUpdated
+    summary: Object field mapping updated
+    documented_in_docs: false
+    payload_fields:
+      [webhook_event_type, connection_id, application_id, customer_id, provider_name, object_name,
+       object_type, schema_id, result, error_message]
+divergence:
+  note: >-
+    The published docs page lists three event types (sync.complete, connection.created,
+    connection.deleted). The OpenAPI 3.1 `webhooks:` block carries nine. Six real events —
+    sync.paused, the three entity-mapping events and the two object-field-mapping events — were
+    shipped in the contract but never written up in the docs.
+  documented_only_in_spec:
+    [sync.paused, entity.entity_mapping.created, entity.entity_mapping.updated,
+     entity.entity_mapping.deleted, object.field_mapping.created, object.field_mapping.updated]
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

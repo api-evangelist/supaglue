@@ -1,0 +1,731 @@
+{
+  "item": [
+    {
+      "id": "ec14b4ec-bfa3-4188-9fdf-4c85662b5582",
+      "name": "SyncRuns",
+      "description": {
+        "content": "A `SyncRun` is a single execution of a Sync at a point in time.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "948e0f00-e27b-4654-af01-81aba6cdaa2c",
+          "name": "Get SyncRuns",
+          "request": {
+            "name": "Get SyncRuns",
+            "description": {
+              "content": "Get a list of SyncRuns.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sync-runs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<string>",
+                  "description": "The pagination cursor value"
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "<string>",
+                  "description": "Number of results to return per page"
+                },
+                {
+                  "disabled": false,
+                  "key": "customer_id",
+                  "value": "<string>",
+                  "description": "The customer ID that uniquely identifies the customer in your application"
+                },
+                {
+                  "disabled": false,
+                  "key": "provider_name",
+                  "value": "<string>",
+                  "description": "The provider name"
+                },
+                {
+                  "disabled": false,
+                  "key": "object_type",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "object",
+                  "value": "<string>",
+                  "description": "The object to filter by"
+                },
+                {
+                  "disabled": false,
+                  "key": "entity_id",
+                  "value": "<string>",
+                  "description": "The entity id to filter by"
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "The status to filter by (case-insensitive)"
+                },
+                {
+                  "disabled": false,
+                  "key": "start_timestamp",
+                  "value": "<string>",
+                  "description": "The start time to filter by. Should start with one of [`>`, `<`] followed by an ISO 8601 timestamp."
+                },
+                {
+                  "disabled": false,
+                  "key": "end_timestamp",
+                  "value": "<string>",
+                  "description": "The end time to filter by. Should start with [`>`, `<`] followed by an ISO 8601 timestamp."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "d7fa6b4a-3599-451f-b649-a9f4e2c4f045",
+              "name": "SyncRun",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sync-runs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "100"
+                    },
+                    {
+                      "key": "customer_id",
+                      "value": "my-customer-1"
+                    },
+                    {
+                      "key": "provider_name",
+                      "value": "salesforce"
+                    },
+                    {
+                      "key": "object_type",
+                      "value": "standard"
+                    },
+                    {
+                      "key": "object",
+                      "value": "account"
+                    },
+                    {
+                      "key": "entity_id",
+                      "value": "e74b5a4f-f252-4a6c-940c-f35873498543"
+                    },
+                    {
+                      "key": "status",
+                      "value": "SUCCESS"
+                    },
+                    {
+                      "key": "start_timestamp",
+                      "value": ">2021-01-06T03:24:53.434326Z"
+                    },
+                    {
+                      "key": "end_timestamp",
+                      "value": ">2021-01-06T03:24:53.434326Z"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"next\": \"eyJpZCI6IjQyNTc5ZjczLTg1MjQtNDU3MC05YjY3LWVjYmQ3MDJjNmIxNCIsInJldmVyc2UiOmZhbHNlfQ==\",\n  \"previous\": \"eyJpZCI6IjBjZDhmYmZkLWU5NmQtNDEwZC05ZjQxLWIwMjU1YjdmNGI4NyIsInJldmVyc2UiOnRydWV9\",\n  \"total_count\": 100,\n  \"results\": [\n    {\n      \"id\": \"20eb4da3-6b38-4ec6-a82d-ecee59a9d6d9\",\n      \"sync_id\": \"629525f8-f6f7-436c-80fa-1cb23acc5bf8\",\n      \"object_type\": \"common\",\n      \"object\": \"string\",\n      \"start_timestamp\": \"2023-02-22T19:55:17.559537Z\",\n      \"end_timestamp\": \"2023-02-22T20:55:17.559537Z\",\n      \"application_id\": \"974125fa-ffb6-47fc-b12f-44c566fc5da1\",\n      \"customer_id\": \"my-customer-1\",\n      \"status\": \"IN_PROGRESS\",\n      \"error_message\": \"string\",\n      \"provider_name\": \"hubspot\",\n      \"category\": \"crm\",\n      \"connection_id\": \"3217ea51-11c8-43c9-9547-6f197e02e5e4\",\n      \"num_records_synced\": 100\n    },\n    {\n      \"id\": \"20eb4da3-6b38-4ec6-a82d-ecee59a9d6d9\",\n      \"sync_id\": \"629525f8-f6f7-436c-80fa-1cb23acc5bf8\",\n      \"object_type\": \"common\",\n      \"object\": \"string\",\n      \"start_timestamp\": \"2023-02-22T19:55:17.559537Z\",\n      \"end_timestamp\": \"2023-02-22T20:55:17.559537Z\",\n      \"application_id\": \"974125fa-ffb6-47fc-b12f-44c566fc5da1\",\n      \"customer_id\": \"my-customer-1\",\n      \"status\": \"SUCCESS\",\n      \"error_message\": \"string\",\n      \"provider_name\": \"hubspot\",\n      \"category\": \"crm\",\n      \"connection_id\": \"3217ea51-11c8-43c9-9547-6f197e02e5e4\",\n      \"num_records_synced\": 100\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "64b4451c-2d3a-4dc2-b8e8-ef5df1ade84d",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sync-runs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "100"
+                    },
+                    {
+                      "key": "customer_id",
+                      "value": "my-customer-1"
+                    },
+                    {
+                      "key": "provider_name",
+                      "value": "salesforce"
+                    },
+                    {
+                      "key": "object_type",
+                      "value": "standard"
+                    },
+                    {
+                      "key": "object",
+                      "value": "account"
+                    },
+                    {
+                      "key": "entity_id",
+                      "value": "e74b5a4f-f252-4a6c-940c-f35873498543"
+                    },
+                    {
+                      "key": "status",
+                      "value": "SUCCESS"
+                    },
+                    {
+                      "key": "start_timestamp",
+                      "value": ">2021-01-06T03:24:53.434326Z"
+                    },
+                    {
+                      "key": "end_timestamp",
+                      "value": ">2021-01-06T03:24:53.434326Z"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"id\": \"9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5\",\n      \"detail\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n      \"problem_type\": \"MISSING_REQUIRED_FIELD\",\n      \"title\": \"Property values were not valid\\n\",\n      \"code\": \"MISSING_REQUIRED_FIELD\",\n      \"status\": \"400\",\n      \"meta\": {\n        \"origin\": \"remote-provider\",\n        \"cause\": {\n          \"code\": 400,\n          \"body\": {\n            \"status\": \"error\",\n            \"message\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n            \"correlationId\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"category\": \"VALIDATION_ERROR\"\n          },\n          \"headers\": {\n            \"access-control-allow-credentials\": \"false\",\n            \"cf-cache-status\": \"DYNAMIC\",\n            \"cf-ray\": \"8053d17b9dae9664-SJC\",\n            \"connection\": \"close\",\n            \"content-length\": \"361\",\n            \"content-type\": \"application/json;charset=utf-8\",\n            \"date\": \"Mon, 11 Sep 2023 23:51:22 GMT\",\n            \"nel\": \"{\\\"success_fraction\\\":0.01,\\\"report_to\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"report-to\": \"{\\\"endpoints\\\":[{\\\"url\\\":\\\"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc\\\"}],\\\"group\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"server\": \"cloudflare\",\n            \"strict-transport-security\": \"max-age=31536000; includeSubDomains; preload\",\n            \"vary\": \"origin, Accept-Encoding\",\n            \"x-content-type-options\": \"nosniff\",\n            \"x-envoy-upstream-service-time\": \"91\",\n            \"x-evy-trace-listener\": \"listener_https\",\n            \"x-evy-trace-route-configuration\": \"listener_https/all\",\n            \"x-evy-trace-route-service-name\": \"envoyset-translator\",\n            \"x-evy-trace-served-by-pod\": \"iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2\",\n            \"x-evy-trace-virtual-host\": \"all\",\n            \"x-hubspot-correlation-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-hubspot-ratelimit-interval-milliseconds\": \"10000\",\n            \"x-hubspot-ratelimit-max\": \"100\",\n            \"x-hubspot-ratelimit-remaining\": \"99\",\n            \"x-hubspot-ratelimit-secondly\": \"10\",\n            \"x-hubspot-ratelimit-secondly-remaining\": \"9\",\n            \"x-request-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-trace\": \"2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000\"\n          }\n        },\n        \"application_name\": \"MyCompany Production\"\n      }\n    },\n    {\n      \"id\": \"9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5\",\n      \"detail\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n      \"problem_type\": \"MISSING_REQUIRED_FIELD\",\n      \"title\": \"Property values were not valid\\n\",\n      \"code\": \"MISSING_REQUIRED_FIELD\",\n      \"status\": \"400\",\n      \"meta\": {\n        \"origin\": \"remote-provider\",\n        \"cause\": {\n          \"code\": 400,\n          \"body\": {\n            \"status\": \"error\",\n            \"message\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n            \"correlationId\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"category\": \"VALIDATION_ERROR\"\n          },\n          \"headers\": {\n            \"access-control-allow-credentials\": \"false\",\n            \"cf-cache-status\": \"DYNAMIC\",\n            \"cf-ray\": \"8053d17b9dae9664-SJC\",\n            \"connection\": \"close\",\n            \"content-length\": \"361\",\n            \"content-type\": \"application/json;charset=utf-8\",\n            \"date\": \"Mon, 11 Sep 2023 23:51:22 GMT\",\n            \"nel\": \"{\\\"success_fraction\\\":0.01,\\\"report_to\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"report-to\": \"{\\\"endpoints\\\":[{\\\"url\\\":\\\"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc\\\"}],\\\"group\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"server\": \"cloudflare\",\n            \"strict-transport-security\": \"max-age=31536000; includeSubDomains; preload\",\n            \"vary\": \"origin, Accept-Encoding\",\n            \"x-content-type-options\": \"nosniff\",\n            \"x-envoy-upstream-service-time\": \"91\",\n            \"x-evy-trace-listener\": \"listener_https\",\n            \"x-evy-trace-route-configuration\": \"listener_https/all\",\n            \"x-evy-trace-route-service-name\": \"envoyset-translator\",\n            \"x-evy-trace-served-by-pod\": \"iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2\",\n            \"x-evy-trace-virtual-host\": \"all\",\n            \"x-hubspot-correlation-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-hubspot-ratelimit-interval-milliseconds\": \"10000\",\n            \"x-hubspot-ratelimit-max\": \"100\",\n            \"x-hubspot-ratelimit-remaining\": \"99\",\n            \"x-hubspot-ratelimit-secondly\": \"10\",\n            \"x-hubspot-ratelimit-secondly-remaining\": \"9\",\n            \"x-request-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-trace\": \"2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000\"\n          }\n        },\n        \"application_name\": \"MyCompany Production\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "34350b8d-f892-40f7-8bf6-65400194129f",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sync-runs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "100"
+                    },
+                    {
+                      "key": "customer_id",
+                      "value": "my-customer-1"
+                    },
+                    {
+                      "key": "provider_name",
+                      "value": "salesforce"
+                    },
+                    {
+                      "key": "object_type",
+                      "value": "standard"
+                    },
+                    {
+                      "key": "object",
+                      "value": "account"
+                    },
+                    {
+                      "key": "entity_id",
+                      "value": "e74b5a4f-f252-4a6c-940c-f35873498543"
+                    },
+                    {
+                      "key": "status",
+                      "value": "SUCCESS"
+                    },
+                    {
+                      "key": "start_timestamp",
+                      "value": ">2021-01-06T03:24:53.434326Z"
+                    },
+                    {
+                      "key": "end_timestamp",
+                      "value": ">2021-01-06T03:24:53.434326Z"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"id\": \"9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5\",\n      \"detail\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n      \"problem_type\": \"MISSING_REQUIRED_FIELD\",\n      \"title\": \"Property values were not valid\\n\",\n      \"code\": \"MISSING_REQUIRED_FIELD\",\n      \"status\": \"400\",\n      \"meta\": {\n        \"origin\": \"remote-provider\",\n        \"cause\": {\n          \"code\": 400,\n          \"body\": {\n            \"status\": \"error\",\n            \"message\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n            \"correlationId\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"category\": \"VALIDATION_ERROR\"\n          },\n          \"headers\": {\n            \"access-control-allow-credentials\": \"false\",\n            \"cf-cache-status\": \"DYNAMIC\",\n            \"cf-ray\": \"8053d17b9dae9664-SJC\",\n            \"connection\": \"close\",\n            \"content-length\": \"361\",\n            \"content-type\": \"application/json;charset=utf-8\",\n            \"date\": \"Mon, 11 Sep 2023 23:51:22 GMT\",\n            \"nel\": \"{\\\"success_fraction\\\":0.01,\\\"report_to\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"report-to\": \"{\\\"endpoints\\\":[{\\\"url\\\":\\\"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc\\\"}],\\\"group\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"server\": \"cloudflare\",\n            \"strict-transport-security\": \"max-age=31536000; includeSubDomains; preload\",\n            \"vary\": \"origin, Accept-Encoding\",\n            \"x-content-type-options\": \"nosniff\",\n            \"x-envoy-upstream-service-time\": \"91\",\n            \"x-evy-trace-listener\": \"listener_https\",\n            \"x-evy-trace-route-configuration\": \"listener_https/all\",\n            \"x-evy-trace-route-service-name\": \"envoyset-translator\",\n            \"x-evy-trace-served-by-pod\": \"iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2\",\n            \"x-evy-trace-virtual-host\": \"all\",\n            \"x-hubspot-correlation-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-hubspot-ratelimit-interval-milliseconds\": \"10000\",\n            \"x-hubspot-ratelimit-max\": \"100\",\n            \"x-hubspot-ratelimit-remaining\": \"99\",\n            \"x-hubspot-ratelimit-secondly\": \"10\",\n            \"x-hubspot-ratelimit-secondly-remaining\": \"9\",\n            \"x-request-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-trace\": \"2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000\"\n          }\n        },\n        \"application_name\": \"MyCompany Production\"\n      }\n    },\n    {\n      \"id\": \"9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5\",\n      \"detail\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n      \"problem_type\": \"MISSING_REQUIRED_FIELD\",\n      \"title\": \"Property values were not valid\\n\",\n      \"code\": \"MISSING_REQUIRED_FIELD\",\n      \"status\": \"400\",\n      \"meta\": {\n        \"origin\": \"remote-provider\",\n        \"cause\": {\n          \"code\": 400,\n          \"body\": {\n            \"status\": \"error\",\n            \"message\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n            \"correlationId\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"category\": \"VALIDATION_ERROR\"\n          },\n          \"headers\": {\n            \"access-control-allow-credentials\": \"false\",\n            \"cf-cache-status\": \"DYNAMIC\",\n            \"cf-ray\": \"8053d17b9dae9664-SJC\",\n            \"connection\": \"close\",\n            \"content-length\": \"361\",\n            \"content-type\": \"application/json;charset=utf-8\",\n            \"date\": \"Mon, 11 Sep 2023 23:51:22 GMT\",\n            \"nel\": \"{\\\"success_fraction\\\":0.01,\\\"report_to\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"report-to\": \"{\\\"endpoints\\\":[{\\\"url\\\":\\\"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc\\\"}],\\\"group\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"server\": \"cloudflare\",\n            \"strict-transport-security\": \"max-age=31536000; includeSubDomains; preload\",\n            \"vary\": \"origin, Accept-Encoding\",\n            \"x-content-type-options\": \"nosniff\",\n            \"x-envoy-upstream-service-time\": \"91\",\n            \"x-evy-trace-listener\": \"listener_https\",\n            \"x-evy-trace-route-configuration\": \"listener_https/all\",\n            \"x-evy-trace-route-service-name\": \"envoyset-translator\",\n            \"x-evy-trace-served-by-pod\": \"iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2\",\n            \"x-evy-trace-virtual-host\": \"all\",\n            \"x-hubspot-correlation-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-hubspot-ratelimit-interval-milliseconds\": \"10000\",\n            \"x-hubspot-ratelimit-max\": \"100\",\n            \"x-hubspot-ratelimit-remaining\": \"99\",\n            \"x-hubspot-ratelimit-secondly\": \"10\",\n            \"x-hubspot-ratelimit-secondly-remaining\": \"9\",\n            \"x-request-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-trace\": \"2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000\"\n          }\n        },\n        \"application_name\": \"MyCompany Production\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9f36ef0e-895c-49f8-aa2a-6cb7292b95ad",
+              "name": "Forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sync-runs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "100"
+                    },
+                    {
+                      "key": "customer_id",
+                      "value": "my-customer-1"
+                    },
+                    {
+                      "key": "provider_name",
+                      "value": "salesforce"
+                    },
+                    {
+                      "key": "object_type",
+                      "value": "standard"
+                    },
+                    {
+                      "key": "object",
+                      "value": "account"
+                    },
+                    {
+                      "key": "entity_id",
+                      "value": "e74b5a4f-f252-4a6c-940c-f35873498543"
+                    },
+                    {
+                      "key": "status",
+                      "value": "SUCCESS"
+                    },
+                    {
+                      "key": "start_timestamp",
+                      "value": ">2021-01-06T03:24:53.434326Z"
+                    },
+                    {
+                      "key": "end_timestamp",
+                      "value": ">2021-01-06T03:24:53.434326Z"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"id\": \"9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5\",\n      \"detail\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n      \"problem_type\": \"MISSING_REQUIRED_FIELD\",\n      \"title\": \"Property values were not valid\\n\",\n      \"code\": \"MISSING_REQUIRED_FIELD\",\n      \"status\": \"400\",\n      \"meta\": {\n        \"origin\": \"remote-provider\",\n        \"cause\": {\n          \"code\": 400,\n          \"body\": {\n            \"status\": \"error\",\n            \"message\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n            \"correlationId\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"category\": \"VALIDATION_ERROR\"\n          },\n          \"headers\": {\n            \"access-control-allow-credentials\": \"false\",\n            \"cf-cache-status\": \"DYNAMIC\",\n            \"cf-ray\": \"8053d17b9dae9664-SJC\",\n            \"connection\": \"close\",\n            \"content-length\": \"361\",\n            \"content-type\": \"application/json;charset=utf-8\",\n            \"date\": \"Mon, 11 Sep 2023 23:51:22 GMT\",\n            \"nel\": \"{\\\"success_fraction\\\":0.01,\\\"report_to\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"report-to\": \"{\\\"endpoints\\\":[{\\\"url\\\":\\\"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc\\\"}],\\\"group\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"server\": \"cloudflare\",\n            \"strict-transport-security\": \"max-age=31536000; includeSubDomains; preload\",\n            \"vary\": \"origin, Accept-Encoding\",\n            \"x-content-type-options\": \"nosniff\",\n            \"x-envoy-upstream-service-time\": \"91\",\n            \"x-evy-trace-listener\": \"listener_https\",\n            \"x-evy-trace-route-configuration\": \"listener_https/all\",\n            \"x-evy-trace-route-service-name\": \"envoyset-translator\",\n            \"x-evy-trace-served-by-pod\": \"iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2\",\n            \"x-evy-trace-virtual-host\": \"all\",\n            \"x-hubspot-correlation-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-hubspot-ratelimit-interval-milliseconds\": \"10000\",\n            \"x-hubspot-ratelimit-max\": \"100\",\n            \"x-hubspot-ratelimit-remaining\": \"99\",\n            \"x-hubspot-ratelimit-secondly\": \"10\",\n            \"x-hubspot-ratelimit-secondly-remaining\": \"9\",\n            \"x-request-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-trace\": \"2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000\"\n          }\n        },\n        \"application_name\": \"MyCompany Production\"\n      }\n    },\n    {\n      \"id\": \"9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5\",\n      \"detail\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n      \"problem_type\": \"MISSING_REQUIRED_FIELD\",\n      \"title\": \"Property values were not valid\\n\",\n      \"code\": \"MISSING_REQUIRED_FIELD\",\n      \"status\": \"400\",\n      \"meta\": {\n        \"origin\": \"remote-provider\",\n        \"cause\": {\n          \"code\": 400,\n          \"body\": {\n            \"status\": \"error\",\n            \"message\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n            \"correlationId\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"category\": \"VALIDATION_ERROR\"\n          },\n          \"headers\": {\n            \"access-control-allow-credentials\": \"false\",\n            \"cf-cache-status\": \"DYNAMIC\",\n            \"cf-ray\": \"8053d17b9dae9664-SJC\",\n            \"connection\": \"close\",\n            \"content-length\": \"361\",\n            \"content-type\": \"application/json;charset=utf-8\",\n            \"date\": \"Mon, 11 Sep 2023 23:51:22 GMT\",\n            \"nel\": \"{\\\"success_fraction\\\":0.01,\\\"report_to\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"report-to\": \"{\\\"endpoints\\\":[{\\\"url\\\":\\\"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc\\\"}],\\\"group\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"server\": \"cloudflare\",\n            \"strict-transport-security\": \"max-age=31536000; includeSubDomains; preload\",\n            \"vary\": \"origin, Accept-Encoding\",\n            \"x-content-type-options\": \"nosniff\",\n            \"x-envoy-upstream-service-time\": \"91\",\n            \"x-evy-trace-listener\": \"listener_https\",\n            \"x-evy-trace-route-configuration\": \"listener_https/all\",\n            \"x-evy-trace-route-service-name\": \"envoyset-translator\",\n            \"x-evy-trace-served-by-pod\": \"iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2\",\n            \"x-evy-trace-virtual-host\": \"all\",\n            \"x-hubspot-correlation-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-hubspot-ratelimit-interval-milliseconds\": \"10000\",\n            \"x-hubspot-ratelimit-max\": \"100\",\n            \"x-hubspot-ratelimit-remaining\": \"99\",\n            \"x-hubspot-ratelimit-secondly\": \"10\",\n            \"x-hubspot-ratelimit-secondly-remaining\": \"9\",\n            \"x-request-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-trace\": \"2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000\"\n          }\n        },\n        \"application_name\": \"MyCompany Production\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "066af97a-474b-4cc6-ae3e-156fe9bf6073",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sync-runs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "100"
+                    },
+                    {
+                      "key": "customer_id",
+                      "value": "my-customer-1"
+                    },
+                    {
+                      "key": "provider_name",
+                      "value": "salesforce"
+                    },
+                    {
+                      "key": "object_type",
+                      "value": "standard"
+                    },
+                    {
+                      "key": "object",
+                      "value": "account"
+                    },
+                    {
+                      "key": "entity_id",
+                      "value": "e74b5a4f-f252-4a6c-940c-f35873498543"
+                    },
+                    {
+                      "key": "status",
+                      "value": "SUCCESS"
+                    },
+                    {
+                      "key": "start_timestamp",
+                      "value": ">2021-01-06T03:24:53.434326Z"
+                    },
+                    {
+                      "key": "end_timestamp",
+                      "value": ">2021-01-06T03:24:53.434326Z"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"id\": \"9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5\",\n      \"detail\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n      \"problem_type\": \"MISSING_REQUIRED_FIELD\",\n      \"title\": \"Property values were not valid\\n\",\n      \"code\": \"MISSING_REQUIRED_FIELD\",\n      \"status\": \"400\",\n      \"meta\": {\n        \"origin\": \"remote-provider\",\n        \"cause\": {\n          \"code\": 400,\n          \"body\": {\n            \"status\": \"error\",\n            \"message\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n            \"correlationId\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"category\": \"VALIDATION_ERROR\"\n          },\n          \"headers\": {\n            \"access-control-allow-credentials\": \"false\",\n            \"cf-cache-status\": \"DYNAMIC\",\n            \"cf-ray\": \"8053d17b9dae9664-SJC\",\n            \"connection\": \"close\",\n            \"content-length\": \"361\",\n            \"content-type\": \"application/json;charset=utf-8\",\n            \"date\": \"Mon, 11 Sep 2023 23:51:22 GMT\",\n            \"nel\": \"{\\\"success_fraction\\\":0.01,\\\"report_to\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"report-to\": \"{\\\"endpoints\\\":[{\\\"url\\\":\\\"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc\\\"}],\\\"group\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"server\": \"cloudflare\",\n            \"strict-transport-security\": \"max-age=31536000; includeSubDomains; preload\",\n            \"vary\": \"origin, Accept-Encoding\",\n            \"x-content-type-options\": \"nosniff\",\n            \"x-envoy-upstream-service-time\": \"91\",\n            \"x-evy-trace-listener\": \"listener_https\",\n            \"x-evy-trace-route-configuration\": \"listener_https/all\",\n            \"x-evy-trace-route-service-name\": \"envoyset-translator\",\n            \"x-evy-trace-served-by-pod\": \"iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2\",\n            \"x-evy-trace-virtual-host\": \"all\",\n            \"x-hubspot-correlation-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-hubspot-ratelimit-interval-milliseconds\": \"10000\",\n            \"x-hubspot-ratelimit-max\": \"100\",\n            \"x-hubspot-ratelimit-remaining\": \"99\",\n            \"x-hubspot-ratelimit-secondly\": \"10\",\n            \"x-hubspot-ratelimit-secondly-remaining\": \"9\",\n            \"x-request-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-trace\": \"2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000\"\n          }\n        },\n        \"application_name\": \"MyCompany Production\"\n      }\n    },\n    {\n      \"id\": \"9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5\",\n      \"detail\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n      \"problem_type\": \"MISSING_REQUIRED_FIELD\",\n      \"title\": \"Property values were not valid\\n\",\n      \"code\": \"MISSING_REQUIRED_FIELD\",\n      \"status\": \"400\",\n      \"meta\": {\n        \"origin\": \"remote-provider\",\n        \"cause\": {\n          \"code\": 400,\n          \"body\": {\n            \"status\": \"error\",\n            \"message\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n            \"correlationId\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"category\": \"VALIDATION_ERROR\"\n          },\n          \"headers\": {\n            \"access-control-allow-credentials\": \"false\",\n            \"cf-cache-status\": \"DYNAMIC\",\n            \"cf-ray\": \"8053d17b9dae9664-SJC\",\n            \"connection\": \"close\",\n            \"content-length\": \"361\",\n            \"content-type\": \"application/json;charset=utf-8\",\n            \"date\": \"Mon, 11 Sep 2023 23:51:22 GMT\",\n            \"nel\": \"{\\\"success_fraction\\\":0.01,\\\"report_to\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"report-to\": \"{\\\"endpoints\\\":[{\\\"url\\\":\\\"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc\\\"}],\\\"group\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"server\": \"cloudflare\",\n            \"strict-transport-security\": \"max-age=31536000; includeSubDomains; preload\",\n            \"vary\": \"origin, Accept-Encoding\",\n            \"x-content-type-options\": \"nosniff\",\n            \"x-envoy-upstream-service-time\": \"91\",\n            \"x-evy-trace-listener\": \"listener_https\",\n            \"x-evy-trace-route-configuration\": \"listener_https/all\",\n            \"x-evy-trace-route-service-name\": \"envoyset-translator\",\n            \"x-evy-trace-served-by-pod\": \"iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2\",\n            \"x-evy-trace-virtual-host\": \"all\",\n            \"x-hubspot-correlation-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-hubspot-ratelimit-interval-milliseconds\": \"10000\",\n            \"x-hubspot-ratelimit-max\": \"100\",\n            \"x-hubspot-ratelimit-remaining\": \"99\",\n            \"x-hubspot-ratelimit-secondly\": \"10\",\n            \"x-hubspot-ratelimit-secondly-remaining\": \"9\",\n            \"x-request-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-trace\": \"2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000\"\n          }\n        },\n        \"application_name\": \"MyCompany Production\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "93479180-95f4-4c27-b356-3e5651e4318e",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sync-runs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "100"
+                    },
+                    {
+                      "key": "customer_id",
+                      "value": "my-customer-1"
+                    },
+                    {
+                      "key": "provider_name",
+                      "value": "salesforce"
+                    },
+                    {
+                      "key": "object_type",
+                      "value": "standard"
+                    },
+                    {
+                      "key": "object",
+                      "value": "account"
+                    },
+                    {
+                      "key": "entity_id",
+                      "value": "e74b5a4f-f252-4a6c-940c-f35873498543"
+                    },
+                    {
+                      "key": "status",
+                      "value": "SUCCESS"
+                    },
+                    {
+                      "key": "start_timestamp",
+                      "value": ">2021-01-06T03:24:53.434326Z"
+                    },
+                    {
+                      "key": "end_timestamp",
+                      "value": ">2021-01-06T03:24:53.434326Z"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"id\": \"9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5\",\n      \"detail\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n      \"problem_type\": \"MISSING_REQUIRED_FIELD\",\n      \"title\": \"Property values were not valid\\n\",\n      \"code\": \"MISSING_REQUIRED_FIELD\",\n      \"status\": \"400\",\n      \"meta\": {\n        \"origin\": \"remote-provider\",\n        \"cause\": {\n          \"code\": 400,\n          \"body\": {\n            \"status\": \"error\",\n            \"message\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n            \"correlationId\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"category\": \"VALIDATION_ERROR\"\n          },\n          \"headers\": {\n            \"access-control-allow-credentials\": \"false\",\n            \"cf-cache-status\": \"DYNAMIC\",\n            \"cf-ray\": \"8053d17b9dae9664-SJC\",\n            \"connection\": \"close\",\n            \"content-length\": \"361\",\n            \"content-type\": \"application/json;charset=utf-8\",\n            \"date\": \"Mon, 11 Sep 2023 23:51:22 GMT\",\n            \"nel\": \"{\\\"success_fraction\\\":0.01,\\\"report_to\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"report-to\": \"{\\\"endpoints\\\":[{\\\"url\\\":\\\"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc\\\"}],\\\"group\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"server\": \"cloudflare\",\n            \"strict-transport-security\": \"max-age=31536000; includeSubDomains; preload\",\n            \"vary\": \"origin, Accept-Encoding\",\n            \"x-content-type-options\": \"nosniff\",\n            \"x-envoy-upstream-service-time\": \"91\",\n            \"x-evy-trace-listener\": \"listener_https\",\n            \"x-evy-trace-route-configuration\": \"listener_https/all\",\n            \"x-evy-trace-route-service-name\": \"envoyset-translator\",\n            \"x-evy-trace-served-by-pod\": \"iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2\",\n            \"x-evy-trace-virtual-host\": \"all\",\n            \"x-hubspot-correlation-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-hubspot-ratelimit-interval-milliseconds\": \"10000\",\n            \"x-hubspot-ratelimit-max\": \"100\",\n            \"x-hubspot-ratelimit-remaining\": \"99\",\n            \"x-hubspot-ratelimit-secondly\": \"10\",\n            \"x-hubspot-ratelimit-secondly-remaining\": \"9\",\n            \"x-request-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-trace\": \"2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000\"\n          }\n        },\n        \"application_name\": \"MyCompany Production\"\n      }\n    },\n    {\n      \"id\": \"9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5\",\n      \"detail\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n      \"problem_type\": \"MISSING_REQUIRED_FIELD\",\n      \"title\": \"Property values were not valid\\n\",\n      \"code\": \"MISSING_REQUIRED_FIELD\",\n      \"status\": \"400\",\n      \"meta\": {\n        \"origin\": \"remote-provider\",\n        \"cause\": {\n          \"code\": 400,\n          \"body\": {\n            \"status\": \"error\",\n            \"message\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n            \"correlationId\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"category\": \"VALIDATION_ERROR\"\n          },\n          \"headers\": {\n            \"access-control-allow-credentials\": \"false\",\n            \"cf-cache-status\": \"DYNAMIC\",\n            \"cf-ray\": \"8053d17b9dae9664-SJC\",\n            \"connection\": \"close\",\n            \"content-length\": \"361\",\n            \"content-type\": \"application/json;charset=utf-8\",\n            \"date\": \"Mon, 11 Sep 2023 23:51:22 GMT\",\n            \"nel\": \"{\\\"success_fraction\\\":0.01,\\\"report_to\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"report-to\": \"{\\\"endpoints\\\":[{\\\"url\\\":\\\"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc\\\"}],\\\"group\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"server\": \"cloudflare\",\n            \"strict-transport-security\": \"max-age=31536000; includeSubDomains; preload\",\n            \"vary\": \"origin, Accept-Encoding\",\n            \"x-content-type-options\": \"nosniff\",\n            \"x-envoy-upstream-service-time\": \"91\",\n            \"x-evy-trace-listener\": \"listener_https\",\n            \"x-evy-trace-route-configuration\": \"listener_https/all\",\n            \"x-evy-trace-route-service-name\": \"envoyset-translator\",\n            \"x-evy-trace-served-by-pod\": \"iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2\",\n            \"x-evy-trace-virtual-host\": \"all\",\n            \"x-hubspot-correlation-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-hubspot-ratelimit-interval-milliseconds\": \"10000\",\n            \"x-hubspot-ratelimit-max\": \"100\",\n            \"x-hubspot-ratelimit-remaining\": \"99\",\n            \"x-hubspot-ratelimit-secondly\": \"10\",\n            \"x-hubspot-ratelimit-secondly-remaining\": \"9\",\n            \"x-request-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-trace\": \"2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000\"\n          }\n        },\n        \"application_name\": \"MyCompany Production\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "daaf6c87-39d2-42b8-98cb-9b803fb9694c",
+              "name": "Not implemented",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sync-runs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "cursor",
+                      "value": "cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "100"
+                    },
+                    {
+                      "key": "customer_id",
+                      "value": "my-customer-1"
+                    },
+                    {
+                      "key": "provider_name",
+                      "value": "salesforce"
+                    },
+                    {
+                      "key": "object_type",
+                      "value": "standard"
+                    },
+                    {
+                      "key": "object",
+                      "value": "account"
+                    },
+                    {
+                      "key": "entity_id",
+                      "value": "e74b5a4f-f252-4a6c-940c-f35873498543"
+                    },
+                    {
+                      "key": "status",
+                      "value": "SUCCESS"
+                    },
+                    {
+                      "key": "start_timestamp",
+                      "value": ">2021-01-06T03:24:53.434326Z"
+                    },
+                    {
+                      "key": "end_timestamp",
+                      "value": ">2021-01-06T03:24:53.434326Z"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Implemented",
+              "code": 501,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"id\": \"9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5\",\n      \"detail\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n      \"problem_type\": \"MISSING_REQUIRED_FIELD\",\n      \"title\": \"Property values were not valid\\n\",\n      \"code\": \"MISSING_REQUIRED_FIELD\",\n      \"status\": \"400\",\n      \"meta\": {\n        \"origin\": \"remote-provider\",\n        \"cause\": {\n          \"code\": 400,\n          \"body\": {\n            \"status\": \"error\",\n            \"message\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n            \"correlationId\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"category\": \"VALIDATION_ERROR\"\n          },\n          \"headers\": {\n            \"access-control-allow-credentials\": \"false\",\n            \"cf-cache-status\": \"DYNAMIC\",\n            \"cf-ray\": \"8053d17b9dae9664-SJC\",\n            \"connection\": \"close\",\n            \"content-length\": \"361\",\n            \"content-type\": \"application/json;charset=utf-8\",\n            \"date\": \"Mon, 11 Sep 2023 23:51:22 GMT\",\n            \"nel\": \"{\\\"success_fraction\\\":0.01,\\\"report_to\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"report-to\": \"{\\\"endpoints\\\":[{\\\"url\\\":\\\"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc\\\"}],\\\"group\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"server\": \"cloudflare\",\n            \"strict-transport-security\": \"max-age=31536000; includeSubDomains; preload\",\n            \"vary\": \"origin, Accept-Encoding\",\n            \"x-content-type-options\": \"nosniff\",\n            \"x-envoy-upstream-service-time\": \"91\",\n            \"x-evy-trace-listener\": \"listener_https\",\n            \"x-evy-trace-route-configuration\": \"listener_https/all\",\n            \"x-evy-trace-route-service-name\": \"envoyset-translator\",\n            \"x-evy-trace-served-by-pod\": \"iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2\",\n            \"x-evy-trace-virtual-host\": \"all\",\n            \"x-hubspot-correlation-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-hubspot-ratelimit-interval-milliseconds\": \"10000\",\n            \"x-hubspot-ratelimit-max\": \"100\",\n            \"x-hubspot-ratelimit-remaining\": \"99\",\n            \"x-hubspot-ratelimit-secondly\": \"10\",\n            \"x-hubspot-ratelimit-secondly-remaining\": \"9\",\n            \"x-request-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-trace\": \"2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000\"\n          }\n        },\n        \"application_name\": \"MyCompany Production\"\n      }\n    },\n    {\n      \"id\": \"9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5\",\n      \"detail\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n      \"problem_type\": \"MISSING_REQUIRED_FIELD\",\n      \"title\": \"Property values were not valid\\n\",\n      \"code\": \"MISSING_REQUIRED_FIELD\",\n      \"status\": \"400\",\n      \"meta\": {\n        \"origin\": \"remote-provider\",\n        \"cause\": {\n          \"code\": 400,\n          \"body\": {\n            \"status\": \"error\",\n            \"message\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n            \"correlationId\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"category\": \"VALIDATION_ERROR\"\n          },\n          \"headers\": {\n            \"access-control-allow-credentials\": \"false\",\n            \"cf-cache-status\": \"DYNAMIC\",\n            \"cf-ray\": \"8053d17b9dae9664-SJC\",\n            \"connection\": \"close\",\n            \"content-length\": \"361\",\n            \"content-type\": \"application/json;charset=utf-8\",\n            \"date\": \"Mon, 11 Sep 2023 23:51:22 GMT\",\n            \"nel\": \"{\\\"success_fraction\\\":0.01,\\\"report_to\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"report-to\": \"{\\\"endpoints\\\":[{\\\"url\\\":\\\"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc\\\"}],\\\"group\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"server\": \"cloudflare\",\n            \"strict-transport-security\": \"max-age=31536000; includeSubDomains; preload\",\n            \"vary\": \"origin, Accept-Encoding\",\n            \"x-content-type-options\": \"nosniff\",\n            \"x-envoy-upstream-service-time\": \"91\",\n            \"x-evy-trace-listener\": \"listener_https\",\n            \"x-evy-trace-route-configuration\": \"listener_https/all\",\n            \"x-evy-trace-route-service-name\": \"envoyset-translator\",\n            \"x-evy-trace-served-by-pod\": \"iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2\",\n            \"x-evy-trace-virtual-host\": \"all\",\n            \"x-hubspot-correlation-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-hubspot-ratelimit-interval-milliseconds\": \"10000\",\n            \"x-hubspot-ratelimit-max\": \"100\",\n            \"x-hubspot-ratelimit-remaining\": \"99\",\n            \"x-hubspot-ratelimit-secondly\": \"10\",\n            \"x-hubspot-ratelimit-secondly-remaining\": \"9\",\n            \"x-request-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-trace\": \"2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000\"\n          }\n        },\n        \"application_name\": \"MyCompany Production\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.supaglue.io/crm/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "cd177f5b-05c4-450c-a63b-281f2a84e103",
+    "name": "Unified CRM Accounts SyncRuns API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "#### Introduction\n\nWelcome to the Unified API (CRM) documentation. You can use this API to write to multiple third-party providers within the CRM category.\n\n[View common schema for CRM](https://docs.supaglue.com/platform/common-schemas/crm)\n\n#### Base API URL\n```\nhttps://api.supaglue.io/crm/v2\n```\n\n\nContact Support:\n Name: Supaglue\n Email: docs@supaglue.com",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,236 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unified CRM Accounts Sequence States API",
+    "version": "0.25.7"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Sequence States",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List sequence states",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.supaglue.io/crm/v2/sequence_states",
+            "headers": [
+              {
+                "name": "x-customer-id",
+                "value": "my-customer-1"
+              },
+              {
+                "name": "x-provider-name",
+                "value": "salesforce"
+              }
+            ],
+            "params": [
+              {
+                "name": "include_raw_data",
+                "value": "true",
+                "type": "query",
+                "description": "Whether to include raw data fetched from the 3rd party provider."
+              },
+              {
+                "name": "read_from_cache",
+                "value": "true",
+                "type": "query",
+                "description": "Whether to read from Supaglue's Managed Destination cache or to read directly from the provider. \n\n\n**NOTE**: `read_from_cache=true` requires you to have the object synced to the Supaglue Managed Destination.\n"
+              },
+              {
+                "name": "modified_after",
+                "value": "2023-02-23T00:00:00Z",
+                "type": "query",
+                "description": "If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded."
+              },
+              {
+                "name": "page_size",
+                "value": "123",
+                "type": "query",
+                "description": "Number of results to return per page. (Max: 1000)"
+              },
+              {
+                "name": "cursor",
+                "value": "cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw",
+                "type": "query",
+                "description": "The pagination cursor value"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List sequence states"
+        },
+        {
+          "info": {
+            "name": "Create sequence state",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.supaglue.io/crm/v2/sequence_states",
+            "headers": [
+              {
+                "name": "x-customer-id",
+                "value": "my-customer-1"
+              },
+              {
+                "name": "x-provider-name",
+                "value": "salesforce"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Add a contact to a sequence. If the contact is already in the sequence, it will return the id of the existing sequence state.\n"
+        },
+        {
+          "info": {
+            "name": "Search sequence states",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.supaglue.io/crm/v2/sequence_states/_search",
+            "headers": [
+              {
+                "name": "x-customer-id",
+                "value": "my-customer-1"
+              },
+              {
+                "name": "x-provider-name",
+                "value": "salesforce"
+              }
+            ],
+            "params": [
+              {
+                "name": "include_raw_data",
+                "value": "true",
+                "type": "query",
+                "description": "Whether to include raw data fetched from the 3rd party provider."
+              },
+              {
+                "name": "read_from_cache",
+                "value": "true",
+                "type": "query",
+                "description": "Whether to read from Supaglue's Managed Destination cache or to read directly from the provider. \n\n\n**NOTE**: `read_from_cache=true` requires you to have the object synced to the Supaglue Managed Destination.\n"
+              },
+              {
+                "name": "page_size",
+                "value": "100",
+                "type": "query",
+                "description": "Number of results to return per page. (Max: 100)"
+              },
+              {
+                "name": "cursor",
+                "value": "cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw",
+                "type": "query",
+                "description": "The pagination cursor value"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Search sequence states by contact_id and/or sequence_id. Note: only `read_from_cache=false` is supported at the moment.\nSupport:\n\n| Provider  | Search By               |\n| --------- | ----------------------- |\n| Apollo    | contact_id only         |\n| Salesloft | contact_id, sequence_id |\n| Outreach  | contact_id, sequence_id |\n"
+        },
+        {
+          "info": {
+            "name": "Batch create sequence states",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.supaglue.io/crm/v2/sequence_states/_batch",
+            "headers": [
+              {
+                "name": "x-customer-id",
+                "value": "my-customer-1"
+              },
+              {
+                "name": "x-provider-name",
+                "value": "salesforce"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Add multiple contacts to a sequence atomically. You must pass in the same sequenceId, userId and mailboxId for all the contact records.\n\nSupport:\n\n| Provider  | Supported |\n| --------- | --------- |\n| Apollo    | Yes       |\n| Outreach  | No        |\n| Salesloft | No        |\n"
+        },
+        {
+          "info": {
+            "name": "Get sequence state",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.supaglue.io/crm/v2/sequence_states/:sequence_state_id",
+            "headers": [
+              {
+                "name": "x-customer-id",
+                "value": "my-customer-1"
+              },
+              {
+                "name": "x-provider-name",
+                "value": "salesforce"
+              }
+            ],
+            "params": [
+              {
+                "name": "sequence_state_id",
+                "value": "ffb62704-addd-454e-bb86-ed0799703dc6",
+                "type": "path"
+              },
+              {
+                "name": "include_raw_data",
+                "value": "true",
+                "type": "query",
+                "description": "Whether to include raw data fetched from the 3rd party provider."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get sequence state"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

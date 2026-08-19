@@ -1,0 +1,24 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Supaglue Unified Engagement API
+  version: 1.0.0
+extends: openapi/_original/supaglue-engagement-api-openapi.yml
+x-generated: '2026-08-13'
+x-method: generated
+x-source: https://raw.githubusercontent.com/supaglue-labs/supaglue/main/openapi/v2/engagement/openapi.bundle.json
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: supaglue
+    x-apievangelist-service: engagement
+    x-apievangelist-source: https://github.com/supaglue-labs/supaglue (archived 2024-03-10, MIT)
+    x-apievangelist-status: archived — api.supaglue.io no longer resolves; spec retained as the historical
+      contract
+- target: $
+  update:
+    x-apievangelist-artifacts:
+      authentication: authentication/supaglue-authentication.yml
+      conventions: conventions/supaglue-conventions.yml
+      errors: errors/supaglue-problem-types.yml
+      lifecycle: lifecycle/supaglue-lifecycle.yml
+      data_model: data-model/supaglue-data-model.yml

@@ -1,0 +1,198 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unified CRM Accounts Opportunities API",
+    "version": "0.25.7"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Opportunities",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List opportunities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.supaglue.io/crm/v2/opportunities",
+            "headers": [
+              {
+                "name": "x-customer-id",
+                "value": "my-customer-1"
+              },
+              {
+                "name": "x-provider-name",
+                "value": "salesforce"
+              }
+            ],
+            "params": [
+              {
+                "name": "include_raw_data",
+                "value": "true",
+                "type": "query",
+                "description": "Whether to include raw data fetched from the 3rd party provider."
+              },
+              {
+                "name": "read_from_cache",
+                "value": "true",
+                "type": "query",
+                "description": "Whether to read from Supaglue's Managed Destination cache or to read directly from the provider. \n\n\n**NOTE**: `read_from_cache=true` requires you to have the object synced to the Supaglue Managed Destination.\n"
+              },
+              {
+                "name": "modified_after",
+                "value": "2023-02-23T00:00:00Z",
+                "type": "query",
+                "description": "If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded."
+              },
+              {
+                "name": "page_size",
+                "value": "123",
+                "type": "query",
+                "description": "Number of results to return per page. (Max: 1000)"
+              },
+              {
+                "name": "cursor",
+                "value": "cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw",
+                "type": "query",
+                "description": "The pagination cursor value"
+              },
+              {
+                "name": "associations_to_fetch",
+                "value": "",
+                "type": "query",
+                "description": "List of associated objects to attempt to fetch associations for. Only relevant for hubspot and when `read_from_cache` is false.\n"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List opportunities"
+        },
+        {
+          "info": {
+            "name": "Create opportunity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.supaglue.io/crm/v2/opportunities",
+            "headers": [
+              {
+                "name": "x-customer-id",
+                "value": "my-customer-1"
+              },
+              {
+                "name": "x-provider-name",
+                "value": "salesforce"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create opportunity"
+        },
+        {
+          "info": {
+            "name": "Get opportunity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.supaglue.io/crm/v2/opportunities/:opportunity_id",
+            "headers": [
+              {
+                "name": "x-customer-id",
+                "value": "my-customer-1"
+              },
+              {
+                "name": "x-provider-name",
+                "value": "salesforce"
+              }
+            ],
+            "params": [
+              {
+                "name": "opportunity_id",
+                "value": "c9f58083-a370-47b5-ad02-99160ea20372",
+                "type": "path"
+              },
+              {
+                "name": "include_raw_data",
+                "value": "true",
+                "type": "query",
+                "description": "Whether to include raw data fetched from the 3rd party provider."
+              },
+              {
+                "name": "associations_to_fetch",
+                "value": "",
+                "type": "query",
+                "description": "List of associated objects to attempt to fetch associations for. Only relevant for hubspot and when `read_from_cache` is false.\n"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get opportunity"
+        },
+        {
+          "info": {
+            "name": "Update opportunity",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.supaglue.io/crm/v2/opportunities/:opportunity_id",
+            "headers": [
+              {
+                "name": "x-customer-id",
+                "value": "my-customer-1"
+              },
+              {
+                "name": "x-provider-name",
+                "value": "salesforce"
+              }
+            ],
+            "params": [
+              {
+                "name": "opportunity_id",
+                "value": "c9f58083-a370-47b5-ad02-99160ea20372",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update opportunity"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

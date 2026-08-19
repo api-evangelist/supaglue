@@ -6,5 +6,14 @@
     "source_type": "Website",
     "file": "supaglue-2026-06-20T194702.png",
     "bytes": 5002
+  },
+  {
+    "repo": "supaglue",
+    "captured_at": "2026-08-17T083633",
+    "source_url": "https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/quickstart.mdx",
+    "source_type": "GettingStarted",
+    "file": "supaglue-2026-08-17T083633.png",
+    "bytes": 137234,
+    "capture": "playwright-local"
   }
 ]

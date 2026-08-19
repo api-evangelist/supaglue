@@ -4,43 +4,50 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Supaglue
 providerId: supaglue
 created: '2026-05-04'
-modified: '2026-05-05'
+method: searched
+modified: '2026-08-13'
 reconciled: false
 tags:
-  - CRM
-  - Unified API
-  - Open Source
-  - Integrations
-description: Supaglue was an open-source unified CRM API platform. The hosted/managed product is no
-  longer offered; the GitHub repository was archived by the owner on 2024-03-10 and is read-only with
-  no further releases past v0.25.2 (December 2023). Self-hosters can run the MIT-licensed code; there
-  is no remaining vendor pricing.
+- CRM
+- Unified API
+- Open Source
+- Integrations
+description: Supaglue was an open-source unified CRM API platform. The hosted/managed product is no longer
+  offered; the GitHub repository was archived by the owner on 2024-03-10 and is read-only with no further
+  releases past v0.25.2 (December 2023). Self-hosters can run the MIT-licensed code; there is no remaining
+  vendor pricing.
 sources:
-  - https://github.com/supaglue-labs/supaglue
-notes: 'Reconciliation marked false: project archived. The hosted/SaaS pricing page (supaglue.com/pricing)
-  is no longer reachable (ECONNREFUSED). Only the open-source self-hosted distribution remains; there
-  are no vendor plans to reconcile.'
+- https://www.supaglue.com/pricing
+- https://github.com/supaglue-labs/supaglue
+notes: 'Re-probed 2026-08-13: supaglue.com/pricing 302s to the HugeDomains sale listing for the domain,
+  so there is no vendor pricing page left to read and no plan to reconcile. plan_count is 0 — the hosted
+  product is gone and the only remaining way to run Supaglue is to self-host the MIT-licensed code from
+  the repository archived on 2024-03-10, at your own infrastructure cost. The single entry below records
+  that self-host path, not a purchasable plan.'
 plans:
-  - id: supaglue-self-hosted
-    name: Self-Hosted (Archived OSS)
-    type: enterprise
-    description: The open-source Supaglue distribution can still be self-hosted under the MIT license
-      from the archived GitHub repository. There is no vendor support, updates, or commercial pricing.
-    entries:
-      - label: Self-Hosted Deployment
-        name: self_hosted
-        type: subscription
-        metric: varies
-        limit: -1
-        timeFrame: year
-        geo: global
-        unit: 1
-        price: 'self-hosted (no vendor pricing; project archived 2024-03-10)'
-        userMultiplied: false
-    elements:
-      - name: Open Source (MIT)
-      - name: Project Archived 2024-03-10
-      - name: No Vendor Support
+- id: supaglue-self-hosted
+  name: Self-Hosted (Archived OSS)
+  type: enterprise
+  description: The open-source Supaglue distribution can still be self-hosted under the MIT license from
+    the archived GitHub repository. There is no vendor support, updates, or commercial pricing.
+  entries:
+  - label: Self-Hosted Deployment
+    name: self_hosted
+    type: subscription
+    metric: varies
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: self-hosted (no vendor pricing; project archived 2024-03-10)
+    userMultiplied: false
+  elements:
+  - name: Open Source (MIT)
+  - name: Project Archived 2024-03-10
+  - name: No Vendor Support
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
+generated: '2026-08-13'
+plan_count: 0
+source: https://www.supaglue.com/pricing (302 to hugedomains.com, probed 2026-08-13) and https://github.com/supaglue-labs/supaglue

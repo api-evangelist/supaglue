@@ -1,0 +1,132 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unified CRM Accounts Schemas API",
+    "version": "0.25.7"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Schemas",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List schemas",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.supaglue.io/crm/v2/schemas",
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get a list of schemas"
+        },
+        {
+          "info": {
+            "name": "Create schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.supaglue.io/crm/v2/schemas",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create schema"
+        },
+        {
+          "info": {
+            "name": "Get schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.supaglue.io/crm/v2/schemas/:schema_id",
+            "params": [
+              {
+                "name": "schema_id",
+                "value": "a821d59d-8b4c-4ad9-aeec-1292d2e28701",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get schema"
+        },
+        {
+          "info": {
+            "name": "Update schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.supaglue.io/crm/v2/schemas/:schema_id",
+            "params": [
+              {
+                "name": "schema_id",
+                "value": "a821d59d-8b4c-4ad9-aeec-1292d2e28701",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update schema"
+        },
+        {
+          "info": {
+            "name": "Delete schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.supaglue.io/crm/v2/schemas/:schema_id",
+            "params": [
+              {
+                "name": "schema_id",
+                "value": "a821d59d-8b4c-4ad9-aeec-1292d2e28701",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete schema"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

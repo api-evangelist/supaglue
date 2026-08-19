@@ -4,33 +4,61 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Supaglue
 providerId: supaglue
 created: '2026-05-04'
-modified: '2026-05-05'
+method: searched
+modified: '2026-08-13'
+generated: '2026-08-13'
+source: >-
+  https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx and
+  openapi/_original/supaglue-management-api-openapi.yml
 reconciled: false
+limit_count: 0
 tags:
   - CRM
   - Unified API
   - Open Source
   - Rate Limiting
-description: Supaglue is an archived open-source project (MIT). The hosted product is shut down so there
-  is no vendor-published rate-limits document. When self-hosted, request throttling is set by the deployer;
-  upstream CRM rate limits (Salesforce, HubSpot, Pipedrive, etc.) flow through unchanged.
+description: >-
+  Supaglue published no numeric rate limit for its own API — not on the API introduction page, not in
+  any spec, and not in the archived docs anywhere. What it published is the exhaustion signal (HTTP
+  429, error code TOO_MANY_REQUESTS_ERROR, in the error table on the API introduction page) and,
+  notably, an operation that reports the THIRD-PARTY provider's remaining quota rather than its own:
+  GET /customers/{customer_id}/connections/{provider_name}/_rate_limit_info. That inversion is the
+  finding — Supaglue treated the upstream SaaS limit as the limit that mattered, because a unified
+  call is really a Salesforce or HubSpot call wearing a different URL. No X-RateLimit-* or
+  RateLimit-* response headers and no Retry-After are documented, so a client cannot see how close it
+  is to a wall until it hits one. The hosted service is now shut down (api.supaglue.io does not
+  resolve); on a self-hosted deployment the throttle is whatever the deployer configures.
 sources:
-  - https://github.com/supaglue-labs/supaglue
-notes: 'Reconciliation marked false: project archived 2024-03-10. No hosted service to reconcile against.
-  Self-hosters define their own throttling.'
+  - https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - https://github.com/supaglue-labs/supaglue/blob/main/openapi/v2/mgmt/openapi.bundle.json
+notes: >-
+  limit_count is 0 because zero numeric limits were ever published for Supaglue's own API — an honest
+  zero, searched for and not found, not an unmeasured gap. Probed 2026-08-13.
 responseCodes:
   throttled: 429
-limits:
-  - name: Self-Hosted Deployment Limits
-    scope: deployment
-    metric: varies
-    limit: defined by the self-hoster's deployment configuration
-    notes: Upstream provider limits (Salesforce, HubSpot, Pipedrive) pass through and are governed by
-      the underlying CRM, not Supaglue.
+  throttledCode: TOO_MANY_REQUESTS_ERROR
+  remoteProviderError: 499
+responseHeaders:
+  published: []
+  note: No rate-limit response headers are documented or present in any spec.
+limits: []
+introspection:
+  - name: Connection rate limit info
+    operationId: getConnectionRateLimitInfo
+    path: GET /customers/{customer_id}/connections/{provider_name}/_rate_limit_info
+    source: openapi/_original/supaglue-management-api-openapi.yml
+    reports: the third-party provider's remaining quota for that customer's connection
+    note: This is the only rate-limit visibility in the product, and it is about the upstream SaaS.
 policies:
   - name: Pass-Through Throttling
-    description: Supaglue forwards requests to upstream CRM APIs; the effective rate limit is the smaller
-      of the deployer's local cap and the upstream provider's limit.
+    description: >-
+      A unified request is executed against the third-party provider unless read_from_cache=true, so
+      the effective ceiling is the provider's own limit — Salesforce, HubSpot, Pipedrive and the rest
+      each govern their own. Reading from the Managed Destination cache is the documented way to
+      avoid spending provider quota.
+  - name: Self-Hosted Deployment Limits
+    description: >-
+      With the hosted service gone, any throttling is defined by whoever runs the MIT-licensed code.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

@@ -1,0 +1,96 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unified CRM Accounts SyncRuns API",
+    "version": "0.25.7"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "SyncRuns",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get SyncRuns",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.supaglue.io/crm/v2/sync-runs",
+            "params": [
+              {
+                "name": "cursor",
+                "value": "cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw",
+                "type": "query",
+                "description": "The pagination cursor value"
+              },
+              {
+                "name": "page_size",
+                "value": "100",
+                "type": "query",
+                "description": "Number of results to return per page"
+              },
+              {
+                "name": "customer_id",
+                "value": "my-customer-1",
+                "type": "query",
+                "description": "The customer ID that uniquely identifies the customer in your application"
+              },
+              {
+                "name": "provider_name",
+                "value": "salesforce",
+                "type": "query",
+                "description": "The provider name"
+              },
+              {
+                "name": "object_type",
+                "value": "standard",
+                "type": "query"
+              },
+              {
+                "name": "object",
+                "value": "account",
+                "type": "query",
+                "description": "The object to filter by"
+              },
+              {
+                "name": "entity_id",
+                "value": "e74b5a4f-f252-4a6c-940c-f35873498543",
+                "type": "query",
+                "description": "The entity id to filter by"
+              },
+              {
+                "name": "status",
+                "value": "SUCCESS",
+                "type": "query",
+                "description": "The status to filter by (case-insensitive)"
+              },
+              {
+                "name": "start_timestamp",
+                "value": ">2021-01-06T03:24:53.434326Z",
+                "type": "query",
+                "description": "The start time to filter by. Should start with one of [`>`, `<`] followed by an ISO 8601 timestamp."
+              },
+              {
+                "name": "end_timestamp",
+                "value": ">2021-01-06T03:24:53.434326Z",
+                "type": "query",
+                "description": "The end time to filter by. Should start with [`>`, `<`] followed by an ISO 8601 timestamp."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get a list of SyncRuns."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,626 @@
+{
+  "item": [
+    {
+      "id": "2f7f733d-33f4-400a-b38d-3ecca64405d2",
+      "name": "Tickets",
+      "description": {
+        "content": "The Ticket object is used to represent a ticket or a task within a system.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e7a93a23-9de5-4874-9d3f-77d9b4f8c0e8",
+          "name": "List tickets",
+          "request": {
+            "name": "List tickets",
+            "description": {
+              "content": ":::note\nThis feature is only available in Preview to select customers on our Enterprise plan. [Contact us](mailto:team@supaglue.com) for more information.\n:::\n\nReturns a list of Ticket objects.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tickets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "modified_after",
+                  "value": "<dateTime>",
+                  "description": "If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded."
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "<string>",
+                  "description": "Number of results to return per page. (Max: 1000)"
+                },
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<string>",
+                  "description": "The pagination cursor value"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) The customer ID that uniquely identifies the customer in your application",
+                "key": "x-customer-id",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) The provider name",
+                "key": "x-provider-name",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "c6a73b13-d061-4c43-8f89-124fb849c5d0",
+              "name": "TicketsData",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "modified_after",
+                      "value": "2023-02-23T00:00:00Z"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The customer ID that uniquely identifies the customer in your application",
+                    "key": "x-customer-id",
+                    "value": "my-customer-1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The provider name",
+                    "key": "x-provider-name",
+                    "value": "salesforce"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"pagination\": {\n    \"next\": \"eyJpZCI6IjQyNTc5ZjczLTg1MjQtNDU3MC05YjY3LWVjYmQ3MDJjNmIxNCIsInJldmVyc2UiOmZhbHNlfQ==\",\n    \"previous\": \"eyJpZCI6IjBjZDhmYmZkLWU5NmQtNDEwZC05ZjQxLWIwMjU1YjdmNGI4NyIsInJldmVyc2UiOnRydWV9\",\n    \"total_count\": 100\n  },\n  \"records\": [\n    {\n      \"name\": \"Please add more integrations\",\n      \"creator\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n      \"assignees\": [\n        \"17a54124-287f-494d-965e-3c5b330c9a68\",\n        \"17a54124-287f-494d-965e-3c5b330c9a68\"\n      ],\n      \"due_date\": \"2022-10-11T00:00:00Z\",\n      \"status\": \"OPEN\",\n      \"description\": \"Can you please add more integrations? It'll make syncing data much easier!\",\n      \"collections\": [\n        \"fb8c55b6-1cb8-4b4c-9fb6-17924231619d\",\n        \"fb8c55b6-1cb8-4b4c-9fb6-17924231619d\"\n      ],\n      \"ticket_type\": \"incident\",\n      \"account\": \"0958cbc6-6040-430a-848e-aafacbadf4ae\",\n      \"contact\": \"65c345ba-6870-4974-87ba-dd31509c367a\",\n      \"parent_ticket\": \"75b33d04-30d2-4f3e-be45-27838bc94342\",\n      \"tags\": [\n        \"enterprise\",\n        \"enterprise\"\n      ],\n      \"completed_at\": \"2021-12-09T00:00:00Z\",\n      \"ticket_url\": \"https://thirdpartysoftware.com/project/3/issue/1\",\n      \"priority\": \"HIGH\"\n    },\n    {\n      \"name\": \"Please add more integrations\",\n      \"creator\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n      \"assignees\": [\n        \"17a54124-287f-494d-965e-3c5b330c9a68\",\n        \"17a54124-287f-494d-965e-3c5b330c9a68\"\n      ],\n      \"due_date\": \"2022-10-11T00:00:00Z\",\n      \"status\": \"OPEN\",\n      \"description\": \"Can you please add more integrations? It'll make syncing data much easier!\",\n      \"collections\": [\n        \"fb8c55b6-1cb8-4b4c-9fb6-17924231619d\",\n        \"fb8c55b6-1cb8-4b4c-9fb6-17924231619d\"\n      ],\n      \"ticket_type\": \"incident\",\n      \"account\": \"0958cbc6-6040-430a-848e-aafacbadf4ae\",\n      \"contact\": \"65c345ba-6870-4974-87ba-dd31509c367a\",\n      \"parent_ticket\": \"75b33d04-30d2-4f3e-be45-27838bc94342\",\n      \"tags\": [\n        \"enterprise\",\n        \"enterprise\"\n      ],\n      \"completed_at\": \"2021-12-09T00:00:00Z\",\n      \"ticket_url\": \"https://thirdpartysoftware.com/project/3/issue/1\",\n      \"priority\": \"HIGH\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1b4012ef-811e-4e3d-94c2-409e46fce388",
+          "name": "Create ticket",
+          "request": {
+            "name": "Create ticket",
+            "description": {
+              "content": "Creates a Ticket object with the given values.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tickets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) The customer ID that uniquely identifies the customer in your application",
+                "key": "x-customer-id",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) The provider name",
+                "key": "x-provider-name",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"record\": {\n    \"name\": \"<string>\",\n    \"creator\": \"<string>\",\n    \"assignees\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"due_date\": \"<string>\",\n    \"status\": \"<string>\",\n    \"description\": \"<string>\",\n    \"collections\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"ticket_type\": \"<string>\",\n    \"account\": \"<string>\",\n    \"contact\": \"<string>\",\n    \"parent_ticket\": \"<string>\",\n    \"tags\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"completed_at\": \"<string>\",\n    \"ticket_url\": \"<string>\",\n    \"priority\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e712f10e-522c-4c17-80f3-36e6cf367c90",
+              "name": "Ticket created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tickets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The customer ID that uniquely identifies the customer in your application",
+                    "key": "x-customer-id",
+                    "value": "my-customer-1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The provider name",
+                    "key": "x-provider-name",
+                    "value": "salesforce"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"record\": {\n    \"name\": \"Please add more integrations\",\n    \"creator\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n    \"assignees\": [\n      \"17a54124-287f-494d-965e-3c5b330c9a68\",\n      \"17a54124-287f-494d-965e-3c5b330c9a68\"\n    ],\n    \"due_date\": \"2022-10-11T00:00:00Z\",\n    \"status\": \"OPEN\",\n    \"description\": \"Can you please add more integrations? It'll make syncing data much easier!\",\n    \"collections\": [\n      \"fb8c55b6-1cb8-4b4c-9fb6-17924231619d\",\n      \"fb8c55b6-1cb8-4b4c-9fb6-17924231619d\"\n    ],\n    \"ticket_type\": \"incident\",\n    \"account\": \"0958cbc6-6040-430a-848e-aafacbadf4ae\",\n    \"contact\": \"65c345ba-6870-4974-87ba-dd31509c367a\",\n    \"parent_ticket\": \"75b33d04-30d2-4f3e-be45-27838bc94342\",\n    \"tags\": [\n      \"enterprise\",\n      \"enterprise\"\n    ],\n    \"completed_at\": \"2021-12-09T00:00:00Z\",\n    \"ticket_url\": \"https://thirdpartysoftware.com/project/3/issue/1\",\n    \"priority\": \"HIGH\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"id\": \"9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5\",\n      \"detail\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n      \"problem_type\": \"MISSING_REQUIRED_FIELD\",\n      \"title\": \"Property values were not valid\\n\",\n      \"code\": \"MISSING_REQUIRED_FIELD\",\n      \"status\": \"400\",\n      \"meta\": {\n        \"origin\": \"remote-provider\",\n        \"cause\": {\n          \"code\": 400,\n          \"body\": {\n            \"status\": \"error\",\n            \"message\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n            \"correlationId\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"category\": \"VALIDATION_ERROR\"\n          },\n          \"headers\": {\n            \"access-control-allow-credentials\": \"false\",\n            \"cf-cache-status\": \"DYNAMIC\",\n            \"cf-ray\": \"8053d17b9dae9664-SJC\",\n            \"connection\": \"close\",\n            \"content-length\": \"361\",\n            \"content-type\": \"application/json;charset=utf-8\",\n            \"date\": \"Mon, 11 Sep 2023 23:51:22 GMT\",\n            \"nel\": \"{\\\"success_fraction\\\":0.01,\\\"report_to\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"report-to\": \"{\\\"endpoints\\\":[{\\\"url\\\":\\\"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc\\\"}],\\\"group\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"server\": \"cloudflare\",\n            \"strict-transport-security\": \"max-age=31536000; includeSubDomains; preload\",\n            \"vary\": \"origin, Accept-Encoding\",\n            \"x-content-type-options\": \"nosniff\",\n            \"x-envoy-upstream-service-time\": \"91\",\n            \"x-evy-trace-listener\": \"listener_https\",\n            \"x-evy-trace-route-configuration\": \"listener_https/all\",\n            \"x-evy-trace-route-service-name\": \"envoyset-translator\",\n            \"x-evy-trace-served-by-pod\": \"iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2\",\n            \"x-evy-trace-virtual-host\": \"all\",\n            \"x-hubspot-correlation-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-hubspot-ratelimit-interval-milliseconds\": \"10000\",\n            \"x-hubspot-ratelimit-max\": \"100\",\n            \"x-hubspot-ratelimit-remaining\": \"99\",\n            \"x-hubspot-ratelimit-secondly\": \"10\",\n            \"x-hubspot-ratelimit-secondly-remaining\": \"9\",\n            \"x-request-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-trace\": \"2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000\"\n          }\n        },\n        \"application_name\": \"MyCompany Production\"\n      }\n    },\n    {\n      \"id\": \"9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5\",\n      \"detail\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n      \"problem_type\": \"MISSING_REQUIRED_FIELD\",\n      \"title\": \"Property values were not valid\\n\",\n      \"code\": \"MISSING_REQUIRED_FIELD\",\n      \"status\": \"400\",\n      \"meta\": {\n        \"origin\": \"remote-provider\",\n        \"cause\": {\n          \"code\": 400,\n          \"body\": {\n            \"status\": \"error\",\n            \"message\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n            \"correlationId\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"category\": \"VALIDATION_ERROR\"\n          },\n          \"headers\": {\n            \"access-control-allow-credentials\": \"false\",\n            \"cf-cache-status\": \"DYNAMIC\",\n            \"cf-ray\": \"8053d17b9dae9664-SJC\",\n            \"connection\": \"close\",\n            \"content-length\": \"361\",\n            \"content-type\": \"application/json;charset=utf-8\",\n            \"date\": \"Mon, 11 Sep 2023 23:51:22 GMT\",\n            \"nel\": \"{\\\"success_fraction\\\":0.01,\\\"report_to\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"report-to\": \"{\\\"endpoints\\\":[{\\\"url\\\":\\\"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc\\\"}],\\\"group\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"server\": \"cloudflare\",\n            \"strict-transport-security\": \"max-age=31536000; includeSubDomains; preload\",\n            \"vary\": \"origin, Accept-Encoding\",\n            \"x-content-type-options\": \"nosniff\",\n            \"x-envoy-upstream-service-time\": \"91\",\n            \"x-evy-trace-listener\": \"listener_https\",\n            \"x-evy-trace-route-configuration\": \"listener_https/all\",\n            \"x-evy-trace-route-service-name\": \"envoyset-translator\",\n            \"x-evy-trace-served-by-pod\": \"iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2\",\n            \"x-evy-trace-virtual-host\": \"all\",\n            \"x-hubspot-correlation-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-hubspot-ratelimit-interval-milliseconds\": \"10000\",\n            \"x-hubspot-ratelimit-max\": \"100\",\n            \"x-hubspot-ratelimit-remaining\": \"99\",\n            \"x-hubspot-ratelimit-secondly\": \"10\",\n            \"x-hubspot-ratelimit-secondly-remaining\": \"9\",\n            \"x-request-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-trace\": \"2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000\"\n          }\n        },\n        \"application_name\": \"MyCompany Production\"\n      }\n    }\n  ],\n  \"record\": {\n    \"id\": \"string\"\n  },\n  \"warnings\": [\n    {\n      \"detail\": \"string\",\n      \"problem_type\": \"string\",\n      \"title\": \"string\"\n    },\n    {\n      \"detail\": \"string\",\n      \"problem_type\": \"string\",\n      \"title\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f2d42d17-2d11-450f-bf2e-f96062b5b95e",
+          "name": "Get ticket",
+          "request": {
+            "name": "Get ticket",
+            "description": {
+              "content": ":::note\nThis feature is only available in Preview to select customers on our Enterprise plan. [Contact us](mailto:team@supaglue.com) for more information.\n:::\n\nReturns an Ticket object with the given id.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tickets",
+                ":ticket_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "include_raw_data",
+                  "value": "<boolean>",
+                  "description": "Whether to include raw data fetched from the 3rd party provider."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ticket_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) The customer ID that uniquely identifies the customer in your application",
+                "key": "x-customer-id",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) The provider name",
+                "key": "x-provider-name",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "ce6c9309-394c-41be-95d1-f48b36385859",
+              "name": "TicketData",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tickets",
+                    ":ticket_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "include_raw_data",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ticket_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The customer ID that uniquely identifies the customer in your application",
+                    "key": "x-customer-id",
+                    "value": "my-customer-1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The provider name",
+                    "key": "x-provider-name",
+                    "value": "salesforce"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"Please add more integrations\",\n  \"creator\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n  \"assignees\": [\n    \"17a54124-287f-494d-965e-3c5b330c9a68\",\n    \"17a54124-287f-494d-965e-3c5b330c9a68\"\n  ],\n  \"due_date\": \"2022-10-11T00:00:00Z\",\n  \"status\": \"OPEN\",\n  \"description\": \"Can you please add more integrations? It'll make syncing data much easier!\",\n  \"collections\": [\n    \"fb8c55b6-1cb8-4b4c-9fb6-17924231619d\",\n    \"fb8c55b6-1cb8-4b4c-9fb6-17924231619d\"\n  ],\n  \"ticket_type\": \"incident\",\n  \"account\": \"0958cbc6-6040-430a-848e-aafacbadf4ae\",\n  \"contact\": \"65c345ba-6870-4974-87ba-dd31509c367a\",\n  \"parent_ticket\": \"75b33d04-30d2-4f3e-be45-27838bc94342\",\n  \"tags\": [\n    \"enterprise\",\n    \"enterprise\"\n  ],\n  \"completed_at\": \"2021-12-09T00:00:00Z\",\n  \"ticket_url\": \"https://thirdpartysoftware.com/project/3/issue/1\",\n  \"priority\": \"HIGH\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "92a7ee89-7754-48cb-bab7-72efa4531326",
+          "name": "Update ticket",
+          "request": {
+            "name": "Update ticket",
+            "description": {
+              "content": "Updates a Ticket object with the given values.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "tickets",
+                ":ticket_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "ticket_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) The customer ID that uniquely identifies the customer in your application",
+                "key": "x-customer-id",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) The provider name",
+                "key": "x-provider-name",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "x-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"record\": {\n    \"name\": \"<string>\",\n    \"creator\": \"<string>\",\n    \"assignees\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"due_date\": \"<string>\",\n    \"status\": \"<string>\",\n    \"description\": \"<string>\",\n    \"collections\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"ticket_type\": \"<string>\",\n    \"account\": \"<string>\",\n    \"contact\": \"<string>\",\n    \"parent_ticket\": \"<string>\",\n    \"tags\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"completed_at\": \"<string>\",\n    \"ticket_url\": \"<string>\",\n    \"priority\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "48af2929-880a-4d67-9060-613bc5e2d290",
+              "name": "Ticket updated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "tickets",
+                    ":ticket_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "ticket_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "x-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The customer ID that uniquely identifies the customer in your application",
+                    "key": "x-customer-id",
+                    "value": "my-customer-1"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The provider name",
+                    "key": "x-provider-name",
+                    "value": "salesforce"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"record\": {\n    \"name\": \"Please add more integrations\",\n    \"creator\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\n    \"assignees\": [\n      \"17a54124-287f-494d-965e-3c5b330c9a68\",\n      \"17a54124-287f-494d-965e-3c5b330c9a68\"\n    ],\n    \"due_date\": \"2022-10-11T00:00:00Z\",\n    \"status\": \"OPEN\",\n    \"description\": \"Can you please add more integrations? It'll make syncing data much easier!\",\n    \"collections\": [\n      \"fb8c55b6-1cb8-4b4c-9fb6-17924231619d\",\n      \"fb8c55b6-1cb8-4b4c-9fb6-17924231619d\"\n    ],\n    \"ticket_type\": \"incident\",\n    \"account\": \"0958cbc6-6040-430a-848e-aafacbadf4ae\",\n    \"contact\": \"65c345ba-6870-4974-87ba-dd31509c367a\",\n    \"parent_ticket\": \"75b33d04-30d2-4f3e-be45-27838bc94342\",\n    \"tags\": [\n      \"enterprise\",\n      \"enterprise\"\n    ],\n    \"completed_at\": \"2021-12-09T00:00:00Z\",\n    \"ticket_url\": \"https://thirdpartysoftware.com/project/3/issue/1\",\n    \"priority\": \"HIGH\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"id\": \"9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5\",\n      \"detail\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n      \"problem_type\": \"MISSING_REQUIRED_FIELD\",\n      \"title\": \"Property values were not valid\\n\",\n      \"code\": \"MISSING_REQUIRED_FIELD\",\n      \"status\": \"400\",\n      \"meta\": {\n        \"origin\": \"remote-provider\",\n        \"cause\": {\n          \"code\": 400,\n          \"body\": {\n            \"status\": \"error\",\n            \"message\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n            \"correlationId\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"category\": \"VALIDATION_ERROR\"\n          },\n          \"headers\": {\n            \"access-control-allow-credentials\": \"false\",\n            \"cf-cache-status\": \"DYNAMIC\",\n            \"cf-ray\": \"8053d17b9dae9664-SJC\",\n            \"connection\": \"close\",\n            \"content-length\": \"361\",\n            \"content-type\": \"application/json;charset=utf-8\",\n            \"date\": \"Mon, 11 Sep 2023 23:51:22 GMT\",\n            \"nel\": \"{\\\"success_fraction\\\":0.01,\\\"report_to\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"report-to\": \"{\\\"endpoints\\\":[{\\\"url\\\":\\\"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc\\\"}],\\\"group\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"server\": \"cloudflare\",\n            \"strict-transport-security\": \"max-age=31536000; includeSubDomains; preload\",\n            \"vary\": \"origin, Accept-Encoding\",\n            \"x-content-type-options\": \"nosniff\",\n            \"x-envoy-upstream-service-time\": \"91\",\n            \"x-evy-trace-listener\": \"listener_https\",\n            \"x-evy-trace-route-configuration\": \"listener_https/all\",\n            \"x-evy-trace-route-service-name\": \"envoyset-translator\",\n            \"x-evy-trace-served-by-pod\": \"iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2\",\n            \"x-evy-trace-virtual-host\": \"all\",\n            \"x-hubspot-correlation-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-hubspot-ratelimit-interval-milliseconds\": \"10000\",\n            \"x-hubspot-ratelimit-max\": \"100\",\n            \"x-hubspot-ratelimit-remaining\": \"99\",\n            \"x-hubspot-ratelimit-secondly\": \"10\",\n            \"x-hubspot-ratelimit-secondly-remaining\": \"9\",\n            \"x-request-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-trace\": \"2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000\"\n          }\n        },\n        \"application_name\": \"MyCompany Production\"\n      }\n    },\n    {\n      \"id\": \"9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5\",\n      \"detail\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n      \"problem_type\": \"MISSING_REQUIRED_FIELD\",\n      \"title\": \"Property values were not valid\\n\",\n      \"code\": \"MISSING_REQUIRED_FIELD\",\n      \"status\": \"400\",\n      \"meta\": {\n        \"origin\": \"remote-provider\",\n        \"cause\": {\n          \"code\": 400,\n          \"body\": {\n            \"status\": \"error\",\n            \"message\": \"Property values were not valid: [{\\\"isValid\\\":false,\\\"message\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\",\\\"error\\\":\\\"PROPERTY_DOESNT_EXIST\\\",\\\"name\\\":\\\"__about_us\\\",\\\"localizedErrorMessage\\\":\\\"Property \\\\\\\"__about_us\\\\\\\" does not exist\\\"}]\",\n            \"correlationId\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"category\": \"VALIDATION_ERROR\"\n          },\n          \"headers\": {\n            \"access-control-allow-credentials\": \"false\",\n            \"cf-cache-status\": \"DYNAMIC\",\n            \"cf-ray\": \"8053d17b9dae9664-SJC\",\n            \"connection\": \"close\",\n            \"content-length\": \"361\",\n            \"content-type\": \"application/json;charset=utf-8\",\n            \"date\": \"Mon, 11 Sep 2023 23:51:22 GMT\",\n            \"nel\": \"{\\\"success_fraction\\\":0.01,\\\"report_to\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"report-to\": \"{\\\"endpoints\\\":[{\\\"url\\\":\\\"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc\\\"}],\\\"group\\\":\\\"cf-nel\\\",\\\"max_age\\\":604800}\",\n            \"server\": \"cloudflare\",\n            \"strict-transport-security\": \"max-age=31536000; includeSubDomains; preload\",\n            \"vary\": \"origin, Accept-Encoding\",\n            \"x-content-type-options\": \"nosniff\",\n            \"x-envoy-upstream-service-time\": \"91\",\n            \"x-evy-trace-listener\": \"listener_https\",\n            \"x-evy-trace-route-configuration\": \"listener_https/all\",\n            \"x-evy-trace-route-service-name\": \"envoyset-translator\",\n            \"x-evy-trace-served-by-pod\": \"iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2\",\n            \"x-evy-trace-virtual-host\": \"all\",\n            \"x-hubspot-correlation-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-hubspot-ratelimit-interval-milliseconds\": \"10000\",\n            \"x-hubspot-ratelimit-max\": \"100\",\n            \"x-hubspot-ratelimit-remaining\": \"99\",\n            \"x-hubspot-ratelimit-secondly\": \"10\",\n            \"x-hubspot-ratelimit-secondly-remaining\": \"9\",\n            \"x-request-id\": \"ac94252c-90b5-45d2-ad1d-9a9f7651d7d2\",\n            \"x-trace\": \"2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000\"\n          }\n        },\n        \"application_name\": \"MyCompany Production\"\n      }\n    }\n  ],\n  \"warnings\": [\n    {\n      \"detail\": \"string\",\n      \"problem_type\": \"string\",\n      \"title\": \"string\"\n    },\n    {\n      \"detail\": \"string\",\n      \"problem_type\": \"string\",\n      \"title\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.supaglue.io/crm/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "9dc989bd-5b3f-4b22-a398-61cf427d5535",
+    "name": "Unified CRM Accounts Tickets API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "#### Introduction\n\nWelcome to the Unified API (CRM) documentation. You can use this API to write to multiple third-party providers within the CRM category.\n\n[View common schema for CRM](https://docs.supaglue.com/platform/common-schemas/crm)\n\n#### Base API URL\n```\nhttps://api.supaglue.io/crm/v2\n```\n\n\nContact Support:\n Name: Supaglue\n Email: docs@supaglue.com",
+      "type": "text/plain"
+    }
+  }
+}

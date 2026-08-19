@@ -1,0 +1,146 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx and the
+  components.parameters / components.responses blocks of openapi/_original/*.yml
+docs:
+  - https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx
+  - https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/platform/managed-auth.mdx
+  - https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/platform/passthrough.md
+note: >-
+  Supaglue's cross-cutting semantics are unusually consistent because every unified API is generated
+  from one shared component set: the same header pair, the same cursor pagination, the same error
+  array and the same freshness switches appear on every operation across crm, engagement, ticketing,
+  enrichment, marketing-automation and metadata. The Management API is the exception — it addresses
+  Supaglue's own objects, so it takes no customer/provider headers.
+authentication:
+  style: api-key
+  header: x-api-key
+  scope: application
+  rotation: >-
+    Keys are generated in the Management Portal (Settings -> API Keys), shown exactly once, and
+    regenerating a key immediately invalidates the previous one.
+  oauth_note: >-
+    OAuth 2.0 exists in Supaglue only as MANAGED auth to the third-party provider (Salesforce,
+    HubSpot, ...). Supaglue's own API never uses OAuth, so there is no scope surface of its own and
+    no scopes/ artifact is emitted.
+  artifact: authentication/supaglue-authentication.yml
+routing_headers:
+  headers:
+    - name: x-customer-id
+      required: true
+      applies_to: [crm, engagement, ticketing, enrichment, marketing-automation, metadata, actions]
+      description: The customer ID that uniquely identifies the customer in your application.
+    - name: x-provider-name
+      required: true
+      applies_to: [crm, engagement, ticketing, enrichment, marketing-automation, metadata, actions]
+      description: The third-party provider to route to, e.g. salesforce, hubspot, outreach.
+  note: >-
+    These two headers are what makes the unified API unified — the same path (/contacts) reaches a
+    different SaaS per request. Both are declared `required: true` in the spec and are applied at
+    the PATH level of every unified operation, so there is no default provider to fall back on.
+    The Management API takes neither: it addresses Supaglue's own objects.
+idempotency:
+  supported: false
+  idempotency_key_header: null
+  note: >-
+    Supaglue publishes no Idempotency-Key contract; retrying a POST /contacts creates a second
+    record. What it does offer is explicit UPSERT operations (upsertAccount, upsertContact,
+    upsertLead, upsertAssociation, upsertCustomer, upsertEntityMapping,
+    upsertConnectionSyncConfig) keyed on a caller-chosen field, which is the safe-retry path for
+    writes. Exactly-once semantics exist on the INBOUND webhook side only, via Svix. No
+    `Idempotency` pointer is emitted for this provider — the contract does not support it.
+  upsert_operations:
+    [upsertAccount, upsertContact, upsertLead, upsertAssociation, upsertCustomer,
+     upsertEntityMapping, upsertConnectionSyncConfig]
+pagination:
+  style: cursor
+  request_params:
+    - name: cursor
+      in: query
+      description: The pagination cursor value, opaque and base64-ish.
+    - name: page_size
+      in: query
+      description: >-
+        Number of results per page. Max 1000 on the unified list operations; the provider-passthrough
+        variant (`remote_provider_page_size`) documents a max of 100.
+  response_envelope:
+    root_fields: [pagination, records]
+    pagination_fields: [next, previous, total_count]
+    required: [pagination, records]
+  note: >-
+    Cursor pagination is uniform across every list operation: the body is always
+    {pagination:{next,previous,total_count}, records:[...]}, and `next`/`previous` are opaque
+    base64 cursors that may be null.
+filtering:
+  incremental_sync_params:
+    - modified_after
+    - modified_before
+    - created_after
+    - created_before
+  format: ISO 8601 date-time, URI-encoded
+  note: modified_after is the intended incremental-sync cursor for a warehouse consumer.
+freshness:
+  params:
+    - name: read_from_cache
+      description: >-
+        Read from Supaglue's Managed Destination cache instead of calling the provider live. Requires
+        the object to be synced to the Managed Destination first.
+    - name: include_raw_data
+      description: Include the untouched third-party payload alongside the unified fields.
+    - name: include_deleted_data
+      description: Include records the provider has soft-deleted.
+  note: >-
+    This trio is the runtime semantics that matter most to an agent: the same operation can be a
+    live provider call or a warehouse read, and only `read_from_cache` says which.
+versioning:
+  scheme: uri-path
+  current: v2
+  pattern: https://api.supaglue.io/{service}/v2
+  services: [crm, engagement, ticketing, enrichment, marketing-automation, metadata, actions, data, mgmt]
+  artifact_version: 0.25.7
+  note: >-
+    The API version (v2) and the software version (0.25.7, from the open-source release train) are
+    separate. Self-hosters pin the software version; the URI version never moved past v2.
+error_envelope:
+  media_type: application/json
+  root_field: errors
+  shape: array
+  rfc9457: false
+  artifact: errors/supaglue-problem-types.yml
+  passthrough_status: 499
+  note: >-
+    HTTP 499 is a Supaglue-specific status meaning "the upstream SaaS rejected this" — the provider's
+    own message is passed through in errors[].detail.
+rate_limiting:
+  published_limits: false
+  exhaustion_status: 429
+  exhaustion_code: TOO_MANY_REQUESTS_ERROR
+  response_headers: []
+  provider_limits_endpoint: >-
+    GET /customers/{customer_id}/connections/{provider_name}/_rate_limit_info
+    (getConnectionRateLimitInfo) reports the THIRD-PARTY provider's remaining quota, not Supaglue's.
+  artifact: rate-limits/supaglue-rate-limits.yml
+request_tracing:
+  request_id_header: null
+  error_instance_id: errors[].id
+  note: >-
+    There is no documented request-id response header. The closest tracing handle is the per-error
+    `id` UUID, which the docs tell you to quote to support.
+passthrough:
+  supported: true
+  operation: sendPassthroughRequest
+  path: POST https://api.supaglue.io/actions/v2/passthrough
+  description: >-
+    Escape hatch: call the native third-party API with Supaglue-managed credentials, passing method,
+    path, headers, query and body. This is how anything outside the unified model gets done.
+cross_links:
+  authentication: authentication/supaglue-authentication.yml
+  errors: errors/supaglue-problem-types.yml
+  lifecycle: lifecycle/supaglue-lifecycle.yml
+  rate_limits: rate-limits/supaglue-rate-limits.yml
+  webhooks: asyncapi/supaglue-webhooks.yml
+  data_model: data-model/supaglue-data-model.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

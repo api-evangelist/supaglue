@@ -1,0 +1,139 @@
+generated: '2026-08-13'
+method: searched
+source: https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/api/introduction.mdx (published
+  error-code table) + openapi/_original/*.yml 4xx/5xx responses
+format: custom
+note: Supaglue does NOT use RFC 9457 application/problem+json. Every error response is application/json
+  carrying a top-level `errors` ARRAY; each element has id, detail, title, code, status and meta (with
+  cause/origin/application_name). The `problem_type` field is marked deprecated in the spec in favour
+  of `code`. Status 499 is a Supaglue invention used to pass a remote provider's error through unchanged
+  — agents must treat 499 as 'the upstream SaaS rejected this', not as a Supaglue fault.
+envelope:
+  media_type: application/json
+  root_field: errors
+  shape: array of error objects
+  fields:
+  - name: id
+    description: Unique identifier for this error instance; quote it to support.
+  - name: detail
+    description: Detailed description of the error, often the verbatim provider message.
+  - name: title
+    description: Brief description; schema and wording vary by third-party Provider.
+  - name: code
+    description: Supaglue error code, e.g. MISSING_REQUIRED_FIELD.
+  - name: problem_type
+    description: Deprecated alias of code.
+    deprecated: true
+  - name: status
+    description: HTTP status code as a string.
+  - name: meta
+    description: 'Additional metadata: cause, origin, application_name.'
+problem_count: 15
+problems:
+- status: 304
+  code: NOT_MODIFIED
+  title: Not Modified
+  description: null
+  envelope: errors[]
+  in_spec_operations: 0
+  source_operation: null
+- status: 400
+  code: BAD_REQUEST_ERROR
+  title: Bad Request Error
+  description: null
+  envelope: errors[]
+  in_spec_operations: 128
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#createAccount
+- status: 401
+  code: UNAUTHORIZED_ERROR
+  title: Unauthorized Error
+  description: null
+  envelope: errors[]
+  in_spec_operations: 128
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#createAccount
+- status: 403
+  code: FORBIDDEN_ERROR
+  title: Forbidden Error
+  description: null
+  envelope: errors[]
+  in_spec_operations: 128
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#createAccount
+- status: 404
+  code: NOT_FOUND_ERROR
+  title: Not Found Error
+  description: null
+  envelope: errors[]
+  in_spec_operations: 128
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#createAccount
+- status: 409
+  code: CONFLICT_ERROR
+  title: Conflict Error
+  description: null
+  envelope: errors[]
+  in_spec_operations: 67
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#createAccount
+- status: 422
+  code: UNPROCESSABLE_ENTITY_ERROR
+  title: Unprocessable Entity Error
+  description: null
+  envelope: errors[]
+  in_spec_operations: 67
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#createAccount
+- status: 429
+  code: TOO_MANY_REQUESTS_ERROR
+  title: Too Many Requests Error
+  description: null
+  envelope: errors[]
+  in_spec_operations: 0
+  source_operation: null
+- status: 499
+  code: REMOTE_PROVIDER_ERROR
+  title: Remote Provider Error
+  description: Supaglue returns a custom HTTP status code 499 as a catch-all to pass back remote Provider
+    error messages.
+  envelope: errors[]
+  in_spec_operations: 82
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#createAccount
+- status: 500
+  code: INTERNAL_SERVER_ERROR
+  title: Internal Server Error
+  description: Supaglue returns a 500 INTERNAL_SERVER_ERROR as a catch-all for Supaglue-related errors.
+  envelope: errors[]
+  in_spec_operations: 128
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#createAccount
+- status: 500
+  code: CACHE_INVALIDATION_ERROR
+  title: Cache Invalidation Error
+  description: Supaglue returns a CACHE_INVALIDATION_ERROR for writes when it cannot refresh the value
+    in your Destination after writing to a Provider.
+  envelope: errors[]
+  in_spec_operations: 128
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#createAccount
+- status: 502
+  code: BAD_GATEWAY_ERROR
+  title: Bad Gateway Error
+  description: null
+  envelope: errors[]
+  in_spec_operations: 0
+  source_operation: null
+- status: 503
+  code: SERVICE_UNAVAILABLE_ERROR
+  title: Service Unavailable Error
+  description: null
+  envelope: errors[]
+  in_spec_operations: 0
+  source_operation: null
+- status: 504
+  code: GATEWAY_TIMEOUT_ERROR
+  title: Gateway Timeout Error
+  description: null
+  envelope: errors[]
+  in_spec_operations: 0
+  source_operation: null
+- status: 501
+  code: null
+  title: null
+  description: Present in the OpenAPI responses but not in the published error-code table.
+  envelope: errors[]
+  in_spec_operations: 128
+  source_operation: openapi/_original/supaglue-crm-api-openapi.yml#createAccount

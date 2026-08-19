@@ -1,0 +1,103 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unified CRM Accounts ConnectionSyncConfigs API",
+    "version": "0.25.7"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ConnectionSyncConfigs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get connection sync config",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.supaglue.io/crm/v2/connection_sync_configs",
+            "headers": [
+              {
+                "name": "x-customer-id",
+                "value": "my-customer-1"
+              },
+              {
+                "name": "x-provider-name",
+                "value": "salesforce"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get connection sync config"
+        },
+        {
+          "info": {
+            "name": "Upsert connection sync config",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.supaglue.io/crm/v2/connection_sync_configs",
+            "headers": [
+              {
+                "name": "x-customer-id",
+                "value": "my-customer-1"
+              },
+              {
+                "name": "x-provider-name",
+                "value": "salesforce"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Use this to override SyncConfig and Destination configurations on a per customer-connection basis. E.g. you can override the objects that are synced per customer-connection as well as override the table/collection that these objects are written into."
+        },
+        {
+          "info": {
+            "name": "Delete connection sync config",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.supaglue.io/crm/v2/connection_sync_configs",
+            "headers": [
+              {
+                "name": "x-customer-id",
+                "value": "my-customer-1"
+              },
+              {
+                "name": "x-provider-name",
+                "value": "salesforce"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete connection sync config"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,64 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/platform/managed-auth.mdx and
+  docs/docs/tutorials/build-integration-card.mdx, build-settings-page.mdx
+note: >-
+  Supaglue shipped no component LIBRARY — there is no npm element package, no web component and no
+  embeddable script tag. What it did ship are three hosted, prebuilt surfaces you drop a URL into,
+  which is the same job a component does for the customer-facing half of an integration: the
+  Embedded Link (start an OAuth connection from your own UI), the Magic Link (a shareable,
+  expiring connection URL for customers who cannot be redirected inline), and the Management Portal
+  (Supaglue's own dashboard). All three are recorded here because they were the only client-side
+  integration surface Supaglue offered; all three are dead, since api.supaglue.io and app.supaglue.io
+  no longer resolve.
+component_count: 3
+families:
+  - family: managed-auth
+    components:
+      - name: Embedded Link
+        kind: hosted-url
+        url_pattern: >-
+          https://api.supaglue.io/oauth/connect?applicationId={APPLICATION_ID}&customerId={CUSTOMER_ID}&providerName={PROVIDER_NAME}&returnUrl={RETURN_URL}
+        params:
+          required: [applicationId, customerId, providerName, returnUrl]
+          optional:
+            - {name: loginUrl, note: "OAuth2 hostname override; use https://test.salesforce.com for Salesforce sandboxes"}
+            - {name: scope, note: "required for Microsoft Dynamics 365, e.g. https://org8d6f84ed.crm.dynamics.com/.default"}
+        description: >-
+          Rendered as a link or button inside your own application to start the authorization-code
+          flow with a third-party provider. Supaglue exchanges the code and stores/refreshes the
+          tokens.
+      - name: Magic Link
+        kind: hosted-page
+        description: >-
+          A shareable URL that lets a customer create a connection with no frontend code on your
+          side. Created in the Management Portal (Customers -> Magic Link column) or via the
+          Management API.
+        api_operations: [createMagicLink, getMagicLinks, deleteMagicLink]
+        api_source: openapi/_original/supaglue-management-api-openapi.yml
+      - name: Supaglue-hosted authentication pages
+        kind: hosted-page
+        description: >-
+          Supaglue-hosted provider auth pages customers are redirected to, the alternative to
+          embedding the flow.
+  - family: dashboard
+    components:
+      - name: Management Portal
+        kind: hosted-dashboard
+        url: https://app.supaglue.io
+        status: NXDOMAIN (probed 2026-08-13)
+        description: >-
+          Where API keys were generated, webhooks configured, providers and destinations set up, and
+          Magic Links issued. Everything it did is also in the Management API, which is why the API
+          survives the portal.
+build_your_own:
+  note: >-
+    Rather than component libraries, Supaglue documented how to build the two customer-facing
+    surfaces yourself against the Management API.
+  guides:
+    - https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/tutorials/build-integration-card.mdx
+    - https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/tutorials/build-settings-page.mdx
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

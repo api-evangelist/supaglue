@@ -1,0 +1,117 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Unified CRM Accounts Lists API",
+    "version": "0.25.7"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Lists",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List lists",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.supaglue.io/crm/v2/lists",
+            "headers": [
+              {
+                "name": "x-customer-id",
+                "value": "my-customer-1"
+              },
+              {
+                "name": "x-provider-name",
+                "value": "salesforce"
+              }
+            ],
+            "params": [
+              {
+                "name": "page_size",
+                "value": "100",
+                "type": "query",
+                "description": "Number of results to return per page. (Max: 100)"
+              },
+              {
+                "name": "cursor",
+                "value": "cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw",
+                "type": "query",
+                "description": "The pagination cursor value"
+              },
+              {
+                "name": "object_type",
+                "value": "contact",
+                "type": "query",
+                "description": "The Supaglue common object type to fetch a list for.\n\nSupport:\n\n<table>\n  <thead>\n    <tr>\n    <th>Provider</th>\n    <th>Object Type</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>Salesforce</td>\n      <td>countact, account, opportunity, lead</td>\n    </tr>\n    <tr>\n      <td>Hubspot</td>\n      <td>contact, account</td>\n    </tr>\n  </tbody>\n  </table>\n"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List lists"
+        },
+        {
+          "info": {
+            "name": "List list memberships",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.supaglue.io/crm/v2/lists/:list_id",
+            "headers": [
+              {
+                "name": "x-customer-id",
+                "value": "my-customer-1"
+              },
+              {
+                "name": "x-provider-name",
+                "value": "salesforce"
+              }
+            ],
+            "params": [
+              {
+                "name": "list_id",
+                "value": "220e715a-0cbc-4d2d-8420-cd729f12f094",
+                "type": "path"
+              },
+              {
+                "name": "page_size",
+                "value": "100",
+                "type": "query",
+                "description": "Number of results to return per page. (Max: 100)"
+              },
+              {
+                "name": "cursor",
+                "value": "cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw",
+                "type": "query",
+                "description": "The pagination cursor value"
+              },
+              {
+                "name": "object_type",
+                "value": "contact",
+                "type": "query",
+                "description": "The Supaglue common object type to fetch a list for.\n\nSupport:\n\n<table>\n  <thead>\n    <tr>\n    <th>Provider</th>\n    <th>Object Type</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>Salesforce</td>\n      <td>countact, account, opportunity, lead</td>\n    </tr>\n    <tr>\n      <td>Hubspot</td>\n      <td>contact, account</td>\n    </tr>\n  </tbody>\n  </table>\n"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-api-key",
+              "value": "{{x-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Support:\n\n| Provider   | Object                                      | Common Schema support | Notes                                 |\n| ---------- | ------------------------------------------- | --------------------- | ------------------------------------- |\n| Hubspot    | `contact`, `account`                        | Yes                   | Raw data response from V3 API         |\n| Salesforce | `contact`, `account`, `lead`, `opportunity` | Yes                   | Raw data response from V57.0 R"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
