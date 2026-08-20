@@ -28,6 +28,19 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/supaglue.p
 tags:
 - CRM
 - HRIS
+- Unified-API
+- Open-Source
+- Integration
+- Sales Engagement
+- Ticketing
+- Data Synchronization
+- Marketing Automation
+- Enrichment
+- Webhook
+- Archived
+tags_raw:
+- CRM
+- HRIS
 - Unified API
 - Open Source
 - Integrations
@@ -48,6 +61,8 @@ apis:
   description: The `Account` Common Object represents a "company" in CRMs.
   humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
   tags:
+  - Account
+  tags_raw:
   - Accounts
   properties:
   - type: OpenAPI
@@ -105,6 +120,8 @@ apis:
     collections as sub collections.
   humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/ticketing
   tags:
+  - Collection
+  tags_raw:
   - Collections
   properties:
   - type: OpenAPI
@@ -184,6 +201,8 @@ apis:
   description: A `Custom Object` is an instance of a `Custom Object Schema`.
   humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
   tags:
+  - Custom Objects
+  tags_raw:
   - CustomObjects
   properties:
   - type: OpenAPI
@@ -198,6 +217,8 @@ apis:
   description: A `Custom Object Schema` is an object schema defined by the user.
   humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
   tags:
+  - Custom Object Schemas
+  tags_raw:
   - CustomObjectSchemas
   properties:
   - type: OpenAPI
@@ -266,6 +287,8 @@ apis:
   description: The `List` Object represents a collection of CRM records.
   humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
   tags:
+  - List
+  tags_raw:
   - Lists
   properties:
   - type: OpenAPI
@@ -348,6 +371,8 @@ apis:
     field and fields in your customer's Provider object.
   humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
   tags:
+  - Schema Mappings
+  tags_raw:
   - SchemaMappings
   properties:
   - type: OpenAPI
@@ -443,6 +468,8 @@ apis:
   description: A `SyncRun` is a single execution of a Sync at a point in time.
   humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
   tags:
+  - Sync Runs
+  tags_raw:
   - SyncRuns
   properties:
   - type: OpenAPI
@@ -481,6 +508,8 @@ apis:
   description: The Team object is used to represent a team within the company receiving the ticket.
   humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/ticketing
   tags:
+  - Team
+  tags_raw:
   - Teams
   properties:
   - type: OpenAPI
@@ -509,6 +538,8 @@ apis:
   description: The `User` Common Object represents a "user" that can log in to CRMs.
   humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
@@ -546,6 +577,9 @@ apis:
   humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/data
   baseURL: https://api.supaglue.io/data/v2
   tags:
+  - Salesforce
+  - HubSpot
+  tags_raw:
   - Salesforce
   - Hubspot
   properties:
@@ -605,6 +639,10 @@ apis:
   humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/metadata
   baseURL: https://api.supaglue.io/metadata/v2
   tags:
+  - Custom Objects
+  - StandardObjects
+  - Properties
+  tags_raw:
   - CustomObjects
   - StandardObjects
   - Properties
