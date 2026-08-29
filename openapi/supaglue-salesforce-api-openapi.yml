@@ -1,56 +1,63 @@
 openapi: 3.2.0
 info:
-  version: 0.25.7
-  title: Unified Engagement Mailboxes API
+  version: 0.13.13
+  title: Data Listing Salesforce API
   contact:
     name: Supaglue
     email: docs@supaglue.com
     url: https://supaglue.com
   description: '#### Introduction
 
-    Welcome to the Unified API (Engagement) documentation. You can use this API to write to multiple third-party providers within the Engagement category.
+
+    Welcome to the Provider API documentation for Data Listing. You can use this API to list standard and custom objects to sync them from Supaglue to your database.
 
 
-    [View common schema for Engagement](https://docs.supaglue.com/platform/common-schemas/engagement)
+    :::info
+
+    **NOTE**: To use the Data Listing API you need to use the Supaglue Managed Destination and select [Standard Objects](https://docs.supaglue.com/next/platform/objects/overview#configuration) to be synced.
+
+    :::
+
+
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://www.postman.com/supaglue/workspace/supaglue-public/overview)
 
 
     #### Base API URL
 
-
     ```
 
-    https://api.supaglue.io/engagement/v2
+    https://api.supaglue.io/data/v2
 
     ```
 
     '
 servers:
-- url: https://api.supaglue.io/engagement/v2
+- url: https://api.supaglue.io/data/v2
   description: Supaglue API
 tags:
-- name: Mailboxes
-  description: The `Mailbox` Common Object is used to represent email mailbox, used within the application for sending and syncing emails.
+- name: Salesforce
+  description: Salesforce is a CRM Provider.
 paths:
-  /mailboxes:
+  /salesforce/contacts:
     parameters:
     - $ref: '#/components/parameters/x-customer-id'
-    - $ref: '#/components/parameters/x-provider-name'
     get:
-      operationId: listMailboxes
-      summary: List mailboxes
+      operationId: listSalesforceContacts
+      summary: List contacts
+      description: '**NOTE**: To use the Data Listing API you need to use the Supaglue Managed Destination and select [Standard Objects](https://docs.supaglue.com/next/platform/objects/overview#configuration) to be synced.
+
+        '
       tags:
-      - Mailboxes
+      - Salesforce
       security:
       - x-api-key: []
       parameters:
-      - $ref: '#/components/parameters/include_raw_data'
-      - $ref: '#/components/parameters/read_from_cache'
       - $ref: '#/components/parameters/modified_after'
       - $ref: '#/components/parameters/page_size'
       - $ref: '#/components/parameters/cursor'
       responses:
         '200':
-          description: Paginated Mailboxes
+          description: Contacts
           content:
             application/json:
               schema:
@@ -61,7 +68,7 @@ paths:
                   records:
                     type: array
                     items:
-                      $ref: '#/components/schemas/mailbox'
+                      $ref: '#/components/schemas/salesforce_contact'
                 required:
                 - pagination
                 - records
@@ -79,32 +86,40 @@ paths:
           $ref: '#/components/responses/internalServerError'
         '501':
           $ref: '#/components/responses/notImplemented'
-  /mailboxes/{mailbox_id}:
+  /salesforce/accounts:
     parameters:
     - $ref: '#/components/parameters/x-customer-id'
-    - $ref: '#/components/parameters/x-provider-name'
-    - name: mailbox_id
-      in: path
-      required: true
-      schema:
-        type: string
-      example: 0258cbc6-6020-430a-848e-aafacbadf4ae
     get:
-      operationId: getMailbox
-      summary: Get mailbox
+      operationId: listSalesforceAccounts
+      summary: List accounts
+      description: '**NOTE**: To use the Data Listing API you need to use the Supaglue Managed Destination and select [Standard Objects](https://docs.supaglue.com/next/platform/objects/overview#configuration) to be synced.
+
+        '
       tags:
-      - Mailboxes
+      - Salesforce
       security:
       - x-api-key: []
       parameters:
-      - $ref: '#/components/parameters/include_raw_data'
+      - $ref: '#/components/parameters/modified_after'
+      - $ref: '#/components/parameters/page_size'
+      - $ref: '#/components/parameters/cursor'
       responses:
         '200':
-          description: Mailbox
+          description: Accounts
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/mailbox'
+                type: object
+                properties:
+                  pagination:
+                    $ref: '#/components/schemas/pagination'
+                  records:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/salesforce_account'
+                required:
+                - pagination
+                - records
         '400':
           $ref: '#/components/responses/badRequest'
         '401':
@@ -121,6 +136,145 @@ paths:
           $ref: '#/components/responses/notImplemented'
 components:
   schemas:
+    salesforce_contact:
+      type: object
+      properties:
+        Id:
+          type: string
+          description: The unique identifier for this contact.
+        Description:
+          type:
+          - string
+          - 'null'
+          description: A description of the contact.
+        Email:
+          type:
+          - string
+          - 'null'
+          description: The contact's email address.
+        AccountId:
+          type:
+          - string
+          - 'null'
+          description: ID of the account that's the parent of this contact. This is a relationship field.
+        FirstName:
+          type:
+          - string
+          - 'null'
+          description: The contact's first name up to 40 characters.
+        HomePhone:
+          type:
+          - string
+          - 'null'
+          description: The contact's home phone number.
+        IsDeleted:
+          type: boolean
+          description: Indicates whether the object has been moved to the Recycle Bin (true) or not (false).
+        LastActivityDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2022-02-27T00:00:00Z'
+          description: The date of the last activity on a contact. The LastActivityDate is set to whichever is more recent -- the LastActivityDate of a related task or event or the LastModifiedDate of a contact's record.
+        LastName:
+          type:
+          - string
+          - 'null'
+          description: The contact's last name. Maximum size is 80 characters.
+        LeadSource:
+          type:
+          - string
+          - 'null'
+          description: The source of the lead.
+        MailingCity:
+          type:
+          - string
+          - 'null'
+          description: The city of the mailing address of this contact.
+        MailingCountry:
+          type:
+          - string
+          - 'null'
+          description: The country of the mailing address of this contact.
+        MailingPostalCode:
+          type:
+          - string
+          - 'null'
+          description: The postal code of the mailing address of this contact.
+        MailingState:
+          type:
+          - string
+          - 'null'
+          description: The state of the mailijng address of this contact.
+        MailingStreet:
+          type:
+          - string
+          - 'null'
+          description: The street of the mailing address of this contact.
+        MobilePhone:
+          type:
+          - string
+          - 'null'
+          description: The contact's mobile phone number.
+        OwnerId:
+          type:
+          - string
+          - 'null'
+          description: ID of the user who owns this contact. This is a relationship field.
+        Phone:
+          type:
+          - string
+          - 'null'
+          description: The contact's phone number.
+        Fax:
+          type:
+          - string
+          - 'null'
+          description: The contact's fax number.
+        Title:
+          type:
+          - string
+          - 'null'
+          description: The contact's title.
+        CreatedDate:
+          type: string
+          format: date-time
+          example: '2022-02-27T00:00:00Z'
+          description: The date and time when this contact was created.
+        SystemModstamp:
+          type: string
+          format: date-time
+          example: '2022-02-27T00:00:00Z'
+          description: The date and time when this contact was last modified.
+        raw_data:
+          type: object
+          description: The raw data returned by the provider.
+          additionalProperties: true
+      required:
+      - Id
+      - Description
+      - Email
+      - AccountId
+      - FirstName
+      - HomePhone
+      - IsDeleted
+      - LastActivityDate
+      - LastName
+      - LeadSource
+      - MailingCity
+      - MailingCountry
+      - MailingPostalCode
+      - MailingState
+      - MailingStreet
+      - MobilePhone
+      - OwnerId
+      - Phone
+      - Fax
+      - Title
+      - CreatedDate
+      - SystemModstamp
+      - raw_data
     errors:
       type: array
       items:
@@ -262,6 +416,151 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
+    salesforce_account:
+      type: object
+      properties:
+        Id:
+          type: string
+          description: The unique identifier for this account.
+        Description:
+          type:
+          - string
+          - 'null'
+          description: A description of the contact.
+        BillingCity:
+          type:
+          - string
+          - 'null'
+          description: The city of the billing address of this contact.
+        BillingCountry:
+          type:
+          - string
+          - 'null'
+          description: The country of the billing address of this contact.
+        BillingPostalCode:
+          type:
+          - string
+          - 'null'
+          description: The postal code of the billing address of this contact.
+        BillingState:
+          type:
+          - string
+          - 'null'
+          description: The state of the billing address of this contact.
+        BillingStreet:
+          type:
+          - string
+          - 'null'
+          description: The street of the billing address of this contact.
+        ShippingCity:
+          type:
+          - string
+          - 'null'
+          description: The city of the shipping address of this contact.
+        ShippingCountry:
+          type:
+          - string
+          - 'null'
+          description: The country of the shipping address of this contact.
+        ShippingPostalCode:
+          type:
+          - string
+          - 'null'
+          description: The postal code of the shipping address of this contact.
+        ShippingState:
+          type:
+          - string
+          - 'null'
+          description: The state of the shipping address of this contact.
+        ShippingStreet:
+          type:
+          - string
+          - 'null'
+          description: The street of the shipping address of this contact.
+        Phone:
+          type:
+          - string
+          - 'null'
+          description: The account's phone number.
+        Fax:
+          type:
+          - string
+          - 'null'
+          description: The account's fax number.
+        Industry:
+          type:
+          - string
+          - 'null'
+          description: The type of industry in which the account operates.
+        LastActivityDate:
+          type:
+          - string
+          - 'null'
+          example: '2022-02-27T00:00:00Z'
+          format: date-time
+          description: The date of the last activity on an account. The LastActivityDate is set to whichever is more recent -- the LastActivityDate of a related task or event or the LastModifiedDate of an account's record.
+        Name:
+          type:
+          - string
+          - 'null'
+          description: The name of the account. Maximum size is 255 characters.
+        NumberOfEmployees:
+          type:
+          - integer
+          - 'null'
+          description: The number of employees that work at the account.
+        OwnerId:
+          type:
+          - string
+          - 'null'
+          description: ID of the user who owns this account. This is a relationship field.
+        Website:
+          type:
+          - string
+          - 'null'
+          description: The account's website URL.
+        IsDeleted:
+          type: boolean
+          description: Indicates whether the object has been moved to the Recycle Bin (true) or not (false).
+        CreatedDate:
+          type: string
+          format: date-time
+          example: '2022-02-27T00:00:00Z'
+          description: The date and time when this contact was created.
+        SystemModstamp:
+          type: string
+          format: date-time
+          example: '2022-02-27T00:00:00Z'
+          description: The date and time when this contact was last modified.
+        raw_data:
+          type: object
+          description: The raw data returned by the provider.
+          additionalProperties: true
+      required:
+      - Id
+      - Description
+      - OwnerId
+      - BillingCity
+      - BillingCountry
+      - BillingPostalCode
+      - BillingState
+      - BillingStreet
+      - ShippingCity
+      - ShippingCountry
+      - ShippingPostalCode
+      - ShippingState
+      - ShippingStreet
+      - Phone
+      - Fax
+      - Industry
+      - LastActivityDate
+      - Name
+      - NumberOfEmployees
+      - Website
+      - IsDeleted
+      - CreatedDate
+      - SystemModstamp
+      - raw_data
     pagination:
       type: object
       properties:
@@ -281,64 +580,38 @@ components:
       required:
       - next
       - previous
-    mailbox:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 54312
-        email:
-          type:
-          - string
-          - 'null'
-          example: null
-        user_id:
-          type:
-          - string
-          - 'null'
-          example: 39fd1fe0-094b-4a61-b47f-3e3ac033203d
-        created_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2022-02-27T00:00:00Z'
-        updated_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2022-02-27T00:00:00Z'
-        is_deleted:
-          type: boolean
-          example: false
-        last_modified_at:
-          type: string
-          format: date-time
-          example: '2022-02-27T00:00:00Z'
-        is_disabled:
-          type:
-          - boolean
-          - 'null'
-          description: When disabled, cannot be used to send email.
-      required:
-      - id
-      - email
-      - user_id
-      - created_at
-      - updated_at
-      - is_deleted
-      - last_modified_at
+  parameters:
+    page_size:
+      name: page_size
+      in: query
+      schema:
+        type: string
+      example: 123
+      description: 'Number of results to return per page. (Max: 1000)'
+    cursor:
+      name: cursor
+      in: query
+      schema:
+        type: string
+      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
+      description: The pagination cursor value
+    modified_after:
+      name: modified_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+      description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
+      example: '2023-02-23T00:00:00Z'
+    x-customer-id:
+      name: x-customer-id
+      in: header
+      schema:
+        type: string
+      example: my-customer-1
+      description: The customer ID that uniquely identifies the customer in your application
+      required: true
   responses:
-    notFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
     remoteProviderError:
       description: Remote provider error
       content:
@@ -375,6 +648,15 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
     forbidden:
       description: Forbidden
       content:
@@ -393,59 +675,6 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-  parameters:
-    page_size:
-      name: page_size
-      in: query
-      schema:
-        type: string
-      example: 123
-      description: 'Number of results to return per page. (Max: 1000)'
-    include_raw_data:
-      name: include_raw_data
-      in: query
-      schema:
-        type: boolean
-      description: Whether to include raw data fetched from the 3rd party provider.
-      example: true
-    modified_after:
-      name: modified_after
-      in: query
-      schema:
-        type: string
-        format: date-time
-      description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
-      example: '2023-02-23T00:00:00Z'
-    cursor:
-      name: cursor
-      in: query
-      schema:
-        type: string
-      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
-      description: The pagination cursor value
-    read_from_cache:
-      name: read_from_cache
-      in: query
-      schema:
-        type: boolean
-      example: true
-      description: "Whether to read from Supaglue's Managed Destination cache or to read directly from the provider. \n\n\n**NOTE**: `read_from_cache=true` requires you to have the object synced to the Supaglue Managed Destination.\n"
-    x-provider-name:
-      name: x-provider-name
-      in: header
-      schema:
-        type: string
-      example: salesforce
-      description: The provider name
-      required: true
-    x-customer-id:
-      name: x-customer-id
-      in: header
-      schema:
-        type: string
-      example: my-customer-1
-      description: The customer ID that uniquely identifies the customer in your application
-      required: true
   securitySchemes:
     x-api-key:
       type: apiKey

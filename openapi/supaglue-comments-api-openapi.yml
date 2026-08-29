@@ -1,31 +1,40 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   version: 0.25.7
-  title: Unified CRM Accounts Comments API
+  title: Unified Ticketing API (Preview) Comments API
   contact:
     name: Supaglue
     email: docs@supaglue.com
     url: https://supaglue.com
-  description: '#### Introduction
+  description: ':::note
+
+    This feature is only available in Preview to select customers on our Enterprise plan. [Contact us](mailto:team@supaglue.com) for more information.
+
+    :::
+
+    #### Introduction
 
 
-    Welcome to the Unified API (CRM) documentation. You can use this API to write to multiple third-party providers within the CRM category.
+    Welcome to the Unified API (Ticketing) documentation. You can use this API to write to third-party providers.
 
 
-    [View common schema for CRM](https://docs.supaglue.com/platform/common-schemas/crm)
+    [View common schema for Ticketing](https://docs.supaglue.com/platform/common-schemas/ticketing)
+
+
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://www.postman.com/supaglue/workspace/supaglue-public/overview)
 
 
     #### Base API URL
 
     ```
 
-    https://api.supaglue.io/crm/v2
+    https://api.supaglue.io/ticketing/v2
 
     ```
 
     '
 servers:
-- url: https://api.supaglue.io/crm/v2
+- url: https://api.supaglue.io/ticketing/v2
   description: Supaglue API
 tags:
 - name: Comments
@@ -101,16 +110,19 @@ paths:
                       type: string
                       example: dde3fb16-b8eb-483d-81c4-b78100816f15
                     body:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       example: When will these integrations be done? You all should use Supaglue.
                     html_body:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       example: When will these integrations be done? You all should use <b>Supaglue<b>.
                     ticket:
-                      type: string
-                      nullable: true
+                      type:
+                      - string
+                      - 'null'
                       example: fb8c55b6-1cb8-4b4c-9fb6-17924231619d
                     is_private:
                       type: boolean
@@ -326,12 +338,14 @@ components:
       type: object
       properties:
         next:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           example: eyJpZCI6IjQyNTc5ZjczLTg1MjQtNDU3MC05YjY3LWVjYmQ3MDJjNmIxNCIsInJldmVyc2UiOmZhbHNlfQ==
         previous:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           example: eyJpZCI6IjBjZDhmYmZkLWU5NmQtNDEwZC05ZjQxLWIwMjU1YjdmNGI4NyIsInJldmVyc2UiOnRydWV9
         total_count:
           type: number
@@ -339,35 +353,6 @@ components:
       required:
       - next
       - previous
-    comment:
-      type: object
-      properties:
-        user:
-          type: string
-          example: 17a54124-287f-494d-965e-3c5b330c9a68
-        contact:
-          type: string
-          example: dde3fb16-b8eb-483d-81c4-b78100816f15
-        body:
-          type: string
-          nullable: true
-          example: When will these integrations be done? You all should use Supaglue.
-        html_body:
-          type: string
-          nullable: true
-          example: When will these integrations be done? You all should use <b>Supaglue<b>.
-        ticket:
-          type: string
-          nullable: true
-          example: fb8c55b6-1cb8-4b4c-9fb6-17924231619d
-        is_private:
-          type: boolean
-          example: true
-      required:
-      - user
-      - body
-      - ticket
-      - is_private
     warnings:
       type: array
       items:
@@ -379,6 +364,38 @@ components:
             type: string
           title:
             type: string
+    comment:
+      type: object
+      properties:
+        user:
+          type: string
+          example: 17a54124-287f-494d-965e-3c5b330c9a68
+        contact:
+          type: string
+          example: dde3fb16-b8eb-483d-81c4-b78100816f15
+        body:
+          type:
+          - string
+          - 'null'
+          example: When will these integrations be done? You all should use Supaglue.
+        html_body:
+          type:
+          - string
+          - 'null'
+          example: When will these integrations be done? You all should use <b>Supaglue<b>.
+        ticket:
+          type:
+          - string
+          - 'null'
+          example: fb8c55b6-1cb8-4b4c-9fb6-17924231619d
+        is_private:
+          type: boolean
+          example: true
+      required:
+      - user
+      - body
+      - ticket
+      - is_private
   parameters:
     page_size:
       name: page_size
@@ -394,14 +411,6 @@ components:
         type: boolean
       description: Whether to include raw data fetched from the 3rd party provider.
       example: true
-    x-provider-name:
-      name: x-provider-name
-      in: header
-      schema:
-        type: string
-      example: salesforce
-      description: The provider name
-      required: true
     modified_after:
       name: modified_after
       in: query
@@ -410,6 +419,21 @@ components:
         format: date-time
       description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
       example: '2023-02-23T00:00:00Z'
+    cursor:
+      name: cursor
+      in: query
+      schema:
+        type: string
+      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
+      description: The pagination cursor value
+    x-provider-name:
+      name: x-provider-name
+      in: header
+      schema:
+        type: string
+      example: salesforce
+      description: The provider name
+      required: true
     x-customer-id:
       name: x-customer-id
       in: header
@@ -418,13 +442,6 @@ components:
       example: my-customer-1
       description: The customer ID that uniquely identifies the customer in your application
       required: true
-    cursor:
-      name: cursor
-      in: query
-      schema:
-        type: string
-      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
-      description: The pagination cursor value
   securitySchemes:
     x-api-key:
       type: apiKey

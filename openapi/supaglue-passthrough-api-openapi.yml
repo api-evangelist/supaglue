@@ -1,0 +1,164 @@
+openapi: 3.2.0
+info:
+  version: 0.25.7
+  title: Actions Passthrough API
+  contact:
+    name: Supaglue
+    email: docs@supaglue.com
+    url: https://supaglue.com
+  description: '#### Introduction
+
+
+    Welcome to the Actions API documentation. Actions are helpful APIs scoped to Providers. They range from handling CRUD operations on objects to performing multi-step workflows.
+
+
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://www.postman.com/supaglue/workspace/supaglue-public/overview)
+
+
+    #### Base API URL
+
+    ```
+
+    https://api.supaglue.io/actions/v2
+
+    ```
+
+    '
+servers:
+- url: https://api.supaglue.io/actions/v2
+  description: Supaglue API
+tags:
+- name: Passthrough
+  description: Passthrough operations to underlying providers.
+paths:
+  /passthrough:
+    parameters:
+    - $ref: '#/components/parameters/x-customer-id'
+    - $ref: '#/components/parameters/x-provider-name'
+    post:
+      operationId: sendPassthroughRequest
+      tags:
+      - Passthrough
+      summary: Send passthrough request
+      security:
+      - x-api-key: []
+      description: Send request directly to a provider
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                path:
+                  type: string
+                  description: The path to send the request to (do not pass the domain)
+                method:
+                  type: string
+                  enum:
+                  - GET
+                  - POST
+                  - PUT
+                  - PATCH
+                  - DELETE
+                  example: GET
+                headers:
+                  type: object
+                  description: Headers to pass to downstream
+                  additionalProperties:
+                    type: string
+                query:
+                  type: object
+                  description: Query parameters to pass to downstream
+                  additionalProperties:
+                    type: string
+                body:
+                  description: Body to pass to downstream (can be string or JSON object)
+                  oneOf:
+                  - type: string
+                    title: String body
+                  - type: object
+                    additionalProperties: true
+                    title: JSON body
+              required:
+              - path
+              - method
+            example:
+              path: /crm/v3/schemas
+              method: GET
+      responses:
+        '200':
+          description: Passthrough response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                    description: The full URL the request was went to
+                    example: https://customcrm.com/api/cars
+                  status:
+                    type: number
+                    description: Status code from the downstream
+                    example: 200
+                  headers:
+                    type: object
+                    description: The response headers from the downstream
+                    additionalProperties:
+                      type: string
+                  body:
+                    anyOf:
+                    - type: string
+                    - type: number
+                    - type: integer
+                    - type: boolean
+                    - type: array
+                      items:
+                        additionalProperties: true
+                    - type: object
+                      additionalProperties: true
+                    description: The body from the downstream
+                required:
+                - url
+                - status
+                - headers
+              examples:
+                Example:
+                  value:
+                    url: https://api.hubapi.com/crm/v3/schemas
+                    status: 200
+                    headers:
+                      x-hubspot-ratelimit-remaining: 99
+                    body:
+                      results:
+                      - labels:
+                          singular: Contract
+                          plural: Contracts
+                        requiredProperties:
+                        - name
+                        - description
+components:
+  parameters:
+    x-customer-id:
+      name: x-customer-id
+      in: header
+      schema:
+        type: string
+      example: my-customer-1
+      description: The customer ID that uniquely identifies the customer in your application
+      required: true
+    x-provider-name:
+      name: x-provider-name
+      in: header
+      schema:
+        type: string
+      example: salesforce
+      description: The provider name
+      required: true
+  securitySchemes:
+    x-api-key:
+      type: apiKey
+      name: x-api-key
+      in: header
+      description: API key to allow developers to access the API

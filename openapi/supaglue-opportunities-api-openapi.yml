@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   version: 0.25.7
-  title: Unified CRM Accounts Opportunities API
+  title: Unified CRM Opportunities API
   contact:
     name: Supaglue
     email: docs@supaglue.com
@@ -243,139 +243,153 @@ paths:
         '501':
           $ref: '#/components/responses/notImplemented'
 components:
+  parameters:
+    page_size:
+      name: page_size
+      in: query
+      schema:
+        type: string
+      example: 123
+      description: 'Number of results to return per page. (Max: 1000)'
+    cursor:
+      name: cursor
+      in: query
+      schema:
+        type: string
+      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
+      description: The pagination cursor value
+    modified_after:
+      name: modified_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+      description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
+      example: '2023-02-23T00:00:00Z'
+    read_from_cache:
+      name: read_from_cache
+      in: query
+      schema:
+        type: boolean
+      example: true
+      description: "Whether to read from Supaglue's Managed Destination cache or to read directly from the provider. \n\n\n**NOTE**: `read_from_cache=true` requires you to have the object synced to the Supaglue Managed Destination.\n"
+    x-customer-id:
+      name: x-customer-id
+      in: header
+      schema:
+        type: string
+      example: my-customer-1
+      description: The customer ID that uniquely identifies the customer in your application
+      required: true
+    associations_to_fetch:
+      name: associations_to_fetch
+      in: query
+      schema:
+        type: array
+        items:
+          type: string
+          example: contact
+      description: 'List of associated objects to attempt to fetch associations for. Only relevant for hubspot and when `read_from_cache` is false.
+
+        '
+    include_raw_data:
+      name: include_raw_data
+      in: query
+      schema:
+        type: boolean
+      description: Whether to include raw data fetched from the 3rd party provider.
+      example: true
+    x-provider-name:
+      name: x-provider-name
+      in: header
+      schema:
+        type: string
+      example: salesforce
+      description: The provider name
+      required: true
+  responses:
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    remoteProviderError:
+      description: Remote provider error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
   schemas:
-    warnings:
-      type: array
-      items:
-        type: object
-        properties:
-          detail:
-            type: string
-          problem_type:
-            type: string
-          title:
-            type: string
-    created_record:
-      type: object
-      properties:
-        id:
-          type: string
-      required:
-      - id
-    opportunity:
-      type: object
-      properties:
-        account_id:
-          type: string
-          nullable: true
-          example: fd089246-09b1-4e3b-a60a-7a76314bbcce
-        amount:
-          type: integer
-          nullable: true
-          example: 100000
-        close_date:
-          type: string
-          nullable: true
-          format: date-time
-          example: '2023-02-27T00:00:00Z'
-        description:
-          type: string
-          nullable: true
-          example: Wants to use open source unified API for third-party integrations
-        id:
-          type: string
-          example: 54312
-        last_activity_at:
-          type: string
-          nullable: true
-          format: date-time
-          example: '2023-02-27T00:00:00Z'
-        name:
-          type: string
-          nullable: true
-          example: Needs third-party integrations
-        owner_id:
-          type: string
-          nullable: true
-          example: d8ceb3ff-8b7f-4fa7-b8de-849292f6ca69
-        pipeline:
-          type: string
-          nullable: true
-        stage:
-          type: string
-          nullable: true
-          example: Closed Won
-        status:
-          type: string
-          nullable: true
-          example: OPEN
-        created_at:
-          type: string
-          nullable: true
-          format: date-time
-          example: '2023-02-27T00:00:00Z'
-        updated_at:
-          type: string
-          nullable: true
-          format: date-time
-          example: '2023-02-27T00:00:00Z'
-        is_deleted:
-          type: boolean
-          example: false
-        last_modified_at:
-          type: string
-          format: date-time
-          example: '2022-02-27T00:00:00Z'
-      required:
-      - account_id
-      - amount
-      - description
-      - id
-      - last_activity_at
-      - name
-      - owner_id
-      - stage
-      - status
-      - pipeline
-      - created_at
-      - updated_at
-      - is_deleted
-      - last_modified_at
-    create_update_opportunity:
-      type: object
-      properties:
-        amount:
-          type: integer
-          nullable: true
-          example: 100000
-        close_date:
-          type: string
-          nullable: true
-          example: '2022-02-10T00:00:00Z'
-        description:
-          type: string
-          nullable: true
-          example: Wants to use open source unified API for third-party integrations
-        name:
-          type: string
-          nullable: true
-          example: Needs Integrations
-        stage:
-          type: string
-          example: Closed Won
-        account_id:
-          type: string
-          nullable: true
-          example: 64571bff-48ea-4469-9fa0-ee1a0bab38bd
-        owner_id:
-          type: string
-          nullable: true
-          example: 9f3e97fd-4d5d-4efc-959d-bbebfac079f5
-        pipeline:
-          type: string
-          nullable: true
-        custom_fields:
-          $ref: '#/components/schemas/custom_fields'
     errors:
       type: array
       items:
@@ -517,16 +531,71 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
+    warnings:
+      type: array
+      items:
+        type: object
+        properties:
+          detail:
+            type: string
+          problem_type:
+            type: string
+          title:
+            type: string
+    create_update_opportunity:
+      type: object
+      properties:
+        amount:
+          type:
+          - integer
+          - 'null'
+          example: 100000
+        close_date:
+          type:
+          - string
+          - 'null'
+          example: '2022-02-10T00:00:00Z'
+        description:
+          type:
+          - string
+          - 'null'
+          example: Wants to use open source unified API for third-party integrations
+        name:
+          type:
+          - string
+          - 'null'
+          example: Needs Integrations
+        stage:
+          type: string
+          example: Closed Won
+        account_id:
+          type:
+          - string
+          - 'null'
+          example: 64571bff-48ea-4469-9fa0-ee1a0bab38bd
+        owner_id:
+          type:
+          - string
+          - 'null'
+          example: 9f3e97fd-4d5d-4efc-959d-bbebfac079f5
+        pipeline:
+          type:
+          - string
+          - 'null'
+        custom_fields:
+          $ref: '#/components/schemas/custom_fields'
     pagination:
       type: object
       properties:
         next:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           example: eyJpZCI6IjQyNTc5ZjczLTg1MjQtNDU3MC05YjY3LWVjYmQ3MDJjNmIxNCIsInJldmVyc2UiOmZhbHNlfQ==
         previous:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           example: eyJpZCI6IjBjZDhmYmZkLWU5NmQtNDEwZC05ZjQxLWIwMjU1YjdmNGI4NyIsInJldmVyc2UiOnRydWV9
         total_count:
           type: number
@@ -534,156 +603,108 @@ components:
       required:
       - next
       - previous
+    opportunity:
+      type: object
+      properties:
+        account_id:
+          type:
+          - string
+          - 'null'
+          example: fd089246-09b1-4e3b-a60a-7a76314bbcce
+        amount:
+          type:
+          - integer
+          - 'null'
+          example: 100000
+        close_date:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2023-02-27T00:00:00Z'
+        description:
+          type:
+          - string
+          - 'null'
+          example: Wants to use open source unified API for third-party integrations
+        id:
+          type: string
+          example: 54312
+        last_activity_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2023-02-27T00:00:00Z'
+        name:
+          type:
+          - string
+          - 'null'
+          example: Needs third-party integrations
+        owner_id:
+          type:
+          - string
+          - 'null'
+          example: d8ceb3ff-8b7f-4fa7-b8de-849292f6ca69
+        pipeline:
+          type:
+          - string
+          - 'null'
+        stage:
+          type:
+          - string
+          - 'null'
+          example: Closed Won
+        status:
+          type:
+          - string
+          - 'null'
+          example: OPEN
+        created_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2023-02-27T00:00:00Z'
+        updated_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2023-02-27T00:00:00Z'
+        is_deleted:
+          type: boolean
+          example: false
+        last_modified_at:
+          type: string
+          format: date-time
+          example: '2022-02-27T00:00:00Z'
+      required:
+      - account_id
+      - amount
+      - description
+      - id
+      - last_activity_at
+      - name
+      - owner_id
+      - stage
+      - status
+      - pipeline
+      - created_at
+      - updated_at
+      - is_deleted
+      - last_modified_at
     custom_fields:
       type: object
       additionalProperties: true
       description: Custom properties to be inserted that are not covered by the common object. Object keys must match exactly to the corresponding provider API.
-  responses:
-    conflict:
-      description: Conflict
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unprocessableEntity:
-      description: Unprocessable entity
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    remoteProviderError:
-      description: Remote provider error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-  parameters:
-    read_from_cache:
-      name: read_from_cache
-      in: query
-      schema:
-        type: boolean
-      example: true
-      description: "Whether to read from Supaglue's Managed Destination cache or to read directly from the provider. \n\n\n**NOTE**: `read_from_cache=true` requires you to have the object synced to the Supaglue Managed Destination.\n"
-    associations_to_fetch:
-      name: associations_to_fetch
-      in: query
-      schema:
-        type: array
-        items:
+    created_record:
+      type: object
+      properties:
+        id:
           type: string
-          example: contact
-      description: 'List of associated objects to attempt to fetch associations for. Only relevant for hubspot and when `read_from_cache` is false.
-
-        '
-    page_size:
-      name: page_size
-      in: query
-      schema:
-        type: string
-      example: 123
-      description: 'Number of results to return per page. (Max: 1000)'
-    x-customer-id:
-      name: x-customer-id
-      in: header
-      schema:
-        type: string
-      example: my-customer-1
-      description: The customer ID that uniquely identifies the customer in your application
-      required: true
-    x-provider-name:
-      name: x-provider-name
-      in: header
-      schema:
-        type: string
-      example: salesforce
-      description: The provider name
-      required: true
-    include_raw_data:
-      name: include_raw_data
-      in: query
-      schema:
-        type: boolean
-      description: Whether to include raw data fetched from the 3rd party provider.
-      example: true
-    modified_after:
-      name: modified_after
-      in: query
-      schema:
-        type: string
-        format: date-time
-      description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
-      example: '2023-02-23T00:00:00Z'
-    cursor:
-      name: cursor
-      in: query
-      schema:
-        type: string
-      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
-      description: The pagination cursor value
+      required:
+      - id
   securitySchemes:
     x-api-key:
       type: apiKey

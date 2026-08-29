@@ -1,0 +1,651 @@
+openapi: 3.2.0
+info:
+  version: 0.13.13
+  title: Data Listing Hubspot API
+  contact:
+    name: Supaglue
+    email: docs@supaglue.com
+    url: https://supaglue.com
+  description: '#### Introduction
+
+
+    Welcome to the Provider API documentation for Data Listing. You can use this API to list standard and custom objects to sync them from Supaglue to your database.
+
+
+    :::info
+
+    **NOTE**: To use the Data Listing API you need to use the Supaglue Managed Destination and select [Standard Objects](https://docs.supaglue.com/next/platform/objects/overview#configuration) to be synced.
+
+    :::
+
+
+    [![Run in Postman](https://run.pstmn.io/button.svg)](https://www.postman.com/supaglue/workspace/supaglue-public/overview)
+
+
+    #### Base API URL
+
+    ```
+
+    https://api.supaglue.io/data/v2
+
+    ```
+
+    '
+servers:
+- url: https://api.supaglue.io/data/v2
+  description: Supaglue API
+tags:
+- name: Hubspot
+  description: Hubspot is a CRM Provider.
+paths:
+  /hubspot/contacts:
+    parameters:
+    - $ref: '#/components/parameters/x-customer-id'
+    get:
+      operationId: listHubspotContacts
+      summary: List contacts
+      description: '**NOTE**: To use the Data Listing API you need to use the Supaglue Managed Destination and select [Standard Objects](https://docs.supaglue.com/next/platform/objects/overview#configuration) to be synced.
+
+        '
+      tags:
+      - Hubspot
+      security:
+      - x-api-key: []
+      parameters:
+      - $ref: '#/components/parameters/modified_after'
+      - $ref: '#/components/parameters/page_size'
+      - $ref: '#/components/parameters/cursor'
+      responses:
+        '200':
+          description: Contacts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pagination:
+                    $ref: '#/components/schemas/pagination'
+                  records:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/hubspot_contact'
+                required:
+                - pagination
+                - records
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '499':
+          $ref: '#/components/responses/remoteProviderError'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+        '501':
+          $ref: '#/components/responses/notImplemented'
+  /hubspot/companies:
+    parameters:
+    - $ref: '#/components/parameters/x-customer-id'
+    get:
+      operationId: listHubspotCompanies
+      summary: List companies
+      description: '**NOTE**: To use the Data Listing API you need to use the Supaglue Managed Destination and select [Standard Objects](https://docs.supaglue.com/next/platform/objects/overview#configuration) to be synced.
+
+        '
+      tags:
+      - Hubspot
+      security:
+      - x-api-key: []
+      parameters:
+      - $ref: '#/components/parameters/modified_after'
+      - $ref: '#/components/parameters/page_size'
+      - $ref: '#/components/parameters/cursor'
+      responses:
+        '200':
+          description: Companies
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pagination:
+                    $ref: '#/components/schemas/pagination'
+                  records:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/hubspot_company'
+                required:
+                - pagination
+                - records
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '499':
+          $ref: '#/components/responses/remoteProviderError'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+        '501':
+          $ref: '#/components/responses/notImplemented'
+components:
+  schemas:
+    errors:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: A unique identifier for the instance of the error. Provide this to support when contacting Supaglue.
+            example: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
+          detail:
+            type: string
+            description: A detailed description of the error.
+            example: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+          problem_type:
+            type: string
+            description: The Supaglue error code associated with the error.
+            example: MISSING_REQUIRED_FIELD
+            deprecated: true
+          title:
+            type: string
+            description: A brief description of the error. The schema and type of message will vary by Provider.
+            example: 'Property values were not valid
+
+              '
+          code:
+            type: string
+            description: The Supaglue error code associated with the error.
+            example: MISSING_REQUIRED_FIELD
+          status:
+            type: string
+            description: The HTTP status code associated with the error.
+            example: '400'
+          meta:
+            type: object
+            description: Additional metadata about the error.
+            properties:
+              cause:
+                type: object
+                description: The cause of the error. Usually the underlying error from the remote Provider.
+                example:
+                  code: 400
+                  body:
+                    status: error
+                    message: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+                    correlationId: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                    category: VALIDATION_ERROR
+                  headers:
+                    access-control-allow-credentials: 'false'
+                    cf-cache-status: DYNAMIC
+                    cf-ray: 8053d17b9dae9664-SJC
+                    connection: close
+                    content-length: '361'
+                    content-type: application/json;charset=utf-8
+                    date: Mon, 11 Sep 2023 23:51:22 GMT
+                    nel: '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+                    report-to: '{"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc"}],"group":"cf-nel","max_age":604800}'
+                    server: cloudflare
+                    strict-transport-security: max-age=31536000; includeSubDomains; preload
+                    vary: origin, Accept-Encoding
+                    x-content-type-options: nosniff
+                    x-envoy-upstream-service-time: '91'
+                    x-evy-trace-listener: listener_https
+                    x-evy-trace-route-configuration: listener_https/all
+                    x-evy-trace-route-service-name: envoyset-translator
+                    x-evy-trace-served-by-pod: iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2
+                    x-evy-trace-virtual-host: all
+                    x-hubspot-correlation-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                    x-hubspot-ratelimit-interval-milliseconds: '10000'
+                    x-hubspot-ratelimit-max: '100'
+                    x-hubspot-ratelimit-remaining: '99'
+                    x-hubspot-ratelimit-secondly: '10'
+                    x-hubspot-ratelimit-secondly-remaining: '9'
+                    x-request-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                    x-trace: 2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000
+              origin:
+                type: string
+                enum:
+                - remote-provider
+                - supaglue
+                description: The origin of the error.
+                example: remote-provider
+              application_name:
+                type: string
+                description: The name of the application that generated the error.
+                example: MyCompany Production
+            required:
+            - origin
+            additionalProperties: true
+        required:
+        - id
+        - detail
+        - problem_type
+        - title
+        - code
+        - status
+        - meta
+        example:
+        - meta:
+            cause:
+              code: 400
+              body:
+                status: error
+                message: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+                correlationId: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                category: VALIDATION_ERROR
+              headers:
+                access-control-allow-credentials: 'false'
+                cf-cache-status: DYNAMIC
+                cf-ray: 8053d17b9dae9664-SJC
+                connection: close
+                content-length: '361'
+                content-type: application/json;charset=utf-8
+                date: Mon, 11 Sep 2023 23:51:22 GMT
+                nel: '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+                report-to: '{"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v3?s=FgwuXObO%2Fz6ahUJKsxjDLaXTWjooJ8tB0w4%2B%2BKaulGStx0FGkn1PoJoOx2KrFMfihzNdfAqikq7CmgbdlmwKB8hkmp3eTb68qpg10LXFlRgiSqRhbWM7yYSfo8CXmPBc"}],"group":"cf-nel","max_age":604800}'
+                server: cloudflare
+                strict-transport-security: max-age=31536000; includeSubDomains; preload
+                vary: origin, Accept-Encoding
+                x-content-type-options: nosniff
+                x-envoy-upstream-service-time: '91'
+                x-evy-trace-listener: listener_https
+                x-evy-trace-route-configuration: listener_https/all
+                x-evy-trace-route-service-name: envoyset-translator
+                x-evy-trace-served-by-pod: iad02/hubapi-td/envoy-proxy-6c94986c56-9xsh2
+                x-evy-trace-virtual-host: all
+                x-hubspot-correlation-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                x-hubspot-ratelimit-interval-milliseconds: '10000'
+                x-hubspot-ratelimit-max: '100'
+                x-hubspot-ratelimit-remaining: '99'
+                x-hubspot-ratelimit-secondly: '10'
+                x-hubspot-ratelimit-secondly-remaining: '9'
+                x-request-id: ac94252c-90b5-45d2-ad1d-9a9f7651d7d2
+                x-trace: 2B1B4386362759B6A4C34802AD168B803DDC1BE770000000000000000000
+          detail: 'Property values were not valid: [{"isValid":false,"message":"Property \"__about_us\" does not exist","error":"PROPERTY_DOESNT_EXIST","name":"__about_us","localizedErrorMessage":"Property \"__about_us\" does not exist"}]'
+          problem_type: MISSING_REQUIRED_FIELD
+          title: 'Property values were not valid
+
+            '
+          code: MISSING_REQUIRED_FIELD
+          status: '400'
+          id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
+    hubspot_company:
+      type: object
+      properties:
+        id:
+          type: string
+          example: '101'
+          description: the unique identifier for the company. This field is set automatically and cannot be edited. This can be used when updating companies through importing or through API.
+        description:
+          type:
+          - string
+          - 'null'
+          example: Open-source developer platform for customer-facing integrations
+          description: a short statement about the company's mission and goals.
+        city:
+          type:
+          - string
+          - 'null'
+          example: San Francisco
+          description: the city where the company is located.
+        country:
+          type:
+          - string
+          - 'null'
+          example: United States
+          description: the country where the company is located.
+        zip:
+          type:
+          - string
+          - 'null'
+          example: '94025'
+          description: postal or zip code for the company.
+        state:
+          type:
+          - string
+          - 'null'
+          example: CA
+          description: the state or region where the company is located.
+        address:
+          type:
+          - string
+          - 'null'
+          example: 525 Brannan St
+          description: the street address of the company.
+        phone:
+          type:
+          - string
+          - 'null'
+          example: (650) 450-8810
+          description: the company's primary phone number.
+        industry:
+          type:
+          - string
+          - 'null'
+          example: COMPUTER SOFTWARE
+          description: the type of business the company performs. By default, this property has approximately 150 pre-defined options to select from. These options cannot be deleted, as they are used by HubSpot Insights, but you can add new custom options to meet your needs.
+        name:
+          type:
+          - string
+          - 'null'
+          example: Supaglue
+          description: the name of the company.
+        numberofemployees:
+          type:
+          - string
+          - 'null'
+          example: '3000'
+          description: total number of people who work for the company.
+        hubspot_owner_id:
+          type:
+          - string
+          - 'null'
+          example: '101'
+          description: the HubSpot user that the company is assigned to. You can assign additional users to a company record by creating a custom HubSpot user property.
+        domain:
+          type:
+          - string
+          - 'null'
+          example: uos.com.sg
+          description: the company's website domain. HubSpot Insights uses this domain to provide you with basic information about the company. Every property marked with an asterisk (*) can be populated automatically by HubSpot Insights once the domain name is populated.
+        website:
+          type:
+          - string
+          - 'null'
+          example: http://www.uos.com.sg
+          description: the company's web address. Filling in this property will also fill in Company domain name.
+        is_deleted:
+          type: boolean
+          example: false
+          description: ''
+        createdate:
+          type: string
+          format: date-time
+          example: '2023-08-01T20:58:17.725Z'
+          description: the date the company was added to your account.
+        notes_last_updated:
+          type: string
+          format: date-time
+          example: '2023-08-01T20:58:17.725Z'
+          description: the last date and time a note, call, tracked and logged sales email, meeting, LinkedIn/SMS/WhatsApp message, task, or chat was logged on the company record. This is set automatically by HubSpot based on the most recent date/time set for an activity. For example, if a user logs a call and indicates that it occurred the day before, the Last activity date property will show yesterday's date.
+        raw_data:
+          type: object
+          description: The raw data returned by the provider.
+          additionalProperties: true
+      required:
+      - id
+      - description
+      - hubspot_owner_id
+      - city
+      - country
+      - zip
+      - state
+      - address
+      - phone
+      - fax
+      - industry
+      - name
+      - numberofemployees
+      - website
+      - domain
+      - is_deleted
+      - createdate
+      - notes_last_updated
+      - raw_data
+    hubspot_contact:
+      type: object
+      properties:
+        id:
+          type: string
+          example: '501'
+          description: the unique identifier for the contact. This field is set automatically and cannot be edited. This can be used when updating contacts through importing or through API.
+        email:
+          type:
+          - string
+          - 'null'
+          example: team@supaglue.com
+          description: the contact's primary email address.
+        associatedcompanyid:
+          type:
+          - string
+          - 'null'
+          example: '101'
+          description: ''
+        firstname:
+          type:
+          - string
+          - 'null'
+          example: Jane
+          description: the contact's first name.
+        phone:
+          type:
+          - string
+          - 'null'
+          example: (650) 450-8812
+          description: the contact's primary phone number. The phone number is validated and formatted automatically by HubSpot based on the country code. You can select to turn off automatic formatting on a contact record, either when editing the Phone number property, or adding a phone number to call.
+        is_deleted:
+          type: boolean
+          example: false
+          description: Indicates whether the object has been moved to the Recycle Bin (true) or not (false).
+        lastname:
+          type:
+          - string
+          - 'null'
+          example: Doe
+          description: the contact's last name.
+        city:
+          type:
+          - string
+          - 'null'
+          example: Palo Alto
+          description: the contact's city of residence.
+        country:
+          type:
+          - string
+          - 'null'
+          example: United States
+          description: the contact's country of residence. This might be set via import, form, or integration.
+        zip:
+          type:
+          - string
+          - 'null'
+          example: '94303'
+          description: the contact's zip code.
+        state:
+          type:
+          - string
+          - 'null'
+          example: CA
+          description: the contact's state of residence.
+        address:
+          type:
+          - string
+          - 'null'
+          example: 4 Giro's Passage
+          description: 'the contact''s street address, including apartment or unit #.'
+        mobilephone:
+          type:
+          - string
+          - 'null'
+          example: (650) 450-8811
+          description: the contact's mobile phone number. The phone number is validated and formatted automatically by HubSpot based on the country code. You can select to turn off automatic formatting on a contact record, either when editing the Mobile phone number property, or adding a phone number to call.
+        hubspot_owner_id:
+          type:
+          - string
+          - 'null'
+          example: '1450461'
+          description: the owner of the contact. This can be any HubSpot user or Salesforce integration user and can be set manually or via Workflows. You can assign additional users to the contact record by creating a custom HubSpot user field type property.
+        fax:
+          type:
+          - string
+          - 'null'
+          example: (650) 450-8810
+          description: the contact's primary fax number.
+        jobtitle:
+          type:
+          - string
+          - 'null'
+          example: CEO
+          description: the contact's job title.
+        createdate:
+          type: string
+          format: date-time
+          example: '2023-08-01T20:58:17.725Z'
+          description: the date that the contact was created in your HubSpot account.
+        notes_last_updated:
+          type: string
+          format: date-time
+          example: '2023-08-01T20:58:17.725Z'
+          description: the last date and time a note, call, tracked and logged sales email, meeting, LinkedIn/SMS/WhatsApp message, task, or chat was logged on the contact record. This is set automatically by HubSpot based on the most recent date/time set for an activity. For example, if a user logs a call and indicates that it occurred the day before, the Last activity date property will show yesterday's date.
+        raw_data:
+          type: object
+          description: The raw data returned by the provider.
+          additionalProperties: true
+      required:
+      - id
+      - email
+      - associatedcompanyid
+      - firstname
+      - phone
+      - is_deleted
+      - lastname
+      - city
+      - country
+      - zip
+      - state
+      - address
+      - mobilephone
+      - hubspot_owner_id
+      - fax
+      - jobtitle
+      - createdate
+      - notes_last_updated
+      - raw_data
+    pagination:
+      type: object
+      properties:
+        next:
+          type:
+          - string
+          - 'null'
+          example: eyJpZCI6IjQyNTc5ZjczLTg1MjQtNDU3MC05YjY3LWVjYmQ3MDJjNmIxNCIsInJldmVyc2UiOmZhbHNlfQ==
+        previous:
+          type:
+          - string
+          - 'null'
+          example: eyJpZCI6IjBjZDhmYmZkLWU5NmQtNDEwZC05ZjQxLWIwMjU1YjdmNGI4NyIsInJldmVyc2UiOnRydWV9
+        total_count:
+          type: number
+          example: 100
+      required:
+      - next
+      - previous
+  parameters:
+    page_size:
+      name: page_size
+      in: query
+      schema:
+        type: string
+      example: 123
+      description: 'Number of results to return per page. (Max: 1000)'
+    modified_after:
+      name: modified_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+      description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
+      example: '2023-02-23T00:00:00Z'
+    cursor:
+      name: cursor
+      in: query
+      schema:
+        type: string
+      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
+      description: The pagination cursor value
+    x-customer-id:
+      name: x-customer-id
+      in: header
+      schema:
+        type: string
+      example: my-customer-1
+      description: The customer ID that uniquely identifies the customer in your application
+      required: true
+  responses:
+    remoteProviderError:
+      description: Remote provider error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+  securitySchemes:
+    x-api-key:
+      type: apiKey
+      name: x-api-key
+      in: header
+      description: API key to allow developers to access the API

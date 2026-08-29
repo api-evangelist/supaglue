@@ -1,31 +1,18 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
+  title: Supaglue Contacts API
   version: 0.25.7
-  title: Unified CRM Accounts Contacts API
   contact:
     name: Supaglue
     email: docs@supaglue.com
     url: https://supaglue.com
-  description: '#### Introduction
-
-
-    Welcome to the Unified API (CRM) documentation. You can use this API to write to multiple third-party providers within the CRM category.
-
-
-    [View common schema for CRM](https://docs.supaglue.com/platform/common-schemas/crm)
-
-
-    #### Base API URL
-
-    ```
-
-    https://api.supaglue.io/crm/v2
-
-    ```
-
-    '
+  description: 'Operations tagged Contacts across 3 of this provider''s published API definitions: supaglue-crm-api-openapi.yml, supaglue-engagement-api-openapi.yml, supaglue-ticketing-api-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.supaglue.io/crm/v2
+  description: Supaglue API
+- url: https://api.supaglue.io/engagement/v2
+  description: Supaglue API
+- url: https://api.supaglue.io/ticketing/v2
   description: Supaglue API
 tags:
 - name: Contacts
@@ -137,6 +124,9 @@ paths:
           $ref: '#/components/responses/internalServerError'
         '501':
           $ref: '#/components/responses/notImplemented'
+    servers:
+    - url: https://api.supaglue.io/crm/v2
+      description: Supaglue API
   /contacts/_search:
     parameters:
     - $ref: '#/components/parameters/x-customer-id'
@@ -224,6 +214,9 @@ paths:
           $ref: '#/components/responses/internalServerError'
         '501':
           $ref: '#/components/responses/notImplemented'
+    servers:
+    - url: https://api.supaglue.io/crm/v2
+      description: Supaglue API
   /contacts/_upsert:
     parameters:
     - $ref: '#/components/parameters/x-customer-id'
@@ -300,6 +293,9 @@ paths:
           $ref: '#/components/responses/internalServerError'
         '501':
           $ref: '#/components/responses/notImplemented'
+    servers:
+    - url: https://api.supaglue.io/crm/v2
+      description: Supaglue API
   /contacts/{contact_id}:
     parameters:
     - $ref: '#/components/parameters/x-customer-id'
@@ -395,113 +391,82 @@ paths:
           $ref: '#/components/responses/internalServerError'
         '501':
           $ref: '#/components/responses/notImplemented'
+    servers:
+    - url: https://api.supaglue.io/crm/v2
+      description: Supaglue API
 components:
+  parameters:
+    page_size:
+      name: page_size
+      in: query
+      schema:
+        type: string
+      example: 123
+      description: 'Number of results to return per page. (Max: 1000)'
+    cursor:
+      name: cursor
+      in: query
+      schema:
+        type: string
+      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
+      description: The pagination cursor value
+    modified_after:
+      name: modified_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+      description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
+      example: '2023-02-23T00:00:00Z'
+    read_from_cache:
+      name: read_from_cache
+      in: query
+      schema:
+        type: boolean
+      example: true
+      description: "Whether to read from Supaglue's Managed Destination cache or to read directly from the provider. \n\n\n**NOTE**: `read_from_cache=true` requires you to have the object synced to the Supaglue Managed Destination.\n"
+    x-customer-id:
+      name: x-customer-id
+      in: header
+      schema:
+        type: string
+      example: my-customer-1
+      description: The customer ID that uniquely identifies the customer in your application
+      required: true
+    associations_to_fetch:
+      name: associations_to_fetch
+      in: query
+      schema:
+        type: array
+        items:
+          type: string
+          example: contact
+      description: 'List of associated objects to attempt to fetch associations for. Only relevant for hubspot and when `read_from_cache` is false.
+
+        '
+    include_raw_data:
+      name: include_raw_data
+      in: query
+      schema:
+        type: boolean
+      description: Whether to include raw data fetched from the 3rd party provider.
+      example: true
+    x-provider-name:
+      name: x-provider-name
+      in: header
+      schema:
+        type: string
+      example: salesforce
+      description: The provider name
+      required: true
+    remote_provider_page_size:
+      name: page_size
+      in: query
+      schema:
+        type: string
+      example: 100
+      description: 'Number of results to return per page. (Max: 100)'
   schemas:
-    lifecycle_stage:
-      type: string
-      nullable: true
-      enum:
-      - subscriber
-      - lead
-      - marketingqualifiedlead
-      - salesqualifiedlead
-      - opportunity
-      - customer
-      - evangelist
-      - other
-    warnings:
-      type: array
-      items:
-        type: object
-        properties:
-          detail:
-            type: string
-          problem_type:
-            type: string
-          title:
-            type: string
-    addresses:
-      type: array
-      items:
-        type: object
-        properties:
-          address_type:
-            type: string
-            enum:
-            - primary
-            - mailing
-            - other
-            - billing
-            - shipping
-          city:
-            type: string
-            nullable: true
-            example: San Francisco
-          country:
-            type: string
-            nullable: true
-            example: USA
-          postal_code:
-            type: string
-            nullable: true
-            example: '94107'
-          state:
-            type: string
-            nullable: true
-            example: CA
-          street_1:
-            type: string
-            nullable: true
-            example: 525 Brannan
-          street_2:
-            type: string
-            nullable: true
-            example: null
-        required:
-        - address_type
-        - city
-        - country
-        - postal_code
-        - state
-        - street_1
-        - street_2
-      example:
-      - address_type: shipping
-        city: San Francisco
-        country: US
-        postal_code: '94107'
-        state: CA
-        street_1: 525 Brannan
-        street_2: null
-    create_update_contact:
-      type: object
-      properties:
-        first_name:
-          type: string
-          nullable: true
-          example: George
-        last_name:
-          type: string
-          nullable: true
-          example: Xing
-        account_id:
-          type: string
-          nullable: true
-          example: 64571bff-48ea-4469-9fa0-ee1a0bab38bd
-        addresses:
-          $ref: '#/components/schemas/addresses'
-        email_addresses:
-          $ref: '#/components/schemas/email_addresses'
-        phone_numbers:
-          $ref: '#/components/schemas/phone_numbers'
-        owner_id:
-          type: string
-          nullable: true
-          example: 9f3e97fd-4d5d-4efc-959d-bbebfac079f5
-        lifecycle_stage:
-          $ref: '#/components/schemas/lifecycle_stage'
-        custom_fields:
-          $ref: '#/components/schemas/custom_fields'
     email_addresses:
       type: array
       items:
@@ -522,106 +487,78 @@ components:
       example:
       - email_address: hello@supaglue.com
         email_address_type: work
-    created_record:
-      type: object
-      properties:
-        id:
-          type: string
-      required:
-      - id
-    contact:
-      type: object
-      properties:
-        account_id:
-          type: string
-          nullable: true
-          example: fd089246-09b1-4e3b-a60a-7a76314bbcce
-        owner_id:
-          type: string
-          nullable: true
-          example: 23e640fe-6105-4a11-a636-3aa6b6c6e762
-        addresses:
-          $ref: '#/components/schemas/addresses'
-        email_addresses:
-          $ref: '#/components/schemas/email_addresses'
-        first_name:
-          type: string
-          nullable: true
-          example: George
-        id:
-          type: string
-          example: 54312
-        last_activity_at:
-          type: string
-          nullable: true
-          format: date-time
-          example: '2022-02-27T00:00:00Z'
-        last_name:
-          type: string
-          nullable: true
-          example: Xing
-        phone_numbers:
-          $ref: '#/components/schemas/phone_numbers'
-        lifecycle_stage:
-          $ref: '#/components/schemas/lifecycle_stage'
-        created_at:
-          type: string
-          nullable: true
-          format: date-time
-          example: '2022-02-27T00:00:00Z'
-        updated_at:
-          type: string
-          nullable: true
-          format: date-time
-          example: '2022-02-27T00:00:00Z'
-        is_deleted:
-          type: boolean
-          example: false
-        last_modified_at:
-          type: string
-          format: date-time
-          example: '2022-02-27T00:00:00Z'
-        raw_data:
-          type: object
-          additionalProperties: true
-      required:
-      - account_id
-      - owner_id
-      - description
-      - id
-      - addresses
-      - email_addresses
-      - first_name
-      - last_activity_at
-      - last_name
-      - phone_numbers
-      - lifecycle_stage
-      - created_at
-      - updated_at
-      - is_deleted
-      - last_modified_at
-    phone_numbers:
+    lifecycle_stage:
+      type:
+      - string
+      - 'null'
+      enum:
+      - subscriber
+      - lead
+      - marketingqualifiedlead
+      - salesqualifiedlead
+      - opportunity
+      - customer
+      - evangelist
+      - other
+    addresses:
       type: array
       items:
         type: object
         properties:
-          phone_number:
-            type: string
-            nullable: true
-            example: '+14151234567'
-          phone_number_type:
+          address_type:
             type: string
             enum:
             - primary
-            - mobile
-            - fax
+            - mailing
             - other
+            - billing
+            - shipping
+          city:
+            type:
+            - string
+            - 'null'
+            example: San Francisco
+          country:
+            type:
+            - string
+            - 'null'
+            example: USA
+          postal_code:
+            type:
+            - string
+            - 'null'
+            example: '94107'
+          state:
+            type:
+            - string
+            - 'null'
+            example: CA
+          street_1:
+            type:
+            - string
+            - 'null'
+            example: 525 Brannan
+          street_2:
+            type:
+            - string
+            - 'null'
+            example: null
         required:
-        - phone_number
-        - phone_number_type
+        - address_type
+        - city
+        - country
+        - postal_code
+        - state
+        - street_1
+        - street_2
       example:
-      - phone_number: '+14151234567'
-        phone_number_type: primary
+      - address_type: shipping
+        city: San Francisco
+        country: US
+        postal_code: '94107'
+        state: CA
+        street_1: 525 Brannan
+        street_2: null
     errors:
       type: array
       items:
@@ -763,16 +700,140 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
+    contact:
+      type: object
+      properties:
+        account_id:
+          type:
+          - string
+          - 'null'
+          example: fd089246-09b1-4e3b-a60a-7a76314bbcce
+        owner_id:
+          type:
+          - string
+          - 'null'
+          example: 23e640fe-6105-4a11-a636-3aa6b6c6e762
+        addresses:
+          $ref: '#/components/schemas/addresses'
+        email_addresses:
+          $ref: '#/components/schemas/email_addresses'
+        first_name:
+          type:
+          - string
+          - 'null'
+          example: George
+        id:
+          type: string
+          example: 54312
+        last_activity_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2022-02-27T00:00:00Z'
+        last_name:
+          type:
+          - string
+          - 'null'
+          example: Xing
+        phone_numbers:
+          $ref: '#/components/schemas/phone_numbers'
+        lifecycle_stage:
+          $ref: '#/components/schemas/lifecycle_stage'
+        created_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2022-02-27T00:00:00Z'
+        updated_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2022-02-27T00:00:00Z'
+        is_deleted:
+          type: boolean
+          example: false
+        last_modified_at:
+          type: string
+          format: date-time
+          example: '2022-02-27T00:00:00Z'
+        raw_data:
+          type: object
+          additionalProperties: true
+      required:
+      - account_id
+      - owner_id
+      - description
+      - id
+      - addresses
+      - email_addresses
+      - first_name
+      - last_activity_at
+      - last_name
+      - phone_numbers
+      - lifecycle_stage
+      - created_at
+      - updated_at
+      - is_deleted
+      - last_modified_at
+    create_update_contact:
+      type: object
+      properties:
+        first_name:
+          type:
+          - string
+          - 'null'
+          example: George
+        last_name:
+          type:
+          - string
+          - 'null'
+          example: Xing
+        account_id:
+          type:
+          - string
+          - 'null'
+          example: 64571bff-48ea-4469-9fa0-ee1a0bab38bd
+        addresses:
+          $ref: '#/components/schemas/addresses'
+        email_addresses:
+          $ref: '#/components/schemas/email_addresses'
+        phone_numbers:
+          $ref: '#/components/schemas/phone_numbers'
+        owner_id:
+          type:
+          - string
+          - 'null'
+          example: 9f3e97fd-4d5d-4efc-959d-bbebfac079f5
+        lifecycle_stage:
+          $ref: '#/components/schemas/lifecycle_stage'
+        custom_fields:
+          $ref: '#/components/schemas/custom_fields'
+    warnings:
+      type: array
+      items:
+        type: object
+        properties:
+          detail:
+            type: string
+          problem_type:
+            type: string
+          title:
+            type: string
     pagination:
       type: object
       properties:
         next:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           example: eyJpZCI6IjQyNTc5ZjczLTg1MjQtNDU3MC05YjY3LWVjYmQ3MDJjNmIxNCIsInJldmVyc2UiOmZhbHNlfQ==
         previous:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           example: eyJpZCI6IjBjZDhmYmZkLWU5NmQtNDEwZC05ZjQxLWIwMjU1YjdmNGI4NyIsInJldmVyc2UiOnRydWV9
         total_count:
           type: number
@@ -784,7 +845,292 @@ components:
       type: object
       additionalProperties: true
       description: Custom properties to be inserted that are not covered by the common object. Object keys must match exactly to the corresponding provider API.
+    created_record:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+    phone_numbers:
+      type: array
+      items:
+        type: object
+        properties:
+          phone_number:
+            type:
+            - string
+            - 'null'
+            example: '+14151234567'
+          phone_number_type:
+            type: string
+            enum:
+            - primary
+            - mobile
+            - fax
+            - other
+        required:
+        - phone_number
+        - phone_number_type
+      example:
+      - phone_number: '+14151234567'
+        phone_number_type: primary
+    email_addresses_2:
+      type: array
+      items:
+        type: object
+        properties:
+          email_address:
+            type: string
+            example: hello@supaglue.com
+          email_address_type:
+            type:
+            - string
+            - 'null'
+            enum:
+            - primary
+            - personal
+            - work
+        required:
+        - email_address
+        - email_address_type
+      example:
+      - email_address: hello@supaglue.com
+        email_address_type: work
+    contact_2:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 54312
+        owner_id:
+          type:
+          - string
+          - 'null'
+          example: 23e640fe-6105-4a11-a636-3aa6b6c6e762
+        account_id:
+          type:
+          - string
+          - 'null'
+          example: 45edea5a-0b9a-44ff-bd45-4452014eb4fa
+        first_name:
+          type:
+          - string
+          - 'null'
+          example: George
+        last_name:
+          type:
+          - string
+          - 'null'
+          example: Xing
+        job_title:
+          type:
+          - string
+          - 'null'
+          example: CEO
+        address:
+          $ref: '#/components/schemas/address'
+        email_addresses:
+          $ref: '#/components/schemas/email_addresses_2'
+        phone_numbers:
+          $ref: '#/components/schemas/phone_numbers_2'
+        open_count:
+          type: number
+        click_count:
+          type: number
+        reply_count:
+          type: number
+        bounced_count:
+          type: number
+        created_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2022-02-27T00:00:00Z'
+        updated_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2022-02-27T00:00:00Z'
+        is_deleted:
+          type: boolean
+          example: false
+        last_modified_at:
+          type: string
+          format: date-time
+          example: '2022-02-27T00:00:00Z'
+        raw_data:
+          type: object
+          additionalProperties: true
+      required:
+      - id
+      - owner_id
+      - first_name
+      - last_name
+      - job_title
+      - address
+      - email_addresses
+      - phone_numbers
+      - open_count
+      - click_count
+      - reply_count
+      - bounced_count
+      - created_at
+      - updated_at
+      - is_deleted
+      - last_modified_at
+    create_contact:
+      type: object
+      properties:
+        first_name:
+          type:
+          - string
+          - 'null'
+          example: George
+        last_name:
+          type:
+          - string
+          - 'null'
+          example: Xing
+        job_title:
+          type:
+          - string
+          - 'null'
+          example: CEO
+        address:
+          $ref: '#/components/schemas/address'
+        email_addresses:
+          $ref: '#/components/schemas/email_addresses_2'
+        phone_numbers:
+          $ref: '#/components/schemas/phone_numbers_2'
+        owner_id:
+          type:
+          - string
+          - 'null'
+          example: 9f3e97fd-4d5d-4efc-959d-bbebfac079f5
+        account_id:
+          type:
+          - string
+          - 'null'
+          example: ae4be028-9078-4850-a0bf-d2112b7c4d11
+        custom_fields:
+          $ref: '#/components/schemas/custom_fields'
+    address:
+      type:
+      - object
+      - 'null'
+      properties:
+        city:
+          type:
+          - string
+          - 'null'
+          example: San Francisco
+        country:
+          type:
+          - string
+          - 'null'
+          example: USA
+        postal_code:
+          type:
+          - string
+          - 'null'
+          example: '94107'
+        state:
+          type:
+          - string
+          - 'null'
+          example: CA
+        street_1:
+          type:
+          - string
+          - 'null'
+          example: 525 Brannan
+        street_2:
+          type:
+          - string
+          - 'null'
+          example: null
+      required:
+      - city
+      - country
+      - postal_code
+      - state
+      - street_1
+      - street_2
+      example:
+      - city: San Francisco
+        country: US
+        postal_code: '94107'
+        state: CA
+        street_1: 525 Brannan
+        street_2: null
+    phone_numbers_2:
+      type: array
+      items:
+        type: object
+        properties:
+          phone_number:
+            type:
+            - string
+            - 'null'
+            example: '+14151234567'
+          phone_number_type:
+            type:
+            - string
+            - 'null'
+            enum:
+            - primary
+            - work
+            - home
+            - mobile
+            - other
+        required:
+        - phone_number
+        - phone_number_type
+      example:
+      - phone_number: '+14151234567'
+        phone_number_type: work
+    contact_3:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+          example: Cousin Greg
+        email_address:
+          type: string
+          example: greg@waystar-royco.com
+        phone_number:
+          type:
+          - string
+          - 'null'
+          example: '5108890293'
+        details:
+          type:
+          - string
+          - 'null'
+          example: Executive Assistant to Tom Wambsgans
+        account:
+          type:
+          - string
+          - 'null'
+          example: 8998e1ed-1c76-4b64-9097-9d37ee88bf6f
+      required:
+      - name
+      - email_address
   responses:
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
     conflict:
       description: Conflict
       content:
@@ -794,8 +1140,8 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
+    remoteProviderError:
+      description: Remote provider error
       content:
         application/json:
           schema:
@@ -803,8 +1149,8 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    unprocessableEntity:
-      description: Unprocessable entity
+    unauthorized:
+      description: Unauthorized
       content:
         application/json:
           schema:
@@ -830,17 +1176,8 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
+    unprocessableEntity:
+      description: Unprocessable entity
       content:
         application/json:
           schema:
@@ -857,8 +1194,8 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    remoteProviderError:
-      description: Remote provider error
+    notImplemented:
+      description: Not implemented
       content:
         application/json:
           schema:
@@ -866,73 +1203,13 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-  parameters:
-    read_from_cache:
-      name: read_from_cache
-      in: query
-      schema:
-        type: boolean
-      example: true
-      description: "Whether to read from Supaglue's Managed Destination cache or to read directly from the provider. \n\n\n**NOTE**: `read_from_cache=true` requires you to have the object synced to the Supaglue Managed Destination.\n"
-    associations_to_fetch:
-      name: associations_to_fetch
-      in: query
-      schema:
-        type: array
-        items:
-          type: string
-          example: contact
-      description: 'List of associated objects to attempt to fetch associations for. Only relevant for hubspot and when `read_from_cache` is false.
-
-        '
-    page_size:
-      name: page_size
-      in: query
-      schema:
-        type: string
-      example: 123
-      description: 'Number of results to return per page. (Max: 1000)'
-    include_raw_data:
-      name: include_raw_data
-      in: query
-      schema:
-        type: boolean
-      description: Whether to include raw data fetched from the 3rd party provider.
-      example: true
-    modified_after:
-      name: modified_after
-      in: query
-      schema:
-        type: string
-        format: date-time
-      description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
-      example: '2023-02-23T00:00:00Z'
-    x-provider-name:
-      name: x-provider-name
-      in: header
-      schema:
-        type: string
-      example: salesforce
-      description: The provider name
-      required: true
-    x-customer-id:
-      name: x-customer-id
-      in: header
-      schema:
-        type: string
-      example: my-customer-1
-      description: The customer ID that uniquely identifies the customer in your application
-      required: true
-    cursor:
-      name: cursor
-      in: query
-      schema:
-        type: string
-      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
-      description: The pagination cursor value
   securitySchemes:
     x-api-key:
       type: apiKey
       name: x-api-key
       in: header
       description: API key to allow developers to access the API
+x-refined-from:
+- supaglue-crm-api-openapi.yml
+- supaglue-engagement-api-openapi.yml
+- supaglue-ticketing-api-openapi.yml

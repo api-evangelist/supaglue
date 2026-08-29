@@ -1,31 +1,16 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  version: 0.25.7
-  title: Unified CRM Accounts Properties API
+  title: Supaglue Properties API
   contact:
     name: Supaglue
     email: docs@supaglue.com
     url: https://supaglue.com
-  description: '#### Introduction
-
-
-    Welcome to the Unified API (CRM) documentation. You can use this API to write to multiple third-party providers within the CRM category.
-
-
-    [View common schema for CRM](https://docs.supaglue.com/platform/common-schemas/crm)
-
-
-    #### Base API URL
-
-    ```
-
-    https://api.supaglue.io/crm/v2
-
-    ```
-
-    '
+  version: '1.0'
+  description: 'Operations tagged Properties across 2 of this provider''s published API definitions: supaglue-crm-api-openapi.yml, supaglue-metadata-api-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.supaglue.io/crm/v2
+  description: Supaglue API
+- url: https://api.supaglue.io/metadata/v2
   description: Supaglue API
 tags:
 - name: Properties
@@ -124,6 +109,9 @@ paths:
           $ref: '#/components/responses/internalServerError'
         '501':
           $ref: '#/components/responses/notImplemented'
+    servers:
+    - url: https://api.supaglue.io/crm/v2
+      description: Supaglue API
   /metadata/properties/{object_name}/{property_name}:
     parameters:
     - $ref: '#/components/parameters/x-customer-id'
@@ -229,6 +217,9 @@ paths:
           $ref: '#/components/responses/internalServerError'
         '501':
           $ref: '#/components/responses/notImplemented'
+    servers:
+    - url: https://api.supaglue.io/crm/v2
+      description: Supaglue API
   /metadata/properties/{object_name}/register:
     parameters:
     - $ref: '#/components/parameters/x-customer-id'
@@ -291,6 +282,67 @@ paths:
           $ref: '#/components/responses/internalServerError'
         '501':
           $ref: '#/components/responses/notImplemented'
+    servers:
+    - url: https://api.supaglue.io/crm/v2
+      description: Supaglue API
+  /properties:
+    parameters:
+    - $ref: '#/components/parameters/x-customer-id'
+    - $ref: '#/components/parameters/x-provider-name'
+    get:
+      operationId: listPropertiesDeprecated
+      summary: List properties (deprecated)
+      deprecated: true
+      tags:
+      - Properties
+      security:
+      - x-api-key: []
+      parameters:
+      - name: type
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - standard
+          - custom
+      - name: name
+        in: query
+        required: true
+        schema:
+          type: string
+          description: The name of the object for which you want to list properties.
+      responses:
+        '200':
+          description: List of properties
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  properties:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/property_deprecated'
+                required:
+                - properties
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '499':
+          $ref: '#/components/responses/remoteProviderError'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+        '501':
+          $ref: '#/components/responses/notImplemented'
+    servers:
+    - url: https://api.supaglue.io/metadata/v2
+      description: Supaglue API
 components:
   schemas:
     errors:
@@ -434,6 +486,22 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
+    register_property:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The machine name of the property as it appears in the third-party Provider.
+          example: 1234523
+        name:
+          type: string
+          description: 'The unique identifier to be used to refer to this property across all customers. Supaglue will use this to appropriately map to the provider field ID.
+
+            '
+          example: ticketId
+      required:
+      - name
+      - id
     create_property:
       type: object
       properties:
@@ -520,22 +588,6 @@ components:
           description: The list of options for a picklist/multipicklist field.
           items:
             $ref: '#/components/schemas/picklist_option'
-    register_property:
-      type: object
-      properties:
-        id:
-          type: string
-          description: The machine name of the property as it appears in the third-party Provider.
-          example: 1234523
-        name:
-          type: string
-          description: 'The unique identifier to be used to refer to this property across all customers. Supaglue will use this to appropriately map to the provider field ID.
-
-            '
-          example: ticketId
-      required:
-      - name
-      - id
     property_unified:
       type: object
       properties:
@@ -607,18 +659,32 @@ components:
       required:
       - label
       - value
+    property_deprecated:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The machine name of the property as it appears in the third-party Provider.
+          example: FirstName
+        label:
+          type: string
+          description: The human-readable name of the property as provided by the third-party Provider.
+          example: First Name
+        type:
+          type: string
+          description: The type of the property as provided by the third-party Provider. These types are not unified by Supaglue. For Intercom, this is string, integer, boolean, or object. For Outreach, this is integer, boolean, number, array, or string.
+          example: string
+        raw_details:
+          type: object
+          description: The raw details of the property as provided by the third-party Provider, if available.
+          additionalProperties: true
+          example: {}
+      required:
+      - id
+      - label
   responses:
-    conflict:
-      description: Conflict
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    internalServerError:
-      description: Internal server error
+    unprocessableEntity:
+      description: Unprocessable entity
       content:
         application/json:
           schema:
@@ -635,44 +701,17 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
+    conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
     remoteProviderError:
       description: Remote provider error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unprocessableEntity:
-      description: Unprocessable entity
       content:
         application/json:
           schema:
@@ -689,15 +728,43 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
   parameters:
-    x-customer-id:
-      name: x-customer-id
-      in: header
-      schema:
-        type: string
-      example: my-customer-1
-      description: The customer ID that uniquely identifies the customer in your application
-      required: true
     x-provider-name:
       name: x-provider-name
       in: header
@@ -706,9 +773,20 @@ components:
       example: salesforce
       description: The provider name
       required: true
+    x-customer-id:
+      name: x-customer-id
+      in: header
+      schema:
+        type: string
+      example: my-customer-1
+      description: The customer ID that uniquely identifies the customer in your application
+      required: true
   securitySchemes:
     x-api-key:
       type: apiKey
       name: x-api-key
       in: header
       description: API key to allow developers to access the API
+x-refined-from:
+- supaglue-crm-api-openapi.yml
+- supaglue-metadata-api-openapi.yml
