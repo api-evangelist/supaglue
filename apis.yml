@@ -11,6 +11,19 @@ description: 'Supaglue was an open-source unified API platform for B2B SaaS prod
   sale listing. The MIT-licensed code remains self-hostable, and the contract is preserved here as the historical
   record of a well-shaped unified API.'
 type: Index
+deliveryModel:
+  model: unknown
+  open_source: unknown
+  commercial: true
+  callable_host: false
+  label: Delivery model not determined — needs a product licence on record
+  confidence: low
+  source:
+  - openapi
+  - pricing
+  - repository-unlicensed
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-serve
@@ -681,6 +694,9 @@ apis:
   - type: APIReference
     url: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/metadata
 common:
+- type: CapabilityMap
+  url: capabilities/supaglue-capability-edges.yml
+  name: Supaglue Business Capability Map
 - type: AgenticAccess
   url: agentic-access/supaglue-agentic-access.yml
 - type: Authentication
