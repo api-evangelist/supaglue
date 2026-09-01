@@ -216,7 +216,7 @@ apis:
   description: A `Custom Object` is an instance of a `Custom Object Schema`.
   humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
   tags:
-  - CustomObjects
+  - Custom Objects
   tags_raw:
   - CustomObjects
   properties:
@@ -232,7 +232,7 @@ apis:
   description: A `Custom Object Schema` is an object schema defined by the user.
   humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/crm
   tags:
-  - CustomObjectSchemas
+  - Custom Object Schemas
   tags_raw:
   - CustomObjectSchemas
   properties:
@@ -392,7 +392,7 @@ apis:
     field and fields in your customer's Provider object.
   humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
   tags:
-  - SchemaMappings
+  - Schema Mappings
   tags_raw:
   - SchemaMappings
   properties:
@@ -494,7 +494,7 @@ apis:
   description: A `SyncRun` is a single execution of a Sync at a point in time.
   humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
   tags:
-  - SyncRuns
+  - Sync Runs
   tags_raw:
   - SyncRuns
   properties:
@@ -706,6 +706,9 @@ apis:
   - type: OpenAPI
     url: openapi/supaglue-webhook-events-api-openapi.yml
 common:
+- type: License
+  name: MIT
+  url: https://github.com/supaglue-labs/supaglue/blob/main/LICENSE
 - type: CapabilityMap
   url: capabilities/supaglue-capability-edges.yml
   name: Supaglue Business Capability Map
