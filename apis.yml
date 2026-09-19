@@ -219,6 +219,8 @@ apis:
   description: A `Destination` is a data store where we write data in your infrastructure.
   humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
   tags:
+  - Destination
+  tags_raw:
   - Destinations
   properties:
   - type: OpenAPI
@@ -364,6 +366,8 @@ apis:
     Actions API.
   humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
   tags:
+  - Schema
+  tags_raw:
   - Schemas
   properties:
   - type: OpenAPI
@@ -464,6 +468,8 @@ apis:
     A `Sync` is a way for a Customer to sync data from a Provider to a Destination on a schedule.
   humanURL: https://docs.supaglue.com/api/v2/mgmt/management-api
   tags:
+  - Sync
+  tags_raw:
   - Syncs
   properties:
   - type: OpenAPI
