@@ -1,0 +1,55 @@
+slug: supaglue
+provider: Supaglue
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 4
+edges:
+- tag: Opportunities
+  spec_file: supaglue-opportunities-api-openapi.yml
+  capability_id: BC-410.30
+  capability_id_l1: BC-410
+  capability_name: Opportunity & Pipeline Management
+  confidence: 0.88
+  evidence: POST /opportunities createOpportunity Create opportunity; PATCH /opportunities/{opportunity_id}
+    updateOpportunity; schema create_update_opportunity
+  reason: CRUD over CRM opportunity records across providers — squarely the opportunity/deal lifecycle.
+- tag: Leads
+  spec_file: supaglue-leads-api-openapi.yml
+  capability_id: BC-410.30
+  capability_id_l1: BC-410
+  capability_name: Opportunity & Pipeline Management
+  confidence: 0.85
+  evidence: POST /leads createLead Create lead; POST /leads/_upsert upsertLead; schemas lead, lifecycle_stage,
+    create_update_lead
+  reason: Full CRUD/search over CRM lead records including lifecycle stage — the lead portion of the lead-to-opportunity
+    pipeline.
+- tag: Contacts
+  spec_file: supaglue-contacts-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.72
+  evidence: 'POST /contacts/_upsert upsertContact Upsert contact; schemas: email_addresses, addresses,
+    phone_numbers, lifecycle_stage'
+  reason: Unified CRM contact records read/write across providers — maintaining contact master records
+    with emails, addresses and lifecycle stage is customer data management.
+- tag: Accounts
+  spec_file: supaglue-accounts-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.7
+  evidence: 'POST /accounts createAccount Create account; schemas: create_update_account, lifecycle_stage,
+    addresses, phone_numbers'
+  reason: Unified CRM API for reading/writing account (company) records across providers — CRUD over customer
+    master records with addresses, phone numbers and lifecycle stage. That is customer data management,
+    not the vendor's own account management activity.
