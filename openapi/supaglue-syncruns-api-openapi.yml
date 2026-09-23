@@ -19,9 +19,7 @@ info:
 
     https://api.supaglue.io/mgmt/v2
 
-    ```
-
-    '
+    ```'
 servers:
 - url: https://api.supaglue.io/mgmt/v2
   description: Supaglue API
@@ -130,6 +128,61 @@ paths:
         '501':
           $ref: '#/components/responses/notImplemented'
 components:
+  responses:
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
   schemas:
     errors:
       type: array
@@ -272,15 +325,6 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
-    category:
-      type: string
-      enum:
-      - crm
-      - engagement
-      - enrichment
-      - marketing_automation
-      - no_category
-      example: crm
     provider_name:
       type: string
       enum:
@@ -303,6 +347,15 @@ components:
       - salesforce_marketing_cloud_account_engagement
       - slack
       example: hubspot
+    category:
+      type: string
+      enum:
+      - crm
+      - engagement
+      - enrichment
+      - marketing_automation
+      - no_category
+      example: crm
     sync_run:
       oneOf:
       - type: object
@@ -447,61 +500,6 @@ components:
       required:
       - next
       - previous
-  responses:
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
   securitySchemes:
     x-api-key:
       type: apiKey

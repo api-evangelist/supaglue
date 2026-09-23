@@ -19,9 +19,7 @@ info:
 
     https://api.supaglue.io/mgmt/v2
 
-    ```
-
-    '
+    ```'
 servers:
 - url: https://api.supaglue.io/mgmt/v2
   description: Supaglue API
@@ -178,57 +176,23 @@ paths:
           $ref: '#/components/responses/notImplemented'
 components:
   schemas:
-    postgres_config_unsafe:
+    s3_config_safe:
       type: object
       properties:
-        host:
+        bucket:
           type: string
-          example: production-db-new.cluster-cdhnnutnlctj.us-west-2.rds.amazonaws.com
-        port:
-          type: number
-          example: 5432
-        database:
+          example: s3://my-bucket-name
+        region:
           type: string
-          example: postgres_prod_db
-        schema:
+          example: us-west-2
+        access_key_id:
           type: string
-          example: public
-        user:
-          type: string
-          example: myuser
-        ssl_mode:
-          type: string
-          enum:
-          - disable
-          - no-verify
-          - prefer
-          - require
-          - verify-ca
-          - verify-full
-          example: disable
-        password:
-          type: string
-          example: mysensitivepassword
-        server_ca_cert:
-          type: string
-          example: '---BEGIN CERTIFICATE-----'
-        client_cert:
-          type: string
-          example: '---BEGIN CERTIFICATE-----'
-        client_key:
-          type: string
-          example: '---BEGIN RSA PRIVATE KEY-----'
-        server_name:
-          type: string
-          example: 1-dd8643d8-f1ce-420f-a867-66b78a4734be.us-central1.sql.goog
+          example: AKIDFIAKFISDKFSI
       required:
-      - host
-      - port
-      - database
-      - schema
-      - user
-      - password
-    redshift_config_safe:
+      - bucket
+      - region
+      - access_key_id
+    redshift_config_unsafe:
       type: object
       properties:
         host:
@@ -258,6 +222,9 @@ components:
         s3_bucket_region:
           type: string
           example: us-west-2
+        s3_access_key:
+          type: string
+          example: ASDFKSFSFKSDKFSK
       required:
       - host
       - port
@@ -268,124 +235,7 @@ components:
       - s3_key_id
       - s3_bucket_name
       - s3_bucket_region
-    s3_config_safe:
-      type: object
-      properties:
-        bucket:
-          type: string
-          example: s3://my-bucket-name
-        region:
-          type: string
-          example: us-west-2
-        access_key_id:
-          type: string
-          example: AKIDFIAKFISDKFSI
-      required:
-      - bucket
-      - region
-      - access_key_id
-    bigquery_config_safe:
-      type: object
-      properties:
-        project_id:
-          type: string
-          example: my-gcp-project-id
-        dataset:
-          type: string
-          example: my_bigquery_dataset
-        credentials:
-          type: object
-          properties:
-            client_email:
-              type: string
-              example: my_bigquery_service_account@my_project.iam.gserviceaccount.com
-          required:
-          - client_email
-      required:
-      - project_id
-      - dataset
-      - credentials
-    create_destination:
-      oneOf:
-      - type: object
-        title: postgres
-        properties:
-          name:
-            type: string
-            example: My Postgres Destination
-          type:
-            type: string
-            enum:
-            - postgres
-            example: postgres
-          config:
-            $ref: '#/components/schemas/postgres_config_unsafe'
-        required:
-        - name
-        - type
-        - config
-      - type: object
-        title: supaglue
-        description: A Supaglue-hosted Postgres database destination for Listing APIs.
-        properties:
-          type:
-            type: string
-            enum:
-            - supaglue
-            example: supaglue
-        required:
-        - type
-      - type: object
-        title: bigquery
-        properties:
-          name:
-            type: string
-            example: My BigQuery Destination
-          type:
-            type: string
-            enum:
-            - bigquery
-            example: bigquery
-          config:
-            $ref: '#/components/schemas/bigquery_config_unsafe'
-        required:
-        - name
-        - type
-        - config
-      - type: object
-        title: snowflake
-        properties:
-          name:
-            type: string
-            example: My Snowflake Destination
-          type:
-            type: string
-            enum:
-            - snowflake
-            example: snowflake
-          config:
-            $ref: '#/components/schemas/snowflake_config_unsafe'
-        required:
-        - name
-        - type
-        - config
-      - type: object
-        title: redshift
-        properties:
-          name:
-            type: string
-            example: My Redshift Destination
-          type:
-            type: string
-            enum:
-            - redshift
-            example: redshift
-          config:
-            $ref: '#/components/schemas/redshift_config_unsafe'
-        required:
-        - name
-        - type
-        - config
+      - s3_access_key
     errors:
       type: array
       items:
@@ -527,75 +377,40 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
-    redshift_config_unsafe:
+    postgres_config_safe:
       type: object
       properties:
         host:
           type: string
-          example: paa05704.us-east-1
+          example: production-db-new.cluster-cdhnnutnlctj.us-west-2.rds.amazonaws.com
         port:
           type: number
-          example: 5439
-        username:
-          type: string
-          example: redshift_user
+          example: 5432
         database:
           type: string
-          example: my_database
+          example: postgres_prod_db
         schema:
           type: string
-          example: schema
-        upload_method:
+          example: public
+        user:
           type: string
-          example: s3_staging
-        s3_key_id:
+          example: myuser
+        ssl_mode:
           type: string
-          example: AKIDFIAKFISDKFSI
-        s3_bucket_name:
-          type: string
-          example: my_bucket
-        s3_bucket_region:
-          type: string
-          example: us-west-2
-        s3_access_key:
-          type: string
-          example: ASDFKSFSFKSDKFSK
+          enum:
+          - disable
+          - no-verify
+          - prefer
+          - require
+          - verify-ca
+          - verify-full
+          example: disable
       required:
       - host
       - port
-      - username
       - database
       - schema
-      - upload_method
-      - s3_key_id
-      - s3_bucket_name
-      - s3_bucket_region
-      - s3_access_key
-    bigquery_config_at_least_safe:
-      type: object
-      properties:
-        project_id:
-          type: string
-          example: my-gcp-project-id
-        dataset:
-          type: string
-          example: my_bigquery_dataset
-        credentials:
-          type: object
-          properties:
-            client_email:
-              type: string
-              example: my_bigquery_service_account@my_project.iam.gserviceaccount.com
-            private_key:
-              type: string
-              example: '-----BEGIN PRIVATE KEY-----\nMII...'
-          required:
-          - client_email
-          - private_key
-      required:
-      - project_id
-      - dataset
-      - credentials
+      - user
     snowflake_config_unsafe:
       type: object
       properties:
@@ -628,34 +443,133 @@ components:
       - schema
       - username
       - password
-    snowflake_config_safe:
+    bigquery_config_at_least_safe:
+      type: object
+      properties:
+        project_id:
+          type: string
+          example: my-gcp-project-id
+        dataset:
+          type: string
+          example: my_bigquery_dataset
+        credentials:
+          type: object
+          properties:
+            client_email:
+              type: string
+              example: my_bigquery_service_account@my_project.iam.gserviceaccount.com
+            private_key:
+              type: string
+              example: '-----BEGIN PRIVATE KEY-----\nMII...'
+          required:
+          - client_email
+          - private_key
+      required:
+      - project_id
+      - dataset
+      - credentials
+    postgres_config_unsafe:
       type: object
       properties:
         host:
           type: string
-          example: paa05704.us-east-1
-        role:
-          type: string
-          example: supaglue
-        warehouse:
-          type: string
-          example: compute
+          example: production-db-new.cluster-cdhnnutnlctj.us-west-2.rds.amazonaws.com
+        port:
+          type: number
+          example: 5432
         database:
           type: string
-          example: my_database
+          example: postgres_prod_db
         schema:
           type: string
-          example: schema
-        username:
+          example: public
+        user:
           type: string
-          example: snowflake_user
+          example: myuser
+        ssl_mode:
+          type: string
+          enum:
+          - disable
+          - no-verify
+          - prefer
+          - require
+          - verify-ca
+          - verify-full
+          example: disable
+        password:
+          type: string
+          example: mysensitivepassword
+        server_ca_cert:
+          type: string
+          example: '---BEGIN CERTIFICATE-----'
+        client_cert:
+          type: string
+          example: '---BEGIN CERTIFICATE-----'
+        client_key:
+          type: string
+          example: '---BEGIN RSA PRIVATE KEY-----'
+        server_name:
+          type: string
+          example: 1-dd8643d8-f1ce-420f-a867-66b78a4734be.us-central1.sql.goog
       required:
       - host
-      - role
-      - warehouse
+      - port
       - database
       - schema
-      - username
+      - user
+      - password
+    bigquery_config_unsafe:
+      type: object
+      properties:
+        project_id:
+          type: string
+          example: my-gcp-project-id
+        dataset:
+          type: string
+          example: my_bigquery_dataset
+        credentials:
+          type: object
+          properties:
+            client_email:
+              type: string
+              example: my_bigquery_service_account@my_project.iam.gserviceaccount.com
+            private_key:
+              type: string
+              example: '-----BEGIN PRIVATE KEY-----\nMII...'
+          required:
+          - client_email
+          - private_key
+      required:
+      - project_id
+      - dataset
+      - credentials
+    postgres_config_at_least_safe:
+      type: object
+      properties:
+        host:
+          type: string
+          example: production-db-new.cluster-cdhnnutnlctj.us-west-2.rds.amazonaws.com
+        port:
+          type: number
+          example: 5432
+        database:
+          type: string
+          example: postgres_prod_db
+        schema:
+          type: string
+          example: public
+        user:
+          type: string
+          example: myuser
+        password:
+          type: string
+          example: mysensitivepassword
+      required:
+      - host
+      - port
+      - database
+      - schema
+      - user
     destination:
       example:
         id: 2cce5aed-e8fc-41b2-bff6-6ddbc1f99285
@@ -843,6 +757,136 @@ components:
         - type
         - config
         - version
+    create_destination:
+      oneOf:
+      - type: object
+        title: postgres
+        properties:
+          name:
+            type: string
+            example: My Postgres Destination
+          type:
+            type: string
+            enum:
+            - postgres
+            example: postgres
+          config:
+            $ref: '#/components/schemas/postgres_config_unsafe'
+        required:
+        - name
+        - type
+        - config
+      - type: object
+        title: supaglue
+        description: A Supaglue-hosted Postgres database destination for Listing APIs.
+        properties:
+          type:
+            type: string
+            enum:
+            - supaglue
+            example: supaglue
+        required:
+        - type
+      - type: object
+        title: bigquery
+        properties:
+          name:
+            type: string
+            example: My BigQuery Destination
+          type:
+            type: string
+            enum:
+            - bigquery
+            example: bigquery
+          config:
+            $ref: '#/components/schemas/bigquery_config_unsafe'
+        required:
+        - name
+        - type
+        - config
+      - type: object
+        title: snowflake
+        properties:
+          name:
+            type: string
+            example: My Snowflake Destination
+          type:
+            type: string
+            enum:
+            - snowflake
+            example: snowflake
+          config:
+            $ref: '#/components/schemas/snowflake_config_unsafe'
+        required:
+        - name
+        - type
+        - config
+      - type: object
+        title: redshift
+        properties:
+          name:
+            type: string
+            example: My Redshift Destination
+          type:
+            type: string
+            enum:
+            - redshift
+            example: redshift
+          config:
+            $ref: '#/components/schemas/redshift_config_unsafe'
+        required:
+        - name
+        - type
+        - config
+    snowflake_config_safe:
+      type: object
+      properties:
+        host:
+          type: string
+          example: paa05704.us-east-1
+        role:
+          type: string
+          example: supaglue
+        warehouse:
+          type: string
+          example: compute
+        database:
+          type: string
+          example: my_database
+        schema:
+          type: string
+          example: schema
+        username:
+          type: string
+          example: snowflake_user
+      required:
+      - host
+      - role
+      - warehouse
+      - database
+      - schema
+      - username
+    bigquery_config_safe:
+      type: object
+      properties:
+        project_id:
+          type: string
+          example: my-gcp-project-id
+        dataset:
+          type: string
+          example: my_bigquery_dataset
+        credentials:
+          type: object
+          properties:
+            client_email:
+              type: string
+              example: my_bigquery_service_account@my_project.iam.gserviceaccount.com
+          required:
+          - client_email
+      required:
+      - project_id
+      - dataset
+      - credentials
     update_destination:
       example:
         name: My Postgres Destination
@@ -897,113 +941,49 @@ components:
         - type
         - config
         - version
-    postgres_config_safe:
+    redshift_config_safe:
       type: object
       properties:
         host:
           type: string
-          example: production-db-new.cluster-cdhnnutnlctj.us-west-2.rds.amazonaws.com
+          example: paa05704.us-east-1
         port:
           type: number
-          example: 5432
+          example: 5439
+        username:
+          type: string
+          example: redshift_user
         database:
           type: string
-          example: postgres_prod_db
+          example: my_database
         schema:
           type: string
-          example: public
-        user:
+          example: schema
+        upload_method:
           type: string
-          example: myuser
-        ssl_mode:
+          example: s3_staging
+        s3_key_id:
           type: string
-          enum:
-          - disable
-          - no-verify
-          - prefer
-          - require
-          - verify-ca
-          - verify-full
-          example: disable
+          example: AKIDFIAKFISDKFSI
+        s3_bucket_name:
+          type: string
+          example: my_bucket
+        s3_bucket_region:
+          type: string
+          example: us-west-2
       required:
       - host
       - port
+      - username
       - database
       - schema
-      - user
-    postgres_config_at_least_safe:
-      type: object
-      properties:
-        host:
-          type: string
-          example: production-db-new.cluster-cdhnnutnlctj.us-west-2.rds.amazonaws.com
-        port:
-          type: number
-          example: 5432
-        database:
-          type: string
-          example: postgres_prod_db
-        schema:
-          type: string
-          example: public
-        user:
-          type: string
-          example: myuser
-        password:
-          type: string
-          example: mysensitivepassword
-      required:
-      - host
-      - port
-      - database
-      - schema
-      - user
-    bigquery_config_unsafe:
-      type: object
-      properties:
-        project_id:
-          type: string
-          example: my-gcp-project-id
-        dataset:
-          type: string
-          example: my_bigquery_dataset
-        credentials:
-          type: object
-          properties:
-            client_email:
-              type: string
-              example: my_bigquery_service_account@my_project.iam.gserviceaccount.com
-            private_key:
-              type: string
-              example: '-----BEGIN PRIVATE KEY-----\nMII...'
-          required:
-          - client_email
-          - private_key
-      required:
-      - project_id
-      - dataset
-      - credentials
+      - upload_method
+      - s3_key_id
+      - s3_bucket_name
+      - s3_bucket_region
   responses:
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    conflict:
-      description: Conflict
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
+    notFound:
+      description: Not found
       content:
         application/json:
           schema:
@@ -1020,8 +1000,8 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    notFound:
-      description: Not found
+    conflict:
+      description: Conflict
       content:
         application/json:
           schema:
@@ -1047,8 +1027,26 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
     notImplemented:
       description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
       content:
         application/json:
           schema:

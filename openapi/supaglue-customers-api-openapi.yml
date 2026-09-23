@@ -19,9 +19,7 @@ info:
 
     https://api.supaglue.io/mgmt/v2
 
-    ```
-
-    '
+    ```'
 servers:
 - url: https://api.supaglue.io/mgmt/v2
   description: Supaglue API
@@ -161,77 +159,80 @@ paths:
         '501':
           $ref: '#/components/responses/notImplemented'
 components:
+  responses:
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
   schemas:
-    category:
-      type: string
-      enum:
-      - crm
-      - engagement
-      - enrichment
-      - marketing_automation
-      - no_category
-      example: crm
-    standard_or_custom_object:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - standard
-          - custom
-        name:
-          type: string
-      required:
-      - type
-      - name
-    provider_name:
-      type: string
-      enum:
-      - hubspot
-      - salesforce
-      - pipedrive
-      - zendesk_sell
-      - ms_dynamics_365_sales
-      - zoho_crm
-      - capsule
-      - outreach
-      - gong
-      - apollo
-      - salesloft
-      - intercom
-      - linear
-      - clearbit
-      - 6sense
-      - marketo
-      - salesforce_marketing_cloud_account_engagement
-      - slack
-      example: hubspot
-    entity_field_mapping:
-      type: object
-      deprecated: true
-      properties:
-        entity_field:
-          type: string
-          description: The name of the field in your application.
-          example: apolla_first_name
-        mapped_field:
-          type: string
-          description: The name of the field in your customer's third-party Provider tool (e.g. Salesforce).
-          example: FirstName
-      required:
-      - entity_field
-      - mapped_field
-    object_field_mapping:
-      type: object
-      properties:
-        schema_field:
-          type: string
-          example: apolla_first_name
-        mapped_field:
-          type: string
-          example: FirstName
-      required:
-      - schema_field
     errors:
       type: array
       items:
@@ -373,6 +374,125 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
+    connection_entity_mapping:
+      type: object
+      deprecated: true
+      properties:
+        entity_id:
+          type: string
+        object:
+          $ref: '#/components/schemas/standard_or_custom_object'
+        field_mappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/entity_field_mapping'
+      required:
+      - entity_id
+    standard_or_custom_object:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - standard
+          - custom
+        name:
+          type: string
+      required:
+      - type
+      - name
+    simple_customer:
+      type: object
+      properties:
+        application_id:
+          type: string
+          example: d8ceb3ff-8b7f-4fa7-b8de-849292f6ca69
+        customer_id:
+          type: string
+          example: your-customers-unique-application-id
+        name:
+          type: string
+          example: MyCompany Inc
+        email:
+          type: string
+          example: contact@mycompany.com
+      required:
+      - application_id
+      - name
+      - email
+      - customer_id
+    entity_field_mapping:
+      type: object
+      deprecated: true
+      properties:
+        entity_field:
+          type: string
+          description: The name of the field in your application.
+          example: apolla_first_name
+        mapped_field:
+          type: string
+          description: The name of the field in your customer's third-party Provider tool (e.g. Salesforce).
+          example: FirstName
+      required:
+      - entity_field
+      - mapped_field
+    provider_name:
+      type: string
+      enum:
+      - hubspot
+      - salesforce
+      - pipedrive
+      - zendesk_sell
+      - ms_dynamics_365_sales
+      - zoho_crm
+      - capsule
+      - outreach
+      - gong
+      - apollo
+      - salesloft
+      - intercom
+      - linear
+      - clearbit
+      - 6sense
+      - marketo
+      - salesforce_marketing_cloud_account_engagement
+      - slack
+      example: hubspot
+    object_field_mapping:
+      type: object
+      properties:
+        schema_field:
+          type: string
+          example: apolla_first_name
+        mapped_field:
+          type: string
+          example: FirstName
+      required:
+      - schema_field
+    customer:
+      type: object
+      properties:
+        application_id:
+          type: string
+          example: d8ceb3ff-8b7f-4fa7-b8de-849292f6ca69
+        customer_id:
+          type: string
+          example: your-customers-unique-application-id
+        name:
+          type: string
+          example: MyCompany Inc
+        email:
+          type: string
+          example: contact@mycompany.com
+        connections:
+          type: array
+          items:
+            $ref: '#/components/schemas/connection'
+      required:
+      - application_id
+      - name
+      - email
+      - customer_id
     connection:
       type: object
       properties:
@@ -449,64 +569,6 @@ components:
       - provider_name
       - category
       - instance_url
-    simple_customer:
-      type: object
-      properties:
-        application_id:
-          type: string
-          example: d8ceb3ff-8b7f-4fa7-b8de-849292f6ca69
-        customer_id:
-          type: string
-          example: your-customers-unique-application-id
-        name:
-          type: string
-          example: MyCompany Inc
-        email:
-          type: string
-          example: contact@mycompany.com
-      required:
-      - application_id
-      - name
-      - email
-      - customer_id
-    customer:
-      type: object
-      properties:
-        application_id:
-          type: string
-          example: d8ceb3ff-8b7f-4fa7-b8de-849292f6ca69
-        customer_id:
-          type: string
-          example: your-customers-unique-application-id
-        name:
-          type: string
-          example: MyCompany Inc
-        email:
-          type: string
-          example: contact@mycompany.com
-        connections:
-          type: array
-          items:
-            $ref: '#/components/schemas/connection'
-      required:
-      - application_id
-      - name
-      - email
-      - customer_id
-    connection_entity_mapping:
-      type: object
-      deprecated: true
-      properties:
-        entity_id:
-          type: string
-        object:
-          $ref: '#/components/schemas/standard_or_custom_object'
-        field_mappings:
-          type: array
-          items:
-            $ref: '#/components/schemas/entity_field_mapping'
-      required:
-      - entity_id
     connection_sync_config:
       type: object
       properties:
@@ -601,6 +663,15 @@ components:
               required:
               - object
               - table
+    category:
+      type: string
+      enum:
+      - crm
+      - engagement
+      - enrichment
+      - marketing_automation
+      - no_category
+      example: crm
     create_update_customer:
       type: object
       properties:
@@ -617,79 +688,6 @@ components:
       - name
       - email
       - customer_id
-  responses:
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    conflict:
-      description: Conflict
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unprocessableEntity:
-      description: Unprocessable entity
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
   securitySchemes:
     x-api-key:
       type: apiKey

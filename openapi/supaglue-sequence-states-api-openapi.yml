@@ -11,7 +11,7 @@ info:
     Welcome to the Unified API (Engagement) documentation. You can use this API to write to multiple third-party providers within the Engagement category.
 
 
-    [View common schema for Engagement](https://docs.supaglue.com/platform/common-schemas/engagement)
+    View common schema for Engagement
 
 
     #### Base API URL
@@ -21,9 +21,7 @@ info:
 
     https://api.supaglue.io/engagement/v2
 
-    ```
-
-    '
+    ```'
 servers:
 - url: https://api.supaglue.io/engagement/v2
   description: Supaglue API
@@ -38,9 +36,7 @@ paths:
     post:
       operationId: createSequenceState
       summary: Create sequence state
-      description: 'Add a contact to a sequence. If the contact is already in the sequence, it will return the id of the existing sequence state.
-
-        '
+      description: Add a contact to a sequence. If the contact is already in the sequence, it will return the id of the existing sequence state.
       tags:
       - Sequence States
       security:
@@ -156,17 +152,15 @@ paths:
         Support:
 
 
-        | Provider  | Search By               |
+        | Provider | Search By |
 
         | --------- | ----------------------- |
 
-        | Apollo    | contact_id only         |
+        | Apollo | contact_id only |
 
         | Salesloft | contact_id, sequence_id |
 
-        | Outreach  | contact_id, sequence_id |
-
-        '
+        | Outreach | contact_id, sequence_id |'
       tags:
       - Sequence States
       security:
@@ -239,17 +233,15 @@ paths:
         Support:
 
 
-        | Provider  | Supported |
+        | Provider | Supported |
 
         | --------- | --------- |
 
-        | Apollo    | Yes       |
+        | Apollo | Yes |
 
-        | Outreach  | No        |
+        | Outreach | No |
 
-        | Salesloft | No        |
-
-        '
+        | Salesloft | No |'
       tags:
       - Sequence States
       security:
@@ -344,20 +336,6 @@ paths:
           $ref: '#/components/responses/notImplemented'
 components:
   parameters:
-    page_size:
-      name: page_size
-      in: query
-      schema:
-        type: string
-      example: 123
-      description: 'Number of results to return per page. (Max: 1000)'
-    cursor:
-      name: cursor
-      in: query
-      schema:
-        type: string
-      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
-      description: The pagination cursor value
     remote_provider_page_size:
       name: page_size
       in: query
@@ -365,14 +343,6 @@ components:
         type: string
       example: 100
       description: 'Number of results to return per page. (Max: 100)'
-    modified_after:
-      name: modified_after
-      in: query
-      schema:
-        type: string
-        format: date-time
-      description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
-      example: '2023-02-23T00:00:00Z'
     read_from_cache:
       name: read_from_cache
       in: query
@@ -388,6 +358,13 @@ components:
       example: my-customer-1
       description: The customer ID that uniquely identifies the customer in your application
       required: true
+    page_size:
+      name: page_size
+      in: query
+      schema:
+        type: string
+      example: 123
+      description: 'Number of results to return per page. (Max: 1000)'
     include_raw_data:
       name: include_raw_data
       in: query
@@ -395,6 +372,13 @@ components:
         type: boolean
       description: Whether to include raw data fetched from the 3rd party provider.
       example: true
+    cursor:
+      name: cursor
+      in: query
+      schema:
+        type: string
+      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
+      description: The pagination cursor value
     x-provider-name:
       name: x-provider-name
       in: header
@@ -403,18 +387,17 @@ components:
       example: salesforce
       description: The provider name
       required: true
+    modified_after:
+      name: modified_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+      description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
+      example: '2023-02-23T00:00:00Z'
   responses:
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    conflict:
-      description: Conflict
+    notFound:
+      description: Not found
       content:
         application/json:
           schema:
@@ -431,15 +414,6 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
     badRequest:
       description: Bad request
       content:
@@ -449,8 +423,8 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    notFound:
-      description: Not found
+    conflict:
+      description: Conflict
       content:
         application/json:
           schema:
@@ -476,8 +450,26 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
     notImplemented:
       description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
       content:
         application/json:
           schema:
@@ -627,6 +619,51 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
+    pagination:
+      type: object
+      properties:
+        next:
+          type:
+          - string
+          - 'null'
+          example: eyJpZCI6IjQyNTc5ZjczLTg1MjQtNDU3MC05YjY3LWVjYmQ3MDJjNmIxNCIsInJldmVyc2UiOmZhbHNlfQ==
+        previous:
+          type:
+          - string
+          - 'null'
+          example: eyJpZCI6IjBjZDhmYmZkLWU5NmQtNDEwZC05ZjQxLWIwMjU1YjdmNGI4NyIsInJldmVyc2UiOnRydWV9
+        total_count:
+          type: number
+          example: 100
+      required:
+      - next
+      - previous
+    create_sequence_state:
+      type: object
+      properties:
+        contact_id:
+          type: string
+          example: c590dc63-8e43-48a4-8154-1fbb00ac936b
+        mailbox_id:
+          type: string
+          example: 39fd1fe0-094b-4a61-b47f-3e3ac033203d
+          description: The ID of the mailbox to use for the sequence. Required for Apollo and Outreach. Unused for Salesloft.
+        sequence_id:
+          type: string
+          example: b854e510-1c40-4ef6-ade4-8eb35f49d331
+        user_id:
+          type: string
+          description: The ID of the user who is performing the action. Required for Salesloft, optional for Apollo, unused for Outreach.
+      required:
+      - contact_id
+      - sequence_id
+    created_record:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
     sequence_state:
       type: object
       properties:
@@ -699,51 +736,6 @@ components:
             type: string
           title:
             type: string
-    pagination:
-      type: object
-      properties:
-        next:
-          type:
-          - string
-          - 'null'
-          example: eyJpZCI6IjQyNTc5ZjczLTg1MjQtNDU3MC05YjY3LWVjYmQ3MDJjNmIxNCIsInJldmVyc2UiOmZhbHNlfQ==
-        previous:
-          type:
-          - string
-          - 'null'
-          example: eyJpZCI6IjBjZDhmYmZkLWU5NmQtNDEwZC05ZjQxLWIwMjU1YjdmNGI4NyIsInJldmVyc2UiOnRydWV9
-        total_count:
-          type: number
-          example: 100
-      required:
-      - next
-      - previous
-    created_record:
-      type: object
-      properties:
-        id:
-          type: string
-      required:
-      - id
-    create_sequence_state:
-      type: object
-      properties:
-        contact_id:
-          type: string
-          example: c590dc63-8e43-48a4-8154-1fbb00ac936b
-        mailbox_id:
-          type: string
-          example: 39fd1fe0-094b-4a61-b47f-3e3ac033203d
-          description: The ID of the mailbox to use for the sequence. Required for Apollo and Outreach. Unused for Salesloft.
-        sequence_id:
-          type: string
-          example: b854e510-1c40-4ef6-ade4-8eb35f49d331
-        user_id:
-          type: string
-          description: The ID of the user who is performing the action. Required for Salesloft, optional for Apollo, unused for Outreach.
-      required:
-      - contact_id
-      - sequence_id
   securitySchemes:
     x-api-key:
       type: apiKey

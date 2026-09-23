@@ -54,7 +54,9 @@
     "supaglue-teams-api-openapi.yml",
     "supaglue-tickets-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "deleted 3 superseded output(s) from the previous generation"
+  ],
   "errors": [],
   "warnings": [],
   "notes": [
@@ -77,7 +79,9 @@
     "tag 'CustomObjects' spans 2 source specs (supaglue-crm-api-openapi.yml, supaglue-metadata-api-openapi.yml): per-path servers applied",
     "tag 'Properties' spans 2 source specs (supaglue-crm-api-openapi.yml, supaglue-metadata-api-openapi.yml): per-path servers applied",
     "tag 'StandardObjects' spans 2 source specs (supaglue-crm-api-openapi.yml, supaglue-metadata-api-openapi.yml): per-path servers applied",
-    "tag 'Users' spans 3 source specs (supaglue-crm-api-openapi.yml, supaglue-engagement-api-openapi.yml, supaglue-ticketing-api-openapi.yml): per-path servers applied"
+    "tag 'Users' spans 3 source specs (supaglue-crm-api-openapi.yml, supaglue-engagement-api-openapi.yml, supaglue-ticketing-api-openapi.yml): per-path servers applied",
+    "superseded outputs removed: supaglue-custom-object-schemas-api-openapi.yml, supaglue-custom-objects-api-openapi.yml, supaglue-schema-mappings-api-openapi.yml",
+    "apis.yml register: written (+3 apis, 41 total)"
   ],
   "skipped": [
     "supaglue-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
@@ -89,9 +93,9 @@
     "supaglue-connections-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "supaglue-connectionsyncconfigs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "supaglue-contacts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "supaglue-custom-object-schemas-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "supaglue-custom-objects-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "supaglue-customers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "supaglue-customobjects-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "supaglue-customobjectschemas-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "supaglue-destinations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "supaglue-entities-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "supaglue-entitymappings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
@@ -107,7 +111,7 @@
     "supaglue-properties-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "supaglue-providers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "supaglue-salesforce-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "supaglue-schemamappings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "supaglue-schema-mappings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "supaglue-schemas-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "supaglue-sequence-states-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "supaglue-sequences-api-openapi.yml: previously refined output, superseded by openapi/_original/",
@@ -119,6 +123,7 @@
     "supaglue-tags-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "supaglue-teams-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "supaglue-tickets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "supaglue-users-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+    "supaglue-users-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "supaglue-webhook-events-api-openapi.yml: previously refined output, superseded by openapi/_original/"
   ]
 }

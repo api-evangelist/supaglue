@@ -8,7 +8,7 @@ info:
     url: https://supaglue.com
   description: ':::note
 
-    This feature is only available in Preview to select customers on our Enterprise plan. [Contact us](mailto:team@supaglue.com) for more information.
+    This feature is only available in Preview to select customers on our Enterprise plan. Contact us for more information.
 
     :::
 
@@ -18,10 +18,10 @@ info:
     Welcome to the Unified API (Ticketing) documentation. You can use this API to write to third-party providers.
 
 
-    [View common schema for Ticketing](https://docs.supaglue.com/platform/common-schemas/ticketing)
+    View common schema for Ticketing
 
 
-    [![Run in Postman](https://run.pstmn.io/button.svg)](https://www.postman.com/supaglue/workspace/supaglue-public/overview)
+    ![Run in Postman](https://www.postman.com/supaglue/workspace/supaglue-public/overview)
 
 
     #### Base API URL
@@ -30,17 +30,13 @@ info:
 
     https://api.supaglue.io/ticketing/v2
 
-    ```
-
-    '
+    ```'
 servers:
 - url: https://api.supaglue.io/ticketing/v2
   description: Supaglue API
 tags:
 - name: Tickets
-  description: 'The Ticket object is used to represent a ticket or a task within a system.
-
-    '
+  description: The Ticket object is used to represent a ticket or a task within a system.
 paths:
   /tickets:
     parameters:
@@ -51,14 +47,12 @@ paths:
       summary: List tickets
       description: ':::note
 
-        This feature is only available in Preview to select customers on our Enterprise plan. [Contact us](mailto:team@supaglue.com) for more information.
+        This feature is only available in Preview to select customers on our Enterprise plan. Contact us for more information.
 
         :::
 
 
-        Returns a list of Ticket objects.
-
-        '
+        Returns a list of Ticket objects.'
       tags:
       - Tickets
       security:
@@ -133,14 +127,12 @@ paths:
       summary: Get ticket
       description: ':::note
 
-        This feature is only available in Preview to select customers on our Enterprise plan. [Contact us](mailto:team@supaglue.com) for more information.
+        This feature is only available in Preview to select customers on our Enterprise plan. Contact us for more information.
 
         :::
 
 
-        Returns an Ticket object with the given id.
-
-        '
+        Returns an Ticket object with the given id.'
       tags:
       - Tickets
       security:
@@ -188,6 +180,76 @@ paths:
                     $ref: '#/components/schemas/warnings'
 components:
   schemas:
+    warnings:
+      type: array
+      items:
+        type: object
+        properties:
+          detail:
+            type: string
+          problem_type:
+            type: string
+          title:
+            type: string
+    ticket:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+          example: Please add more integrations
+        assignees:
+          type: array
+          items:
+            type: string
+            example: 17a54124-287f-494d-965e-3c5b330c9a68
+        creator:
+          type: string
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        due_date:
+          type: string
+          example: '2022-10-11T00:00:00Z'
+        status:
+          type: string
+          example: OPEN
+        description:
+          type: string
+          example: Can you please add more integrations? It'll make syncing data much easier!
+        collections:
+          type: array
+          items:
+            type: string
+            example: fb8c55b6-1cb8-4b4c-9fb6-17924231619d
+        ticket_type:
+          type: string
+          example: incident
+        account:
+          type: string
+          example: 0958cbc6-6040-430a-848e-aafacbadf4ae
+        contact:
+          type: string
+          example: 65c345ba-6870-4974-87ba-dd31509c367a
+        parent_ticket:
+          type: string
+          example: 75b33d04-30d2-4f3e-be45-27838bc94342
+        tags:
+          type: array
+          items:
+            type: string
+            example: enterprise
+        completed_at:
+          type: string
+          example: '2021-12-09T00:00:00Z'
+        ticket_url:
+          type: string
+          example: https://thirdpartysoftware.com/project/3/issue/1
+        priority:
+          type: string
+          example: HIGH
+      required:
+      - name
+      - creator
     errors:
       type: array
       items:
@@ -329,7 +391,66 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
-    ticket:
+    update_ticket:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+          example: Please add more integrations
+        assignees:
+          type: array
+          items:
+            type: string
+            example: 17a54124-287f-494d-965e-3c5b330c9a68
+        creator:
+          type: string
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        due_date:
+          type: string
+          example: '2022-10-11T00:00:00Z'
+        status:
+          type: string
+          example: OPEN
+        description:
+          type: string
+          example: Can you please add more integrations? It'll make syncing data much easier!
+        collections:
+          type: array
+          items:
+            type: string
+            example: fb8c55b6-1cb8-4b4c-9fb6-17924231619d
+        ticket_type:
+          type: string
+          example: incident
+        account:
+          type: string
+          example: 0958cbc6-6040-430a-848e-aafacbadf4ae
+        contact:
+          type: string
+          example: 65c345ba-6870-4974-87ba-dd31509c367a
+        parent_ticket:
+          type: string
+          example: 75b33d04-30d2-4f3e-be45-27838bc94342
+        tags:
+          type: array
+          items:
+            type: string
+            example: enterprise
+        completed_at:
+          type: string
+          example: '2021-12-09T00:00:00Z'
+        ticket_url:
+          type: string
+          example: https://thirdpartysoftware.com/project/3/issue/1
+        priority:
+          type: string
+          example: HIGH
+      required:
+      - name
+      - creator
+    create_ticket:
       type: object
       properties:
         name:
@@ -395,65 +516,6 @@ components:
           type: string
       required:
       - id
-    create_ticket:
-      type: object
-      properties:
-        name:
-          type:
-          - string
-          - 'null'
-          example: Please add more integrations
-        assignees:
-          type: array
-          items:
-            type: string
-            example: 17a54124-287f-494d-965e-3c5b330c9a68
-        creator:
-          type: string
-          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
-        due_date:
-          type: string
-          example: '2022-10-11T00:00:00Z'
-        status:
-          type: string
-          example: OPEN
-        description:
-          type: string
-          example: Can you please add more integrations? It'll make syncing data much easier!
-        collections:
-          type: array
-          items:
-            type: string
-            example: fb8c55b6-1cb8-4b4c-9fb6-17924231619d
-        ticket_type:
-          type: string
-          example: incident
-        account:
-          type: string
-          example: 0958cbc6-6040-430a-848e-aafacbadf4ae
-        contact:
-          type: string
-          example: 65c345ba-6870-4974-87ba-dd31509c367a
-        parent_ticket:
-          type: string
-          example: 75b33d04-30d2-4f3e-be45-27838bc94342
-        tags:
-          type: array
-          items:
-            type: string
-            example: enterprise
-        completed_at:
-          type: string
-          example: '2021-12-09T00:00:00Z'
-        ticket_url:
-          type: string
-          example: https://thirdpartysoftware.com/project/3/issue/1
-        priority:
-          type: string
-          example: HIGH
-      required:
-      - name
-      - creator
     pagination:
       type: object
       properties:
@@ -473,76 +535,6 @@ components:
       required:
       - next
       - previous
-    warnings:
-      type: array
-      items:
-        type: object
-        properties:
-          detail:
-            type: string
-          problem_type:
-            type: string
-          title:
-            type: string
-    update_ticket:
-      type: object
-      properties:
-        name:
-          type:
-          - string
-          - 'null'
-          example: Please add more integrations
-        assignees:
-          type: array
-          items:
-            type: string
-            example: 17a54124-287f-494d-965e-3c5b330c9a68
-        creator:
-          type: string
-          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
-        due_date:
-          type: string
-          example: '2022-10-11T00:00:00Z'
-        status:
-          type: string
-          example: OPEN
-        description:
-          type: string
-          example: Can you please add more integrations? It'll make syncing data much easier!
-        collections:
-          type: array
-          items:
-            type: string
-            example: fb8c55b6-1cb8-4b4c-9fb6-17924231619d
-        ticket_type:
-          type: string
-          example: incident
-        account:
-          type: string
-          example: 0958cbc6-6040-430a-848e-aafacbadf4ae
-        contact:
-          type: string
-          example: 65c345ba-6870-4974-87ba-dd31509c367a
-        parent_ticket:
-          type: string
-          example: 75b33d04-30d2-4f3e-be45-27838bc94342
-        tags:
-          type: array
-          items:
-            type: string
-            example: enterprise
-        completed_at:
-          type: string
-          example: '2021-12-09T00:00:00Z'
-        ticket_url:
-          type: string
-          example: https://thirdpartysoftware.com/project/3/issue/1
-        priority:
-          type: string
-          example: HIGH
-      required:
-      - name
-      - creator
   parameters:
     page_size:
       name: page_size
@@ -551,28 +543,6 @@ components:
         type: string
       example: 123
       description: 'Number of results to return per page. (Max: 1000)'
-    include_raw_data:
-      name: include_raw_data
-      in: query
-      schema:
-        type: boolean
-      description: Whether to include raw data fetched from the 3rd party provider.
-      example: true
-    modified_after:
-      name: modified_after
-      in: query
-      schema:
-        type: string
-        format: date-time
-      description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
-      example: '2023-02-23T00:00:00Z'
-    cursor:
-      name: cursor
-      in: query
-      schema:
-        type: string
-      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
-      description: The pagination cursor value
     x-provider-name:
       name: x-provider-name
       in: header
@@ -581,6 +551,20 @@ components:
       example: salesforce
       description: The provider name
       required: true
+    include_raw_data:
+      name: include_raw_data
+      in: query
+      schema:
+        type: boolean
+      description: Whether to include raw data fetched from the 3rd party provider.
+      example: true
+    cursor:
+      name: cursor
+      in: query
+      schema:
+        type: string
+      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
+      description: The pagination cursor value
     x-customer-id:
       name: x-customer-id
       in: header
@@ -589,6 +573,14 @@ components:
       example: my-customer-1
       description: The customer ID that uniquely identifies the customer in your application
       required: true
+    modified_after:
+      name: modified_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+      description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
+      example: '2023-02-23T00:00:00Z'
   securitySchemes:
     x-api-key:
       type: apiKey

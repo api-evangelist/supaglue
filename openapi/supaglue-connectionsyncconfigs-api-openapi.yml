@@ -19,9 +19,7 @@ info:
 
     https://api.supaglue.io/mgmt/v2
 
-    ```
-
-    '
+    ```'
 servers:
 - url: https://api.supaglue.io/mgmt/v2
   description: Supaglue API
@@ -127,6 +125,88 @@ paths:
         '501':
           $ref: '#/components/responses/notImplemented'
 components:
+  responses:
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    remoteProviderError:
+      description: Remote provider error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
   schemas:
     errors:
       type: array
@@ -269,85 +349,6 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
-    upsert_connection_sync_config:
-      type: object
-      properties:
-        destination_config:
-          description: An object to override the default Destination configuration per connection.
-          oneOf:
-          - description: Config specific to Postgres destination
-            type: object
-            title: Postgres
-            properties:
-              type:
-                type: string
-                enum:
-                - postgres
-              schema:
-                type: string
-                description: The schema you'd like to sync to. This schema must already exist. Supaglue will not create it. If not specified, the schema specified in the Postgres Destination will be used.
-                example: customer_1_schema
-            required:
-            - type
-            - schema
-        standard_objects:
-          description: A list of case-sensitive Provider standard objects to by synced. If specified, this list will take override the custom_objects list in SyncConfig.
-          type: array
-          items:
-            oneOf:
-            - type: object
-              title: All
-              properties:
-                object:
-                  type: string
-                  description: The Provider object name (case sensitive)
-                  example: Contact
-              required:
-              - object
-            - type: object
-              title: Postgres (Preview)
-              properties:
-                object:
-                  type: string
-                  description: The Provider object name (case sensitive)
-                  example: Contact
-                table:
-                  type: string
-                  description: The table to write the object to. If specified, this will override the default table used by Supaglue.
-                  example: my_contacts
-              required:
-              - object
-              - table
-        custom_objects:
-          description: '(Preview) A list of case-sensitive Provider custom objects to be synced. If specified, this list will take override the custom_objects list in SyncConfig.
-
-            '
-          type: array
-          items:
-            oneOf:
-            - type: object
-              title: All
-              properties:
-                object:
-                  type: string
-                  description: The Provider object name (case sensitive)
-                  example: Contact__c
-              required:
-              - object
-            - type: object
-              title: Postgres (Preview)
-              properties:
-                object:
-                  type: string
-                  description: The Provider object name (case sensitive)
-                  example: Contact__c
-                table:
-                  type: string
-                  description: The table to write the object to. If specified, this will override the default table used by Supaglue.
-                  example: my_contacts
-              required:
-              - object
-              - table
     connection_sync_config:
       type: object
       properties:
@@ -442,88 +443,85 @@ components:
               required:
               - object
               - table
-  responses:
-    unprocessableEntity:
-      description: Unprocessable entity
-      content:
-        application/json:
-          schema:
+    upsert_connection_sync_config:
+      type: object
+      properties:
+        destination_config:
+          description: An object to override the default Destination configuration per connection.
+          oneOf:
+          - description: Config specific to Postgres destination
             type: object
+            title: Postgres
             properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    conflict:
-      description: Conflict
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    remoteProviderError:
-      description: Remote provider error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
+              type:
+                type: string
+                enum:
+                - postgres
+              schema:
+                type: string
+                description: The schema you'd like to sync to. This schema must already exist. Supaglue will not create it. If not specified, the schema specified in the Postgres Destination will be used.
+                example: customer_1_schema
+            required:
+            - type
+            - schema
+        standard_objects:
+          description: A list of case-sensitive Provider standard objects to by synced. If specified, this list will take override the custom_objects list in SyncConfig.
+          type: array
+          items:
+            oneOf:
+            - type: object
+              title: All
+              properties:
+                object:
+                  type: string
+                  description: The Provider object name (case sensitive)
+                  example: Contact
+              required:
+              - object
+            - type: object
+              title: Postgres (Preview)
+              properties:
+                object:
+                  type: string
+                  description: The Provider object name (case sensitive)
+                  example: Contact
+                table:
+                  type: string
+                  description: The table to write the object to. If specified, this will override the default table used by Supaglue.
+                  example: my_contacts
+              required:
+              - object
+              - table
+        custom_objects:
+          description: '(Preview) A list of case-sensitive Provider custom objects to be synced. If specified, this list will take override the custom_objects list in SyncConfig.
+
+            '
+          type: array
+          items:
+            oneOf:
+            - type: object
+              title: All
+              properties:
+                object:
+                  type: string
+                  description: The Provider object name (case sensitive)
+                  example: Contact__c
+              required:
+              - object
+            - type: object
+              title: Postgres (Preview)
+              properties:
+                object:
+                  type: string
+                  description: The Provider object name (case sensitive)
+                  example: Contact__c
+                table:
+                  type: string
+                  description: The table to write the object to. If specified, this will override the default table used by Supaglue.
+                  example: my_contacts
+              required:
+              - object
+              - table
   parameters:
     x-provider-name:
       name: x-provider-name

@@ -12,7 +12,7 @@ info:
     Welcome to the Unified Actions API (Marketing Automation) documentation. You can use this API to write to third-party providers.
 
 
-    [View common schema for Marketing Automation](https://docs.supaglue.com/platform/common-schemas/marketing-automation)
+    View common schema for Marketing Automation
 
 
     #### Base API URL
@@ -21,9 +21,7 @@ info:
 
     https://api.supaglue.io/marketing-automation/v2
 
-    ```
-
-    '
+    ```'
 servers:
 - url: https://api.supaglue.io/marketing-automation/v2
   description: Supaglue API
@@ -183,6 +181,29 @@ paths:
           $ref: '#/components/responses/notImplemented'
 components:
   schemas:
+    form_metadata:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        created_at:
+          type: string
+          example: '2022-02-27T00:00:00Z'
+          format: date-time
+        updated_at:
+          type: string
+          example: '2022-02-27T00:00:00Z'
+          format: date-time
+        raw_data:
+          type: object
+          additionalProperties: true
+      required:
+      - id
+      - name
+      - created_at
+      - updated_at
     errors:
       type: array
       items:
@@ -355,6 +376,18 @@ components:
       - required
       - form_id
       - data_format
+    submit_form_response:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The id of the lead that was created/updated as a result of submitting the form
+          example: 12345
+        status:
+          type: string
+          example: updated
+      required:
+      - status
     form_data_option:
       type: object
       properties:
@@ -368,44 +401,18 @@ components:
       required:
       - label
       - value
-    submit_form_response:
-      type: object
-      properties:
-        id:
-          type: string
-          description: The id of the lead that was created/updated as a result of submitting the form
-          example: 12345
-        status:
-          type: string
-          example: updated
-      required:
-      - status
-    form_metadata:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        created_at:
-          type: string
-          example: '2022-02-27T00:00:00Z'
-          format: date-time
-        updated_at:
-          type: string
-          example: '2022-02-27T00:00:00Z'
-          format: date-time
-        raw_data:
-          type: object
-          additionalProperties: true
-      required:
-      - id
-      - name
-      - created_at
-      - updated_at
   responses:
-    unprocessableEntity:
-      description: Unprocessable entity
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
       content:
         application/json:
           schema:
@@ -415,6 +422,33 @@ components:
                 $ref: '#/components/schemas/errors'
     notFound:
       description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    internalServerError:
+      description: Internal server error
       content:
         application/json:
           schema:
@@ -442,42 +476,6 @@ components:
                 $ref: '#/components/schemas/errors'
     unauthorized:
       description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    internalServerError:
-      description: Internal server error
       content:
         application/json:
           schema:

@@ -19,9 +19,7 @@ info:
 
     https://api.supaglue.io/mgmt/v2
 
-    ```
-
-    '
+    ```'
 servers:
 - url: https://api.supaglue.io/mgmt/v2
   description: Supaglue API
@@ -72,7 +70,7 @@ paths:
     post:
       operationId: createConnection
       summary: Create a connection
-      description: This endpoint is for providers that use API key or access key for authentication. Please use [Embedded Links](https://docs.supaglue.com/platform/managed-auth#oauth-20) for providers that support Oauth2 for authentication.
+      description: This endpoint is for providers that use API key or access key for authentication. Please use Embedded Links for providers that support Oauth2 for authentication.
       tags:
       - Connections
       parameters: []
@@ -213,19 +211,17 @@ paths:
         The common schema User ID maps to the following 3rd-party provider object IDs:
 
 
-        | Provider   | Remote object ID  |
+        | Provider | Remote object ID |
 
         | ---------- | ----------------- |
 
-        | Salesforce | User              |
+        | Salesforce | User |
 
-        | Hubspot    | V3 Owner          |
+        | Hubspot | V3 Owner |
 
-        | Dynamics   | Azure System User |
+        | Dynamics | Azure System User |
 
-        | Intercom   | Admin             |
-
-        '
+        | Intercom | Admin |'
       tags:
       - Connections
       security:
@@ -375,9 +371,7 @@ paths:
       summary: Get connection rate limit info
       description: 'Get rate limit info for a connection. This endpoint is only available for
 
-        salesforce and apollo connections.
-
-        '
+        salesforce and apollo connections.'
       tags:
       - Connections
       security:
@@ -390,93 +384,89 @@ paths:
               schema:
                 $ref: '#/components/schemas/rate_limit_info'
 components:
+  responses:
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    remoteProviderError:
+      description: Remote provider error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
   schemas:
-    category:
-      type: string
-      enum:
-      - crm
-      - engagement
-      - enrichment
-      - marketing_automation
-      - no_category
-      example: crm
-    standard_or_custom_object:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - standard
-          - custom
-        name:
-          type: string
-      required:
-      - type
-      - name
-    provider_name:
-      type: string
-      enum:
-      - hubspot
-      - salesforce
-      - pipedrive
-      - zendesk_sell
-      - ms_dynamics_365_sales
-      - zoho_crm
-      - capsule
-      - outreach
-      - gong
-      - apollo
-      - salesloft
-      - intercom
-      - linear
-      - clearbit
-      - 6sense
-      - marketo
-      - salesforce_marketing_cloud_account_engagement
-      - slack
-      example: hubspot
-    entity_field_mapping:
-      type: object
-      deprecated: true
-      properties:
-        entity_field:
-          type: string
-          description: The name of the field in your application.
-          example: apolla_first_name
-        mapped_field:
-          type: string
-          description: The name of the field in your customer's third-party Provider tool (e.g. Salesforce).
-          example: FirstName
-      required:
-      - entity_field
-      - mapped_field
-    single_rate_limit_info:
-      type: object
-      properties:
-        limit:
-          type: integer
-          example: 1000
-        remaining:
-          type: integer
-          example: 900
-        reset_time:
-          type: integer
-          description: The time (in epoch seconds) at which the rate limit will reset. If missing, the rate limit is a sliding window.
-          example: 1615219200
-      required:
-      - limit
-      - remaining
-    object_field_mapping:
-      type: object
-      properties:
-        schema_field:
-          type: string
-          example: apolla_first_name
-        mapped_field:
-          type: string
-          example: FirstName
-      required:
-      - schema_field
     errors:
       type: array
       items:
@@ -618,6 +608,81 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
+    connection_entity_mapping:
+      type: object
+      deprecated: true
+      properties:
+        entity_id:
+          type: string
+        object:
+          $ref: '#/components/schemas/standard_or_custom_object'
+        field_mappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/entity_field_mapping'
+      required:
+      - entity_id
+    standard_or_custom_object:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - standard
+          - custom
+        name:
+          type: string
+      required:
+      - type
+      - name
+    entity_field_mapping:
+      type: object
+      deprecated: true
+      properties:
+        entity_field:
+          type: string
+          description: The name of the field in your application.
+          example: apolla_first_name
+        mapped_field:
+          type: string
+          description: The name of the field in your customer's third-party Provider tool (e.g. Salesforce).
+          example: FirstName
+      required:
+      - entity_field
+      - mapped_field
+    provider_name:
+      type: string
+      enum:
+      - hubspot
+      - salesforce
+      - pipedrive
+      - zendesk_sell
+      - ms_dynamics_365_sales
+      - zoho_crm
+      - capsule
+      - outreach
+      - gong
+      - apollo
+      - salesloft
+      - intercom
+      - linear
+      - clearbit
+      - 6sense
+      - marketo
+      - salesforce_marketing_cloud_account_engagement
+      - slack
+      example: hubspot
+    object_field_mapping:
+      type: object
+      properties:
+        schema_field:
+          type: string
+          example: apolla_first_name
+        mapped_field:
+          type: string
+          example: FirstName
+      required:
+      - schema_field
     connection:
       type: object
       properties:
@@ -694,31 +759,6 @@ components:
       - provider_name
       - category
       - instance_url
-    rate_limit_info:
-      type: object
-      properties:
-        daily:
-          $ref: '#/components/schemas/single_rate_limit_info'
-        hourly:
-          $ref: '#/components/schemas/single_rate_limit_info'
-        other:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/single_rate_limit_info'
-    connection_entity_mapping:
-      type: object
-      deprecated: true
-      properties:
-        entity_id:
-          type: string
-        object:
-          $ref: '#/components/schemas/standard_or_custom_object'
-        field_mappings:
-          type: array
-          items:
-            $ref: '#/components/schemas/entity_field_mapping'
-      required:
-      - entity_id
     connection_sync_config:
       type: object
       properties:
@@ -813,88 +853,42 @@ components:
               required:
               - object
               - table
-  responses:
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    conflict:
-      description: Conflict
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    remoteProviderError:
-      description: Remote provider error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unprocessableEntity:
-      description: Unprocessable entity
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
+    category:
+      type: string
+      enum:
+      - crm
+      - engagement
+      - enrichment
+      - marketing_automation
+      - no_category
+      example: crm
+    single_rate_limit_info:
+      type: object
+      properties:
+        limit:
+          type: integer
+          example: 1000
+        remaining:
+          type: integer
+          example: 900
+        reset_time:
+          type: integer
+          description: The time (in epoch seconds) at which the rate limit will reset. If missing, the rate limit is a sliding window.
+          example: 1615219200
+      required:
+      - limit
+      - remaining
+    rate_limit_info:
+      type: object
+      properties:
+        daily:
+          $ref: '#/components/schemas/single_rate_limit_info'
+        hourly:
+          $ref: '#/components/schemas/single_rate_limit_info'
+        other:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/single_rate_limit_info'
   securitySchemes:
     x-api-key:
       type: apiKey

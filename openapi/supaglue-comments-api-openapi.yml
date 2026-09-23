@@ -8,7 +8,7 @@ info:
     url: https://supaglue.com
   description: ':::note
 
-    This feature is only available in Preview to select customers on our Enterprise plan. [Contact us](mailto:team@supaglue.com) for more information.
+    This feature is only available in Preview to select customers on our Enterprise plan. Contact us for more information.
 
     :::
 
@@ -18,10 +18,10 @@ info:
     Welcome to the Unified API (Ticketing) documentation. You can use this API to write to third-party providers.
 
 
-    [View common schema for Ticketing](https://docs.supaglue.com/platform/common-schemas/ticketing)
+    View common schema for Ticketing
 
 
-    [![Run in Postman](https://run.pstmn.io/button.svg)](https://www.postman.com/supaglue/workspace/supaglue-public/overview)
+    ![Run in Postman](https://www.postman.com/supaglue/workspace/supaglue-public/overview)
 
 
     #### Base API URL
@@ -30,17 +30,13 @@ info:
 
     https://api.supaglue.io/ticketing/v2
 
-    ```
-
-    '
+    ```'
 servers:
 - url: https://api.supaglue.io/ticketing/v2
   description: Supaglue API
 tags:
 - name: Comments
-  description: 'The Comment object is used to represent a comment on a ticket.
-
-    '
+  description: The Comment object is used to represent a comment on a ticket.
 paths:
   /comments:
     parameters:
@@ -51,14 +47,12 @@ paths:
       summary: List comments
       description: ':::note
 
-        This feature is only available in Preview to select customers on our Enterprise plan. [Contact us](mailto:team@supaglue.com) for more information.
+        This feature is only available in Preview to select customers on our Enterprise plan. Contact us for more information.
 
         :::
 
 
-        Returns a list of Comment objects.
-
-        '
+        Returns a list of Comment objects.'
       tags:
       - Comments
       security:
@@ -163,14 +157,12 @@ paths:
       summary: Get comment
       description: ':::note
 
-        This feature is only available in Preview to select customers on our Enterprise plan. [Contact us](mailto:team@supaglue.com) for more information.
+        This feature is only available in Preview to select customers on our Enterprise plan. Contact us for more information.
 
         :::
 
 
-        Returns a Comment object with the given id.
-
-        '
+        Returns a Comment object with the given id.'
       tags:
       - Comments
       security:
@@ -186,6 +178,17 @@ paths:
                 $ref: '#/components/schemas/comment'
 components:
   schemas:
+    warnings:
+      type: array
+      items:
+        type: object
+        properties:
+          detail:
+            type: string
+          problem_type:
+            type: string
+          title:
+            type: string
     errors:
       type: array
       items:
@@ -327,43 +330,6 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
-    created_record:
-      type: object
-      properties:
-        id:
-          type: string
-      required:
-      - id
-    pagination:
-      type: object
-      properties:
-        next:
-          type:
-          - string
-          - 'null'
-          example: eyJpZCI6IjQyNTc5ZjczLTg1MjQtNDU3MC05YjY3LWVjYmQ3MDJjNmIxNCIsInJldmVyc2UiOmZhbHNlfQ==
-        previous:
-          type:
-          - string
-          - 'null'
-          example: eyJpZCI6IjBjZDhmYmZkLWU5NmQtNDEwZC05ZjQxLWIwMjU1YjdmNGI4NyIsInJldmVyc2UiOnRydWV9
-        total_count:
-          type: number
-          example: 100
-      required:
-      - next
-      - previous
-    warnings:
-      type: array
-      items:
-        type: object
-        properties:
-          detail:
-            type: string
-          problem_type:
-            type: string
-          title:
-            type: string
     comment:
       type: object
       properties:
@@ -396,6 +362,32 @@ components:
       - body
       - ticket
       - is_private
+    created_record:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
+    pagination:
+      type: object
+      properties:
+        next:
+          type:
+          - string
+          - 'null'
+          example: eyJpZCI6IjQyNTc5ZjczLTg1MjQtNDU3MC05YjY3LWVjYmQ3MDJjNmIxNCIsInJldmVyc2UiOmZhbHNlfQ==
+        previous:
+          type:
+          - string
+          - 'null'
+          example: eyJpZCI6IjBjZDhmYmZkLWU5NmQtNDEwZC05ZjQxLWIwMjU1YjdmNGI4NyIsInJldmVyc2UiOnRydWV9
+        total_count:
+          type: number
+          example: 100
+      required:
+      - next
+      - previous
   parameters:
     page_size:
       name: page_size
@@ -404,28 +396,6 @@ components:
         type: string
       example: 123
       description: 'Number of results to return per page. (Max: 1000)'
-    include_raw_data:
-      name: include_raw_data
-      in: query
-      schema:
-        type: boolean
-      description: Whether to include raw data fetched from the 3rd party provider.
-      example: true
-    modified_after:
-      name: modified_after
-      in: query
-      schema:
-        type: string
-        format: date-time
-      description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
-      example: '2023-02-23T00:00:00Z'
-    cursor:
-      name: cursor
-      in: query
-      schema:
-        type: string
-      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
-      description: The pagination cursor value
     x-provider-name:
       name: x-provider-name
       in: header
@@ -434,6 +404,20 @@ components:
       example: salesforce
       description: The provider name
       required: true
+    include_raw_data:
+      name: include_raw_data
+      in: query
+      schema:
+        type: boolean
+      description: Whether to include raw data fetched from the 3rd party provider.
+      example: true
+    cursor:
+      name: cursor
+      in: query
+      schema:
+        type: string
+      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
+      description: The pagination cursor value
     x-customer-id:
       name: x-customer-id
       in: header
@@ -442,6 +426,14 @@ components:
       example: my-customer-1
       description: The customer ID that uniquely identifies the customer in your application
       required: true
+    modified_after:
+      name: modified_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+      description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
+      example: '2023-02-23T00:00:00Z'
   securitySchemes:
     x-api-key:
       type: apiKey

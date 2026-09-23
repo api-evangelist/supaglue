@@ -19,9 +19,7 @@ info:
 
     https://api.supaglue.io/mgmt/v2
 
-    ```
-
-    '
+    ```'
 servers:
 - url: https://api.supaglue.io/mgmt/v2
   description: Supaglue API
@@ -137,9 +135,7 @@ paths:
 
         If `force_delete_syncs` is set to true, any syncs for any deleted objects will be cascadingly deleted for all customers with this sync config.
 
-        :::
-
-        '
+        :::'
       tags:
       - SyncConfigs
       security:
@@ -187,9 +183,7 @@ paths:
 
         If `force_delete_syncs` is set to true, all syncs for all customers with this sync config will be cascadingly deleted.
 
-        :::
-
-        '
+        :::'
       tags:
       - SyncConfigs
       security:
@@ -225,20 +219,86 @@ paths:
         '501':
           $ref: '#/components/responses/notImplemented'
 components:
+  responses:
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
   schemas:
-    create_sync_config:
+    update_sync_config:
       type: object
       properties:
-        destination_name:
-          type: string
-          example: object
-        provider_name:
-          $ref: '#/components/schemas/provider_name'
         config:
           $ref: '#/components/schemas/sync_config_data'
       required:
-      - destination_name
-      - provider_name
       - config
     errors:
       type: array
@@ -403,6 +463,70 @@ components:
       - salesforce_marketing_cloud_account_engagement
       - slack
       example: hubspot
+    create_sync_config:
+      type: object
+      properties:
+        destination_name:
+          type: string
+          example: object
+        provider_name:
+          $ref: '#/components/schemas/provider_name'
+        config:
+          $ref: '#/components/schemas/sync_config_data'
+      required:
+      - destination_name
+      - provider_name
+      - config
+    sync_config:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 465fdcb7-26b4-4090-894c-67cab41022bb
+        application_id:
+          type: string
+          example: 9572d08b-f19f-48cc-a992-1eb7031d3f6a
+        destination_name:
+          type: string
+          example: postgres
+        provider_name:
+          $ref: '#/components/schemas/provider_name'
+        config:
+          $ref: '#/components/schemas/sync_config_data'
+      required:
+      - id
+      - application_id
+      - destination_name
+      - provider_name
+      - config
+    sync_strategy_config:
+      type: object
+      description: Configuration options for "how" to sync.
+      properties:
+        period_ms:
+          type: integer
+          minimum: 60000
+          example: 60000
+          description: The period (in milliseconds) to run the sync.
+        strategy:
+          type: string
+          enum:
+          - full then incremental
+          - full only
+          description: \"full then incremental\" will run a full sync on the first run, then incremental syncs. \"full only\" will run a full sync on every run.
+        auto_start_on_connection:
+          type: boolean
+          description: 'If true, the sync will start automatically when the connection is created.
+
+            Default: true
+
+            '
+        full_sync_every_n_incrementals:
+          type: number
+          description: If set, Supaglue will run a full sync after N consecutive incremental syncs.
+      required:
+      - period_ms
+      - strategy
     sync_config_data:
       type: object
       properties:
@@ -484,136 +608,6 @@ components:
             - entity_id
       required:
       - default_config
-    sync_strategy_config:
-      type: object
-      description: Configuration options for "how" to sync.
-      properties:
-        period_ms:
-          type: integer
-          minimum: 60000
-          example: 60000
-          description: The period (in milliseconds) to run the sync.
-        strategy:
-          type: string
-          enum:
-          - full then incremental
-          - full only
-          description: \"full then incremental\" will run a full sync on the first run, then incremental syncs. \"full only\" will run a full sync on every run.
-        auto_start_on_connection:
-          type: boolean
-          description: 'If true, the sync will start automatically when the connection is created.
-
-            Default: true
-
-            '
-        full_sync_every_n_incrementals:
-          type: number
-          description: If set, Supaglue will run a full sync after N consecutive incremental syncs.
-      required:
-      - period_ms
-      - strategy
-    update_sync_config:
-      type: object
-      properties:
-        config:
-          $ref: '#/components/schemas/sync_config_data'
-      required:
-      - config
-    sync_config:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 465fdcb7-26b4-4090-894c-67cab41022bb
-        application_id:
-          type: string
-          example: 9572d08b-f19f-48cc-a992-1eb7031d3f6a
-        destination_name:
-          type: string
-          example: postgres
-        provider_name:
-          $ref: '#/components/schemas/provider_name'
-        config:
-          $ref: '#/components/schemas/sync_config_data'
-      required:
-      - id
-      - application_id
-      - destination_name
-      - provider_name
-      - config
-  responses:
-    unprocessableEntity:
-      description: Unprocessable entity
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    conflict:
-      description: Conflict
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
   securitySchemes:
     x-api-key:
       type: apiKey

@@ -12,7 +12,7 @@ info:
     Welcome to the Actions API documentation. Actions are helpful APIs scoped to Providers. They range from handling CRUD operations on objects to performing multi-step workflows.
 
 
-    [![Run in Postman](https://run.pstmn.io/button.svg)](https://www.postman.com/supaglue/workspace/supaglue-public/overview)
+    ![Run in Postman](https://www.postman.com/supaglue/workspace/supaglue-public/overview)
 
 
     #### Base API URL
@@ -21,9 +21,7 @@ info:
 
     https://api.supaglue.io/actions/v2
 
-    ```
-
-    '
+    ```'
 servers:
 - url: https://api.supaglue.io/actions/v2
   description: Supaglue API
@@ -140,14 +138,6 @@ paths:
                         - description
 components:
   parameters:
-    x-customer-id:
-      name: x-customer-id
-      in: header
-      schema:
-        type: string
-      example: my-customer-1
-      description: The customer ID that uniquely identifies the customer in your application
-      required: true
     x-provider-name:
       name: x-provider-name
       in: header
@@ -155,6 +145,14 @@ components:
         type: string
       example: salesforce
       description: The provider name
+      required: true
+    x-customer-id:
+      name: x-customer-id
+      in: header
+      schema:
+        type: string
+      example: my-customer-1
+      description: The customer ID that uniquely identifies the customer in your application
       required: true
   securitySchemes:
     x-api-key:

@@ -19,15 +19,13 @@ info:
 
     https://api.supaglue.io/mgmt/v2
 
-    ```
-
-    '
+    ```'
 servers:
 - url: https://api.supaglue.io/mgmt/v2
   description: Supaglue API
 tags:
 - name: EntityMappings
-  description: An [`Entity Mapping`](https://docs.supaglue.com/platform/entities/overview#entity-mapping) maps an [Entity](https://docs.supaglue.com/platform/entities/overview) to a customer's Provider object and fields. Use Entity Mappings when you use [Entities](https://docs.supaglue.com/platform/entities/overview) as your data model.
+  description: An `Entity Mapping` maps an Entity to a customer's Provider object and fields. Use Entity Mappings when you use Entities as your data model.
 paths:
   /entity_mappings:
     parameters:
@@ -36,7 +34,7 @@ paths:
     get:
       deprecated: true
       operationId: listEntityMappings
-      summary: List entity mappings.
+      summary: List entity mappings
       tags:
       - EntityMappings
       security:
@@ -133,6 +131,79 @@ paths:
         '501':
           $ref: '#/components/responses/notImplemented'
 components:
+  responses:
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
   schemas:
     errors:
       type: array
@@ -275,33 +346,6 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
-    connection_entity_mapping:
-      type: object
-      deprecated: true
-      properties:
-        entity_id:
-          type: string
-        object:
-          $ref: '#/components/schemas/standard_or_custom_object'
-        field_mappings:
-          type: array
-          items:
-            $ref: '#/components/schemas/entity_field_mapping'
-      required:
-      - entity_id
-    standard_or_custom_object:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - standard
-          - custom
-        name:
-          type: string
-      required:
-      - type
-      - name
     entity_field_mapping:
       type: object
       deprecated: true
@@ -362,79 +406,33 @@ components:
       - entity_name
       - allow_additional_field_mappings
       - field_mappings
-  responses:
-    unprocessableEntity:
-      description: Unprocessable entity
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    conflict:
-      description: Conflict
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
+    connection_entity_mapping:
+      type: object
+      deprecated: true
+      properties:
+        entity_id:
+          type: string
+        object:
+          $ref: '#/components/schemas/standard_or_custom_object'
+        field_mappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/entity_field_mapping'
+      required:
+      - entity_id
+    standard_or_custom_object:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - standard
+          - custom
+        name:
+          type: string
+      required:
+      - type
+      - name
   parameters:
     x-provider-name:
       name: x-provider-name

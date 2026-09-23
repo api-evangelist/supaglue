@@ -12,7 +12,7 @@ info:
     Welcome to the Unified API (CRM) documentation. You can use this API to write to multiple third-party providers within the CRM category.
 
 
-    [View common schema for CRM](https://docs.supaglue.com/platform/common-schemas/crm)
+    View common schema for CRM
 
 
     #### Base API URL
@@ -21,9 +21,7 @@ info:
 
     https://api.supaglue.io/crm/v2
 
-    ```
-
-    '
+    ```'
 servers:
 - url: https://api.supaglue.io/crm/v2
   description: Supaglue API
@@ -48,19 +46,17 @@ paths:
         Support:
 
 
-        | Provider    | Supported |
+        | Provider | Supported |
 
         | ----------- | --------- |
 
-        | Hubspot     | Yes       |
+        | Hubspot | Yes |
 
-        | Salesforce  | Yes       |
+        | Salesforce | Yes |
 
-        | Pipedrive   | No        |
+        | Pipedrive | No |
 
-        | MS Dynamics | No        |
-
-        '
+        | MS Dynamics | No |'
       parameters:
       - name: source_object
         in: query
@@ -109,22 +105,20 @@ paths:
         Support:
 
 
-        | Provider    | Supported |
+        | Provider | Supported |
 
         | ----------- | --------- |
 
-        | Hubspot     | Yes       |
+        | Hubspot | Yes |
 
-        | Salesforce  | Yes       |
+        | Salesforce | Yes |
 
-        | Pipedrive   | No        |
+        | Pipedrive | No |
 
-        | MS Dynamics | No        |
+        | MS Dynamics | No |
 
 
-        Note: When creating a new association schema for Hubspot, Hubspot will also create a default association schema (with an empty name). Either can be used to create associations.
-
-        '
+        Note: When creating a new association schema for Hubspot, Hubspot will also create a default association schema (with an empty name). Either can be used to create associations.'
       parameters: []
       security:
       - x-api-key: []
@@ -166,6 +160,17 @@ paths:
           $ref: '#/components/responses/notImplemented'
 components:
   schemas:
+    warnings:
+      type: array
+      items:
+        type: object
+        properties:
+          detail:
+            type: string
+          problem_type:
+            type: string
+          title:
+            type: string
     errors:
       type: array
       items:
@@ -325,17 +330,6 @@ components:
       - source_object
       - target_object
       - display_name
-    warnings:
-      type: array
-      items:
-        type: object
-        properties:
-          detail:
-            type: string
-          problem_type:
-            type: string
-          title:
-            type: string
     create_update_association_schema:
       type: object
       properties:
@@ -354,8 +348,17 @@ components:
       - suggested_key_name
       - display_name
   responses:
-    unprocessableEntity:
-      description: Unprocessable entity
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
       content:
         application/json:
           schema:
@@ -365,6 +368,33 @@ components:
                 $ref: '#/components/schemas/errors'
     notFound:
       description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    internalServerError:
+      description: Internal server error
       content:
         application/json:
           schema:
@@ -392,42 +422,6 @@ components:
                 $ref: '#/components/schemas/errors'
     unauthorized:
       description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    internalServerError:
-      description: Internal server error
       content:
         application/json:
           schema:

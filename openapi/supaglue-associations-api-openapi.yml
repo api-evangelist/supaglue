@@ -12,7 +12,7 @@ info:
     Welcome to the Unified API (CRM) documentation. You can use this API to write to multiple third-party providers within the CRM category.
 
 
-    [View common schema for CRM](https://docs.supaglue.com/platform/common-schemas/crm)
+    View common schema for CRM
 
 
     #### Base API URL
@@ -21,9 +21,7 @@ info:
 
     https://api.supaglue.io/crm/v2
 
-    ```
-
-    '
+    ```'
 servers:
 - url: https://api.supaglue.io/crm/v2
   description: Supaglue API
@@ -47,19 +45,17 @@ paths:
         Support:
 
 
-        | Provider    | Supported |
+        | Provider | Supported |
 
         | ----------- | --------- |
 
-        | Hubspot     | Yes       |
+        | Hubspot | Yes |
 
-        | Salesforce  | Yes       |
+        | Salesforce | Yes |
 
-        | Pipedrive   | No        |
+        | Pipedrive | No |
 
-        | MS Dynamics | No        |
-
-        '
+        | MS Dynamics | No |'
       parameters:
       - name: source_record_id
         in: query
@@ -114,19 +110,17 @@ paths:
         Support:
 
 
-        | Provider    | Supported |
+        | Provider | Supported |
 
         | ----------- | --------- |
 
-        | Hubspot     | Yes       |
+        | Hubspot | Yes |
 
-        | Salesforce  | Yes       |
+        | Salesforce | Yes |
 
-        | Pipedrive   | No        |
+        | Pipedrive | No |
 
-        | MS Dynamics | No        |
-
-        '
+        | MS Dynamics | No |'
       security:
       - x-api-key: []
       requestBody:
@@ -167,6 +161,42 @@ paths:
           $ref: '#/components/responses/notImplemented'
 components:
   schemas:
+    warnings:
+      type: array
+      items:
+        type: object
+        properties:
+          detail:
+            type: string
+          problem_type:
+            type: string
+          title:
+            type: string
+    create_update_association:
+      type: object
+      properties:
+        association_schema_id:
+          type: string
+        source_object:
+          type: string
+          description: The name of the object that the source record belongs to.
+          example: company
+        source_record_id:
+          type: string
+          example: 45636a40-87e3-4707-b43c-39fecf9a8f4b
+        target_object:
+          type: string
+          description: The name of the object that the target record belongs to.
+          example: contact
+        target_record_id:
+          type: string
+          example: ad204784-a71b-440a-8482-c3d5ab64110f
+      required:
+      - association_schema_id
+      - source_record_id
+      - target_record_id
+      - source_object
+      - target_object
     errors:
       type: array
       items:
@@ -308,42 +338,6 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
-    create_update_association:
-      type: object
-      properties:
-        association_schema_id:
-          type: string
-        source_object:
-          type: string
-          description: The name of the object that the source record belongs to.
-          example: company
-        source_record_id:
-          type: string
-          example: 45636a40-87e3-4707-b43c-39fecf9a8f4b
-        target_object:
-          type: string
-          description: The name of the object that the target record belongs to.
-          example: contact
-        target_record_id:
-          type: string
-          example: ad204784-a71b-440a-8482-c3d5ab64110f
-      required:
-      - association_schema_id
-      - source_record_id
-      - target_record_id
-      - source_object
-      - target_object
-    warnings:
-      type: array
-      items:
-        type: object
-        properties:
-          detail:
-            type: string
-          problem_type:
-            type: string
-          title:
-            type: string
     association:
       type: object
       description: An instance of an association between two records.
@@ -371,8 +365,17 @@ components:
       - source_object
       - target_object
   responses:
-    unprocessableEntity:
-      description: Unprocessable entity
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
       content:
         application/json:
           schema:
@@ -382,6 +385,33 @@ components:
                 $ref: '#/components/schemas/errors'
     notFound:
       description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    internalServerError:
+      description: Internal server error
       content:
         application/json:
           schema:
@@ -409,42 +439,6 @@ components:
                 $ref: '#/components/schemas/errors'
     unauthorized:
       description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    internalServerError:
-      description: Internal server error
       content:
         application/json:
           schema:

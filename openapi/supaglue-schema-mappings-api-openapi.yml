@@ -19,15 +19,13 @@ info:
 
     https://api.supaglue.io/mgmt/v2
 
-    ```
-
-    '
+    ```'
 servers:
 - url: https://api.supaglue.io/mgmt/v2
   description: Supaglue API
 tags:
-- name: SchemaMappings
-  description: A `Schema Mapping` is a mapping between a [Schema](https://docs.supaglue.com/platform/objects/overview#schemas) field and fields in your customer's Provider object.
+- name: Schema Mappings
+  description: A `Schema Mapping` is a mapping between a Schema field and fields in your customer's Provider object.
 paths:
   /field_mappings:
     parameters:
@@ -38,7 +36,7 @@ paths:
       operationId: listFieldMappings
       summary: List schema mappings
       tags:
-      - SchemaMappings
+      - Schema Mappings
       security:
       - x-api-key: []
       parameters: []
@@ -72,7 +70,7 @@ paths:
       operationId: updateObjectFieldMappings
       summary: Update schema mappings
       tags:
-      - SchemaMappings
+      - Schema Mappings
       security:
       - x-api-key: []
       parameters: []
@@ -106,7 +104,110 @@ paths:
         '501':
           $ref: '#/components/responses/notImplemented'
 components:
+  responses:
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
   schemas:
+    object_field_mapping:
+      type: object
+      properties:
+        schema_field:
+          type: string
+          example: apolla_first_name
+        mapped_field:
+          type: string
+          example: FirstName
+      required:
+      - schema_field
+    update_object_field_mapping:
+      type: object
+      properties:
+        name:
+          type: string
+          example: contact
+        type:
+          type: string
+          enum:
+          - common
+          - standard
+        field_mappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/object_field_mapping'
+      required:
+      - name
+      - type
+      - field_mappings
     errors:
       type: array
       items:
@@ -294,109 +395,6 @@ components:
       - allow_additional_field_mappings
       - schema_id
       - fields
-    update_object_field_mapping:
-      type: object
-      properties:
-        name:
-          type: string
-          example: contact
-        type:
-          type: string
-          enum:
-          - common
-          - standard
-        field_mappings:
-          type: array
-          items:
-            $ref: '#/components/schemas/object_field_mapping'
-      required:
-      - name
-      - type
-      - field_mappings
-    object_field_mapping:
-      type: object
-      properties:
-        schema_field:
-          type: string
-          example: apolla_first_name
-        mapped_field:
-          type: string
-          example: FirstName
-      required:
-      - schema_field
-  responses:
-    unprocessableEntity:
-      description: Unprocessable entity
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    conflict:
-      description: Conflict
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
   parameters:
     x-provider-name:
       name: x-provider-name

@@ -12,7 +12,7 @@ info:
     Welcome to the Unified API (Enrichment) documentation. You can use this API to write to third-party providers.
 
 
-    [View common schema for Enrichment](https://docs.supaglue.com/platform/common-schemas/enrichment)
+    View common schema for Enrichment
 
 
     #### Base API URL
@@ -21,9 +21,7 @@ info:
 
     https://api.supaglue.io/enrichment/v2
 
-    ```
-
-    '
+    ```'
 servers:
 - url: https://api.supaglue.io/enrichment/v2
   description: Supaglue API
@@ -75,7 +73,105 @@ paths:
         '501':
           $ref: '#/components/responses/notImplemented'
 components:
+  responses:
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    remoteProviderError:
+      description: Remote provider error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
   schemas:
+    enriched_company:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+          example: 6sense
+        industry:
+          type:
+          - string
+          - 'null'
+          example: Software and Technology
+        annual_revenue:
+          type:
+          - number
+          - 'null'
+          example: 104000000
+        domain:
+          type:
+          - string
+          - 'null'
+          example: 6sense.com
+        employee_count:
+          type:
+          - number
+          - 'null'
+          example: 1192
+      required:
+      - name
+      - industry
+      - annual_revenue
+      - domain
+      - employee_count
     errors:
       type: array
       items:
@@ -217,104 +313,6 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
-    enriched_company:
-      type: object
-      properties:
-        name:
-          type:
-          - string
-          - 'null'
-          example: 6sense
-        industry:
-          type:
-          - string
-          - 'null'
-          example: Software and Technology
-        annual_revenue:
-          type:
-          - number
-          - 'null'
-          example: 104000000
-        domain:
-          type:
-          - string
-          - 'null'
-          example: 6sense.com
-        employee_count:
-          type:
-          - number
-          - 'null'
-          example: 1192
-      required:
-      - name
-      - industry
-      - annual_revenue
-      - domain
-      - employee_count
-  responses:
-    notFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    remoteProviderError:
-      description: Remote provider error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
   parameters:
     x-provider-name:
       name: x-provider-name

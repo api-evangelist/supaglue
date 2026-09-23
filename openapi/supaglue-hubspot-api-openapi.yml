@@ -14,12 +14,12 @@ info:
 
     :::info
 
-    **NOTE**: To use the Data Listing API you need to use the Supaglue Managed Destination and select [Standard Objects](https://docs.supaglue.com/next/platform/objects/overview#configuration) to be synced.
+    **NOTE**: To use the Data Listing API you need to use the Supaglue Managed Destination and select Standard Objects to be synced.
 
     :::
 
 
-    [![Run in Postman](https://run.pstmn.io/button.svg)](https://www.postman.com/supaglue/workspace/supaglue-public/overview)
+    ![Run in Postman](https://www.postman.com/supaglue/workspace/supaglue-public/overview)
 
 
     #### Base API URL
@@ -28,9 +28,7 @@ info:
 
     https://api.supaglue.io/data/v2
 
-    ```
-
-    '
+    ```'
 servers:
 - url: https://api.supaglue.io/data/v2
   description: Supaglue API
@@ -44,9 +42,7 @@ paths:
     get:
       operationId: listHubspotContacts
       summary: List contacts
-      description: '**NOTE**: To use the Data Listing API you need to use the Supaglue Managed Destination and select [Standard Objects](https://docs.supaglue.com/next/platform/objects/overview#configuration) to be synced.
-
-        '
+      description: '**NOTE**: To use the Data Listing API you need to use the Supaglue Managed Destination and select Standard Objects to be synced.'
       tags:
       - Hubspot
       security:
@@ -92,9 +88,7 @@ paths:
     get:
       operationId: listHubspotCompanies
       summary: List companies
-      description: '**NOTE**: To use the Data Listing API you need to use the Supaglue Managed Destination and select [Standard Objects](https://docs.supaglue.com/next/platform/objects/overview#configuration) to be synced.
-
-        '
+      description: '**NOTE**: To use the Data Listing API you need to use the Supaglue Managed Destination and select Standard Objects to be synced.'
       tags:
       - Hubspot
       security:
@@ -135,6 +129,101 @@ paths:
         '501':
           $ref: '#/components/responses/notImplemented'
 components:
+  responses:
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    remoteProviderError:
+      description: Remote provider error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+  parameters:
+    page_size:
+      name: page_size
+      in: query
+      schema:
+        type: string
+      example: 123
+      description: 'Number of results to return per page. (Max: 1000)'
+    cursor:
+      name: cursor
+      in: query
+      schema:
+        type: string
+      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
+      description: The pagination cursor value
+    x-customer-id:
+      name: x-customer-id
+      in: header
+      schema:
+        type: string
+      example: my-customer-1
+      description: The customer ID that uniquely identifies the customer in your application
+      required: true
+    modified_after:
+      name: modified_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+      description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
+      example: '2023-02-23T00:00:00Z'
   schemas:
     errors:
       type: array
@@ -277,129 +366,6 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
-    hubspot_company:
-      type: object
-      properties:
-        id:
-          type: string
-          example: '101'
-          description: the unique identifier for the company. This field is set automatically and cannot be edited. This can be used when updating companies through importing or through API.
-        description:
-          type:
-          - string
-          - 'null'
-          example: Open-source developer platform for customer-facing integrations
-          description: a short statement about the company's mission and goals.
-        city:
-          type:
-          - string
-          - 'null'
-          example: San Francisco
-          description: the city where the company is located.
-        country:
-          type:
-          - string
-          - 'null'
-          example: United States
-          description: the country where the company is located.
-        zip:
-          type:
-          - string
-          - 'null'
-          example: '94025'
-          description: postal or zip code for the company.
-        state:
-          type:
-          - string
-          - 'null'
-          example: CA
-          description: the state or region where the company is located.
-        address:
-          type:
-          - string
-          - 'null'
-          example: 525 Brannan St
-          description: the street address of the company.
-        phone:
-          type:
-          - string
-          - 'null'
-          example: (650) 450-8810
-          description: the company's primary phone number.
-        industry:
-          type:
-          - string
-          - 'null'
-          example: COMPUTER SOFTWARE
-          description: the type of business the company performs. By default, this property has approximately 150 pre-defined options to select from. These options cannot be deleted, as they are used by HubSpot Insights, but you can add new custom options to meet your needs.
-        name:
-          type:
-          - string
-          - 'null'
-          example: Supaglue
-          description: the name of the company.
-        numberofemployees:
-          type:
-          - string
-          - 'null'
-          example: '3000'
-          description: total number of people who work for the company.
-        hubspot_owner_id:
-          type:
-          - string
-          - 'null'
-          example: '101'
-          description: the HubSpot user that the company is assigned to. You can assign additional users to a company record by creating a custom HubSpot user property.
-        domain:
-          type:
-          - string
-          - 'null'
-          example: uos.com.sg
-          description: the company's website domain. HubSpot Insights uses this domain to provide you with basic information about the company. Every property marked with an asterisk (*) can be populated automatically by HubSpot Insights once the domain name is populated.
-        website:
-          type:
-          - string
-          - 'null'
-          example: http://www.uos.com.sg
-          description: the company's web address. Filling in this property will also fill in Company domain name.
-        is_deleted:
-          type: boolean
-          example: false
-          description: ''
-        createdate:
-          type: string
-          format: date-time
-          example: '2023-08-01T20:58:17.725Z'
-          description: the date the company was added to your account.
-        notes_last_updated:
-          type: string
-          format: date-time
-          example: '2023-08-01T20:58:17.725Z'
-          description: the last date and time a note, call, tracked and logged sales email, meeting, LinkedIn/SMS/WhatsApp message, task, or chat was logged on the company record. This is set automatically by HubSpot based on the most recent date/time set for an activity. For example, if a user logs a call and indicates that it occurred the day before, the Last activity date property will show yesterday's date.
-        raw_data:
-          type: object
-          description: The raw data returned by the provider.
-          additionalProperties: true
-      required:
-      - id
-      - description
-      - hubspot_owner_id
-      - city
-      - country
-      - zip
-      - state
-      - address
-      - phone
-      - fax
-      - industry
-      - name
-      - numberofemployees
-      - website
-      - domain
-      - is_deleted
-      - createdate
-      - notes_last_updated
-      - raw_data
     hubspot_contact:
       type: object
       properties:
@@ -529,6 +495,129 @@ components:
       - createdate
       - notes_last_updated
       - raw_data
+    hubspot_company:
+      type: object
+      properties:
+        id:
+          type: string
+          example: '101'
+          description: the unique identifier for the company. This field is set automatically and cannot be edited. This can be used when updating companies through importing or through API.
+        description:
+          type:
+          - string
+          - 'null'
+          example: Open-source developer platform for customer-facing integrations
+          description: a short statement about the company's mission and goals.
+        city:
+          type:
+          - string
+          - 'null'
+          example: San Francisco
+          description: the city where the company is located.
+        country:
+          type:
+          - string
+          - 'null'
+          example: United States
+          description: the country where the company is located.
+        zip:
+          type:
+          - string
+          - 'null'
+          example: '94025'
+          description: postal or zip code for the company.
+        state:
+          type:
+          - string
+          - 'null'
+          example: CA
+          description: the state or region where the company is located.
+        address:
+          type:
+          - string
+          - 'null'
+          example: 525 Brannan St
+          description: the street address of the company.
+        phone:
+          type:
+          - string
+          - 'null'
+          example: (650) 450-8810
+          description: the company's primary phone number.
+        industry:
+          type:
+          - string
+          - 'null'
+          example: COMPUTER SOFTWARE
+          description: the type of business the company performs. By default, this property has approximately 150 pre-defined options to select from. These options cannot be deleted, as they are used by HubSpot Insights, but you can add new custom options to meet your needs.
+        name:
+          type:
+          - string
+          - 'null'
+          example: Supaglue
+          description: the name of the company.
+        numberofemployees:
+          type:
+          - string
+          - 'null'
+          example: '3000'
+          description: total number of people who work for the company.
+        hubspot_owner_id:
+          type:
+          - string
+          - 'null'
+          example: '101'
+          description: the HubSpot user that the company is assigned to. You can assign additional users to a company record by creating a custom HubSpot user property.
+        domain:
+          type:
+          - string
+          - 'null'
+          example: uos.com.sg
+          description: the company's website domain. HubSpot Insights uses this domain to provide you with basic information about the company. Every property marked with an asterisk (*) can be populated automatically by HubSpot Insights once the domain name is populated.
+        website:
+          type:
+          - string
+          - 'null'
+          example: http://www.uos.com.sg
+          description: the company's web address. Filling in this property will also fill in Company domain name.
+        is_deleted:
+          type: boolean
+          example: false
+          description: ''
+        createdate:
+          type: string
+          format: date-time
+          example: '2023-08-01T20:58:17.725Z'
+          description: the date the company was added to your account.
+        notes_last_updated:
+          type: string
+          format: date-time
+          example: '2023-08-01T20:58:17.725Z'
+          description: the last date and time a note, call, tracked and logged sales email, meeting, LinkedIn/SMS/WhatsApp message, task, or chat was logged on the company record. This is set automatically by HubSpot based on the most recent date/time set for an activity. For example, if a user logs a call and indicates that it occurred the day before, the Last activity date property will show yesterday's date.
+        raw_data:
+          type: object
+          description: The raw data returned by the provider.
+          additionalProperties: true
+      required:
+      - id
+      - description
+      - hubspot_owner_id
+      - city
+      - country
+      - zip
+      - state
+      - address
+      - phone
+      - fax
+      - industry
+      - name
+      - numberofemployees
+      - website
+      - domain
+      - is_deleted
+      - createdate
+      - notes_last_updated
+      - raw_data
     pagination:
       type: object
       properties:
@@ -548,101 +637,6 @@ components:
       required:
       - next
       - previous
-  parameters:
-    page_size:
-      name: page_size
-      in: query
-      schema:
-        type: string
-      example: 123
-      description: 'Number of results to return per page. (Max: 1000)'
-    modified_after:
-      name: modified_after
-      in: query
-      schema:
-        type: string
-        format: date-time
-      description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
-      example: '2023-02-23T00:00:00Z'
-    cursor:
-      name: cursor
-      in: query
-      schema:
-        type: string
-      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
-      description: The pagination cursor value
-    x-customer-id:
-      name: x-customer-id
-      in: header
-      schema:
-        type: string
-      example: my-customer-1
-      description: The customer ID that uniquely identifies the customer in your application
-      required: true
-  responses:
-    remoteProviderError:
-      description: Remote provider error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
   securitySchemes:
     x-api-key:
       type: apiKey
