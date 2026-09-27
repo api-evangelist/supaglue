@@ -335,69 +335,9 @@ paths:
         '501':
           $ref: '#/components/responses/notImplemented'
 components:
-  parameters:
-    remote_provider_page_size:
-      name: page_size
-      in: query
-      schema:
-        type: string
-      example: 100
-      description: 'Number of results to return per page. (Max: 100)'
-    read_from_cache:
-      name: read_from_cache
-      in: query
-      schema:
-        type: boolean
-      example: true
-      description: "Whether to read from Supaglue's Managed Destination cache or to read directly from the provider. \n\n\n**NOTE**: `read_from_cache=true` requires you to have the object synced to the Supaglue Managed Destination.\n"
-    x-customer-id:
-      name: x-customer-id
-      in: header
-      schema:
-        type: string
-      example: my-customer-1
-      description: The customer ID that uniquely identifies the customer in your application
-      required: true
-    page_size:
-      name: page_size
-      in: query
-      schema:
-        type: string
-      example: 123
-      description: 'Number of results to return per page. (Max: 1000)'
-    include_raw_data:
-      name: include_raw_data
-      in: query
-      schema:
-        type: boolean
-      description: Whether to include raw data fetched from the 3rd party provider.
-      example: true
-    cursor:
-      name: cursor
-      in: query
-      schema:
-        type: string
-      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
-      description: The pagination cursor value
-    x-provider-name:
-      name: x-provider-name
-      in: header
-      schema:
-        type: string
-      example: salesforce
-      description: The provider name
-      required: true
-    modified_after:
-      name: modified_after
-      in: query
-      schema:
-        type: string
-        format: date-time
-      description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
-      example: '2023-02-23T00:00:00Z'
   responses:
-    notFound:
-      description: Not found
+    forbidden:
+      description: Forbidden
       content:
         application/json:
           schema:
@@ -423,26 +363,17 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    conflict:
-      description: Conflict
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unprocessableEntity:
-      description: Unprocessable entity
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
     internalServerError:
       description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    conflict:
+      description: Conflict
       content:
         application/json:
           schema:
@@ -459,6 +390,24 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
     notImplemented:
       description: Not implemented
       content:
@@ -468,15 +417,66 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
+  parameters:
+    x-customer-id:
+      name: x-customer-id
+      in: header
+      schema:
+        type: string
+      example: my-customer-1
+      description: The customer ID that uniquely identifies the customer in your application
+      required: true
+    x-provider-name:
+      name: x-provider-name
+      in: header
+      schema:
+        type: string
+      example: salesforce
+      description: The provider name
+      required: true
+    read_from_cache:
+      name: read_from_cache
+      in: query
+      schema:
+        type: boolean
+      example: true
+      description: "Whether to read from Supaglue's Managed Destination cache or to read directly from the provider. \n\n\n**NOTE**: `read_from_cache=true` requires you to have the object synced to the Supaglue Managed Destination.\n"
+    cursor:
+      name: cursor
+      in: query
+      schema:
+        type: string
+      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
+      description: The pagination cursor value
+    modified_after:
+      name: modified_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+      description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
+      example: '2023-02-23T00:00:00Z'
+    include_raw_data:
+      name: include_raw_data
+      in: query
+      schema:
+        type: boolean
+      description: Whether to include raw data fetched from the 3rd party provider.
+      example: true
+    remote_provider_page_size:
+      name: page_size
+      in: query
+      schema:
+        type: string
+      example: 100
+      description: 'Number of results to return per page. (Max: 100)'
+    page_size:
+      name: page_size
+      in: query
+      schema:
+        type: string
+      example: 123
+      description: 'Number of results to return per page. (Max: 1000)'
   schemas:
     errors:
       type: array
@@ -619,6 +619,17 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
+    warnings:
+      type: array
+      items:
+        type: object
+        properties:
+          detail:
+            type: string
+          problem_type:
+            type: string
+          title:
+            type: string
     pagination:
       type: object
       properties:
@@ -638,25 +649,6 @@ components:
       required:
       - next
       - previous
-    create_sequence_state:
-      type: object
-      properties:
-        contact_id:
-          type: string
-          example: c590dc63-8e43-48a4-8154-1fbb00ac936b
-        mailbox_id:
-          type: string
-          example: 39fd1fe0-094b-4a61-b47f-3e3ac033203d
-          description: The ID of the mailbox to use for the sequence. Required for Apollo and Outreach. Unused for Salesloft.
-        sequence_id:
-          type: string
-          example: b854e510-1c40-4ef6-ade4-8eb35f49d331
-        user_id:
-          type: string
-          description: The ID of the user who is performing the action. Required for Salesloft, optional for Apollo, unused for Outreach.
-      required:
-      - contact_id
-      - sequence_id
     created_record:
       type: object
       properties:
@@ -725,17 +717,25 @@ components:
       - updated_at
       - is_deleted
       - last_modified_at
-    warnings:
-      type: array
-      items:
-        type: object
-        properties:
-          detail:
-            type: string
-          problem_type:
-            type: string
-          title:
-            type: string
+    create_sequence_state:
+      type: object
+      properties:
+        contact_id:
+          type: string
+          example: c590dc63-8e43-48a4-8154-1fbb00ac936b
+        mailbox_id:
+          type: string
+          example: 39fd1fe0-094b-4a61-b47f-3e3ac033203d
+          description: The ID of the mailbox to use for the sequence. Required for Apollo and Outreach. Unused for Salesloft.
+        sequence_id:
+          type: string
+          example: b854e510-1c40-4ef6-ade4-8eb35f49d331
+        user_id:
+          type: string
+          description: The ID of the user who is performing the action. Required for Salesloft, optional for Apollo, unused for Outreach.
+      required:
+      - contact_id
+      - sequence_id
   securitySchemes:
     x-api-key:
       type: apiKey

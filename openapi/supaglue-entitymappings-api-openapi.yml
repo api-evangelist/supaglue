@@ -141,8 +141,8 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
+    internalServerError:
+      description: Internal server error
       content:
         application/json:
           schema:
@@ -168,26 +168,17 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    unprocessableEntity:
-      description: Unprocessable entity
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
     conflict:
       description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
       content:
         application/json:
           schema:
@@ -204,7 +195,58 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
   schemas:
+    standard_or_custom_object:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - standard
+          - custom
+        name:
+          type: string
+      required:
+      - type
+      - name
+    connection_entity_mapping:
+      type: object
+      deprecated: true
+      properties:
+        entity_id:
+          type: string
+        object:
+          $ref: '#/components/schemas/standard_or_custom_object'
+        field_mappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/entity_field_mapping'
+      required:
+      - entity_id
+    entity_field_mapping:
+      type: object
+      deprecated: true
+      properties:
+        entity_field:
+          type: string
+          description: The name of the field in your application.
+          example: apolla_first_name
+        mapped_field:
+          type: string
+          description: The name of the field in your customer's third-party Provider tool (e.g. Salesforce).
+          example: FirstName
+      required:
+      - entity_field
+      - mapped_field
     errors:
       type: array
       items:
@@ -346,21 +388,6 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
-    entity_field_mapping:
-      type: object
-      deprecated: true
-      properties:
-        entity_field:
-          type: string
-          description: The name of the field in your application.
-          example: apolla_first_name
-        mapped_field:
-          type: string
-          description: The name of the field in your customer's third-party Provider tool (e.g. Salesforce).
-          example: FirstName
-      required:
-      - entity_field
-      - mapped_field
     merged_entity_mapping:
       type: object
       properties:
@@ -406,42 +433,7 @@ components:
       - entity_name
       - allow_additional_field_mappings
       - field_mappings
-    connection_entity_mapping:
-      type: object
-      deprecated: true
-      properties:
-        entity_id:
-          type: string
-        object:
-          $ref: '#/components/schemas/standard_or_custom_object'
-        field_mappings:
-          type: array
-          items:
-            $ref: '#/components/schemas/entity_field_mapping'
-      required:
-      - entity_id
-    standard_or_custom_object:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - standard
-          - custom
-        name:
-          type: string
-      required:
-      - type
-      - name
   parameters:
-    x-provider-name:
-      name: x-provider-name
-      in: header
-      schema:
-        type: string
-      example: salesforce
-      description: The provider name
-      required: true
     x-customer-id:
       name: x-customer-id
       in: header
@@ -449,6 +441,14 @@ components:
         type: string
       example: my-customer-1
       description: The customer ID that uniquely identifies the customer in your application
+      required: true
+    x-provider-name:
+      name: x-provider-name
+      in: header
+      schema:
+        type: string
+      example: salesforce
+      description: The provider name
       required: true
   securitySchemes:
     x-api-key:

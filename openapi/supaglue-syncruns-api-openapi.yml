@@ -138,8 +138,8 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
+    internalServerError:
+      description: Internal server error
       content:
         application/json:
           schema:
@@ -165,15 +165,6 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
     unauthorized:
       description: Unauthorized
       content:
@@ -183,7 +174,191 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
   schemas:
+    category:
+      type: string
+      enum:
+      - crm
+      - engagement
+      - enrichment
+      - marketing_automation
+      - no_category
+      example: crm
+    pagination:
+      type: object
+      properties:
+        next:
+          type: string
+          nullable: true
+          example: eyJpZCI6IjQyNTc5ZjczLTg1MjQtNDU3MC05YjY3LWVjYmQ3MDJjNmIxNCIsInJldmVyc2UiOmZhbHNlfQ==
+        previous:
+          type: string
+          nullable: true
+          example: eyJpZCI6IjBjZDhmYmZkLWU5NmQtNDEwZC05ZjQxLWIwMjU1YjdmNGI4NyIsInJldmVyc2UiOnRydWV9
+        total_count:
+          type: number
+          example: 100
+      required:
+      - next
+      - previous
+    provider_name:
+      type: string
+      enum:
+      - hubspot
+      - salesforce
+      - pipedrive
+      - zendesk_sell
+      - ms_dynamics_365_sales
+      - zoho_crm
+      - capsule
+      - outreach
+      - gong
+      - apollo
+      - salesloft
+      - intercom
+      - linear
+      - clearbit
+      - 6sense
+      - marketo
+      - salesforce_marketing_cloud_account_engagement
+      - slack
+      example: hubspot
+    sync_run:
+      oneOf:
+      - type: object
+        title: 'Data model: Objects'
+        properties:
+          id:
+            type: string
+            example: 20eb4da3-6b38-4ec6-a82d-ecee59a9d6d9
+          sync_id:
+            type: string
+            example: 629525f8-f6f7-436c-80fa-1cb23acc5bf8
+          object_type:
+            type: string
+            enum:
+            - common
+            - standard
+            - custom
+          object:
+            type: string
+          error_message:
+            type: string
+            nullable: true
+          start_timestamp:
+            type: string
+            example: '2023-02-22T19:55:17.559537Z'
+          end_timestamp:
+            type: string
+            nullable: true
+            example: '2023-02-22T20:55:17.559537Z'
+          application_id:
+            type: string
+            example: 974125fa-ffb6-47fc-b12f-44c566fc5da1
+          customer_id:
+            type: string
+            example: my-customer-1
+          provider_name:
+            $ref: '#/components/schemas/provider_name'
+          category:
+            $ref: '#/components/schemas/category'
+          connection_id:
+            type: string
+            example: 3217ea51-11c8-43c9-9547-6f197e02e5e4
+          status:
+            type: string
+            enum:
+            - SUCCESS
+            - IN_PROGRESS
+            - FAILURE
+          num_records_synced:
+            type: number
+            nullable: true
+            example: 100
+        required:
+        - id
+        - sync_id
+        - object_type
+        - object
+        - start_timestamp
+        - end_timestamp
+        - application_id
+        - customer_id
+        - status
+        - error_message
+        - provider_name
+        - category
+        - connection_id
+        - num_records_synced
+      - type: object
+        title: 'Data model: Entities'
+        deprecated: true
+        properties:
+          id:
+            type: string
+            example: 20eb4da3-6b38-4ec6-a82d-ecee59a9d6d9
+          sync_id:
+            type: string
+            example: 629525f8-f6f7-436c-80fa-1cb23acc5bf8
+          entity_id:
+            type: string
+            deprecated: true
+          error_message:
+            type: string
+            nullable: true
+          start_timestamp:
+            type: string
+            example: '2023-02-22T19:55:17.559537Z'
+          end_timestamp:
+            type: string
+            nullable: true
+            example: '2023-02-22T20:55:17.559537Z'
+          application_id:
+            type: string
+            example: 974125fa-ffb6-47fc-b12f-44c566fc5da1
+          customer_id:
+            type: string
+            example: my-customer-1
+          provider_name:
+            $ref: '#/components/schemas/provider_name'
+          category:
+            $ref: '#/components/schemas/category'
+          connection_id:
+            type: string
+            example: 3217ea51-11c8-43c9-9547-6f197e02e5e4
+          status:
+            type: string
+            enum:
+            - SUCCESS
+            - IN_PROGRESS
+            - FAILURE
+          num_records_synced:
+            type: number
+            nullable: true
+            example: 100
+        required:
+        - id
+        - sync_id
+        - entity_id
+        - start_timestamp
+        - end_timestamp
+        - application_id
+        - customer_id
+        - status
+        - error_message
+        - provider_name
+        - category
+        - connection_id
+        - num_records_synced
     errors:
       type: array
       items:
@@ -325,181 +500,6 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
-    provider_name:
-      type: string
-      enum:
-      - hubspot
-      - salesforce
-      - pipedrive
-      - zendesk_sell
-      - ms_dynamics_365_sales
-      - zoho_crm
-      - capsule
-      - outreach
-      - gong
-      - apollo
-      - salesloft
-      - intercom
-      - linear
-      - clearbit
-      - 6sense
-      - marketo
-      - salesforce_marketing_cloud_account_engagement
-      - slack
-      example: hubspot
-    category:
-      type: string
-      enum:
-      - crm
-      - engagement
-      - enrichment
-      - marketing_automation
-      - no_category
-      example: crm
-    sync_run:
-      oneOf:
-      - type: object
-        title: 'Data model: Objects'
-        properties:
-          id:
-            type: string
-            example: 20eb4da3-6b38-4ec6-a82d-ecee59a9d6d9
-          sync_id:
-            type: string
-            example: 629525f8-f6f7-436c-80fa-1cb23acc5bf8
-          object_type:
-            type: string
-            enum:
-            - common
-            - standard
-            - custom
-          object:
-            type: string
-          error_message:
-            type: string
-            nullable: true
-          start_timestamp:
-            type: string
-            example: '2023-02-22T19:55:17.559537Z'
-          end_timestamp:
-            type: string
-            nullable: true
-            example: '2023-02-22T20:55:17.559537Z'
-          application_id:
-            type: string
-            example: 974125fa-ffb6-47fc-b12f-44c566fc5da1
-          customer_id:
-            type: string
-            example: my-customer-1
-          provider_name:
-            $ref: '#/components/schemas/provider_name'
-          category:
-            $ref: '#/components/schemas/category'
-          connection_id:
-            type: string
-            example: 3217ea51-11c8-43c9-9547-6f197e02e5e4
-          status:
-            type: string
-            enum:
-            - SUCCESS
-            - IN_PROGRESS
-            - FAILURE
-          num_records_synced:
-            type: number
-            nullable: true
-            example: 100
-        required:
-        - id
-        - sync_id
-        - object_type
-        - object
-        - start_timestamp
-        - end_timestamp
-        - application_id
-        - customer_id
-        - status
-        - error_message
-        - provider_name
-        - category
-        - connection_id
-        - num_records_synced
-      - type: object
-        title: 'Data model: Entities'
-        deprecated: true
-        properties:
-          id:
-            type: string
-            example: 20eb4da3-6b38-4ec6-a82d-ecee59a9d6d9
-          sync_id:
-            type: string
-            example: 629525f8-f6f7-436c-80fa-1cb23acc5bf8
-          entity_id:
-            type: string
-            deprecated: true
-          error_message:
-            type: string
-            nullable: true
-          start_timestamp:
-            type: string
-            example: '2023-02-22T19:55:17.559537Z'
-          end_timestamp:
-            type: string
-            nullable: true
-            example: '2023-02-22T20:55:17.559537Z'
-          application_id:
-            type: string
-            example: 974125fa-ffb6-47fc-b12f-44c566fc5da1
-          customer_id:
-            type: string
-            example: my-customer-1
-          provider_name:
-            $ref: '#/components/schemas/provider_name'
-          category:
-            $ref: '#/components/schemas/category'
-          connection_id:
-            type: string
-            example: 3217ea51-11c8-43c9-9547-6f197e02e5e4
-          status:
-            type: string
-            enum:
-            - SUCCESS
-            - IN_PROGRESS
-            - FAILURE
-          num_records_synced:
-            type: number
-            nullable: true
-            example: 100
-        required:
-        - id
-        - sync_id
-        - entity_id
-        - start_timestamp
-        - end_timestamp
-        - application_id
-        - customer_id
-        - status
-        - error_message
-        - provider_name
-        - category
-        - connection_id
-        - num_records_synced
-    pagination:
-      type: object
-      properties:
-        next:
-          type: string
-          nullable: true
-          example: eyJpZCI6IjQyNTc5ZjczLTg1MjQtNDU3MC05YjY3LWVjYmQ3MDJjNmIxNCIsInJldmVyc2UiOmZhbHNlfQ==
-        previous:
-          type: string
-          nullable: true
-          example: eyJpZCI6IjBjZDhmYmZkLWU5NmQtNDEwZC05ZjQxLWIwMjU1YjdmNGI4NyIsInJldmVyc2UiOnRydWV9
-        total_count:
-          type: number
-          example: 100
-      required:
-      - next
-      - previous
   securitySchemes:
     x-api-key:
       type: apiKey

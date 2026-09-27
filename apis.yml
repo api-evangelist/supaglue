@@ -44,8 +44,8 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/supaglue.p
 tags:
 - CRM
 - HRIS
-- Unified-API
-- Open-Source
+- Unified API
+- Open Source
 - Integration
 - Sales Engagement
 - Ticketing
@@ -67,6 +67,8 @@ tags_raw:
 - Enrichment
 - Webhooks
 - Archived
+- Unified-API
+- Open-Source
 url: https://raw.githubusercontent.com/api-evangelist/supaglue/refs/heads/main/apis.yml
 created: '2026-03-27'
 modified: '2026-09-16'
@@ -512,6 +514,8 @@ apis:
   description: The Ticket object is used to represent a ticket or a task within a system.
   humanURL: https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2/ticketing
   tags:
+  - Ticketing
+  tags_raw:
   - Tickets
   properties:
   - type: OpenAPI

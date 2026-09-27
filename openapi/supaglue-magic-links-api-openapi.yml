@@ -139,8 +139,8 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
+    internalServerError:
+      description: Internal server error
       content:
         application/json:
           schema:
@@ -166,26 +166,17 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    unprocessableEntity:
-      description: Unprocessable entity
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
     conflict:
       description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
       content:
         application/json:
           schema:
@@ -202,7 +193,102 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
   schemas:
+    magic_link:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ec208408-db29-4705-b39e-4d33070b4ef6
+        status:
+          type: string
+          description: '`new` or `consumed`'
+          example: new
+        application_id:
+          type: string
+          example: d8ceb3ff-8b7f-4fa7-b8de-849292f6ca69
+        customer_id:
+          type: string
+          example: my-customer-1
+        provider_id:
+          type: string
+          example: 677fcfca-cf89-4387-a189-71c885be67bc
+        provider_name:
+          $ref: '#/components/schemas/provider_name'
+        url:
+          type: string
+          description: The magic link URL.
+          example: https://app.hubspot.com/contacts/123456
+        return_url:
+          type: string
+          description: URL to redirect to after the connection is authorized.
+          example: https://app.myapp.com/connections/123456
+        expires_at:
+          type: string
+          format: date-time
+          example: '2023-02-23T00:00:00Z'
+          description: Any ISO formatted date-time string indicating when the magic link expires.
+      required:
+      - id
+      - status
+      - application_id
+      - customer_id
+      - provider_id
+      - provider_name
+      - expires_at
+      - url
+      - return_url
+    create_magic_link:
+      type: object
+      properties:
+        customer_id:
+          type: string
+          example: my-customer-1
+        provider_name:
+          $ref: '#/components/schemas/provider_name'
+        return_url:
+          type: string
+          description: URL to redirect to after the connection is authorized.
+          example: https://app.myapp.com/connections/123456
+        expiration_secs:
+          type: number
+          example: 18000
+      required:
+      - customer_id
+      - provider_name
+      - expiration_secs
+      - return_url
+    provider_name:
+      type: string
+      enum:
+      - hubspot
+      - salesforce
+      - pipedrive
+      - zendesk_sell
+      - ms_dynamics_365_sales
+      - zoho_crm
+      - capsule
+      - outreach
+      - gong
+      - apollo
+      - salesloft
+      - intercom
+      - linear
+      - clearbit
+      - 6sense
+      - marketo
+      - salesforce_marketing_cloud_account_engagement
+      - slack
+      example: hubspot
     errors:
       type: array
       items:
@@ -344,92 +430,6 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
-    provider_name:
-      type: string
-      enum:
-      - hubspot
-      - salesforce
-      - pipedrive
-      - zendesk_sell
-      - ms_dynamics_365_sales
-      - zoho_crm
-      - capsule
-      - outreach
-      - gong
-      - apollo
-      - salesloft
-      - intercom
-      - linear
-      - clearbit
-      - 6sense
-      - marketo
-      - salesforce_marketing_cloud_account_engagement
-      - slack
-      example: hubspot
-    create_magic_link:
-      type: object
-      properties:
-        customer_id:
-          type: string
-          example: my-customer-1
-        provider_name:
-          $ref: '#/components/schemas/provider_name'
-        return_url:
-          type: string
-          description: URL to redirect to after the connection is authorized.
-          example: https://app.myapp.com/connections/123456
-        expiration_secs:
-          type: number
-          example: 18000
-      required:
-      - customer_id
-      - provider_name
-      - expiration_secs
-      - return_url
-    magic_link:
-      type: object
-      properties:
-        id:
-          type: string
-          example: ec208408-db29-4705-b39e-4d33070b4ef6
-        status:
-          type: string
-          description: '`new` or `consumed`'
-          example: new
-        application_id:
-          type: string
-          example: d8ceb3ff-8b7f-4fa7-b8de-849292f6ca69
-        customer_id:
-          type: string
-          example: my-customer-1
-        provider_id:
-          type: string
-          example: 677fcfca-cf89-4387-a189-71c885be67bc
-        provider_name:
-          $ref: '#/components/schemas/provider_name'
-        url:
-          type: string
-          description: The magic link URL.
-          example: https://app.hubspot.com/contacts/123456
-        return_url:
-          type: string
-          description: URL to redirect to after the connection is authorized.
-          example: https://app.myapp.com/connections/123456
-        expires_at:
-          type: string
-          format: date-time
-          example: '2023-02-23T00:00:00Z'
-          description: Any ISO formatted date-time string indicating when the magic link expires.
-      required:
-      - id
-      - status
-      - application_id
-      - customer_id
-      - provider_id
-      - provider_name
-      - expires_at
-      - url
-      - return_url
   securitySchemes:
     x-api-key:
       type: apiKey

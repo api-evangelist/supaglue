@@ -266,89 +266,45 @@ paths:
         '501':
           $ref: '#/components/responses/notImplemented'
 components:
-  responses:
-    notFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    remoteProviderError:
-      description: Remote provider error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    conflict:
-      description: Conflict
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unprocessableEntity:
-      description: Unprocessable entity
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
   schemas:
+    create_custom_object_schema:
+      type: object
+      properties:
+        name:
+          type: string
+          example: ticket
+          description: The name you'd like to use for the custom object. For Salesforce, we will append `__c` if necessary. For HubSpot, it will pass through as-is.
+        description:
+          type:
+          - string
+          - 'null'
+          example: Ticket object
+        labels:
+          type: object
+          properties:
+            singular:
+              type: string
+              example: Ticket
+            plural:
+              type: string
+              example: Tickets
+          required:
+          - singular
+          - plural
+        primary_field_id:
+          type: string
+          description: The key name of the "primary" field. For example, in HubSpot, this is the field that will be displayed for a record in the UI by default. For Salesforce, this will be referenced as the "Name" field.
+          example: ticket_id
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/custom_object_field'
+      required:
+      - name
+      - description
+      - labels
+      - primary_field_id
+      - fields
     errors:
       type: array
       items:
@@ -540,111 +496,17 @@ components:
       - id
       - label
       - type
-    custom_object_schema:
-      type: object
-      properties:
-        name:
-          type: string
-          example: ticket
-        description:
-          type:
-          - string
-          - 'null'
-          example: Ticket object
-        labels:
-          type: object
-          properties:
-            singular:
-              type: string
-              example: Ticket
-            plural:
-              type: string
-              example: Tickets
-          required:
-          - singular
-          - plural
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/custom_object_field'
-      required:
-      - name
-      - description
-      - labels
-      - fields
-    create_custom_object_schema:
-      type: object
-      properties:
-        name:
-          type: string
-          example: ticket
-          description: The name you'd like to use for the custom object. For Salesforce, we will append `__c` if necessary. For HubSpot, it will pass through as-is.
-        description:
-          type:
-          - string
-          - 'null'
-          example: Ticket object
-        labels:
-          type: object
-          properties:
-            singular:
-              type: string
-              example: Ticket
-            plural:
-              type: string
-              example: Tickets
-          required:
-          - singular
-          - plural
-        primary_field_id:
-          type: string
-          description: The key name of the "primary" field. For example, in HubSpot, this is the field that will be displayed for a record in the UI by default. For Salesforce, this will be referenced as the "Name" field.
-          example: ticket_id
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/custom_object_field'
-      required:
-      - name
-      - description
-      - labels
-      - primary_field_id
-      - fields
-    property_type:
-      type: string
-      enum:
-      - text
-      - textarea
-      - number
-      - picklist
-      - multipicklist
-      - date
-      - datetime
-      - boolean
-      - url
-      - other
-      description: "Type of the field.\n\n:::note\n`picklist` and `multipicklist` property types are currently only supported in Salesforce and Hubspot\n:::\n\n:::note\n`url` property type currently is only natively supported in Salesforce.\n:::\n\nSupport:\n\n<table>\n  <thead>\n    <tr>\n      <th>Type</th>\n      <th>Hubspot (type-fieldType)</th>\n      <th>Salesforce</th>\n      <th>Pipedrive</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>text</td>\n      <td>string-text</td>\n      <td>Text</td>\n      <td>varchar_auto</td>\n    </tr>\n    <tr>\n      <td>textarea</td>\n      <td>string-textarea</td>\n      <td>Textarea</td>\n      <td>text</td>\n    </tr>\n    <tr>\n      <td>number</td>\n      <td>number-number</td>\n      <td>Int/Double (depending on scale)</td>\n      <td>double</td>\n    </tr>\n    <tr>\n      <td>picklist</td>\n      <td>enumeration-select</td>\n      <td>Picklist</td>\n      <td>enum</td>\n    </tr>\n    <tr>\n      <td>multipicklist</td>\n      <td>enumeration-checkbox</td>\n      <td>Multipicklist</td>\n      <td>set</td>\n    </tr>\n    <tr>\n      <td>date</td>\n      <td>date-date</td>\n      <td>Date</td>\n      <td>date</td>\n    </tr>\n    <tr>\n      <td>datetime</td>\n      <td>datetime-date</td>\n      <td>Datetime</td>\n      <td>date</td>\n    </tr>\n    <tr>\n      <td>boolean</td>\n      <td>bool-booleancheckbox</td>\n      <td>Checkbox</td>\n      <td>enum</td>\n    </tr>\n    <tr>\n      <td>url</td>\n      <td>Not Supported</td>\n      <td>Url</td>\n      <td>Not Supported</td>\n    </tr>\n  </tbody>\n  </table>\n"
-    simple_custom_object_schema:
-      type: object
-      properties:
-        name:
-          type: string
-          example: ticket
-        labels:
-          type: object
-          properties:
-            singular:
-              type: string
-              example: Ticket
-            plural:
-              type: string
-              example: Tickets
-          required:
-          - singular
-          - plural
-      required:
-      - name
-      - label
+    warnings:
+      type: array
+      items:
+        type: object
+        properties:
+          detail:
+            type: string
+          problem_type:
+            type: string
+          title:
+            type: string
     update_custom_object_schema:
       type: object
       properties:
@@ -678,17 +540,73 @@ components:
       - labels
       - primary_field_id
       - fields
-    warnings:
-      type: array
-      items:
-        type: object
-        properties:
-          detail:
-            type: string
-          problem_type:
-            type: string
-          title:
-            type: string
+    custom_object_schema:
+      type: object
+      properties:
+        name:
+          type: string
+          example: ticket
+        description:
+          type:
+          - string
+          - 'null'
+          example: Ticket object
+        labels:
+          type: object
+          properties:
+            singular:
+              type: string
+              example: Ticket
+            plural:
+              type: string
+              example: Tickets
+          required:
+          - singular
+          - plural
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/custom_object_field'
+      required:
+      - name
+      - description
+      - labels
+      - fields
+    simple_custom_object_schema:
+      type: object
+      properties:
+        name:
+          type: string
+          example: ticket
+        labels:
+          type: object
+          properties:
+            singular:
+              type: string
+              example: Ticket
+            plural:
+              type: string
+              example: Tickets
+          required:
+          - singular
+          - plural
+      required:
+      - name
+      - label
+    property_type:
+      type: string
+      enum:
+      - text
+      - textarea
+      - number
+      - picklist
+      - multipicklist
+      - date
+      - datetime
+      - boolean
+      - url
+      - other
+      description: "Type of the field.\n\n:::note\n`picklist` and `multipicklist` property types are currently only supported in Salesforce and Hubspot\n:::\n\n:::note\n`url` property type currently is only natively supported in Salesforce.\n:::\n\nSupport:\n\n<table>\n  <thead>\n    <tr>\n      <th>Type</th>\n      <th>Hubspot (type-fieldType)</th>\n      <th>Salesforce</th>\n      <th>Pipedrive</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>text</td>\n      <td>string-text</td>\n      <td>Text</td>\n      <td>varchar_auto</td>\n    </tr>\n    <tr>\n      <td>textarea</td>\n      <td>string-textarea</td>\n      <td>Textarea</td>\n      <td>text</td>\n    </tr>\n    <tr>\n      <td>number</td>\n      <td>number-number</td>\n      <td>Int/Double (depending on scale)</td>\n      <td>double</td>\n    </tr>\n    <tr>\n      <td>picklist</td>\n      <td>enumeration-select</td>\n      <td>Picklist</td>\n      <td>enum</td>\n    </tr>\n    <tr>\n      <td>multipicklist</td>\n      <td>enumeration-checkbox</td>\n      <td>Multipicklist</td>\n      <td>set</td>\n    </tr>\n    <tr>\n      <td>date</td>\n      <td>date-date</td>\n      <td>Date</td>\n      <td>date</td>\n    </tr>\n    <tr>\n      <td>datetime</td>\n      <td>datetime-date</td>\n      <td>Datetime</td>\n      <td>date</td>\n    </tr>\n    <tr>\n      <td>boolean</td>\n      <td>bool-booleancheckbox</td>\n      <td>Checkbox</td>\n      <td>enum</td>\n    </tr>\n    <tr>\n      <td>url</td>\n      <td>Not Supported</td>\n      <td>Url</td>\n      <td>Not Supported</td>\n    </tr>\n  </tbody>\n  </table>\n"
     picklist_option:
       type: object
       properties:
@@ -707,15 +625,89 @@ components:
       required:
       - label
       - value
+  responses:
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    remoteProviderError:
+      description: Remote provider error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
   parameters:
-    object_name:
-      name: object_name
-      in: path
-      schema:
-        type: string
-      example: MyCustomObject__c
-      description: The unique name of the custom object. For Salesforce, this should end with __c. For Hubspot, this will typically be the singular form of the object.
-      required: true
     x-customer-id:
       name: x-customer-id
       in: header
@@ -731,6 +723,14 @@ components:
         type: string
       example: salesforce
       description: The provider name
+      required: true
+    object_name:
+      name: object_name
+      in: path
+      schema:
+        type: string
+      example: MyCustomObject__c
+      description: The unique name of the custom object. For Salesforce, this should end with __c. For Hubspot, this will typically be the singular form of the object.
       required: true
   securitySchemes:
     x-api-key:

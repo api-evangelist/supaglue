@@ -210,8 +210,8 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
+    internalServerError:
+      description: Internal server error
       content:
         application/json:
           schema:
@@ -237,24 +237,6 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    unprocessableEntity:
-      description: Unprocessable entity
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
     conflict:
       description: Conflict
       content:
@@ -264,8 +246,8 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    remoteProviderError:
-      description: Remote provider error
+    unprocessableEntity:
+      description: Unprocessable entity
       content:
         application/json:
           schema:
@@ -282,7 +264,44 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    remoteProviderError:
+      description: Remote provider error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
   schemas:
+    entity_config:
+      type: object
+      deprecated: true
+      properties:
+        fields:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: apolla_first_name
+            required:
+            - name
+        allow_additional_field_mappings:
+          type: boolean
+      required:
+      - fields
+      - allow_additional_field_mappings
     errors:
       type: array
       items:
@@ -455,25 +474,6 @@ components:
       - application_id
       - name
       - config
-    entity_config:
-      type: object
-      deprecated: true
-      properties:
-        fields:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-                example: apolla_first_name
-            required:
-            - name
-        allow_additional_field_mappings:
-          type: boolean
-      required:
-      - fields
-      - allow_additional_field_mappings
   securitySchemes:
     x-api-key:
       type: apiKey

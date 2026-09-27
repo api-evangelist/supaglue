@@ -211,8 +211,8 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
+    internalServerError:
+      description: Internal server error
       content:
         application/json:
           schema:
@@ -238,26 +238,17 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    unprocessableEntity:
-      description: Unprocessable entity
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
     conflict:
       description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
       content:
         application/json:
           schema:
@@ -274,7 +265,73 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
   schemas:
+    schema:
+      type: object
+      deprecated: true
+      properties:
+        id:
+          type: string
+          example: 649b1e49-2722-46a3-a7e7-10caae78a43f
+        application_id:
+          type: string
+          example: d8ceb3ff-8b7f-4fa7-b8de-849292f6ca69
+        name:
+          type: string
+          example: my-schema
+        config:
+          $ref: '#/components/schemas/schema_config'
+      required:
+      - id
+      - application_id
+      - name
+      - config
+    create_update_schema:
+      type: object
+      properties:
+        name:
+          type: string
+          example: my-schema
+        config:
+          $ref: '#/components/schemas/schema_config'
+      required:
+      - name
+      - config
+    schema_config:
+      type: object
+      deprecated: true
+      properties:
+        fields:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: apolla_first_name
+                description: Your application field name.
+              mapped_name:
+                type: string
+                example: FirstName
+                description: The field your customer maps. This is a Provider-specified field name. E.g. FirstName for Salesforce.
+            required:
+            - name
+        allow_additional_field_mappings:
+          type: boolean
+          description: Specifies whether your customer can add new application field names.
+          example: false
+      required:
+      - fields
+      - allow_additional_field_mappings
     errors:
       type: array
       items:
@@ -416,63 +473,6 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
-    schema:
-      type: object
-      deprecated: true
-      properties:
-        id:
-          type: string
-          example: 649b1e49-2722-46a3-a7e7-10caae78a43f
-        application_id:
-          type: string
-          example: d8ceb3ff-8b7f-4fa7-b8de-849292f6ca69
-        name:
-          type: string
-          example: my-schema
-        config:
-          $ref: '#/components/schemas/schema_config'
-      required:
-      - id
-      - application_id
-      - name
-      - config
-    schema_config:
-      type: object
-      deprecated: true
-      properties:
-        fields:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-                example: apolla_first_name
-                description: Your application field name.
-              mapped_name:
-                type: string
-                example: FirstName
-                description: The field your customer maps. This is a Provider-specified field name. E.g. FirstName for Salesforce.
-            required:
-            - name
-        allow_additional_field_mappings:
-          type: boolean
-          description: Specifies whether your customer can add new application field names.
-          example: false
-      required:
-      - fields
-      - allow_additional_field_mappings
-    create_update_schema:
-      type: object
-      properties:
-        name:
-          type: string
-          example: my-schema
-        config:
-          $ref: '#/components/schemas/schema_config'
-      required:
-      - name
-      - config
   securitySchemes:
     x-api-key:
       type: apiKey

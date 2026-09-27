@@ -169,6 +169,52 @@ paths:
               schema:
                 $ref: '#/components/schemas/attachment'
 components:
+  parameters:
+    include_raw_data:
+      name: include_raw_data
+      in: query
+      schema:
+        type: boolean
+      description: Whether to include raw data fetched from the 3rd party provider.
+      example: true
+    x-customer-id:
+      name: x-customer-id
+      in: header
+      schema:
+        type: string
+      example: my-customer-1
+      description: The customer ID that uniquely identifies the customer in your application
+      required: true
+    cursor:
+      name: cursor
+      in: query
+      schema:
+        type: string
+      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
+      description: The pagination cursor value
+    page_size:
+      name: page_size
+      in: query
+      schema:
+        type: string
+      example: 123
+      description: 'Number of results to return per page. (Max: 1000)'
+    modified_after:
+      name: modified_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+      description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
+      example: '2023-02-23T00:00:00Z'
+    x-provider-name:
+      name: x-provider-name
+      in: header
+      schema:
+        type: string
+      example: salesforce
+      description: The provider name
+      required: true
   schemas:
     warnings:
       type: array
@@ -181,6 +227,49 @@ components:
             type: string
           title:
             type: string
+    attachment:
+      type: object
+      properties:
+        file_name:
+          type: string
+          example: Screenshot.png
+        ticket:
+          type: string
+          example: 0958cbc6-6040-430a-848e-aafacbadf4ae
+        file_url:
+          type: string
+          example: http://alturl.com/p749b
+        content_type:
+          type: string
+          example: jpeg
+        uploaded_by:
+          type: string
+          example: 28b54125-287f-494d-965e-3c5b330c9a68
+      required:
+      - file_name
+      - ticket
+      - file_url
+      - content_type
+      - uploaded_by
+    pagination:
+      type: object
+      properties:
+        next:
+          type:
+          - string
+          - 'null'
+          example: eyJpZCI6IjQyNTc5ZjczLTg1MjQtNDU3MC05YjY3LWVjYmQ3MDJjNmIxNCIsInJldmVyc2UiOmZhbHNlfQ==
+        previous:
+          type:
+          - string
+          - 'null'
+          example: eyJpZCI6IjBjZDhmYmZkLWU5NmQtNDEwZC05ZjQxLWIwMjU1YjdmNGI4NyIsInJldmVyc2UiOnRydWV9
+        total_count:
+          type: number
+          example: 100
+      required:
+      - next
+      - previous
     errors:
       type: array
       items:
@@ -322,30 +411,6 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
-    attachment:
-      type: object
-      properties:
-        file_name:
-          type: string
-          example: Screenshot.png
-        ticket:
-          type: string
-          example: 0958cbc6-6040-430a-848e-aafacbadf4ae
-        file_url:
-          type: string
-          example: http://alturl.com/p749b
-        content_type:
-          type: string
-          example: jpeg
-        uploaded_by:
-          type: string
-          example: 28b54125-287f-494d-965e-3c5b330c9a68
-      required:
-      - file_name
-      - ticket
-      - file_url
-      - content_type
-      - uploaded_by
     created_record:
       type: object
       properties:
@@ -353,71 +418,6 @@ components:
           type: string
       required:
       - id
-    pagination:
-      type: object
-      properties:
-        next:
-          type:
-          - string
-          - 'null'
-          example: eyJpZCI6IjQyNTc5ZjczLTg1MjQtNDU3MC05YjY3LWVjYmQ3MDJjNmIxNCIsInJldmVyc2UiOmZhbHNlfQ==
-        previous:
-          type:
-          - string
-          - 'null'
-          example: eyJpZCI6IjBjZDhmYmZkLWU5NmQtNDEwZC05ZjQxLWIwMjU1YjdmNGI4NyIsInJldmVyc2UiOnRydWV9
-        total_count:
-          type: number
-          example: 100
-      required:
-      - next
-      - previous
-  parameters:
-    page_size:
-      name: page_size
-      in: query
-      schema:
-        type: string
-      example: 123
-      description: 'Number of results to return per page. (Max: 1000)'
-    x-provider-name:
-      name: x-provider-name
-      in: header
-      schema:
-        type: string
-      example: salesforce
-      description: The provider name
-      required: true
-    include_raw_data:
-      name: include_raw_data
-      in: query
-      schema:
-        type: boolean
-      description: Whether to include raw data fetched from the 3rd party provider.
-      example: true
-    cursor:
-      name: cursor
-      in: query
-      schema:
-        type: string
-      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
-      description: The pagination cursor value
-    x-customer-id:
-      name: x-customer-id
-      in: header
-      schema:
-        type: string
-      example: my-customer-1
-      description: The customer ID that uniquely identifies the customer in your application
-      required: true
-    modified_after:
-      name: modified_after
-      in: query
-      schema:
-        type: string
-        format: date-time
-      description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
-      example: '2023-02-23T00:00:00Z'
   securitySchemes:
     x-api-key:
       type: apiKey

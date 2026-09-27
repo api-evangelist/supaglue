@@ -318,8 +318,8 @@ paths:
       description: Supaglue API
 components:
   responses:
-    notFound:
-      description: Not found
+    forbidden:
+      description: Forbidden
       content:
         application/json:
           schema:
@@ -345,26 +345,17 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    conflict:
-      description: Conflict
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unprocessableEntity:
-      description: Unprocessable entity
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
     internalServerError:
       description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    conflict:
+      description: Conflict
       content:
         application/json:
           schema:
@@ -381,6 +372,24 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
     notImplemented:
       description: Not implemented
       content:
@@ -390,15 +399,60 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
+  parameters:
+    x-customer-id:
+      name: x-customer-id
+      in: header
+      schema:
+        type: string
+      example: my-customer-1
+      description: The customer ID that uniquely identifies the customer in your application
+      required: true
+    x-provider-name:
+      name: x-provider-name
+      in: header
+      schema:
+        type: string
+      example: salesforce
+      description: The provider name
+      required: true
+    object_name:
+      name: object_name
+      in: path
+      schema:
+        type: string
+      example: MyCustomObject__c
+      description: The unique name of the custom object. For Salesforce, this should end with __c. For Hubspot, this will typically be the singular form of the object.
+      required: true
+    read_from_cache:
+      name: read_from_cache
+      in: query
+      schema:
+        type: boolean
+      example: true
+      description: "Whether to read from Supaglue's Managed Destination cache or to read directly from the provider. \n\n\n**NOTE**: `read_from_cache=true` requires you to have the object synced to the Supaglue Managed Destination.\n"
+    cursor:
+      name: cursor
+      in: query
+      schema:
+        type: string
+      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
+      description: The pagination cursor value
+    modified_after:
+      name: modified_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+      description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
+      example: '2023-02-23T00:00:00Z'
+    page_size:
+      name: page_size
+      in: query
+      schema:
+        type: string
+      example: 123
+      description: 'Number of results to return per page. (Max: 1000)'
   schemas:
     errors:
       type: array
@@ -541,6 +595,20 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
+    warnings:
+      type: array
+      items:
+        type: object
+        properties:
+          detail:
+            type: string
+          problem_type:
+            type: string
+          title:
+            type: string
+    create_update_custom_object_record:
+      type: object
+      additionalProperties: true
     pagination:
       type: object
       properties:
@@ -560,16 +628,6 @@ components:
       required:
       - next
       - previous
-    create_update_custom_object_record:
-      type: object
-      additionalProperties: true
-    created_record:
-      type: object
-      properties:
-        id:
-          type: string
-      required:
-      - id
     custom_object_record:
       type: object
       properties:
@@ -599,17 +657,13 @@ components:
           Description: We create the best embedded integration platforms.
         is_deleted: false
         last_modified_at: '2021-01-01T00:00:00Z'
-    warnings:
-      type: array
-      items:
-        type: object
-        properties:
-          detail:
-            type: string
-          problem_type:
-            type: string
-          title:
-            type: string
+    created_record:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+      - id
     simple_custom_object:
       type: object
       properties:
@@ -622,60 +676,6 @@ components:
       required:
       - id
       - name
-  parameters:
-    read_from_cache:
-      name: read_from_cache
-      in: query
-      schema:
-        type: boolean
-      example: true
-      description: "Whether to read from Supaglue's Managed Destination cache or to read directly from the provider. \n\n\n**NOTE**: `read_from_cache=true` requires you to have the object synced to the Supaglue Managed Destination.\n"
-    object_name:
-      name: object_name
-      in: path
-      schema:
-        type: string
-      example: MyCustomObject__c
-      description: The unique name of the custom object. For Salesforce, this should end with __c. For Hubspot, this will typically be the singular form of the object.
-      required: true
-    x-customer-id:
-      name: x-customer-id
-      in: header
-      schema:
-        type: string
-      example: my-customer-1
-      description: The customer ID that uniquely identifies the customer in your application
-      required: true
-    page_size:
-      name: page_size
-      in: query
-      schema:
-        type: string
-      example: 123
-      description: 'Number of results to return per page. (Max: 1000)'
-    cursor:
-      name: cursor
-      in: query
-      schema:
-        type: string
-      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
-      description: The pagination cursor value
-    x-provider-name:
-      name: x-provider-name
-      in: header
-      schema:
-        type: string
-      example: salesforce
-      description: The provider name
-      required: true
-    modified_after:
-      name: modified_after
-      in: query
-      schema:
-        type: string
-        format: date-time
-      description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
-      example: '2023-02-23T00:00:00Z'
   securitySchemes:
     x-api-key:
       type: apiKey

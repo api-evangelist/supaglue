@@ -138,7 +138,94 @@ paths:
         '501':
           $ref: '#/components/responses/notImplemented'
 components:
+  responses:
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    remoteProviderError:
+      description: Remote provider error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
   parameters:
+    x-customer-id:
+      name: x-customer-id
+      in: header
+      schema:
+        type: string
+      example: my-customer-1
+      description: The customer ID that uniquely identifies the customer in your application
+      required: true
+    x-provider-name:
+      name: x-provider-name
+      in: header
+      schema:
+        type: string
+      example: salesforce
+      description: The provider name
+      required: true
+    cursor:
+      name: cursor
+      in: query
+      schema:
+        type: string
+      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
+      description: The pagination cursor value
     remote_provider_page_size:
       name: page_size
       in: query
@@ -159,36 +246,115 @@ components:
       example: contact
       description: "The Supaglue common object type to fetch a list for.\n\nSupport:\n\n<table>\n  <thead>\n    <tr>\n    <th>Provider</th>\n    <th>Object Type</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>Salesforce</td>\n      <td>countact, account, opportunity, lead</td>\n    </tr>\n    <tr>\n      <td>Hubspot</td>\n      <td>contact, account</td>\n    </tr>\n  </tbody>\n  </table>\n"
       required: true
-    x-customer-id:
-      name: x-customer-id
-      in: header
-      schema:
-        type: string
-      example: my-customer-1
-      description: The customer ID that uniquely identifies the customer in your application
-      required: true
-    cursor:
-      name: cursor
-      in: query
-      schema:
-        type: string
-      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
-      description: The pagination cursor value
-    x-provider-name:
-      name: x-provider-name
-      in: header
-      schema:
-        type: string
-      example: salesforce
-      description: The provider name
-      required: true
   schemas:
-    list_membership:
-      oneOf:
-      - $ref: '#/components/schemas/contact'
-      - $ref: '#/components/schemas/account'
-      - $ref: '#/components/schemas/lead'
-      - $ref: '#/components/schemas/opportunity'
+    addresses:
+      type: array
+      items:
+        type: object
+        properties:
+          address_type:
+            type: string
+            enum:
+            - primary
+            - mailing
+            - other
+            - billing
+            - shipping
+          city:
+            type:
+            - string
+            - 'null'
+            example: San Francisco
+          country:
+            type:
+            - string
+            - 'null'
+            example: USA
+          postal_code:
+            type:
+            - string
+            - 'null'
+            example: '94107'
+          state:
+            type:
+            - string
+            - 'null'
+            example: CA
+          street_1:
+            type:
+            - string
+            - 'null'
+            example: 525 Brannan
+          street_2:
+            type:
+            - string
+            - 'null'
+            example: null
+        required:
+        - address_type
+        - city
+        - country
+        - postal_code
+        - state
+        - street_1
+        - street_2
+      example:
+      - address_type: shipping
+        city: San Francisco
+        country: US
+        postal_code: '94107'
+        state: CA
+        street_1: 525 Brannan
+        street_2: null
+    list_metadata:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 00BDn00000RHS32MAH
+          description: The provider-specific unique identifier for this list.
+        object_type:
+          type: string
+          enum:
+          - contact
+          - account
+          - lead
+          - opportunity
+        name:
+          type: string
+          example: RecentlyViewedContacts
+          description: The developer name of this list.
+        label:
+          type: string
+          example: Recently Viewed Contacts
+          description: The label for this list.
+        raw_data:
+          type: object
+          description: The raw data from the provider for this list.
+          additionalProperties: true
+          example:
+            attributes:
+              type: ListView
+              url: /services/data/v57.0/sobjects/ListView/00BDn00000RHS32MAH
+            Id: 00BDn00000RHS32MAH
+            Name: Recently Viewed Contacts
+            DeveloperName: RecentlyViewedContacts
+            NamespacePrefix: null
+            SobjectType: Contact
+            IsSoqlCompatible: true
+            CreatedDate: 2023-05-26T22:25:47.000+0000
+            CreatedById: 005Dn0000079fN6IAI
+            LastModifiedDate: 2023-05-26T22:25:47.000+0000
+            LastModifiedById: 005Dn0000079fN6IAI
+            SystemModstamp: 2023-05-26T22:25:47.000+0000
+            LastViewedDate: null
+            LastReferencedDate: null
+      required:
+      - id
+      - object_type
+      - name
+      - label
+      - raw_data
     errors:
       type: array
       items:
@@ -330,120 +496,6 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
-    opportunity:
-      type: object
-      properties:
-        account_id:
-          type:
-          - string
-          - 'null'
-          example: fd089246-09b1-4e3b-a60a-7a76314bbcce
-        amount:
-          type:
-          - integer
-          - 'null'
-          example: 100000
-        close_date:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2023-02-27T00:00:00Z'
-        description:
-          type:
-          - string
-          - 'null'
-          example: Wants to use open source unified API for third-party integrations
-        id:
-          type: string
-          example: 54312
-        last_activity_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2023-02-27T00:00:00Z'
-        name:
-          type:
-          - string
-          - 'null'
-          example: Needs third-party integrations
-        owner_id:
-          type:
-          - string
-          - 'null'
-          example: d8ceb3ff-8b7f-4fa7-b8de-849292f6ca69
-        pipeline:
-          type:
-          - string
-          - 'null'
-        stage:
-          type:
-          - string
-          - 'null'
-          example: Closed Won
-        status:
-          type:
-          - string
-          - 'null'
-          example: OPEN
-        created_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2023-02-27T00:00:00Z'
-        updated_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2023-02-27T00:00:00Z'
-        is_deleted:
-          type: boolean
-          example: false
-        last_modified_at:
-          type: string
-          format: date-time
-          example: '2022-02-27T00:00:00Z'
-      required:
-      - account_id
-      - amount
-      - description
-      - id
-      - last_activity_at
-      - name
-      - owner_id
-      - stage
-      - status
-      - pipeline
-      - created_at
-      - updated_at
-      - is_deleted
-      - last_modified_at
-    phone_numbers:
-      type: array
-      items:
-        type: object
-        properties:
-          phone_number:
-            type:
-            - string
-            - 'null'
-            example: '+14151234567'
-          phone_number_type:
-            type: string
-            enum:
-            - primary
-            - mobile
-            - fax
-            - other
-        required:
-        - phone_number
-        - phone_number_type
-      example:
-      - phone_number: '+14151234567'
-        phone_number_type: primary
     account:
       type: object
       properties:
@@ -527,6 +579,62 @@ components:
       - updated_at
       - is_deleted
       - last_modified_at
+    email_addresses:
+      type: array
+      items:
+        type: object
+        properties:
+          email_address:
+            type: string
+            example: hello@supaglue.com
+          email_address_type:
+            type: string
+            enum:
+            - primary
+            - work
+            - other
+        required:
+        - email_address
+        - email_address_type
+      example:
+      - email_address: hello@supaglue.com
+        email_address_type: work
+    phone_numbers:
+      type: array
+      items:
+        type: object
+        properties:
+          phone_number:
+            type:
+            - string
+            - 'null'
+            example: '+14151234567'
+          phone_number_type:
+            type: string
+            enum:
+            - primary
+            - mobile
+            - fax
+            - other
+        required:
+        - phone_number
+        - phone_number_type
+      example:
+      - phone_number: '+14151234567'
+        phone_number_type: primary
+    lifecycle_stage:
+      type:
+      - string
+      - 'null'
+      enum:
+      - subscriber
+      - lead
+      - marketingqualifiedlead
+      - salesqualifiedlead
+      - opportunity
+      - customer
+      - evangelist
+      - other
     pagination:
       type: object
       properties:
@@ -546,65 +654,12 @@ components:
       required:
       - next
       - previous
-    addresses:
-      type: array
-      items:
-        type: object
-        properties:
-          address_type:
-            type: string
-            enum:
-            - primary
-            - mailing
-            - other
-            - billing
-            - shipping
-          city:
-            type:
-            - string
-            - 'null'
-            example: San Francisco
-          country:
-            type:
-            - string
-            - 'null'
-            example: USA
-          postal_code:
-            type:
-            - string
-            - 'null'
-            example: '94107'
-          state:
-            type:
-            - string
-            - 'null'
-            example: CA
-          street_1:
-            type:
-            - string
-            - 'null'
-            example: 525 Brannan
-          street_2:
-            type:
-            - string
-            - 'null'
-            example: null
-        required:
-        - address_type
-        - city
-        - country
-        - postal_code
-        - state
-        - street_1
-        - street_2
-      example:
-      - address_type: shipping
-        city: San Francisco
-        country: US
-        postal_code: '94107'
-        state: CA
-        street_1: 525 Brannan
-        street_2: null
+    list_membership:
+      oneOf:
+      - $ref: '#/components/schemas/contact'
+      - $ref: '#/components/schemas/account'
+      - $ref: '#/components/schemas/lead'
+      - $ref: '#/components/schemas/opportunity'
     lead:
       type: object
       properties:
@@ -702,75 +757,6 @@ components:
       - updated_at
       - is_deleted
       - last_modified_at
-    list_metadata:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 00BDn00000RHS32MAH
-          description: The provider-specific unique identifier for this list.
-        object_type:
-          type: string
-          enum:
-          - contact
-          - account
-          - lead
-          - opportunity
-        name:
-          type: string
-          example: RecentlyViewedContacts
-          description: The developer name of this list.
-        label:
-          type: string
-          example: Recently Viewed Contacts
-          description: The label for this list.
-        raw_data:
-          type: object
-          description: The raw data from the provider for this list.
-          additionalProperties: true
-          example:
-            attributes:
-              type: ListView
-              url: /services/data/v57.0/sobjects/ListView/00BDn00000RHS32MAH
-            Id: 00BDn00000RHS32MAH
-            Name: Recently Viewed Contacts
-            DeveloperName: RecentlyViewedContacts
-            NamespacePrefix: null
-            SobjectType: Contact
-            IsSoqlCompatible: true
-            CreatedDate: 2023-05-26T22:25:47.000+0000
-            CreatedById: 005Dn0000079fN6IAI
-            LastModifiedDate: 2023-05-26T22:25:47.000+0000
-            LastModifiedById: 005Dn0000079fN6IAI
-            SystemModstamp: 2023-05-26T22:25:47.000+0000
-            LastViewedDate: null
-            LastReferencedDate: null
-      required:
-      - id
-      - object_type
-      - name
-      - label
-      - raw_data
-    email_addresses:
-      type: array
-      items:
-        type: object
-        properties:
-          email_address:
-            type: string
-            example: hello@supaglue.com
-          email_address_type:
-            type: string
-            enum:
-            - primary
-            - work
-            - other
-        required:
-        - email_address
-        - email_address_type
-      example:
-      - email_address: hello@supaglue.com
-        email_address_type: work
     contact:
       type: object
       properties:
@@ -849,83 +835,97 @@ components:
       - updated_at
       - is_deleted
       - last_modified_at
-    lifecycle_stage:
-      type:
-      - string
-      - 'null'
-      enum:
-      - subscriber
-      - lead
-      - marketingqualifiedlead
-      - salesqualifiedlead
-      - opportunity
-      - customer
-      - evangelist
-      - other
-  responses:
-    notFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    remoteProviderError:
-      description: Remote provider error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
+    opportunity:
+      type: object
+      properties:
+        account_id:
+          type:
+          - string
+          - 'null'
+          example: fd089246-09b1-4e3b-a60a-7a76314bbcce
+        amount:
+          type:
+          - integer
+          - 'null'
+          example: 100000
+        close_date:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2023-02-27T00:00:00Z'
+        description:
+          type:
+          - string
+          - 'null'
+          example: Wants to use open source unified API for third-party integrations
+        id:
+          type: string
+          example: 54312
+        last_activity_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2023-02-27T00:00:00Z'
+        name:
+          type:
+          - string
+          - 'null'
+          example: Needs third-party integrations
+        owner_id:
+          type:
+          - string
+          - 'null'
+          example: d8ceb3ff-8b7f-4fa7-b8de-849292f6ca69
+        pipeline:
+          type:
+          - string
+          - 'null'
+        stage:
+          type:
+          - string
+          - 'null'
+          example: Closed Won
+        status:
+          type:
+          - string
+          - 'null'
+          example: OPEN
+        created_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2023-02-27T00:00:00Z'
+        updated_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2023-02-27T00:00:00Z'
+        is_deleted:
+          type: boolean
+          example: false
+        last_modified_at:
+          type: string
+          format: date-time
+          example: '2022-02-27T00:00:00Z'
+      required:
+      - account_id
+      - amount
+      - description
+      - id
+      - last_activity_at
+      - name
+      - owner_id
+      - stage
+      - status
+      - pipeline
+      - created_at
+      - updated_at
+      - is_deleted
+      - last_modified_at
   securitySchemes:
     x-api-key:
       type: apiKey
