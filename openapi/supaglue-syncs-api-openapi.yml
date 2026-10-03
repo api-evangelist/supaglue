@@ -361,35 +361,8 @@ paths:
           $ref: '#/components/responses/notImplemented'
 components:
   responses:
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
     internalServerError:
       description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
       content:
         application/json:
           schema:
@@ -406,6 +379,33 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
     unprocessableEntity:
       description: Unprocessable entity
       content:
@@ -415,8 +415,8 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
+    forbidden:
+      description: Forbidden
       content:
         application/json:
           schema:
@@ -434,132 +434,6 @@ components:
               errors:
                 $ref: '#/components/schemas/errors'
   schemas:
-    sync:
-      oneOf:
-      - type: object
-        title: 'Data model: Objects'
-        properties:
-          id:
-            type: string
-            example: 7026e4e8-15d7-48d8-b997-f2592b654619
-          type:
-            type: string
-            enum:
-            - object
-            example: object
-          object_type:
-            type: string
-            enum:
-            - common
-            - standard
-            - custom
-            example: standard
-          object:
-            type: string
-            example: contact
-            description: The Provider's object name (case sensitive)
-          connection_id:
-            type: string
-            example: 3217ea51-11c8-43c9-9547-6f197e02e5e4
-          sync_config_id:
-            type: string
-            example: 3217ea51-11c8-43c9-9547-6f197e02e5e5
-          paused:
-            type: boolean
-            example: false
-        required:
-        - id
-        - type
-        - object_type
-        - object
-        - connection_id
-        - sync_config_id
-        - paused
-      - type: object
-        title: 'Data model: Common Schema'
-        properties:
-          id:
-            type: string
-            example: 7026e4e8-15d7-48d8-b997-f2592b654619
-          type:
-            type: string
-            enum:
-            - object
-            example: object
-          object_type:
-            type: string
-            enum:
-            - common
-            example: standard
-          object:
-            type: string
-            example: contact
-            description: Supaglue's object name
-          connection_id:
-            type: string
-            example: 3217ea51-11c8-43c9-9547-6f197e02e5e4
-          sync_config_id:
-            type: string
-            example: 3217ea51-11c8-43c9-9547-6f197e02e5e5
-          paused:
-            type: boolean
-            example: false
-        required:
-        - id
-        - type
-        - object_type
-        - object
-        - connection_id
-        - sync_config_id
-        - paused
-      - type: object
-        title: 'Data model: Entities'
-        deprecated: true
-        properties:
-          id:
-            type: string
-            example: 7026e4e8-15d7-48d8-b997-f2592b654619
-          type:
-            type: string
-            enum:
-            - entity
-            example: entity
-          entity_id:
-            type: string
-            example: 94e6cb6c-0ec8-423f-8873-21054979a6b1
-          connection_id:
-            type: string
-            example: 3217ea51-11c8-43c9-9547-6f197e02e5e4
-          sync_config_id:
-            type: string
-            example: 3217ea51-11c8-43c9-9547-6f197e02e5e5
-          paused:
-            type: boolean
-            example: false
-        required:
-        - id
-        - type
-        - entity_id
-        - connection_id
-        - sync_config_id
-        - paused
-    pagination:
-      type: object
-      properties:
-        next:
-          type: string
-          nullable: true
-          example: eyJpZCI6IjQyNTc5ZjczLTg1MjQtNDU3MC05YjY3LWVjYmQ3MDJjNmIxNCIsInJldmVyc2UiOmZhbHNlfQ==
-        previous:
-          type: string
-          nullable: true
-          example: eyJpZCI6IjBjZDhmYmZkLWU5NmQtNDEwZC05ZjQxLWIwMjU1YjdmNGI4NyIsInJldmVyc2UiOnRydWV9
-        total_count:
-          type: number
-          example: 100
-      required:
-      - next
-      - previous
     sync_with_provider_and_customer:
       oneOf:
       - type: object
@@ -787,6 +661,132 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
+    pagination:
+      type: object
+      properties:
+        next:
+          type: string
+          nullable: true
+          example: eyJpZCI6IjQyNTc5ZjczLTg1MjQtNDU3MC05YjY3LWVjYmQ3MDJjNmIxNCIsInJldmVyc2UiOmZhbHNlfQ==
+        previous:
+          type: string
+          nullable: true
+          example: eyJpZCI6IjBjZDhmYmZkLWU5NmQtNDEwZC05ZjQxLWIwMjU1YjdmNGI4NyIsInJldmVyc2UiOnRydWV9
+        total_count:
+          type: number
+          example: 100
+      required:
+      - next
+      - previous
+    sync:
+      oneOf:
+      - type: object
+        title: 'Data model: Objects'
+        properties:
+          id:
+            type: string
+            example: 7026e4e8-15d7-48d8-b997-f2592b654619
+          type:
+            type: string
+            enum:
+            - object
+            example: object
+          object_type:
+            type: string
+            enum:
+            - common
+            - standard
+            - custom
+            example: standard
+          object:
+            type: string
+            example: contact
+            description: The Provider's object name (case sensitive)
+          connection_id:
+            type: string
+            example: 3217ea51-11c8-43c9-9547-6f197e02e5e4
+          sync_config_id:
+            type: string
+            example: 3217ea51-11c8-43c9-9547-6f197e02e5e5
+          paused:
+            type: boolean
+            example: false
+        required:
+        - id
+        - type
+        - object_type
+        - object
+        - connection_id
+        - sync_config_id
+        - paused
+      - type: object
+        title: 'Data model: Common Schema'
+        properties:
+          id:
+            type: string
+            example: 7026e4e8-15d7-48d8-b997-f2592b654619
+          type:
+            type: string
+            enum:
+            - object
+            example: object
+          object_type:
+            type: string
+            enum:
+            - common
+            example: standard
+          object:
+            type: string
+            example: contact
+            description: Supaglue's object name
+          connection_id:
+            type: string
+            example: 3217ea51-11c8-43c9-9547-6f197e02e5e4
+          sync_config_id:
+            type: string
+            example: 3217ea51-11c8-43c9-9547-6f197e02e5e5
+          paused:
+            type: boolean
+            example: false
+        required:
+        - id
+        - type
+        - object_type
+        - object
+        - connection_id
+        - sync_config_id
+        - paused
+      - type: object
+        title: 'Data model: Entities'
+        deprecated: true
+        properties:
+          id:
+            type: string
+            example: 7026e4e8-15d7-48d8-b997-f2592b654619
+          type:
+            type: string
+            enum:
+            - entity
+            example: entity
+          entity_id:
+            type: string
+            example: 94e6cb6c-0ec8-423f-8873-21054979a6b1
+          connection_id:
+            type: string
+            example: 3217ea51-11c8-43c9-9547-6f197e02e5e4
+          sync_config_id:
+            type: string
+            example: 3217ea51-11c8-43c9-9547-6f197e02e5e5
+          paused:
+            type: boolean
+            example: false
+        required:
+        - id
+        - type
+        - entity_id
+        - connection_id
+        - sync_config_id
+        - paused
   parameters:
     x-customer-id:
       name: x-customer-id

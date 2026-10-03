@@ -131,79 +131,6 @@ paths:
         '501':
           $ref: '#/components/responses/notImplemented'
 components:
-  responses:
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    conflict:
-      description: Conflict
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unprocessableEntity:
-      description: Unprocessable entity
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
   schemas:
     standard_or_custom_object:
       type: object
@@ -218,35 +145,51 @@ components:
       required:
       - type
       - name
-    connection_entity_mapping:
+    merged_entity_mapping:
       type: object
-      deprecated: true
       properties:
         entity_id:
           type: string
+        entity_name:
+          type: string
+        allow_additional_field_mappings:
+          type: boolean
         object:
-          $ref: '#/components/schemas/standard_or_custom_object'
+          allOf:
+          - $ref: '#/components/schemas/standard_or_custom_object'
+          - type: object
+            properties:
+              from:
+                type: string
+                enum:
+                - developer
+                - customer
+            required:
+            - from
         field_mappings:
           type: array
           items:
-            $ref: '#/components/schemas/entity_field_mapping'
+            type: object
+            properties:
+              entity_field:
+                type: string
+              mapped_field:
+                type: string
+              from:
+                type: string
+                enum:
+                - developer
+                - customer
+              is_additional:
+                type: boolean
+            required:
+            - entity_field
+            - is_additional
       required:
       - entity_id
-    entity_field_mapping:
-      type: object
-      deprecated: true
-      properties:
-        entity_field:
-          type: string
-          description: The name of the field in your application.
-          example: apolla_first_name
-        mapped_field:
-          type: string
-          description: The name of the field in your customer's third-party Provider tool (e.g. Salesforce).
-          example: FirstName
-      required:
-      - entity_field
-      - mapped_field
+      - entity_name
+      - allow_additional_field_mappings
+      - field_mappings
     errors:
       type: array
       items:
@@ -388,51 +331,108 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
-    merged_entity_mapping:
+    connection_entity_mapping:
       type: object
+      deprecated: true
       properties:
         entity_id:
           type: string
-        entity_name:
-          type: string
-        allow_additional_field_mappings:
-          type: boolean
         object:
-          allOf:
-          - $ref: '#/components/schemas/standard_or_custom_object'
-          - type: object
-            properties:
-              from:
-                type: string
-                enum:
-                - developer
-                - customer
-            required:
-            - from
+          $ref: '#/components/schemas/standard_or_custom_object'
         field_mappings:
           type: array
           items:
-            type: object
-            properties:
-              entity_field:
-                type: string
-              mapped_field:
-                type: string
-              from:
-                type: string
-                enum:
-                - developer
-                - customer
-              is_additional:
-                type: boolean
-            required:
-            - entity_field
-            - is_additional
+            $ref: '#/components/schemas/entity_field_mapping'
       required:
       - entity_id
-      - entity_name
-      - allow_additional_field_mappings
-      - field_mappings
+    entity_field_mapping:
+      type: object
+      deprecated: true
+      properties:
+        entity_field:
+          type: string
+          description: The name of the field in your application.
+          example: apolla_first_name
+        mapped_field:
+          type: string
+          description: The name of the field in your customer's third-party Provider tool (e.g. Salesforce).
+          example: FirstName
+      required:
+      - entity_field
+      - mapped_field
+  responses:
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
   parameters:
     x-customer-id:
       name: x-customer-id

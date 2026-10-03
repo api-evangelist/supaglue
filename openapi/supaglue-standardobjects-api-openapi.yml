@@ -316,17 +316,8 @@ paths:
       description: Supaglue API
 components:
   responses:
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    remoteProviderError:
-      description: Remote provider error
+    internalServerError:
+      description: Internal server error
       content:
         application/json:
           schema:
@@ -343,8 +334,35 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    internalServerError:
-      description: Internal server error
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    remoteProviderError:
+      description: Remote provider error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
       content:
         application/json:
           schema:
@@ -370,24 +388,6 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    notFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unprocessableEntity:
-      description: Unprocessable entity
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
     notImplemented:
       description: Not implemented
       content:
@@ -398,30 +398,6 @@ components:
               errors:
                 $ref: '#/components/schemas/errors'
   parameters:
-    x-customer-id:
-      name: x-customer-id
-      in: header
-      schema:
-        type: string
-      example: my-customer-1
-      description: The customer ID that uniquely identifies the customer in your application
-      required: true
-    x-provider-name:
-      name: x-provider-name
-      in: header
-      schema:
-        type: string
-      example: salesforce
-      description: The provider name
-      required: true
-    object_name:
-      name: object_name
-      in: path
-      schema:
-        type: string
-      example: MyCustomObject__c
-      description: The unique name of the custom object. For Salesforce, this should end with __c. For Hubspot, this will typically be the singular form of the object.
-      required: true
     read_from_cache:
       name: read_from_cache
       in: query
@@ -436,6 +412,21 @@ components:
         type: string
       example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
       description: The pagination cursor value
+    x-provider-name:
+      name: x-provider-name
+      in: header
+      schema:
+        type: string
+      example: salesforce
+      description: The provider name
+      required: true
+    page_size:
+      name: page_size
+      in: query
+      schema:
+        type: string
+      example: 123
+      description: 'Number of results to return per page. (Max: 1000)'
     modified_after:
       name: modified_after
       in: query
@@ -444,14 +435,85 @@ components:
         format: date-time
       description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
       example: '2023-02-23T00:00:00Z'
-    page_size:
-      name: page_size
-      in: query
+    object_name:
+      name: object_name
+      in: path
       schema:
         type: string
-      example: 123
-      description: 'Number of results to return per page. (Max: 1000)'
+      example: MyCustomObject__c
+      description: The unique name of the custom object. For Salesforce, this should end with __c. For Hubspot, this will typically be the singular form of the object.
+      required: true
+    x-customer-id:
+      name: x-customer-id
+      in: header
+      schema:
+        type: string
+      example: my-customer-1
+      description: The customer ID that uniquely identifies the customer in your application
+      required: true
   schemas:
+    standard_object_record:
+      type: object
+      properties:
+        id:
+          type: string
+        object_name:
+          type: string
+        data:
+          type: object
+          additionalProperties: true
+        is_deleted:
+          type: boolean
+        last_modified_at:
+          type: string
+          format: date-time
+      required:
+      - id
+      - object_name
+      - data
+      - is_deleted
+      - last_modified_at
+      example:
+        id: 001Fn00023f8oYYIA0
+        object_name: Account
+        data:
+          Name: Acme Corp
+          Description: We create the best embedded integration platforms.
+        is_deleted: false
+        last_modified_at: '2021-01-01T00:00:00Z'
+    warnings:
+      type: array
+      items:
+        type: object
+        properties:
+          detail:
+            type: string
+          problem_type:
+            type: string
+          title:
+            type: string
+    create_update_standard_object_record:
+      type: object
+      additionalProperties: true
+    pagination:
+      type: object
+      properties:
+        next:
+          type:
+          - string
+          - 'null'
+          example: eyJpZCI6IjQyNTc5ZjczLTg1MjQtNDU3MC05YjY3LWVjYmQ3MDJjNmIxNCIsInJldmVyc2UiOmZhbHNlfQ==
+        previous:
+          type:
+          - string
+          - 'null'
+          example: eyJpZCI6IjBjZDhmYmZkLWU5NmQtNDEwZC05ZjQxLWIwMjU1YjdmNGI4NyIsInJldmVyc2UiOnRydWV9
+        total_count:
+          type: number
+          example: 100
+      required:
+      - next
+      - previous
     errors:
       type: array
       items:
@@ -593,68 +655,6 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
-    warnings:
-      type: array
-      items:
-        type: object
-        properties:
-          detail:
-            type: string
-          problem_type:
-            type: string
-          title:
-            type: string
-    standard_object_record:
-      type: object
-      properties:
-        id:
-          type: string
-        object_name:
-          type: string
-        data:
-          type: object
-          additionalProperties: true
-        is_deleted:
-          type: boolean
-        last_modified_at:
-          type: string
-          format: date-time
-      required:
-      - id
-      - object_name
-      - data
-      - is_deleted
-      - last_modified_at
-      example:
-        id: 001Fn00023f8oYYIA0
-        object_name: Account
-        data:
-          Name: Acme Corp
-          Description: We create the best embedded integration platforms.
-        is_deleted: false
-        last_modified_at: '2021-01-01T00:00:00Z'
-    pagination:
-      type: object
-      properties:
-        next:
-          type:
-          - string
-          - 'null'
-          example: eyJpZCI6IjQyNTc5ZjczLTg1MjQtNDU3MC05YjY3LWVjYmQ3MDJjNmIxNCIsInJldmVyc2UiOmZhbHNlfQ==
-        previous:
-          type:
-          - string
-          - 'null'
-          example: eyJpZCI6IjBjZDhmYmZkLWU5NmQtNDEwZC05ZjQxLWIwMjU1YjdmNGI4NyIsInJldmVyc2UiOnRydWV9
-        total_count:
-          type: number
-          example: 100
-      required:
-      - next
-      - previous
-    create_update_standard_object_record:
-      type: object
-      additionalProperties: true
     created_record:
       type: object
       properties:

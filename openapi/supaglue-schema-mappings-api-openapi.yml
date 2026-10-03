@@ -105,35 +105,8 @@ paths:
           $ref: '#/components/responses/notImplemented'
 components:
   responses:
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
     internalServerError:
       description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
       content:
         application/json:
           schema:
@@ -150,6 +123,33 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
     unprocessableEntity:
       description: Unprocessable entity
       content:
@@ -159,8 +159,8 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
+    forbidden:
+      description: Forbidden
       content:
         application/json:
           schema:
@@ -178,25 +178,6 @@ components:
               errors:
                 $ref: '#/components/schemas/errors'
   schemas:
-    update_object_field_mapping:
-      type: object
-      properties:
-        name:
-          type: string
-          example: contact
-        type:
-          type: string
-          enum:
-          - common
-          - standard
-        field_mappings:
-          type: array
-          items:
-            $ref: '#/components/schemas/object_field_mapping'
-      required:
-      - name
-      - type
-      - field_mappings
     merged_field_map:
       type: object
       properties:
@@ -216,44 +197,25 @@ components:
       required:
       - name
       - is_added_by_customer
-    object_field_mappings:
+    update_object_field_mapping:
       type: object
       properties:
-        object_name:
+        name:
           type: string
           example: contact
-        object_type:
+        type:
           type: string
           enum:
           - common
           - standard
-        allow_additional_field_mappings:
-          type: boolean
-          example: true
-        schema_id:
-          type: string
-          example: 51797e8d-f081-496d-99ec-5e41b467df4b
-        fields:
+        field_mappings:
           type: array
           items:
-            $ref: '#/components/schemas/merged_field_map'
+            $ref: '#/components/schemas/object_field_mapping'
       required:
-      - object_name
-      - object_type
-      - allow_additional_field_mappings
-      - schema_id
-      - fields
-    object_field_mapping:
-      type: object
-      properties:
-        schema_field:
-          type: string
-          example: apolla_first_name
-        mapped_field:
-          type: string
-          example: FirstName
-      required:
-      - schema_field
+      - name
+      - type
+      - field_mappings
     errors:
       type: array
       items:
@@ -395,6 +357,44 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
+    object_field_mappings:
+      type: object
+      properties:
+        object_name:
+          type: string
+          example: contact
+        object_type:
+          type: string
+          enum:
+          - common
+          - standard
+        allow_additional_field_mappings:
+          type: boolean
+          example: true
+        schema_id:
+          type: string
+          example: 51797e8d-f081-496d-99ec-5e41b467df4b
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/merged_field_map'
+      required:
+      - object_name
+      - object_type
+      - allow_additional_field_mappings
+      - schema_id
+      - fields
+    object_field_mapping:
+      type: object
+      properties:
+        schema_field:
+          type: string
+          example: apolla_first_name
+        mapped_field:
+          type: string
+          example: FirstName
+      required:
+      - schema_field
   parameters:
     x-customer-id:
       name: x-customer-id

@@ -160,69 +160,89 @@ paths:
         '501':
           $ref: '#/components/responses/notImplemented'
 components:
+  responses:
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    remoteProviderError:
+      description: Remote provider error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
   schemas:
-    warnings:
-      type: array
-      items:
-        type: object
-        properties:
-          detail:
-            type: string
-          problem_type:
-            type: string
-          title:
-            type: string
-    association:
-      type: object
-      description: An instance of an association between two records.
-      properties:
-        association_schema_id:
-          type: string
-        source_object:
-          type: string
-          description: The name of the object that the source record belongs to.
-          example: company
-        source_record_id:
-          type: string
-          example: 45636a40-87e3-4707-b43c-39fecf9a8f4b
-        target_object:
-          type: string
-          description: The name of the object that the target record belongs to.
-          example: contact
-        target_record_id:
-          type: string
-          example: ad204784-a71b-440a-8482-c3d5ab64110f
-      required:
-      - association_schema_id
-      - source_record_id
-      - target_record_id
-      - source_object
-      - target_object
-    create_update_association:
-      type: object
-      properties:
-        association_schema_id:
-          type: string
-        source_object:
-          type: string
-          description: The name of the object that the source record belongs to.
-          example: company
-        source_record_id:
-          type: string
-          example: 45636a40-87e3-4707-b43c-39fecf9a8f4b
-        target_object:
-          type: string
-          description: The name of the object that the target record belongs to.
-          example: contact
-        target_record_id:
-          type: string
-          example: ad204784-a71b-440a-8482-c3d5ab64110f
-      required:
-      - association_schema_id
-      - source_record_id
-      - target_record_id
-      - source_object
-      - target_object
     errors:
       type: array
       items:
@@ -364,88 +384,68 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
-  responses:
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    conflict:
-      description: Conflict
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unprocessableEntity:
-      description: Unprocessable entity
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    remoteProviderError:
-      description: Remote provider error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
+    association:
+      type: object
+      description: An instance of an association between two records.
+      properties:
+        association_schema_id:
+          type: string
+        source_object:
+          type: string
+          description: The name of the object that the source record belongs to.
+          example: company
+        source_record_id:
+          type: string
+          example: 45636a40-87e3-4707-b43c-39fecf9a8f4b
+        target_object:
+          type: string
+          description: The name of the object that the target record belongs to.
+          example: contact
+        target_record_id:
+          type: string
+          example: ad204784-a71b-440a-8482-c3d5ab64110f
+      required:
+      - association_schema_id
+      - source_record_id
+      - target_record_id
+      - source_object
+      - target_object
+    warnings:
+      type: array
+      items:
+        type: object
+        properties:
+          detail:
+            type: string
+          problem_type:
+            type: string
+          title:
+            type: string
+    create_update_association:
+      type: object
+      properties:
+        association_schema_id:
+          type: string
+        source_object:
+          type: string
+          description: The name of the object that the source record belongs to.
+          example: company
+        source_record_id:
+          type: string
+          example: 45636a40-87e3-4707-b43c-39fecf9a8f4b
+        target_object:
+          type: string
+          description: The name of the object that the target record belongs to.
+          example: contact
+        target_record_id:
+          type: string
+          example: ad204784-a71b-440a-8482-c3d5ab64110f
+      required:
+      - association_schema_id
+      - source_record_id
+      - target_record_id
+      - source_object
+      - target_object
   parameters:
     x-customer-id:
       name: x-customer-id

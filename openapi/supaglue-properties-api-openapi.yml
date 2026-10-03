@@ -337,35 +337,8 @@ paths:
       description: Supaglue API
 components:
   responses:
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
     internalServerError:
       description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
       content:
         application/json:
           schema:
@@ -382,15 +355,6 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    unprocessableEntity:
-      description: Unprocessable entity
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
     unauthorized:
       description: Unauthorized
       content:
@@ -400,8 +364,8 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
+    notFound:
+      description: Not found
       content:
         application/json:
           schema:
@@ -418,74 +382,43 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
   schemas:
-    property_unified:
-      type: object
-      properties:
-        id:
-          type: string
-          description: The machine name of the property as it appears in the third-party Provider.
-          example: FirstName
-        custom_name:
-          type: string
-          description: Only applicable for custom properties. This represents the unique identifier that can be used to refer to this property across all customers.
-        label:
-          type: string
-          description: The human-readable name of the property as provided by the third-party Provider.
-          example: First Name
-        description:
-          type: string
-          description: A description of the field.
-        is_required:
-          type: boolean
-          description: Whether or not this field is required. Must be false for Salesforce boolean fields.
-          example: false
-        default_value:
-          description: The default value for the property. Only supported for Salesforce.
-          oneOf:
-          - type: string
-          - type: number
-          - type: boolean
-        group_name:
-          type: string
-          example: supaglue
-          description: Only applicable for Hubspot. If specified, Supaglue will attempt to attach the field to this group if it exists, or create it if it doesn't.
-        type:
-          $ref: '#/components/schemas/property_type'
-        precision:
-          type: number
-          description: Only applicable in Salesforce. If not given, will default to 18.
-        scale:
-          type: number
-          description: Only applicable in Salesforce. If not given, will default to 0.
-        options:
-          type: array
-          description: The list of options for a picklist/multipicklist field.
-          items:
-            $ref: '#/components/schemas/picklist_option'
-        raw_details:
-          type: object
-          description: The raw details of the property as provided by the third-party Provider, if available.
-          additionalProperties: true
-          example: {}
-      required:
-      - id
-      - label
-      - type
-    property_type:
-      type: string
-      enum:
-      - text
-      - textarea
-      - number
-      - picklist
-      - multipicklist
-      - date
-      - datetime
-      - boolean
-      - url
-      - other
-      description: "Type of the field.\n\n:::note\n`picklist` and `multipicklist` property types are currently only supported in Salesforce and Hubspot\n:::\n\n:::note\n`url` property type currently is only natively supported in Salesforce.\n:::\n\nSupport:\n\n<table>\n  <thead>\n    <tr>\n      <th>Type</th>\n      <th>Hubspot (type-fieldType)</th>\n      <th>Salesforce</th>\n      <th>Pipedrive</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>text</td>\n      <td>string-text</td>\n      <td>Text</td>\n      <td>varchar_auto</td>\n    </tr>\n    <tr>\n      <td>textarea</td>\n      <td>string-textarea</td>\n      <td>Textarea</td>\n      <td>text</td>\n    </tr>\n    <tr>\n      <td>number</td>\n      <td>number-number</td>\n      <td>Int/Double (depending on scale)</td>\n      <td>double</td>\n    </tr>\n    <tr>\n      <td>picklist</td>\n      <td>enumeration-select</td>\n      <td>Picklist</td>\n      <td>enum</td>\n    </tr>\n    <tr>\n      <td>multipicklist</td>\n      <td>enumeration-checkbox</td>\n      <td>Multipicklist</td>\n      <td>set</td>\n    </tr>\n    <tr>\n      <td>date</td>\n      <td>date-date</td>\n      <td>Date</td>\n      <td>date</td>\n    </tr>\n    <tr>\n      <td>datetime</td>\n      <td>datetime-date</td>\n      <td>Datetime</td>\n      <td>date</td>\n    </tr>\n    <tr>\n      <td>boolean</td>\n      <td>bool-booleancheckbox</td>\n      <td>Checkbox</td>\n      <td>enum</td>\n    </tr>\n    <tr>\n      <td>url</td>\n      <td>Not Supported</td>\n      <td>Url</td>\n      <td>Not Supported</td>\n    </tr>\n  </tbody>\n  </table>\n"
     update_property:
       type: object
       properties:
@@ -517,6 +450,22 @@ components:
           description: The list of options for a picklist/multipicklist field.
           items:
             $ref: '#/components/schemas/picklist_option'
+    register_property:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The machine name of the property as it appears in the third-party Provider.
+          example: 1234523
+        name:
+          type: string
+          description: 'The unique identifier to be used to refer to this property across all customers. Supaglue will use this to appropriately map to the provider field ID.
+
+            '
+          example: ticketId
+      required:
+      - name
+      - id
     create_property:
       type: object
       properties:
@@ -558,6 +507,20 @@ components:
       - name
       - label
       - type
+    property_type:
+      type: string
+      enum:
+      - text
+      - textarea
+      - number
+      - picklist
+      - multipicklist
+      - date
+      - datetime
+      - boolean
+      - url
+      - other
+      description: "Type of the field.\n\n:::note\n`picklist` and `multipicklist` property types are currently only supported in Salesforce and Hubspot\n:::\n\n:::note\n`url` property type currently is only natively supported in Salesforce.\n:::\n\nSupport:\n\n<table>\n  <thead>\n    <tr>\n      <th>Type</th>\n      <th>Hubspot (type-fieldType)</th>\n      <th>Salesforce</th>\n      <th>Pipedrive</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>text</td>\n      <td>string-text</td>\n      <td>Text</td>\n      <td>varchar_auto</td>\n    </tr>\n    <tr>\n      <td>textarea</td>\n      <td>string-textarea</td>\n      <td>Textarea</td>\n      <td>text</td>\n    </tr>\n    <tr>\n      <td>number</td>\n      <td>number-number</td>\n      <td>Int/Double (depending on scale)</td>\n      <td>double</td>\n    </tr>\n    <tr>\n      <td>picklist</td>\n      <td>enumeration-select</td>\n      <td>Picklist</td>\n      <td>enum</td>\n    </tr>\n    <tr>\n      <td>multipicklist</td>\n      <td>enumeration-checkbox</td>\n      <td>Multipicklist</td>\n      <td>set</td>\n    </tr>\n    <tr>\n      <td>date</td>\n      <td>date-date</td>\n      <td>Date</td>\n      <td>date</td>\n    </tr>\n    <tr>\n      <td>datetime</td>\n      <td>datetime-date</td>\n      <td>Datetime</td>\n      <td>date</td>\n    </tr>\n    <tr>\n      <td>boolean</td>\n      <td>bool-booleancheckbox</td>\n      <td>Checkbox</td>\n      <td>enum</td>\n    </tr>\n    <tr>\n      <td>url</td>\n      <td>Not Supported</td>\n      <td>Url</td>\n      <td>Not Supported</td>\n    </tr>\n  </tbody>\n  </table>\n"
     errors:
       type: array
       items:
@@ -699,22 +662,59 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
-    register_property:
+    property_unified:
       type: object
       properties:
         id:
           type: string
           description: The machine name of the property as it appears in the third-party Provider.
-          example: 1234523
-        name:
+          example: FirstName
+        custom_name:
           type: string
-          description: 'The unique identifier to be used to refer to this property across all customers. Supaglue will use this to appropriately map to the provider field ID.
-
-            '
-          example: ticketId
+          description: Only applicable for custom properties. This represents the unique identifier that can be used to refer to this property across all customers.
+        label:
+          type: string
+          description: The human-readable name of the property as provided by the third-party Provider.
+          example: First Name
+        description:
+          type: string
+          description: A description of the field.
+        is_required:
+          type: boolean
+          description: Whether or not this field is required. Must be false for Salesforce boolean fields.
+          example: false
+        default_value:
+          description: The default value for the property. Only supported for Salesforce.
+          oneOf:
+          - type: string
+          - type: number
+          - type: boolean
+        group_name:
+          type: string
+          example: supaglue
+          description: Only applicable for Hubspot. If specified, Supaglue will attempt to attach the field to this group if it exists, or create it if it doesn't.
+        type:
+          $ref: '#/components/schemas/property_type'
+        precision:
+          type: number
+          description: Only applicable in Salesforce. If not given, will default to 18.
+        scale:
+          type: number
+          description: Only applicable in Salesforce. If not given, will default to 0.
+        options:
+          type: array
+          description: The list of options for a picklist/multipicklist field.
+          items:
+            $ref: '#/components/schemas/picklist_option'
+        raw_details:
+          type: object
+          description: The raw details of the property as provided by the third-party Provider, if available.
+          additionalProperties: true
+          example: {}
       required:
-      - name
       - id
+      - label
+      - type
     picklist_option:
       type: object
       properties:
@@ -757,14 +757,6 @@ components:
       - id
       - label
   parameters:
-    x-customer-id:
-      name: x-customer-id
-      in: header
-      schema:
-        type: string
-      example: my-customer-1
-      description: The customer ID that uniquely identifies the customer in your application
-      required: true
     x-provider-name:
       name: x-provider-name
       in: header
@@ -772,6 +764,14 @@ components:
         type: string
       example: salesforce
       description: The provider name
+      required: true
+    x-customer-id:
+      name: x-customer-id
+      in: header
+      schema:
+        type: string
+      example: my-customer-1
+      description: The customer ID that uniquely identifies the customer in your application
       required: true
   securitySchemes:
     x-api-key:

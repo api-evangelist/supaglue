@@ -196,15 +196,6 @@ paths:
           $ref: '#/components/responses/notImplemented'
 components:
   responses:
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
     internalServerError:
       description: Internal server error
       content:
@@ -216,24 +207,6 @@ components:
                 $ref: '#/components/schemas/errors'
     badRequest:
       description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    conflict:
-      description: Conflict
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
       content:
         application/json:
           schema:
@@ -259,6 +232,33 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
     notImplemented:
       description: Not implemented
       content:
@@ -269,6 +269,294 @@ components:
               errors:
                 $ref: '#/components/schemas/errors'
   schemas:
+    provider_name:
+      type: string
+      enum:
+      - hubspot
+      - salesforce
+      - pipedrive
+      - zendesk_sell
+      - ms_dynamics_365_sales
+      - zoho_crm
+      - capsule
+      - outreach
+      - gong
+      - apollo
+      - salesloft
+      - intercom
+      - linear
+      - clearbit
+      - 6sense
+      - marketo
+      - salesforce_marketing_cloud_account_engagement
+      - slack
+      example: hubspot
+    create_provider:
+      oneOf:
+      - type: object
+        title: crm
+        properties:
+          auth_type:
+            type: string
+            enum:
+            - oauth2
+          config:
+            $ref: '#/components/schemas/create_provider_config'
+          objects:
+            $ref: '#/components/schemas/objects'
+          category:
+            type: string
+            enum:
+            - crm
+          name:
+            $ref: '#/components/schemas/provider_name_crm'
+        required:
+        - auth_type
+        - config
+        - category
+        - name
+      - type: object
+        title: engagement
+        properties:
+          auth_type:
+            type: string
+            enum:
+            - oauth2
+          config:
+            $ref: '#/components/schemas/create_provider_config'
+          objects:
+            $ref: '#/components/schemas/objects'
+          category:
+            type: string
+            enum:
+            - engagement
+          name:
+            $ref: '#/components/schemas/provider_name_engagement'
+        required:
+        - auth_type
+        - config
+        - category
+        - name
+      - type: object
+        title: no category
+        properties:
+          auth_type:
+            type: string
+            enum:
+            - api_key
+          category:
+            type: string
+            enum:
+            - no_category
+          name:
+            $ref: '#/components/schemas/provider_name_no_category'
+        required:
+        - auth_type
+    update_provider:
+      oneOf:
+      - type: object
+        title: crm
+        properties:
+          auth_type:
+            type: string
+            enum:
+            - oauth2
+          config:
+            $ref: '#/components/schemas/update_provider_config'
+          objects:
+            $ref: '#/components/schemas/objects'
+          entity_mappings:
+            type: array
+            items:
+              $ref: '#/components/schemas/provider_entity_mapping'
+          category:
+            type: string
+            enum:
+            - crm
+          name:
+            $ref: '#/components/schemas/provider_name_crm'
+        required:
+        - auth_type
+        - config
+        - category
+        - name
+      - type: object
+        title: engagement
+        properties:
+          auth_type:
+            type: string
+            enum:
+            - oauth2
+          config:
+            $ref: '#/components/schemas/update_provider_config'
+          objects:
+            $ref: '#/components/schemas/objects'
+          entity_mappings:
+            type: array
+            items:
+              $ref: '#/components/schemas/provider_entity_mapping'
+          category:
+            type: string
+            enum:
+            - engagement
+          name:
+            $ref: '#/components/schemas/provider_name_engagement'
+        required:
+        - auth_type
+        - config
+        - category
+        - name
+      - type: object
+        title: no category
+        properties:
+          auth_type:
+            type: string
+            enum:
+            - oauth2
+          config:
+            $ref: '#/components/schemas/update_provider_config'
+          objects:
+            $ref: '#/components/schemas/objects'
+          entity_mappings:
+            type: array
+            items:
+              $ref: '#/components/schemas/provider_entity_mapping'
+          category:
+            type: string
+            enum:
+            - no_category
+          name:
+            $ref: '#/components/schemas/provider_name_no_category'
+        required:
+        - auth_type
+        - config
+        - category
+        - name
+    provider:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 0c4cb91f-e392-46f5-8934-17496371f932
+        application_id:
+          type: string
+          example: 273e1c75-3b6d-439a-9b8e-c6ac407df92a
+        category:
+          $ref: '#/components/schemas/category'
+        auth_type:
+          type: string
+          enum:
+          - oauth2
+          - api_key
+          - access_key_secret
+          example: oauth2
+        name:
+          $ref: '#/components/schemas/provider_name'
+        config:
+          $ref: '#/components/schemas/create_provider_config'
+        objects:
+          $ref: '#/components/schemas/objects'
+        entity_mappings:
+          type: array
+          deprecated: true
+          description: This is for object/field mappings when you data model using [Entities](https://docs.supaglue.com/platform/entities/overview). The object/field mappings (aka [Entity Mappings](https://docs.supaglue.com/platform/entities/overview#entity-mapping)) here are set by you, the developer, and the mappings apply for all your customers.
+          items:
+            $ref: '#/components/schemas/provider_entity_mapping'
+      required:
+      - id
+      - application_id
+      - category
+      - auth_type
+      - name
+    create_provider_config:
+      type: object
+      description: An object that stores Oauth2/API key/access key related credentials.
+      properties:
+        provider_app_id:
+          type: string
+          example: my_app_id
+        use_managed_oauth:
+          type: boolean
+          description: 'True: use Supaglue''s OAuth application credentials. False: Use the provided OAuth application credentials.'
+          example: true
+        oauth:
+          type: object
+          properties:
+            oauth_scopes:
+              type: array
+              items:
+                type: string
+              example:
+              - crm.objects.contacts.read
+              - crm.objects.companies.read
+              - crm.objects.deals.read
+              - crm.objects.owners.read
+              - crm.objects.contacts.write
+              - crm.objects.companies.write
+              - crm.objects.deals.write
+            credentials:
+              type: object
+              properties:
+                oauth_client_id:
+                  type: string
+                  example: 7393b5a4-5e20-4648-87af-b7b297793fd1
+                oauth_client_secret:
+                  type: string
+                  example: 941b846a-5a8c-48b8-b0e1-41b6d4bc4f1a
+              required:
+              - oauth_client_id
+              - oauth_client_secret
+          required:
+          - oauth_scopes
+          - credentials
+      required:
+      - provider_app_id
+      - oauth
+    standard_object:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - standard
+          example: standard
+        name:
+          type: string
+          example: Contact
+      required:
+      - type
+      - name
+    provider_name_crm:
+      type: string
+      enum:
+      - hubspot
+      - salesforce
+      - pipedrive
+      - zendesk_sell
+      - ms_dynamics_365_sales
+      - zoho_crm
+      - capsule
+    entity_field_mapping:
+      type: object
+      deprecated: true
+      properties:
+        entity_field:
+          type: string
+          description: The name of the field in your application.
+          example: apolla_first_name
+        mapped_field:
+          type: string
+          description: The name of the field in your customer's third-party Provider tool (e.g. Salesforce).
+          example: FirstName
+      required:
+      - entity_field
+      - mapped_field
+    provider_name_no_category:
+      type: string
+      enum:
+      - intercom
+      - gong
+      - linear
     update_provider_config:
       type: object
       description: An object that stores Oauth2/API key/access key related credentials.
@@ -312,6 +600,21 @@ components:
           credentials:
             oauth_client_id: 7393b5a4-5e20-4648-87af-b7b297793fd1
             oauth_client_secret: 941b846a-5a8c-48b8-b0e1-41b6d4bc4f1a
+    provider_entity_mapping:
+      type: object
+      deprecated: true
+      properties:
+        entity_id:
+          type: string
+          example: apolla_contact
+        object:
+          $ref: '#/components/schemas/standard_object'
+        field_mappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/entity_field_mapping'
+      required:
+      - entity_id
     errors:
       type: array
       items:
@@ -453,111 +756,6 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
-    provider:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 0c4cb91f-e392-46f5-8934-17496371f932
-        application_id:
-          type: string
-          example: 273e1c75-3b6d-439a-9b8e-c6ac407df92a
-        category:
-          $ref: '#/components/schemas/category'
-        auth_type:
-          type: string
-          enum:
-          - oauth2
-          - api_key
-          - access_key_secret
-          example: oauth2
-        name:
-          $ref: '#/components/schemas/provider_name'
-        config:
-          $ref: '#/components/schemas/create_provider_config'
-        objects:
-          $ref: '#/components/schemas/objects'
-        entity_mappings:
-          type: array
-          deprecated: true
-          description: This is for object/field mappings when you data model using [Entities](https://docs.supaglue.com/platform/entities/overview). The object/field mappings (aka [Entity Mappings](https://docs.supaglue.com/platform/entities/overview#entity-mapping)) here are set by you, the developer, and the mappings apply for all your customers.
-          items:
-            $ref: '#/components/schemas/provider_entity_mapping'
-      required:
-      - id
-      - application_id
-      - category
-      - auth_type
-      - name
-    provider_name_crm:
-      type: string
-      enum:
-      - hubspot
-      - salesforce
-      - pipedrive
-      - zendesk_sell
-      - ms_dynamics_365_sales
-      - zoho_crm
-      - capsule
-    category:
-      type: string
-      enum:
-      - crm
-      - engagement
-      - enrichment
-      - marketing_automation
-      - no_category
-      example: crm
-    provider_name_engagement:
-      type: string
-      enum:
-      - outreach
-      - apollo
-      - salesloft
-    create_provider_config:
-      type: object
-      description: An object that stores Oauth2/API key/access key related credentials.
-      properties:
-        provider_app_id:
-          type: string
-          example: my_app_id
-        use_managed_oauth:
-          type: boolean
-          description: 'True: use Supaglue''s OAuth application credentials. False: Use the provided OAuth application credentials.'
-          example: true
-        oauth:
-          type: object
-          properties:
-            oauth_scopes:
-              type: array
-              items:
-                type: string
-              example:
-              - crm.objects.contacts.read
-              - crm.objects.companies.read
-              - crm.objects.deals.read
-              - crm.objects.owners.read
-              - crm.objects.contacts.write
-              - crm.objects.companies.write
-              - crm.objects.deals.write
-            credentials:
-              type: object
-              properties:
-                oauth_client_id:
-                  type: string
-                  example: 7393b5a4-5e20-4648-87af-b7b297793fd1
-                oauth_client_secret:
-                  type: string
-                  example: 941b846a-5a8c-48b8-b0e1-41b6d4bc4f1a
-              required:
-              - oauth_client_id
-              - oauth_client_secret
-          required:
-          - oauth_scopes
-          - credentials
-      required:
-      - provider_app_id
-      - oauth
     objects:
       type: object
       description: This is for field mappings when you data model using [Objects](https://docs.supaglue.com/platform/objects/overview). The field mappings (aka [Schemas](https://docs.supaglue.com/platform/objects/overview#schemas)) here are set by you, the developer, and the mappings apply for all your customers.
@@ -589,219 +787,21 @@ components:
                 example: 777ea826-5776-4347-9ece-47bbb17ccdd4
             required:
             - name
-    provider_name:
+    provider_name_engagement:
       type: string
       enum:
-      - hubspot
-      - salesforce
-      - pipedrive
-      - zendesk_sell
-      - ms_dynamics_365_sales
-      - zoho_crm
-      - capsule
       - outreach
-      - gong
       - apollo
       - salesloft
-      - intercom
-      - linear
-      - clearbit
-      - 6sense
-      - marketo
-      - salesforce_marketing_cloud_account_engagement
-      - slack
-      example: hubspot
-    update_provider:
-      oneOf:
-      - type: object
-        title: crm
-        properties:
-          auth_type:
-            type: string
-            enum:
-            - oauth2
-          config:
-            $ref: '#/components/schemas/update_provider_config'
-          objects:
-            $ref: '#/components/schemas/objects'
-          entity_mappings:
-            type: array
-            items:
-              $ref: '#/components/schemas/provider_entity_mapping'
-          category:
-            type: string
-            enum:
-            - crm
-          name:
-            $ref: '#/components/schemas/provider_name_crm'
-        required:
-        - auth_type
-        - config
-        - category
-        - name
-      - type: object
-        title: engagement
-        properties:
-          auth_type:
-            type: string
-            enum:
-            - oauth2
-          config:
-            $ref: '#/components/schemas/update_provider_config'
-          objects:
-            $ref: '#/components/schemas/objects'
-          entity_mappings:
-            type: array
-            items:
-              $ref: '#/components/schemas/provider_entity_mapping'
-          category:
-            type: string
-            enum:
-            - engagement
-          name:
-            $ref: '#/components/schemas/provider_name_engagement'
-        required:
-        - auth_type
-        - config
-        - category
-        - name
-      - type: object
-        title: no category
-        properties:
-          auth_type:
-            type: string
-            enum:
-            - oauth2
-          config:
-            $ref: '#/components/schemas/update_provider_config'
-          objects:
-            $ref: '#/components/schemas/objects'
-          entity_mappings:
-            type: array
-            items:
-              $ref: '#/components/schemas/provider_entity_mapping'
-          category:
-            type: string
-            enum:
-            - no_category
-          name:
-            $ref: '#/components/schemas/provider_name_no_category'
-        required:
-        - auth_type
-        - config
-        - category
-        - name
-    entity_field_mapping:
-      type: object
-      deprecated: true
-      properties:
-        entity_field:
-          type: string
-          description: The name of the field in your application.
-          example: apolla_first_name
-        mapped_field:
-          type: string
-          description: The name of the field in your customer's third-party Provider tool (e.g. Salesforce).
-          example: FirstName
-      required:
-      - entity_field
-      - mapped_field
-    provider_entity_mapping:
-      type: object
-      deprecated: true
-      properties:
-        entity_id:
-          type: string
-          example: apolla_contact
-        object:
-          $ref: '#/components/schemas/standard_object'
-        field_mappings:
-          type: array
-          items:
-            $ref: '#/components/schemas/entity_field_mapping'
-      required:
-      - entity_id
-    create_provider:
-      oneOf:
-      - type: object
-        title: crm
-        properties:
-          auth_type:
-            type: string
-            enum:
-            - oauth2
-          config:
-            $ref: '#/components/schemas/create_provider_config'
-          objects:
-            $ref: '#/components/schemas/objects'
-          category:
-            type: string
-            enum:
-            - crm
-          name:
-            $ref: '#/components/schemas/provider_name_crm'
-        required:
-        - auth_type
-        - config
-        - category
-        - name
-      - type: object
-        title: engagement
-        properties:
-          auth_type:
-            type: string
-            enum:
-            - oauth2
-          config:
-            $ref: '#/components/schemas/create_provider_config'
-          objects:
-            $ref: '#/components/schemas/objects'
-          category:
-            type: string
-            enum:
-            - engagement
-          name:
-            $ref: '#/components/schemas/provider_name_engagement'
-        required:
-        - auth_type
-        - config
-        - category
-        - name
-      - type: object
-        title: no category
-        properties:
-          auth_type:
-            type: string
-            enum:
-            - api_key
-          category:
-            type: string
-            enum:
-            - no_category
-          name:
-            $ref: '#/components/schemas/provider_name_no_category'
-        required:
-        - auth_type
-    provider_name_no_category:
+    category:
       type: string
       enum:
-      - intercom
-      - gong
-      - linear
-    standard_object:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - standard
-          example: standard
-        name:
-          type: string
-          example: Contact
-      required:
-      - type
-      - name
+      - crm
+      - engagement
+      - enrichment
+      - marketing_automation
+      - no_category
+      example: crm
   securitySchemes:
     x-api-key:
       type: apiKey

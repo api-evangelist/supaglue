@@ -279,17 +279,8 @@ paths:
                     $ref: '#/components/schemas/warnings'
 components:
   responses:
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    remoteProviderError:
-      description: Remote provider error
+    internalServerError:
+      description: Internal server error
       content:
         application/json:
           schema:
@@ -306,8 +297,35 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    internalServerError:
-      description: Internal server error
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    remoteProviderError:
+      description: Remote provider error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
       content:
         application/json:
           schema:
@@ -333,24 +351,6 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    notFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unprocessableEntity:
-      description: Unprocessable entity
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
     notImplemented:
       description: Not implemented
       content:
@@ -360,7 +360,140 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
+  parameters:
+    read_from_cache:
+      name: read_from_cache
+      in: query
+      schema:
+        type: boolean
+      example: true
+      description: "Whether to read from Supaglue's Managed Destination cache or to read directly from the provider. \n\n\n**NOTE**: `read_from_cache=true` requires you to have the object synced to the Supaglue Managed Destination.\n"
+    cursor:
+      name: cursor
+      in: query
+      schema:
+        type: string
+      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
+      description: The pagination cursor value
+    x-provider-name:
+      name: x-provider-name
+      in: header
+      schema:
+        type: string
+      example: salesforce
+      description: The provider name
+      required: true
+    page_size:
+      name: page_size
+      in: query
+      schema:
+        type: string
+      example: 123
+      description: 'Number of results to return per page. (Max: 1000)'
+    modified_after:
+      name: modified_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+      description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
+      example: '2023-02-23T00:00:00Z'
+    x-customer-id:
+      name: x-customer-id
+      in: header
+      schema:
+        type: string
+      example: my-customer-1
+      description: The customer ID that uniquely identifies the customer in your application
+      required: true
+    include_raw_data:
+      name: include_raw_data
+      in: query
+      schema:
+        type: boolean
+      description: Whether to include raw data fetched from the 3rd party provider.
+      example: true
   schemas:
+    warnings:
+      type: array
+      items:
+        type: object
+        properties:
+          detail:
+            type: string
+          problem_type:
+            type: string
+          title:
+            type: string
+    sequence_step:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          description: The name given by the user for the step. Used by Salesloft only.
+        interval_seconds:
+          type: number
+          description: The interval (in seconds) until this step will activate after the previous step (in case of first step, relative to when prospect first enters a sequence); only applicable to interval-based sequences. This is 0 by default
+        date:
+          type: string
+          example: '2023-01-01'
+          description: The date this step will activate; only applicable to date-based sequences.
+        template:
+          description: The email/message template to be used for this step. Only applicable for email or message steps.
+          type: object
+          properties:
+            id:
+              type: string
+              description: The ID of the template
+            body:
+              type: string
+              description: The body of the email (HTML).
+            subject:
+              type: string
+              description: The subject of the email.
+            name:
+              type: string
+              description: The name of the template. In Outreach, if missing this will create an `invisible` template that doesn't show up in the templates list UI.
+            to:
+              type: array
+              description: A list of default person and email address pairs to receive this template in the "to" field
+              items:
+                type: string
+            cc:
+              type: array
+              description: A list of default person and email address pairs to receive this template in the "cc" field
+              items:
+                type: string
+            bcc:
+              type: array
+              description: A list of default person and email address pairs to receive this template in the "bcc" field
+              items:
+                type: string
+          required:
+          - body
+          - subject
+        is_reply:
+          type: boolean
+          description: If true, this step will be sent as a reply to the previous step.
+        order:
+          type: number
+          description: The step's display order within its sequence. Only applicable for Outreach when adding steps one at a time after the initial sequence creation, otherwise when creating steps together with sequence order is implicit based on the order of step within the step array. Salesloft does not use the `order` param, and order is instead determined by `interval_seconds` which translates into the `day` parameter
+        type:
+          type: string
+          enum:
+          - auto_email
+          - manual_email
+          - call
+          - task
+          - linkedin_send_message
+          description: "The type of the sequence state. Note: `linkedin_send_message` is undocumented in Outreach and subject to change.\n\nSee below for how these types are mapped:\n\n<table>\n  <thead>\n      <tr>\n          <th>Provider</th>\n          <th>auto_email</th>\n          <th>manual_email</th>\n          <th>call</th>\n          <th>task</th>\n          <th>linkedin_send_message</th>\n      </tr>\n  </thead>\n  <tbody>\n      <tr>\n          <td>Apollo</td>\n          <td>auto_email</td>\n          <td>manual_email</td>\n          <td>call</td>\n          <td>action_item</td>\n          <td>linkedin_send_message</td>\n      </tr>\n      <tr>\n          <td>Outreach</td>\n          <td>auto_email</td>\n          <td>manual_email</td>\n          <td>call</td>\n          <td>task</td>\n          <td>linkedin_send_message</td>\n      </tr>\n      <tr>\n          <td>Salesloft</td>\n          <td>Email</td>\n          <td>Email</td>\n          <td>Phone</td>\n          <td>Other</td>\n          <td>(Not supported)</td>\n      </tr>\n  </tbody>\n</table>\n"
+        task_note:
+          type: string
+          description: An optional note to be attached to this step.
+      required:
+      - type
     create_sequence:
       type: object
       properties:
@@ -388,6 +521,105 @@ components:
       required:
       - name
       - type
+    create_sequence_step:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name given by the user for the step. Used by Salesloft only.
+        interval_seconds:
+          type: number
+          description: The interval (in seconds) until this step will activate after the previous step (in case of first step, relative to when prospect first enters a sequence); only applicable to interval-based sequences. This is 0 by default
+        date:
+          type: string
+          example: '2023-01-01'
+          description: The date this step will activate; only applicable to date-based sequences.
+        template:
+          description: The email/message template to be used for this step. Only applicable for email or message steps.
+          oneOf:
+          - type: object
+            properties:
+              id:
+                type: string
+                description: The ID of the template to use for this step.
+            required:
+            - id
+          - type: object
+            properties:
+              body:
+                type: string
+                description: The body of the email (HTML).
+              subject:
+                type: string
+                description: The subject of the email.
+              name:
+                type: string
+                description: The name of the template. In Outreach, if missing this will create an `invisible` template that doesn't show up in the templates list UI.
+              to:
+                type: array
+                description: A list of default person and email address pairs to receive this template in the "to" field
+                items:
+                  type: string
+              cc:
+                type: array
+                description: A list of default person and email address pairs to receive this template in the "cc" field
+                items:
+                  type: string
+              bcc:
+                type: array
+                description: A list of default person and email address pairs to receive this template in the "bcc" field
+                items:
+                  type: string
+              custom_fields:
+                $ref: '#/components/schemas/custom_fields'
+            required:
+            - body
+            - subject
+        is_reply:
+          type: boolean
+          description: If true, this step will be sent as a reply to the previous step.
+        order:
+          type: number
+          description: The step's display order within its sequence. Only applicable for Outreach when adding steps one at a time after the initial sequence creation, otherwise when creating steps together with sequence order is implicit based on the order of step within the step array. Salesloft does not use the `order` param, and order is instead determined by `interval_seconds` which translates into the `day` parameter
+        type:
+          type: string
+          enum:
+          - auto_email
+          - manual_email
+          - call
+          - task
+          - linkedin_send_message
+          description: "The type of the sequence state. Note: `linkedin_send_message` is undocumented in Outreach and subject to change.\n\nSee below for how these types are mapped:\n\n<table>\n  <thead>\n      <tr>\n          <th>Provider</th>\n          <th>auto_email</th>\n          <th>manual_email</th>\n          <th>call</th>\n          <th>task</th>\n          <th>linkedin_send_message</th>\n      </tr>\n  </thead>\n  <tbody>\n      <tr>\n          <td>Apollo</td>\n          <td>auto_email</td>\n          <td>manual_email</td>\n          <td>call</td>\n          <td>action_item</td>\n          <td>linkedin_send_message</td>\n      </tr>\n      <tr>\n          <td>Outreach</td>\n          <td>auto_email</td>\n          <td>manual_email</td>\n          <td>call</td>\n          <td>task</td>\n          <td>linkedin_send_message</td>\n      </tr>\n      <tr>\n          <td>Salesloft</td>\n          <td>Email</td>\n          <td>Email</td>\n          <td>Phone</td>\n          <td>Other</td>\n          <td>(Not supported)</td>\n      </tr>\n  </tbody>\n</table>\n"
+        task_note:
+          type: string
+          description: An optional note to be attached to this step.
+        custom_fields:
+          $ref: '#/components/schemas/custom_fields'
+      required:
+      - type
+    pagination:
+      type: object
+      properties:
+        next:
+          type:
+          - string
+          - 'null'
+          example: eyJpZCI6IjQyNTc5ZjczLTg1MjQtNDU3MC05YjY3LWVjYmQ3MDJjNmIxNCIsInJldmVyc2UiOmZhbHNlfQ==
+        previous:
+          type:
+          - string
+          - 'null'
+          example: eyJpZCI6IjBjZDhmYmZkLWU5NmQtNDEwZC05ZjQxLWIwMjU1YjdmNGI4NyIsInJldmVyc2UiOnRydWV9
+        total_count:
+          type: number
+          example: 100
+      required:
+      - next
+      - previous
+    custom_fields:
+      type: object
+      additionalProperties: true
+      description: Custom properties to be inserted that are not covered by the common object. Object keys must match exactly to the corresponding provider API.
     update_sequence_step:
       type: object
       properties:
@@ -544,185 +776,6 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
-    create_sequence_step:
-      type: object
-      properties:
-        name:
-          type: string
-          description: The name given by the user for the step. Used by Salesloft only.
-        interval_seconds:
-          type: number
-          description: The interval (in seconds) until this step will activate after the previous step (in case of first step, relative to when prospect first enters a sequence); only applicable to interval-based sequences. This is 0 by default
-        date:
-          type: string
-          example: '2023-01-01'
-          description: The date this step will activate; only applicable to date-based sequences.
-        template:
-          description: The email/message template to be used for this step. Only applicable for email or message steps.
-          oneOf:
-          - type: object
-            properties:
-              id:
-                type: string
-                description: The ID of the template to use for this step.
-            required:
-            - id
-          - type: object
-            properties:
-              body:
-                type: string
-                description: The body of the email (HTML).
-              subject:
-                type: string
-                description: The subject of the email.
-              name:
-                type: string
-                description: The name of the template. In Outreach, if missing this will create an `invisible` template that doesn't show up in the templates list UI.
-              to:
-                type: array
-                description: A list of default person and email address pairs to receive this template in the "to" field
-                items:
-                  type: string
-              cc:
-                type: array
-                description: A list of default person and email address pairs to receive this template in the "cc" field
-                items:
-                  type: string
-              bcc:
-                type: array
-                description: A list of default person and email address pairs to receive this template in the "bcc" field
-                items:
-                  type: string
-              custom_fields:
-                $ref: '#/components/schemas/custom_fields'
-            required:
-            - body
-            - subject
-        is_reply:
-          type: boolean
-          description: If true, this step will be sent as a reply to the previous step.
-        order:
-          type: number
-          description: The step's display order within its sequence. Only applicable for Outreach when adding steps one at a time after the initial sequence creation, otherwise when creating steps together with sequence order is implicit based on the order of step within the step array. Salesloft does not use the `order` param, and order is instead determined by `interval_seconds` which translates into the `day` parameter
-        type:
-          type: string
-          enum:
-          - auto_email
-          - manual_email
-          - call
-          - task
-          - linkedin_send_message
-          description: "The type of the sequence state. Note: `linkedin_send_message` is undocumented in Outreach and subject to change.\n\nSee below for how these types are mapped:\n\n<table>\n  <thead>\n      <tr>\n          <th>Provider</th>\n          <th>auto_email</th>\n          <th>manual_email</th>\n          <th>call</th>\n          <th>task</th>\n          <th>linkedin_send_message</th>\n      </tr>\n  </thead>\n  <tbody>\n      <tr>\n          <td>Apollo</td>\n          <td>auto_email</td>\n          <td>manual_email</td>\n          <td>call</td>\n          <td>action_item</td>\n          <td>linkedin_send_message</td>\n      </tr>\n      <tr>\n          <td>Outreach</td>\n          <td>auto_email</td>\n          <td>manual_email</td>\n          <td>call</td>\n          <td>task</td>\n          <td>linkedin_send_message</td>\n      </tr>\n      <tr>\n          <td>Salesloft</td>\n          <td>Email</td>\n          <td>Email</td>\n          <td>Phone</td>\n          <td>Other</td>\n          <td>(Not supported)</td>\n      </tr>\n  </tbody>\n</table>\n"
-        task_note:
-          type: string
-          description: An optional note to be attached to this step.
-        custom_fields:
-          $ref: '#/components/schemas/custom_fields'
-      required:
-      - type
-    custom_fields:
-      type: object
-      additionalProperties: true
-      description: Custom properties to be inserted that are not covered by the common object. Object keys must match exactly to the corresponding provider API.
-    warnings:
-      type: array
-      items:
-        type: object
-        properties:
-          detail:
-            type: string
-          problem_type:
-            type: string
-          title:
-            type: string
-    pagination:
-      type: object
-      properties:
-        next:
-          type:
-          - string
-          - 'null'
-          example: eyJpZCI6IjQyNTc5ZjczLTg1MjQtNDU3MC05YjY3LWVjYmQ3MDJjNmIxNCIsInJldmVyc2UiOmZhbHNlfQ==
-        previous:
-          type:
-          - string
-          - 'null'
-          example: eyJpZCI6IjBjZDhmYmZkLWU5NmQtNDEwZC05ZjQxLWIwMjU1YjdmNGI4NyIsInJldmVyc2UiOnRydWV9
-        total_count:
-          type: number
-          example: 100
-      required:
-      - next
-      - previous
-    sequence_step:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-          description: The name given by the user for the step. Used by Salesloft only.
-        interval_seconds:
-          type: number
-          description: The interval (in seconds) until this step will activate after the previous step (in case of first step, relative to when prospect first enters a sequence); only applicable to interval-based sequences. This is 0 by default
-        date:
-          type: string
-          example: '2023-01-01'
-          description: The date this step will activate; only applicable to date-based sequences.
-        template:
-          description: The email/message template to be used for this step. Only applicable for email or message steps.
-          type: object
-          properties:
-            id:
-              type: string
-              description: The ID of the template
-            body:
-              type: string
-              description: The body of the email (HTML).
-            subject:
-              type: string
-              description: The subject of the email.
-            name:
-              type: string
-              description: The name of the template. In Outreach, if missing this will create an `invisible` template that doesn't show up in the templates list UI.
-            to:
-              type: array
-              description: A list of default person and email address pairs to receive this template in the "to" field
-              items:
-                type: string
-            cc:
-              type: array
-              description: A list of default person and email address pairs to receive this template in the "cc" field
-              items:
-                type: string
-            bcc:
-              type: array
-              description: A list of default person and email address pairs to receive this template in the "bcc" field
-              items:
-                type: string
-          required:
-          - body
-          - subject
-        is_reply:
-          type: boolean
-          description: If true, this step will be sent as a reply to the previous step.
-        order:
-          type: number
-          description: The step's display order within its sequence. Only applicable for Outreach when adding steps one at a time after the initial sequence creation, otherwise when creating steps together with sequence order is implicit based on the order of step within the step array. Salesloft does not use the `order` param, and order is instead determined by `interval_seconds` which translates into the `day` parameter
-        type:
-          type: string
-          enum:
-          - auto_email
-          - manual_email
-          - call
-          - task
-          - linkedin_send_message
-          description: "The type of the sequence state. Note: `linkedin_send_message` is undocumented in Outreach and subject to change.\n\nSee below for how these types are mapped:\n\n<table>\n  <thead>\n      <tr>\n          <th>Provider</th>\n          <th>auto_email</th>\n          <th>manual_email</th>\n          <th>call</th>\n          <th>task</th>\n          <th>linkedin_send_message</th>\n      </tr>\n  </thead>\n  <tbody>\n      <tr>\n          <td>Apollo</td>\n          <td>auto_email</td>\n          <td>manual_email</td>\n          <td>call</td>\n          <td>action_item</td>\n          <td>linkedin_send_message</td>\n      </tr>\n      <tr>\n          <td>Outreach</td>\n          <td>auto_email</td>\n          <td>manual_email</td>\n          <td>call</td>\n          <td>task</td>\n          <td>linkedin_send_message</td>\n      </tr>\n      <tr>\n          <td>Salesloft</td>\n          <td>Email</td>\n          <td>Email</td>\n          <td>Phone</td>\n          <td>Other</td>\n          <td>(Not supported)</td>\n      </tr>\n  </tbody>\n</table>\n"
-        task_note:
-          type: string
-          description: An optional note to be attached to this step.
-      required:
-      - type
     sequence:
       type: object
       properties:
@@ -798,59 +851,6 @@ components:
           type: string
       required:
       - id
-  parameters:
-    x-customer-id:
-      name: x-customer-id
-      in: header
-      schema:
-        type: string
-      example: my-customer-1
-      description: The customer ID that uniquely identifies the customer in your application
-      required: true
-    x-provider-name:
-      name: x-provider-name
-      in: header
-      schema:
-        type: string
-      example: salesforce
-      description: The provider name
-      required: true
-    read_from_cache:
-      name: read_from_cache
-      in: query
-      schema:
-        type: boolean
-      example: true
-      description: "Whether to read from Supaglue's Managed Destination cache or to read directly from the provider. \n\n\n**NOTE**: `read_from_cache=true` requires you to have the object synced to the Supaglue Managed Destination.\n"
-    cursor:
-      name: cursor
-      in: query
-      schema:
-        type: string
-      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
-      description: The pagination cursor value
-    modified_after:
-      name: modified_after
-      in: query
-      schema:
-        type: string
-        format: date-time
-      description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
-      example: '2023-02-23T00:00:00Z'
-    include_raw_data:
-      name: include_raw_data
-      in: query
-      schema:
-        type: boolean
-      description: Whether to include raw data fetched from the 3rd party provider.
-      example: true
-    page_size:
-      name: page_size
-      in: query
-      schema:
-        type: string
-      example: 123
-      description: 'Number of results to return per page. (Max: 1000)'
   securitySchemes:
     x-api-key:
       type: apiKey

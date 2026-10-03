@@ -219,79 +219,6 @@ paths:
         '501':
           $ref: '#/components/responses/notImplemented'
 components:
-  responses:
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    conflict:
-      description: Conflict
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unprocessableEntity:
-      description: Unprocessable entity
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
   schemas:
     update_sync_config:
       type: object
@@ -299,123 +226,6 @@ components:
         config:
           $ref: '#/components/schemas/sync_config_data'
       required:
-      - config
-    create_sync_config:
-      type: object
-      properties:
-        destination_name:
-          type: string
-          example: object
-        provider_name:
-          $ref: '#/components/schemas/provider_name'
-        config:
-          $ref: '#/components/schemas/sync_config_data'
-      required:
-      - destination_name
-      - provider_name
-      - config
-    sync_config_data:
-      type: object
-      properties:
-        default_config:
-          $ref: '#/components/schemas/sync_strategy_config'
-        common_objects:
-          description: A list of Supaglue objects to be synced.
-          type: array
-          items:
-            type: object
-            properties:
-              object:
-                type: string
-                description: The Supaglue object name
-                example: contact
-              sync_strategy_override:
-                $ref: '#/components/schemas/sync_strategy_config'
-              associations_to_fetch:
-                type: array
-                description: "A list of associated objects to fetch when syncing this object. \nIf empty or unspecified, no additional associations will be fetched other than the ones required to populate the common model.\nOnly relevant for Hubspot.\n"
-                items:
-                  type: string
-                  description: Name of the associated object to fetch
-                  example: account
-            required:
-            - object
-        standard_objects:
-          description: A list of case-sensitive Provider objects to be synced.
-          type: array
-          items:
-            type: object
-            properties:
-              object:
-                type: string
-                description: The Provider object name (case sensitive)
-                example: Contact
-              sync_strategy_override:
-                $ref: '#/components/schemas/sync_strategy_config'
-              associations_to_fetch:
-                type: array
-                description: "A list of associated objects to fetch when syncing this object. \nIf empty or unspecified, no associations will be fetched.\nOnly relevant for Hubspot.\n"
-                items:
-                  type: string
-                  description: Name of the associated object to fetch
-                  example: account
-            required:
-            - object
-        custom_objects:
-          description: A list of case-sensitive custom objects to be synced. Only supported for Salesforce and Hubspot.
-          type: array
-          items:
-            type: object
-            properties:
-              object:
-                type: string
-                description: The custom object name (case sensitive). For Salesforce, this should end with `__c`.
-                example: MyCustomObject__c
-              sync_strategy_override:
-                $ref: '#/components/schemas/sync_strategy_config'
-              associations_to_fetch:
-                type: array
-                description: "A list of associated objects to fetch when syncing this object. \nIf empty or unspecified, no associations will be fetched.\nOnly relevant for Hubspot.\n"
-                items:
-                  type: string
-                  description: Name of the associated object to fetch
-                  example: account
-            required:
-            - object
-        entities:
-          type: array
-          deprecated: true
-          items:
-            type: object
-            properties:
-              entity_id:
-                type: string
-                example: 3a82409f-c98f-4d25-bbd8-3335de3f12cc
-            required:
-            - entity_id
-      required:
-      - default_config
-    sync_config:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 465fdcb7-26b4-4090-894c-67cab41022bb
-        application_id:
-          type: string
-          example: 9572d08b-f19f-48cc-a992-1eb7031d3f6a
-        destination_name:
-          type: string
-          example: postgres
-        provider_name:
-          $ref: '#/components/schemas/provider_name'
-        config:
-          $ref: '#/components/schemas/sync_config_data'
-      required:
-      - id
-      - application_id
-      - destination_name
-      - provider_name
       - config
     provider_name:
       type: string
@@ -439,6 +249,56 @@ components:
       - salesforce_marketing_cloud_account_engagement
       - slack
       example: hubspot
+    sync_config:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 465fdcb7-26b4-4090-894c-67cab41022bb
+        application_id:
+          type: string
+          example: 9572d08b-f19f-48cc-a992-1eb7031d3f6a
+        destination_name:
+          type: string
+          example: postgres
+        provider_name:
+          $ref: '#/components/schemas/provider_name'
+        config:
+          $ref: '#/components/schemas/sync_config_data'
+      required:
+      - id
+      - application_id
+      - destination_name
+      - provider_name
+      - config
+    sync_strategy_config:
+      type: object
+      description: Configuration options for "how" to sync.
+      properties:
+        period_ms:
+          type: integer
+          minimum: 60000
+          example: 60000
+          description: The period (in milliseconds) to run the sync.
+        strategy:
+          type: string
+          enum:
+          - full then incremental
+          - full only
+          description: \"full then incremental\" will run a full sync on the first run, then incremental syncs. \"full only\" will run a full sync on every run.
+        auto_start_on_connection:
+          type: boolean
+          description: 'If true, the sync will start automatically when the connection is created.
+
+            Default: true
+
+            '
+        full_sync_every_n_incrementals:
+          type: number
+          description: If set, Supaglue will run a full sync after N consecutive incremental syncs.
+      required:
+      - period_ms
+      - strategy
     errors:
       type: array
       items:
@@ -580,34 +440,174 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
-    sync_strategy_config:
+    create_sync_config:
       type: object
-      description: Configuration options for "how" to sync.
       properties:
-        period_ms:
-          type: integer
-          minimum: 60000
-          example: 60000
-          description: The period (in milliseconds) to run the sync.
-        strategy:
+        destination_name:
           type: string
-          enum:
-          - full then incremental
-          - full only
-          description: \"full then incremental\" will run a full sync on the first run, then incremental syncs. \"full only\" will run a full sync on every run.
-        auto_start_on_connection:
-          type: boolean
-          description: 'If true, the sync will start automatically when the connection is created.
-
-            Default: true
-
-            '
-        full_sync_every_n_incrementals:
-          type: number
-          description: If set, Supaglue will run a full sync after N consecutive incremental syncs.
+          example: object
+        provider_name:
+          $ref: '#/components/schemas/provider_name'
+        config:
+          $ref: '#/components/schemas/sync_config_data'
       required:
-      - period_ms
-      - strategy
+      - destination_name
+      - provider_name
+      - config
+    sync_config_data:
+      type: object
+      properties:
+        default_config:
+          $ref: '#/components/schemas/sync_strategy_config'
+        common_objects:
+          description: A list of Supaglue objects to be synced.
+          type: array
+          items:
+            type: object
+            properties:
+              object:
+                type: string
+                description: The Supaglue object name
+                example: contact
+              sync_strategy_override:
+                $ref: '#/components/schemas/sync_strategy_config'
+              associations_to_fetch:
+                type: array
+                description: "A list of associated objects to fetch when syncing this object. \nIf empty or unspecified, no additional associations will be fetched other than the ones required to populate the common model.\nOnly relevant for Hubspot.\n"
+                items:
+                  type: string
+                  description: Name of the associated object to fetch
+                  example: account
+            required:
+            - object
+        standard_objects:
+          description: A list of case-sensitive Provider objects to be synced.
+          type: array
+          items:
+            type: object
+            properties:
+              object:
+                type: string
+                description: The Provider object name (case sensitive)
+                example: Contact
+              sync_strategy_override:
+                $ref: '#/components/schemas/sync_strategy_config'
+              associations_to_fetch:
+                type: array
+                description: "A list of associated objects to fetch when syncing this object. \nIf empty or unspecified, no associations will be fetched.\nOnly relevant for Hubspot.\n"
+                items:
+                  type: string
+                  description: Name of the associated object to fetch
+                  example: account
+            required:
+            - object
+        custom_objects:
+          description: A list of case-sensitive custom objects to be synced. Only supported for Salesforce and Hubspot.
+          type: array
+          items:
+            type: object
+            properties:
+              object:
+                type: string
+                description: The custom object name (case sensitive). For Salesforce, this should end with `__c`.
+                example: MyCustomObject__c
+              sync_strategy_override:
+                $ref: '#/components/schemas/sync_strategy_config'
+              associations_to_fetch:
+                type: array
+                description: "A list of associated objects to fetch when syncing this object. \nIf empty or unspecified, no associations will be fetched.\nOnly relevant for Hubspot.\n"
+                items:
+                  type: string
+                  description: Name of the associated object to fetch
+                  example: account
+            required:
+            - object
+        entities:
+          type: array
+          deprecated: true
+          items:
+            type: object
+            properties:
+              entity_id:
+                type: string
+                example: 3a82409f-c98f-4d25-bbd8-3335de3f12cc
+            required:
+            - entity_id
+      required:
+      - default_config
+  responses:
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
   securitySchemes:
     x-api-key:
       type: apiKey

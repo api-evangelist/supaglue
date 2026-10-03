@@ -696,6 +696,15 @@ webhooks:
           description: Return a 200 status to indicate that the data was received successfully
 components:
   schemas:
+    category:
+      type: string
+      enum:
+      - crm
+      - engagement
+      - enrichment
+      - marketing_automation
+      - no_category
+      example: crm
     provider_name:
       type: string
       enum:
@@ -718,15 +727,6 @@ components:
       - salesforce_marketing_cloud_account_engagement
       - slack
       example: hubspot
-    category:
-      type: string
-      enum:
-      - crm
-      - engagement
-      - enrichment
-      - marketing_automation
-      - no_category
-      example: crm
   securitySchemes:
     x-api-key:
       type: apiKey
