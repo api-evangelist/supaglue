@@ -202,33 +202,6 @@ paths:
           $ref: '#/components/responses/notImplemented'
 components:
   responses:
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    conflict:
-      description: Conflict
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
     notFound:
       description: Not found
       content:
@@ -256,8 +229,17 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
       content:
         application/json:
           schema:
@@ -274,33 +256,36 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-  schemas:
-    schema_config:
-      type: object
-      deprecated: true
-      properties:
-        fields:
-          type: array
-          items:
+    conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
             type: object
             properties:
-              name:
-                type: string
-                example: apolla_first_name
-                description: Your application field name.
-              mapped_name:
-                type: string
-                example: FirstName
-                description: The field your customer maps. This is a Provider-specified field name. E.g. FirstName for Salesforce.
-            required:
-            - name
-        allow_additional_field_mappings:
-          type: boolean
-          description: Specifies whether your customer can add new application field names.
-          example: false
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+  schemas:
+    create_update_schema:
+      type: object
+      properties:
+        name:
+          type: string
+          example: my-schema
+        config:
+          $ref: '#/components/schemas/schema_config'
       required:
-      - fields
-      - allow_additional_field_mappings
+      - name
+      - config
     errors:
       type: array
       items:
@@ -462,17 +447,32 @@ components:
       - application_id
       - name
       - config
-    create_update_schema:
+    schema_config:
       type: object
+      deprecated: true
       properties:
-        name:
-          type: string
-          example: my-schema
-        config:
-          $ref: '#/components/schemas/schema_config'
+        fields:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: apolla_first_name
+                description: Your application field name.
+              mapped_name:
+                type: string
+                example: FirstName
+                description: The field your customer maps. This is a Provider-specified field name. E.g. FirstName for Salesforce.
+            required:
+            - name
+        allow_additional_field_mappings:
+          type: boolean
+          description: Specifies whether your customer can add new application field names.
+          example: false
       required:
-      - name
-      - config
+      - fields
+      - allow_additional_field_mappings
   securitySchemes:
     x-api-key:
       type: apiKey

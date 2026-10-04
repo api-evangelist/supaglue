@@ -251,35 +251,8 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    remoteProviderError:
-      description: Remote provider error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unprocessableEntity:
-      description: Unprocessable entity
+    notImplemented:
+      description: Not implemented
       content:
         application/json:
           schema:
@@ -296,8 +269,44 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
     conflict:
       description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    remoteProviderError:
+      description: Remote provider error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notFound:
+      description: Not found
       content:
         application/json:
           schema:
@@ -314,16 +323,14 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
   parameters:
+    page_size:
+      name: page_size
+      in: query
+      schema:
+        type: string
+      example: 123
+      description: 'Number of results to return per page. (Max: 1000)'
     read_from_cache:
       name: read_from_cache
       in: query
@@ -331,13 +338,6 @@ components:
         type: boolean
       example: true
       description: "Whether to read from Supaglue's Managed Destination cache or to read directly from the provider. \n\n\n**NOTE**: `read_from_cache=true` requires you to have the object synced to the Supaglue Managed Destination.\n"
-    cursor:
-      name: cursor
-      in: query
-      schema:
-        type: string
-      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
-      description: The pagination cursor value
     associations_to_fetch:
       name: associations_to_fetch
       in: query
@@ -357,21 +357,6 @@ components:
       example: salesforce
       description: The provider name
       required: true
-    page_size:
-      name: page_size
-      in: query
-      schema:
-        type: string
-      example: 123
-      description: 'Number of results to return per page. (Max: 1000)'
-    modified_after:
-      name: modified_after
-      in: query
-      schema:
-        type: string
-        format: date-time
-      description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
-      example: '2023-02-23T00:00:00Z'
     x-customer-id:
       name: x-customer-id
       in: header
@@ -380,6 +365,21 @@ components:
       example: my-customer-1
       description: The customer ID that uniquely identifies the customer in your application
       required: true
+    cursor:
+      name: cursor
+      in: query
+      schema:
+        type: string
+      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
+      description: The pagination cursor value
+    modified_after:
+      name: modified_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+      description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
+      example: '2023-02-23T00:00:00Z'
     include_raw_data:
       name: include_raw_data
       in: query
@@ -388,17 +388,6 @@ components:
       description: Whether to include raw data fetched from the 3rd party provider.
       example: true
   schemas:
-    warnings:
-      type: array
-      items:
-        type: object
-        properties:
-          detail:
-            type: string
-          problem_type:
-            type: string
-          title:
-            type: string
     create_update_opportunity:
       type: object
       properties:
@@ -441,97 +430,13 @@ components:
           - 'null'
         custom_fields:
           $ref: '#/components/schemas/custom_fields'
-    opportunity:
+    created_record:
       type: object
       properties:
-        account_id:
-          type:
-          - string
-          - 'null'
-          example: fd089246-09b1-4e3b-a60a-7a76314bbcce
-        amount:
-          type:
-          - integer
-          - 'null'
-          example: 100000
-        close_date:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2023-02-27T00:00:00Z'
-        description:
-          type:
-          - string
-          - 'null'
-          example: Wants to use open source unified API for third-party integrations
         id:
           type: string
-          example: 54312
-        last_activity_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2023-02-27T00:00:00Z'
-        name:
-          type:
-          - string
-          - 'null'
-          example: Needs third-party integrations
-        owner_id:
-          type:
-          - string
-          - 'null'
-          example: d8ceb3ff-8b7f-4fa7-b8de-849292f6ca69
-        pipeline:
-          type:
-          - string
-          - 'null'
-        stage:
-          type:
-          - string
-          - 'null'
-          example: Closed Won
-        status:
-          type:
-          - string
-          - 'null'
-          example: OPEN
-        created_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2023-02-27T00:00:00Z'
-        updated_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2023-02-27T00:00:00Z'
-        is_deleted:
-          type: boolean
-          example: false
-        last_modified_at:
-          type: string
-          format: date-time
-          example: '2022-02-27T00:00:00Z'
       required:
-      - account_id
-      - amount
-      - description
       - id
-      - last_activity_at
-      - name
-      - owner_id
-      - stage
-      - status
-      - pipeline
-      - created_at
-      - updated_at
-      - is_deleted
-      - last_modified_at
     pagination:
       type: object
       properties:
@@ -551,10 +456,6 @@ components:
       required:
       - next
       - previous
-    custom_fields:
-      type: object
-      additionalProperties: true
-      description: Custom properties to be inserted that are not covered by the common object. Object keys must match exactly to the corresponding provider API.
     errors:
       type: array
       items:
@@ -696,13 +597,112 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
-    created_record:
+    custom_fields:
+      type: object
+      additionalProperties: true
+      description: Custom properties to be inserted that are not covered by the common object. Object keys must match exactly to the corresponding provider API.
+    opportunity:
       type: object
       properties:
+        account_id:
+          type:
+          - string
+          - 'null'
+          example: fd089246-09b1-4e3b-a60a-7a76314bbcce
+        amount:
+          type:
+          - integer
+          - 'null'
+          example: 100000
+        close_date:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2023-02-27T00:00:00Z'
+        description:
+          type:
+          - string
+          - 'null'
+          example: Wants to use open source unified API for third-party integrations
         id:
           type: string
+          example: 54312
+        last_activity_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2023-02-27T00:00:00Z'
+        name:
+          type:
+          - string
+          - 'null'
+          example: Needs third-party integrations
+        owner_id:
+          type:
+          - string
+          - 'null'
+          example: d8ceb3ff-8b7f-4fa7-b8de-849292f6ca69
+        pipeline:
+          type:
+          - string
+          - 'null'
+        stage:
+          type:
+          - string
+          - 'null'
+          example: Closed Won
+        status:
+          type:
+          - string
+          - 'null'
+          example: OPEN
+        created_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2023-02-27T00:00:00Z'
+        updated_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2023-02-27T00:00:00Z'
+        is_deleted:
+          type: boolean
+          example: false
+        last_modified_at:
+          type: string
+          format: date-time
+          example: '2022-02-27T00:00:00Z'
       required:
+      - account_id
+      - amount
+      - description
       - id
+      - last_activity_at
+      - name
+      - owner_id
+      - stage
+      - status
+      - pipeline
+      - created_at
+      - updated_at
+      - is_deleted
+      - last_modified_at
+    warnings:
+      type: array
+      items:
+        type: object
+        properties:
+          detail:
+            type: string
+          problem_type:
+            type: string
+          title:
+            type: string
   securitySchemes:
     x-api-key:
       type: apiKey

@@ -159,88 +159,6 @@ paths:
         '501':
           $ref: '#/components/responses/notImplemented'
 components:
-  responses:
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    conflict:
-      description: Conflict
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    remoteProviderError:
-      description: Remote provider error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unprocessableEntity:
-      description: Unprocessable entity
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
   schemas:
     association_schema:
       type: object
@@ -259,23 +177,6 @@ components:
       - id
       - source_object
       - target_object
-      - display_name
-    create_update_association_schema:
-      type: object
-      properties:
-        source_object:
-          type: string
-        target_object:
-          type: string
-        suggested_key_name:
-          type: string
-          description: The underlying provider may change this (e.g. adding `__c` for Salesforce).
-        display_name:
-          type: string
-      required:
-      - source_object
-      - target_object
-      - suggested_key_name
       - display_name
     errors:
       type: array
@@ -429,6 +330,23 @@ components:
             type: string
           title:
             type: string
+    create_update_association_schema:
+      type: object
+      properties:
+        source_object:
+          type: string
+        target_object:
+          type: string
+        suggested_key_name:
+          type: string
+          description: The underlying provider may change this (e.g. adding `__c` for Salesforce).
+        display_name:
+          type: string
+      required:
+      - source_object
+      - target_object
+      - suggested_key_name
+      - display_name
   parameters:
     x-customer-id:
       name: x-customer-id
@@ -446,6 +364,88 @@ components:
       example: salesforce
       description: The provider name
       required: true
+  responses:
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    remoteProviderError:
+      description: Remote provider error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
   securitySchemes:
     x-api-key:
       type: apiKey

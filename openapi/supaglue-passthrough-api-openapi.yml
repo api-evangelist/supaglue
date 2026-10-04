@@ -138,14 +138,6 @@ paths:
                         - description
 components:
   parameters:
-    x-customer-id:
-      name: x-customer-id
-      in: header
-      schema:
-        type: string
-      example: my-customer-1
-      description: The customer ID that uniquely identifies the customer in your application
-      required: true
     x-provider-name:
       name: x-provider-name
       in: header
@@ -153,6 +145,14 @@ components:
         type: string
       example: salesforce
       description: The provider name
+      required: true
+    x-customer-id:
+      name: x-customer-id
+      in: header
+      schema:
+        type: string
+      example: my-customer-1
+      description: The customer ID that uniquely identifies the customer in your application
       required: true
   securitySchemes:
     x-api-key:

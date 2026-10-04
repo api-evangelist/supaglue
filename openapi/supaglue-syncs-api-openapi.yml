@@ -360,34 +360,24 @@ paths:
         '501':
           $ref: '#/components/responses/notImplemented'
 components:
+  parameters:
+    x-customer-id:
+      name: x-customer-id
+      in: header
+      schema:
+        type: string
+      example: my-customer-1
+      description: The customer ID that uniquely identifies the customer in your application
+      required: true
+    x-provider-name:
+      name: x-provider-name
+      in: header
+      schema:
+        type: string
+      example: salesforce
+      description: The provider name
+      required: true
   responses:
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    conflict:
-      description: Conflict
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
     notFound:
       description: Not found
       content:
@@ -415,8 +405,8 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
+    internalServerError:
+      description: Internal server error
       content:
         application/json:
           schema:
@@ -433,93 +423,34 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
   schemas:
-    sync_with_provider_and_customer:
-      oneOf:
-      - type: object
-        title: 'Data model: Objects'
-        properties:
-          id:
-            type: string
-            example: 971cb76d-9558-42fe-8f3b-8a531c32bd5f
-          type:
-            type: string
-            enum:
-            - object
-            example: object
-          object_type:
-            type: string
-            enum:
-            - common
-            - standard
-            - custom
-            example: standard
-          object:
-            type: string
-            example: contact
-          connection_id:
-            type: string
-            example: 3217ea51-11c8-43c9-9547-6f197e02e5e4
-          sync_config_id:
-            type: string
-            example: 3217ea51-11c8-43c9-9547-6f197e02e5e5
-          paused:
-            type: boolean
-            example: false
-          provider_name:
-            type: string
-            example: hubspot
-          customer_id:
-            type: string
-            example: my-customer-1
-        required:
-        - id
-        - type
-        - object_type
-        - object
-        - connection_id
-        - sync_config_id
-        - paused
-        - provider_name
-        - customer_id
-      - type: object
-        title: 'Data model: Entities'
-        properties:
-          id:
-            type: string
-            example: 971cb76d-9558-42fe-8f3b-8a531c32bd5f
-          type:
-            type: string
-            enum:
-            - entity
-            example: entity
-          entity_id:
-            type: string
-            example: 70da3830-b717-49cb-91f0-22fb3f09a97a
-          connection_id:
-            type: string
-            example: 3217ea51-11c8-43c9-9547-6f197e02e5e4
-          sync_config_id:
-            type: string
-            example: 3217ea51-11c8-43c9-9547-6f197e02e5e5
-          paused:
-            type: boolean
-            example: false
-          provider_name:
-            type: string
-            example: hubspot
-          customer_id:
-            type: string
-            example: my-customer-1
-        required:
-        - id
-        - type
-        - entity_id
-        - connection_id
-        - sync_config_id
-        - paused
-        - provider_name
-        - customer_id
     errors:
       type: array
       items:
@@ -678,6 +609,92 @@ components:
       required:
       - next
       - previous
+    sync_with_provider_and_customer:
+      oneOf:
+      - type: object
+        title: 'Data model: Objects'
+        properties:
+          id:
+            type: string
+            example: 971cb76d-9558-42fe-8f3b-8a531c32bd5f
+          type:
+            type: string
+            enum:
+            - object
+            example: object
+          object_type:
+            type: string
+            enum:
+            - common
+            - standard
+            - custom
+            example: standard
+          object:
+            type: string
+            example: contact
+          connection_id:
+            type: string
+            example: 3217ea51-11c8-43c9-9547-6f197e02e5e4
+          sync_config_id:
+            type: string
+            example: 3217ea51-11c8-43c9-9547-6f197e02e5e5
+          paused:
+            type: boolean
+            example: false
+          provider_name:
+            type: string
+            example: hubspot
+          customer_id:
+            type: string
+            example: my-customer-1
+        required:
+        - id
+        - type
+        - object_type
+        - object
+        - connection_id
+        - sync_config_id
+        - paused
+        - provider_name
+        - customer_id
+      - type: object
+        title: 'Data model: Entities'
+        properties:
+          id:
+            type: string
+            example: 971cb76d-9558-42fe-8f3b-8a531c32bd5f
+          type:
+            type: string
+            enum:
+            - entity
+            example: entity
+          entity_id:
+            type: string
+            example: 70da3830-b717-49cb-91f0-22fb3f09a97a
+          connection_id:
+            type: string
+            example: 3217ea51-11c8-43c9-9547-6f197e02e5e4
+          sync_config_id:
+            type: string
+            example: 3217ea51-11c8-43c9-9547-6f197e02e5e5
+          paused:
+            type: boolean
+            example: false
+          provider_name:
+            type: string
+            example: hubspot
+          customer_id:
+            type: string
+            example: my-customer-1
+        required:
+        - id
+        - type
+        - entity_id
+        - connection_id
+        - sync_config_id
+        - paused
+        - provider_name
+        - customer_id
     sync:
       oneOf:
       - type: object
@@ -787,23 +804,6 @@ components:
         - connection_id
         - sync_config_id
         - paused
-  parameters:
-    x-customer-id:
-      name: x-customer-id
-      in: header
-      schema:
-        type: string
-      example: my-customer-1
-      description: The customer ID that uniquely identifies the customer in your application
-      required: true
-    x-provider-name:
-      name: x-provider-name
-      in: header
-      schema:
-        type: string
-      example: salesforce
-      description: The provider name
-      required: true
   securitySchemes:
     x-api-key:
       type: apiKey

@@ -201,25 +201,17 @@ paths:
           $ref: '#/components/responses/notImplemented'
 components:
   schemas:
-    entity_config:
+    create_update_entity:
       type: object
-      deprecated: true
       properties:
-        fields:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-                example: apolla_first_name
-            required:
-            - name
-        allow_additional_field_mappings:
-          type: boolean
+        name:
+          type: string
+          example: my-entity
+        config:
+          $ref: '#/components/schemas/entity_config'
       required:
-      - fields
-      - allow_additional_field_mappings
+      - name
+      - config
     entity:
       type: object
       deprecated: true
@@ -381,56 +373,28 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
-    create_update_entity:
+    entity_config:
       type: object
+      deprecated: true
       properties:
-        name:
-          type: string
-          example: my-entity
-        config:
-          $ref: '#/components/schemas/entity_config'
+        fields:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: apolla_first_name
+            required:
+            - name
+        allow_additional_field_mappings:
+          type: boolean
       required:
-      - name
-      - config
+      - fields
+      - allow_additional_field_mappings
   responses:
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    conflict:
-      description: Conflict
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
     notFound:
       description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    remoteProviderError:
-      description: Remote provider error
       content:
         application/json:
           schema:
@@ -456,8 +420,17 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
       content:
         application/json:
           schema:
@@ -467,6 +440,33 @@ components:
                 $ref: '#/components/schemas/errors'
     notImplemented:
       description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    remoteProviderError:
+      description: Remote provider error
       content:
         application/json:
           schema:

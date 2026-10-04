@@ -394,35 +394,8 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    remoteProviderError:
-      description: Remote provider error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unprocessableEntity:
-      description: Unprocessable entity
+    notImplemented:
+      description: Not implemented
       content:
         application/json:
           schema:
@@ -439,8 +412,44 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
     conflict:
       description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    remoteProviderError:
+      description: Remote provider error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notFound:
+      description: Not found
       content:
         application/json:
           schema:
@@ -457,78 +466,18 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
   schemas:
-    provider_name:
-      type: string
-      enum:
-      - hubspot
-      - salesforce
-      - pipedrive
-      - zendesk_sell
-      - ms_dynamics_365_sales
-      - zoho_crm
-      - capsule
-      - outreach
-      - gong
-      - apollo
-      - salesloft
-      - intercom
-      - linear
-      - clearbit
-      - 6sense
-      - marketo
-      - salesforce_marketing_cloud_account_engagement
-      - slack
-      example: hubspot
-    single_rate_limit_info:
+    rate_limit_info:
       type: object
       properties:
-        limit:
-          type: integer
-          example: 1000
-        remaining:
-          type: integer
-          example: 900
-        reset_time:
-          type: integer
-          description: The time (in epoch seconds) at which the rate limit will reset. If missing, the rate limit is a sliding window.
-          example: 1615219200
-      required:
-      - limit
-      - remaining
-    standard_or_custom_object:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - standard
-          - custom
-        name:
-          type: string
-      required:
-      - type
-      - name
-    object_field_mapping:
-      type: object
-      properties:
-        schema_field:
-          type: string
-          example: apolla_first_name
-        mapped_field:
-          type: string
-          example: FirstName
-      required:
-      - schema_field
+        daily:
+          $ref: '#/components/schemas/single_rate_limit_info'
+        hourly:
+          $ref: '#/components/schemas/single_rate_limit_info'
+        other:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/single_rate_limit_info'
     connection_entity_mapping:
       type: object
       deprecated: true
@@ -543,115 +492,6 @@ components:
             $ref: '#/components/schemas/entity_field_mapping'
       required:
       - entity_id
-    connection_sync_config:
-      type: object
-      properties:
-        destination_config:
-          description: An object to override the default Destination configuration per connection.
-          oneOf:
-          - description: Config specific to Postgres destination
-            type: object
-            title: Postgres
-            properties:
-              type:
-                type: string
-                enum:
-                - postgres
-              schema:
-                type: string
-                description: The schema you'd like to sync to. This schema must already exist. Supaglue will not create it. If not specified, the schema specified in the Postgres Destination will be used.
-                example: customer_1_schema
-            required:
-            - type
-            - schema
-          - description: Config specific to BigQuery destination
-            type: object
-            title: BigQuery
-            properties:
-              type:
-                type: string
-                enum:
-                - bigquery
-              dataset:
-                type: string
-                description: The dataset you'd like to sync to. This dataset must already exist. Supaglue will not create it. If not specified, the dataset specified in the BigQuery Destination will be used.
-                example: customer_1_dataset
-            required:
-            - type
-            - dataset
-        standard_objects:
-          description: A list of case-sensitive Provider standard objects to by synced. If specified, this list will take override the custom_objects list in SyncConfig.
-          type: array
-          items:
-            oneOf:
-            - type: object
-              title: All
-              properties:
-                object:
-                  type: string
-                  description: The Provider object name (case sensitive)
-                  example: Contact
-              required:
-              - object
-            - type: object
-              title: Postgres/BigQuery (Preview)
-              properties:
-                object:
-                  type: string
-                  description: The Provider object name (case sensitive)
-                  example: Contact
-                table:
-                  type: string
-                  description: The table to write the object to. If specified, this will override the default table used by Supaglue.
-                  example: my_contacts
-              required:
-              - object
-              - table
-        custom_objects:
-          description: '(Preview) A list of case-sensitive Provider custom objects to be synced. If specified, this list will take override the custom_objects list in SyncConfig.
-
-            '
-          type: array
-          items:
-            oneOf:
-            - type: object
-              title: All
-              properties:
-                object:
-                  type: string
-                  description: The Provider object name (case sensitive)
-                  example: Contact__c
-              required:
-              - object
-            - type: object
-              title: Postgres/BigQuery (Preview)
-              properties:
-                object:
-                  type: string
-                  description: The Provider object name (case sensitive)
-                  example: Contact__c
-                table:
-                  type: string
-                  description: The table to write the object to. If specified, this will override the default table used by Supaglue.
-                  example: my_contacts
-              required:
-              - object
-              - table
-    entity_field_mapping:
-      type: object
-      deprecated: true
-      properties:
-        entity_field:
-          type: string
-          description: The name of the field in your application.
-          example: apolla_first_name
-        mapped_field:
-          type: string
-          description: The name of the field in your customer's third-party Provider tool (e.g. Salesforce).
-          example: FirstName
-      required:
-      - entity_field
-      - mapped_field
     connection:
       type: object
       properties:
@@ -869,17 +709,32 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
-    rate_limit_info:
+    object_field_mapping:
       type: object
       properties:
-        daily:
-          $ref: '#/components/schemas/single_rate_limit_info'
-        hourly:
-          $ref: '#/components/schemas/single_rate_limit_info'
-        other:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/single_rate_limit_info'
+        schema_field:
+          type: string
+          example: apolla_first_name
+        mapped_field:
+          type: string
+          example: FirstName
+      required:
+      - schema_field
+    entity_field_mapping:
+      type: object
+      deprecated: true
+      properties:
+        entity_field:
+          type: string
+          description: The name of the field in your application.
+          example: apolla_first_name
+        mapped_field:
+          type: string
+          description: The name of the field in your customer's third-party Provider tool (e.g. Salesforce).
+          example: FirstName
+      required:
+      - entity_field
+      - mapped_field
     category:
       type: string
       enum:
@@ -889,6 +744,151 @@ components:
       - marketing_automation
       - no_category
       example: crm
+    provider_name:
+      type: string
+      enum:
+      - hubspot
+      - salesforce
+      - pipedrive
+      - zendesk_sell
+      - ms_dynamics_365_sales
+      - zoho_crm
+      - capsule
+      - outreach
+      - gong
+      - apollo
+      - salesloft
+      - intercom
+      - linear
+      - clearbit
+      - 6sense
+      - marketo
+      - salesforce_marketing_cloud_account_engagement
+      - slack
+      example: hubspot
+    connection_sync_config:
+      type: object
+      properties:
+        destination_config:
+          description: An object to override the default Destination configuration per connection.
+          oneOf:
+          - description: Config specific to Postgres destination
+            type: object
+            title: Postgres
+            properties:
+              type:
+                type: string
+                enum:
+                - postgres
+              schema:
+                type: string
+                description: The schema you'd like to sync to. This schema must already exist. Supaglue will not create it. If not specified, the schema specified in the Postgres Destination will be used.
+                example: customer_1_schema
+            required:
+            - type
+            - schema
+          - description: Config specific to BigQuery destination
+            type: object
+            title: BigQuery
+            properties:
+              type:
+                type: string
+                enum:
+                - bigquery
+              dataset:
+                type: string
+                description: The dataset you'd like to sync to. This dataset must already exist. Supaglue will not create it. If not specified, the dataset specified in the BigQuery Destination will be used.
+                example: customer_1_dataset
+            required:
+            - type
+            - dataset
+        standard_objects:
+          description: A list of case-sensitive Provider standard objects to by synced. If specified, this list will take override the custom_objects list in SyncConfig.
+          type: array
+          items:
+            oneOf:
+            - type: object
+              title: All
+              properties:
+                object:
+                  type: string
+                  description: The Provider object name (case sensitive)
+                  example: Contact
+              required:
+              - object
+            - type: object
+              title: Postgres/BigQuery (Preview)
+              properties:
+                object:
+                  type: string
+                  description: The Provider object name (case sensitive)
+                  example: Contact
+                table:
+                  type: string
+                  description: The table to write the object to. If specified, this will override the default table used by Supaglue.
+                  example: my_contacts
+              required:
+              - object
+              - table
+        custom_objects:
+          description: '(Preview) A list of case-sensitive Provider custom objects to be synced. If specified, this list will take override the custom_objects list in SyncConfig.
+
+            '
+          type: array
+          items:
+            oneOf:
+            - type: object
+              title: All
+              properties:
+                object:
+                  type: string
+                  description: The Provider object name (case sensitive)
+                  example: Contact__c
+              required:
+              - object
+            - type: object
+              title: Postgres/BigQuery (Preview)
+              properties:
+                object:
+                  type: string
+                  description: The Provider object name (case sensitive)
+                  example: Contact__c
+                table:
+                  type: string
+                  description: The table to write the object to. If specified, this will override the default table used by Supaglue.
+                  example: my_contacts
+              required:
+              - object
+              - table
+    standard_or_custom_object:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - standard
+          - custom
+        name:
+          type: string
+      required:
+      - type
+      - name
+    single_rate_limit_info:
+      type: object
+      properties:
+        limit:
+          type: integer
+          example: 1000
+        remaining:
+          type: integer
+          example: 900
+        reset_time:
+          type: integer
+          description: The time (in epoch seconds) at which the rate limit will reset. If missing, the rate limit is a sliding window.
+          example: 1615219200
+      required:
+      - limit
+      - remaining
   securitySchemes:
     x-api-key:
       type: apiKey

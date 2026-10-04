@@ -129,101 +129,6 @@ paths:
         '501':
           $ref: '#/components/responses/notImplemented'
 components:
-  responses:
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    remoteProviderError:
-      description: Remote provider error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-  parameters:
-    page_size:
-      name: page_size
-      in: query
-      schema:
-        type: string
-      example: 123
-      description: 'Number of results to return per page. (Max: 1000)'
-    modified_after:
-      name: modified_after
-      in: query
-      schema:
-        type: string
-        format: date-time
-      description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
-      example: '2023-02-23T00:00:00Z'
-    cursor:
-      name: cursor
-      in: query
-      schema:
-        type: string
-      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
-      description: The pagination cursor value
-    x-customer-id:
-      name: x-customer-id
-      in: header
-      schema:
-        type: string
-      example: my-customer-1
-      description: The customer ID that uniquely identifies the customer in your application
-      required: true
   schemas:
     hubspot_company:
       type: object
@@ -637,6 +542,101 @@ components:
       - createdate
       - notes_last_updated
       - raw_data
+  parameters:
+    x-customer-id:
+      name: x-customer-id
+      in: header
+      schema:
+        type: string
+      example: my-customer-1
+      description: The customer ID that uniquely identifies the customer in your application
+      required: true
+    cursor:
+      name: cursor
+      in: query
+      schema:
+        type: string
+      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
+      description: The pagination cursor value
+    page_size:
+      name: page_size
+      in: query
+      schema:
+        type: string
+      example: 123
+      description: 'Number of results to return per page. (Max: 1000)'
+    modified_after:
+      name: modified_after
+      in: query
+      schema:
+        type: string
+        format: date-time
+      description: If provided, will only return objects modified after this datetime. Datetime must be in ISO 8601 format and URI encoded.
+      example: '2023-02-23T00:00:00Z'
+  responses:
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    remoteProviderError:
+      description: Remote provider error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
   securitySchemes:
     x-api-key:
       type: apiKey

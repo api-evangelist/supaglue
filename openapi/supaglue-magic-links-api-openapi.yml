@@ -129,102 +129,7 @@ paths:
         '501':
           $ref: '#/components/responses/notImplemented'
 components:
-  responses:
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    conflict:
-      description: Conflict
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unprocessableEntity:
-      description: Unprocessable entity
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
   schemas:
-    provider_name:
-      type: string
-      enum:
-      - hubspot
-      - salesforce
-      - pipedrive
-      - zendesk_sell
-      - ms_dynamics_365_sales
-      - zoho_crm
-      - capsule
-      - outreach
-      - gong
-      - apollo
-      - salesloft
-      - intercom
-      - linear
-      - clearbit
-      - 6sense
-      - marketo
-      - salesforce_marketing_cloud_account_engagement
-      - slack
-      example: hubspot
     create_magic_link:
       type: object
       properties:
@@ -430,6 +335,101 @@ components:
       - expires_at
       - url
       - return_url
+    provider_name:
+      type: string
+      enum:
+      - hubspot
+      - salesforce
+      - pipedrive
+      - zendesk_sell
+      - ms_dynamics_365_sales
+      - zoho_crm
+      - capsule
+      - outreach
+      - gong
+      - apollo
+      - salesloft
+      - intercom
+      - linear
+      - clearbit
+      - 6sense
+      - marketo
+      - salesforce_marketing_cloud_account_engagement
+      - slack
+      example: hubspot
+  responses:
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
   securitySchemes:
     x-api-key:
       type: apiKey

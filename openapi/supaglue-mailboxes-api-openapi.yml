@@ -118,71 +118,37 @@ paths:
         '501':
           $ref: '#/components/responses/notImplemented'
 components:
-  responses:
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    remoteProviderError:
-      description: Remote provider error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
   parameters:
+    x-customer-id:
+      name: x-customer-id
+      in: header
+      schema:
+        type: string
+      example: my-customer-1
+      description: The customer ID that uniquely identifies the customer in your application
+      required: true
+    cursor:
+      name: cursor
+      in: query
+      schema:
+        type: string
+      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
+      description: The pagination cursor value
+    x-provider-name:
+      name: x-provider-name
+      in: header
+      schema:
+        type: string
+      example: salesforce
+      description: The provider name
+      required: true
+    include_raw_data:
+      name: include_raw_data
+      in: query
+      schema:
+        type: boolean
+      description: Whether to include raw data fetched from the 3rd party provider.
+      example: true
     page_size:
       name: page_size
       in: query
@@ -205,37 +171,119 @@ components:
         type: boolean
       example: true
       description: "Whether to read from Supaglue's Managed Destination cache or to read directly from the provider. \n\n\n**NOTE**: `read_from_cache=true` requires you to have the object synced to the Supaglue Managed Destination.\n"
-    cursor:
-      name: cursor
-      in: query
-      schema:
-        type: string
-      example: cD0yMDIxLTAxLTA2KzAzJTNBMjQlM0E1My40MzQzMjYlMkIwMCUzQTAw
-      description: The pagination cursor value
-    x-customer-id:
-      name: x-customer-id
-      in: header
-      schema:
-        type: string
-      example: my-customer-1
-      description: The customer ID that uniquely identifies the customer in your application
-      required: true
-    x-provider-name:
-      name: x-provider-name
-      in: header
-      schema:
-        type: string
-      example: salesforce
-      description: The provider name
-      required: true
-    include_raw_data:
-      name: include_raw_data
-      in: query
-      schema:
-        type: boolean
-      description: Whether to include raw data fetched from the 3rd party provider.
-      example: true
+  responses:
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    remoteProviderError:
+      description: Remote provider error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
   schemas:
+    mailbox:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 54312
+        email:
+          type:
+          - string
+          - 'null'
+          example: null
+        user_id:
+          type:
+          - string
+          - 'null'
+          example: 39fd1fe0-094b-4a61-b47f-3e3ac033203d
+        created_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2022-02-27T00:00:00Z'
+        updated_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2022-02-27T00:00:00Z'
+        is_deleted:
+          type: boolean
+          example: false
+        last_modified_at:
+          type: string
+          format: date-time
+          example: '2022-02-27T00:00:00Z'
+        is_disabled:
+          type:
+          - boolean
+          - 'null'
+          description: When disabled, cannot be used to send email.
+      required:
+      - id
+      - email
+      - user_id
+      - created_at
+      - updated_at
+      - is_deleted
+      - last_modified_at
     errors:
       type: array
       items:
@@ -396,54 +444,6 @@ components:
       required:
       - next
       - previous
-    mailbox:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 54312
-        email:
-          type:
-          - string
-          - 'null'
-          example: null
-        user_id:
-          type:
-          - string
-          - 'null'
-          example: 39fd1fe0-094b-4a61-b47f-3e3ac033203d
-        created_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2022-02-27T00:00:00Z'
-        updated_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2022-02-27T00:00:00Z'
-        is_deleted:
-          type: boolean
-          example: false
-        last_modified_at:
-          type: string
-          format: date-time
-          example: '2022-02-27T00:00:00Z'
-        is_disabled:
-          type:
-          - boolean
-          - 'null'
-          description: When disabled, cannot be used to send email.
-      required:
-      - id
-      - email
-      - user_id
-      - created_at
-      - updated_at
-      - is_deleted
-      - last_modified_at
   securitySchemes:
     x-api-key:
       type: apiKey

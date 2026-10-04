@@ -129,24 +129,6 @@ paths:
           $ref: '#/components/responses/notImplemented'
 components:
   responses:
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
     notFound:
       description: Not found
       content:
@@ -165,8 +147,17 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
       content:
         application/json:
           schema:
@@ -176,6 +167,15 @@ components:
                 $ref: '#/components/schemas/errors'
     notImplemented:
       description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
       content:
         application/json:
           schema:
@@ -311,28 +311,32 @@ components:
         - category
         - connection_id
         - num_records_synced
-    provider_name:
+    category:
       type: string
       enum:
-      - hubspot
-      - salesforce
-      - pipedrive
-      - zendesk_sell
-      - ms_dynamics_365_sales
-      - zoho_crm
-      - capsule
-      - outreach
-      - gong
-      - apollo
-      - salesloft
-      - intercom
-      - linear
-      - clearbit
-      - 6sense
-      - marketo
-      - salesforce_marketing_cloud_account_engagement
-      - slack
-      example: hubspot
+      - crm
+      - engagement
+      - enrichment
+      - marketing_automation
+      - no_category
+      example: crm
+    pagination:
+      type: object
+      properties:
+        next:
+          type: string
+          nullable: true
+          example: eyJpZCI6IjQyNTc5ZjczLTg1MjQtNDU3MC05YjY3LWVjYmQ3MDJjNmIxNCIsInJldmVyc2UiOmZhbHNlfQ==
+        previous:
+          type: string
+          nullable: true
+          example: eyJpZCI6IjBjZDhmYmZkLWU5NmQtNDEwZC05ZjQxLWIwMjU1YjdmNGI4NyIsInJldmVyc2UiOnRydWV9
+        total_count:
+          type: number
+          example: 100
+      required:
+      - next
+      - previous
     errors:
       type: array
       items:
@@ -474,32 +478,28 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
-    pagination:
-      type: object
-      properties:
-        next:
-          type: string
-          nullable: true
-          example: eyJpZCI6IjQyNTc5ZjczLTg1MjQtNDU3MC05YjY3LWVjYmQ3MDJjNmIxNCIsInJldmVyc2UiOmZhbHNlfQ==
-        previous:
-          type: string
-          nullable: true
-          example: eyJpZCI6IjBjZDhmYmZkLWU5NmQtNDEwZC05ZjQxLWIwMjU1YjdmNGI4NyIsInJldmVyc2UiOnRydWV9
-        total_count:
-          type: number
-          example: 100
-      required:
-      - next
-      - previous
-    category:
+    provider_name:
       type: string
       enum:
-      - crm
-      - engagement
-      - enrichment
-      - marketing_automation
-      - no_category
-      example: crm
+      - hubspot
+      - salesforce
+      - pipedrive
+      - zendesk_sell
+      - ms_dynamics_365_sales
+      - zoho_crm
+      - capsule
+      - outreach
+      - gong
+      - apollo
+      - salesloft
+      - intercom
+      - linear
+      - clearbit
+      - 6sense
+      - marketo
+      - salesforce_marketing_cloud_account_engagement
+      - slack
+      example: hubspot
   securitySchemes:
     x-api-key:
       type: apiKey
