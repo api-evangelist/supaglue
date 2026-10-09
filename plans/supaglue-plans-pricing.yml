@@ -51,3 +51,19 @@ maintainers:
 generated: '2026-08-13'
 plan_count: 0
 source: https://www.supaglue.com/pricing (302 to hugedomains.com, probed 2026-08-13) and https://github.com/supaglue-labs/supaglue
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - subscription
+  units:
+  - negotiated
+  plans:
+  - name: Self-Hosted (Archived OSS)
+    access: enterprise
+    model: subscription
+    model_how: derived
+    units:
+    - negotiated
+    periods:
+    - year

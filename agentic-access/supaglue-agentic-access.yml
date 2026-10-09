@@ -1,17 +1,17 @@
-generated: '2026-08-13'
+generated: '2026-09-23'
 method: generated
-source: openapi/supaglue-accounts-api-openapi.yml, openapi/supaglue-actions-api-openapi.yml,
-  openapi/supaglue-associations-api-openapi.yml, openapi/supaglue-associationschemas-api-openapi.yml,
-  openapi/supaglue-attachments-api-openapi.yml, openapi/supaglue-collections-api-openapi.yml,
-  openapi/supaglue-comments-api-openapi.yml, openapi/supaglue-connections-api-openapi.yml, openapi/supaglue-connectionsyncconfigs-api-openapi.yml,
-  openapi/supaglue-contacts-api-openapi.yml, openapi/supaglue-customers-api-openapi.yml, openapi/supaglue-customobjects-api-openapi.yml,
-  openapi/supaglue-customobjectschemas-api-openapi.yml, openapi/supaglue-data-api-openapi.yml,
-  openapi/supaglue-destinations-api-openapi.yml, openapi/supaglue-enrichment-api-openapi.yml,
+source: openapi/supaglue-accounts-api-openapi.yml, openapi/supaglue-associations-api-openapi.yml,
+  openapi/supaglue-associationschemas-api-openapi.yml, openapi/supaglue-attachments-api-openapi.yml,
+  openapi/supaglue-collections-api-openapi.yml, openapi/supaglue-comments-api-openapi.yml, openapi/supaglue-connections-api-openapi.yml,
+  openapi/supaglue-connectionsyncconfigs-api-openapi.yml, openapi/supaglue-contacts-api-openapi.yml,
+  openapi/supaglue-custom-object-schemas-api-openapi.yml, openapi/supaglue-custom-objects-api-openapi.yml,
+  openapi/supaglue-customers-api-openapi.yml, openapi/supaglue-destinations-api-openapi.yml,
   openapi/supaglue-entities-api-openapi.yml, openapi/supaglue-entitymappings-api-openapi.yml,
-  openapi/supaglue-leads-api-openapi.yml, openapi/supaglue-lists-api-openapi.yml, openapi/supaglue-magic-links-api-openapi.yml,
-  openapi/supaglue-mailboxes-api-openapi.yml, openapi/supaglue-marketing-automation-api-openapi.yml,
-  openapi/supaglue-metadata-api-openapi.yml, openapi/supaglue-opportunities-api-openapi.yml,
-  openapi/supaglue-properties-api-openapi.yml, openapi/supaglue-providers-api-openapi.yml, openapi/supaglue-schemamappings-api-openapi.yml,
+  openapi/supaglue-forms-api-openapi.yml, openapi/supaglue-hubspot-api-openapi.yml, openapi/supaglue-leads-api-openapi.yml,
+  openapi/supaglue-lists-api-openapi.yml, openapi/supaglue-magic-links-api-openapi.yml, openapi/supaglue-mailboxes-api-openapi.yml,
+  openapi/supaglue-opportunities-api-openapi.yml, openapi/supaglue-passthrough-api-openapi.yml,
+  openapi/supaglue-persons-api-openapi.yml, openapi/supaglue-properties-api-openapi.yml, openapi/supaglue-providers-api-openapi.yml,
+  openapi/supaglue-salesforce-api-openapi.yml, openapi/supaglue-schema-mappings-api-openapi.yml,
   openapi/supaglue-schemas-api-openapi.yml, openapi/supaglue-sequence-states-api-openapi.yml,
   openapi/supaglue-sequences-api-openapi.yml, openapi/supaglue-standardobjects-api-openapi.yml,
   openapi/supaglue-standardobjectschemas-api-openapi.yml, openapi/supaglue-syncconfigs-api-openapi.yml,
@@ -23,11 +23,11 @@ description: Recommended x-agentic-access execution contracts, classified heuris
 summary:
   operations: 139
   by_action_class:
-    acting: 65
-    connected: 74
+    acting: 61
+    connected: 78
   by_consequence:
-    write: 64
-    read: 74
+    write: 60
+    read: 78
     physical: 1
   human_in_the_loop_required: 0
 operations:
@@ -103,36 +103,12 @@ operations:
   method: post
   operationId: searchAccounts
   x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /passthrough
-  method: post
-  operationId: sendPassthroughRequest
-  x-agentic-access:
-    action-class: acting
-    consequence: physical
-    subject: required
-    audience: null
-    token:
-      max-ttl: 300
-      exchange: true
-      purpose-required: true
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /associations
   method: get
   operationId: listAssociations
@@ -431,18 +407,12 @@ operations:
   method: post
   operationId: searchContacts
   x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /contacts/_upsert
   method: post
   operationId: upsertContact
@@ -485,9 +455,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /customers
+- path: /metadata/custom_objects
   method: get
-  operationId: getCustomers
+  operationId: listCustomObjectSchemas
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -495,9 +465,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /customers
-  method: put
-  operationId: upsertCustomer
+- path: /metadata/custom_objects
+  method: post
+  operationId: createCustomObjectSchema
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -511,9 +481,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /customers/{customer_id}
+- path: /metadata/custom_objects/{object_name}
   method: get
-  operationId: getCustomer
+  operationId: getCustomObjectSchema
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -521,9 +491,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /customers/{customer_id}
-  method: delete
-  operationId: deleteCustomer
+- path: /metadata/custom_objects/{object_name}
+  method: put
+  operationId: updateCustomObjectSchema
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -589,9 +559,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /metadata/custom_objects
+- path: /objects/custom
   method: get
-  operationId: listCustomObjectSchemas
+  operationId: listCustomObjects
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -599,25 +569,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /metadata/custom_objects
-  method: post
-  operationId: createCustomObjectSchema
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /metadata/custom_objects/{object_name}
+- path: /customers
   method: get
-  operationId: getCustomObjectSchema
+  operationId: getCustomers
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -625,9 +579,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /metadata/custom_objects/{object_name}
+- path: /customers
   method: put
-  operationId: updateCustomObjectSchema
+  operationId: upsertCustomer
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -641,9 +595,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /salesforce/contacts
+- path: /customers/{customer_id}
   method: get
-  operationId: listSalesforceContacts
+  operationId: getCustomer
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -651,36 +605,22 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /salesforce/accounts
-  method: get
-  operationId: listSalesforceAccounts
+- path: /customers/{customer_id}
+  method: delete
+  operationId: deleteCustomer
   x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
     token:
-      max-ttl: 3600
-    audit: none
-- path: /hubspot/contacts
-  method: get
-  operationId: listHubspotContacts
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /hubspot/companies
-  method: get
-  operationId: listHubspotCompanies
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
 - path: /destinations
   method: get
   operationId: getDestinations
@@ -733,16 +673,6 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /persons
-  method: get
-  operationId: enrichPerson
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
 - path: /entities
   method: get
   operationId: getEntities
@@ -853,6 +783,62 @@ operations:
       - abnormal
       - high-value
     audit: required
+- path: /forms/{form_id}/_submit
+  method: post
+  operationId: submitForm
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /forms
+  method: get
+  operationId: listForms
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /forms/{form_id}/_fields
+  method: get
+  operationId: getFormFields
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /hubspot/contacts
+  method: get
+  operationId: listHubspotContacts
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /hubspot/companies
+  method: get
+  operationId: listHubspotCompanies
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
 - path: /leads
   method: post
   operationId: createLead
@@ -899,18 +885,12 @@ operations:
   method: post
   operationId: searchLeads
   x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /leads/{lead_id}
   method: get
   operationId: getLead
@@ -1019,72 +999,6 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /forms/{form_id}/_submit
-  method: post
-  operationId: submitForm
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /forms
-  method: get
-  operationId: listForms
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /forms/{form_id}/_fields
-  method: get
-  operationId: getFormFields
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /objects/custom
-  method: get
-  operationId: listCustomObjects
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /objects/standard
-  method: get
-  operationId: listStandardObjects
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /properties
-  method: get
-  operationId: listPropertiesDeprecated
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
 - path: /opportunities
   method: post
   operationId: createOpportunity
@@ -1137,6 +1051,34 @@ operations:
       - abnormal
       - high-value
     audit: required
+- path: /passthrough
+  method: post
+  operationId: sendPassthroughRequest
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /persons
+  method: get
+  operationId: enrichPerson
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
 - path: /metadata/properties/{object_name}
   method: get
   operationId: listPropertiesPreview
@@ -1205,6 +1147,16 @@ operations:
       - abnormal
       - high-value
     audit: required
+- path: /properties
+  method: get
+  operationId: listPropertiesDeprecated
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
 - path: /providers
   method: get
   operationId: getProviders
@@ -1273,6 +1225,26 @@ operations:
       - abnormal
       - high-value
     audit: required
+- path: /salesforce/contacts
+  method: get
+  operationId: listSalesforceContacts
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /salesforce/accounts
+  method: get
+  operationId: listSalesforceAccounts
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
 - path: /field_mappings
   method: get
   operationId: listFieldMappings
@@ -1397,18 +1369,12 @@ operations:
   method: post
   operationId: searchSequenceStates
   x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /sequence_states/_batch
   method: post
   operationId: batchCreateSequenceState
@@ -1548,6 +1514,16 @@ operations:
 - path: /standard_objects/{object_name}/records/{record_id}
   method: get
   operationId: getStandardObjectRecord
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /objects/standard
+  method: get
+  operationId: listStandardObjects
   x-agentic-access:
     action-class: connected
     consequence: read
