@@ -180,7 +180,156 @@ paths:
         '501':
           $ref: '#/components/responses/notImplemented'
 components:
+  responses:
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    conflict:
+      description: Conflict
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    remoteProviderError:
+      description: Remote provider error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    badRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+  parameters:
+    x-customer-id:
+      name: x-customer-id
+      in: header
+      schema:
+        type: string
+      example: my-customer-1
+      description: The customer ID that uniquely identifies the customer in your application
+      required: true
+    include_raw_data:
+      name: include_raw_data
+      in: query
+      schema:
+        type: boolean
+      description: Whether to include raw data fetched from the 3rd party provider.
+      example: true
+    x-provider-name:
+      name: x-provider-name
+      in: header
+      schema:
+        type: string
+      example: salesforce
+      description: The provider name
+      required: true
   schemas:
+    form_field:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        required:
+          type: boolean
+        form_id:
+          type: string
+        data_format:
+          type: string
+        data_options:
+          type: array
+          description: Selectable options for this field. Only applicable if the data_format is `select`. Only supported for Hubspot and Marketo.
+          items:
+            $ref: '#/components/schemas/form_data_option'
+        validation_message:
+          type:
+          - string
+          - 'null'
+        raw_data:
+          type: object
+          additionalProperties: true
+      required:
+      - id
+      - name
+      - required
+      - form_id
+      - data_format
+    submit_form_response:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The id of the lead that was created/updated as a result of submitting the form
+          example: 12345
+        status:
+          type: string
+          example: updated
+      required:
+      - status
     form_data_option:
       type: object
       properties:
@@ -358,155 +507,6 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
-    form_field:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        required:
-          type: boolean
-        form_id:
-          type: string
-        data_format:
-          type: string
-        data_options:
-          type: array
-          description: Selectable options for this field. Only applicable if the data_format is `select`. Only supported for Hubspot and Marketo.
-          items:
-            $ref: '#/components/schemas/form_data_option'
-        validation_message:
-          type:
-          - string
-          - 'null'
-        raw_data:
-          type: object
-          additionalProperties: true
-      required:
-      - id
-      - name
-      - required
-      - form_id
-      - data_format
-    submit_form_response:
-      type: object
-      properties:
-        id:
-          type: string
-          description: The id of the lead that was created/updated as a result of submitting the form
-          example: 12345
-        status:
-          type: string
-          example: updated
-      required:
-      - status
-  parameters:
-    x-customer-id:
-      name: x-customer-id
-      in: header
-      schema:
-        type: string
-      example: my-customer-1
-      description: The customer ID that uniquely identifies the customer in your application
-      required: true
-    x-provider-name:
-      name: x-provider-name
-      in: header
-      schema:
-        type: string
-      example: salesforce
-      description: The provider name
-      required: true
-    include_raw_data:
-      name: include_raw_data
-      in: query
-      schema:
-        type: boolean
-      description: Whether to include raw data fetched from the 3rd party provider.
-      example: true
-  responses:
-    notFound:
-      description: Not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unprocessableEntity:
-      description: Unprocessable entity
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    internalServerError:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unauthorized:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    conflict:
-      description: Conflict
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    remoteProviderError:
-      description: Remote provider error
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
   securitySchemes:
     x-api-key:
       type: apiKey

@@ -160,6 +160,17 @@ paths:
           $ref: '#/components/responses/notImplemented'
 components:
   schemas:
+    warnings:
+      type: array
+      items:
+        type: object
+        properties:
+          detail:
+            type: string
+          problem_type:
+            type: string
+          title:
+            type: string
     association_schema:
       type: object
       properties:
@@ -177,6 +188,23 @@ components:
       - id
       - source_object
       - target_object
+      - display_name
+    create_update_association_schema:
+      type: object
+      properties:
+        source_object:
+          type: string
+        target_object:
+          type: string
+        suggested_key_name:
+          type: string
+          description: The underlying provider may change this (e.g. adding `__c` for Salesforce).
+        display_name:
+          type: string
+      required:
+      - source_object
+      - target_object
+      - suggested_key_name
       - display_name
     errors:
       type: array
@@ -319,52 +347,16 @@ components:
           code: MISSING_REQUIRED_FIELD
           status: '400'
           id: 9366efb4-8fb1-4a28-bfb0-8d6f9cc6b5c5
-    warnings:
-      type: array
-      items:
-        type: object
-        properties:
-          detail:
-            type: string
-          problem_type:
-            type: string
-          title:
-            type: string
-    create_update_association_schema:
-      type: object
-      properties:
-        source_object:
-          type: string
-        target_object:
-          type: string
-        suggested_key_name:
-          type: string
-          description: The underlying provider may change this (e.g. adding `__c` for Salesforce).
-        display_name:
-          type: string
-      required:
-      - source_object
-      - target_object
-      - suggested_key_name
-      - display_name
-  parameters:
-    x-customer-id:
-      name: x-customer-id
-      in: header
-      schema:
-        type: string
-      example: my-customer-1
-      description: The customer ID that uniquely identifies the customer in your application
-      required: true
-    x-provider-name:
-      name: x-provider-name
-      in: header
-      schema:
-        type: string
-      example: salesforce
-      description: The provider name
-      required: true
   responses:
+    internalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
     notFound:
       description: Not found
       content:
@@ -374,35 +366,8 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    badRequest:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    unprocessableEntity:
-      description: Unprocessable entity
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    notImplemented:
-      description: Not implemented
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              errors:
-                $ref: '#/components/schemas/errors'
-    internalServerError:
-      description: Internal server error
+    remoteProviderError:
+      description: Remote provider error
       content:
         application/json:
           schema:
@@ -428,6 +393,15 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
+    notImplemented:
+      description: Not implemented
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
     forbidden:
       description: Forbidden
       content:
@@ -437,8 +411,8 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
-    remoteProviderError:
-      description: Remote provider error
+    badRequest:
+      description: Bad request
       content:
         application/json:
           schema:
@@ -446,6 +420,32 @@ components:
             properties:
               errors:
                 $ref: '#/components/schemas/errors'
+    unprocessableEntity:
+      description: Unprocessable entity
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                $ref: '#/components/schemas/errors'
+  parameters:
+    x-customer-id:
+      name: x-customer-id
+      in: header
+      schema:
+        type: string
+      example: my-customer-1
+      description: The customer ID that uniquely identifies the customer in your application
+      required: true
+    x-provider-name:
+      name: x-provider-name
+      in: header
+      schema:
+        type: string
+      example: salesforce
+      description: The provider name
+      required: true
   securitySchemes:
     x-api-key:
       type: apiKey
