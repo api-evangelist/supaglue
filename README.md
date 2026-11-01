@@ -1,4 +1,4 @@
-# Supaglue (supaglue)
+# Supaglue
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,149 +64,253 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Supaglue is an open-source unified API platform that enables B2B SaaS developers to build product integrations with CRM, HRIS, sales engagement, ticketing, and other business applications. It provides a unified API layer that abstracts away provider-specific differences, managed OAuth authentication, data syncing to data warehouses (BigQuery, Snowflake, Redshift, Postgres), and a management API for configuring customers, connections, and sync configurations. Supported providers include Salesforce, HubSpot, Pipedrive, Zendesk, Slack, and 15+ others. The platform is available as a managed cloud service (api.supaglue.io) and as a self-hosted open-source deployment. The GitHub organization is github.com/supaglue-labs.
+Supaglue was an open-source unified API platform for B2B SaaS product integrations: a single contract for CRM, engagement, ticketing, enrichment and marketing-automation objects projected across 30+ third-party providers (Salesforce, HubSpot, Pipedrive, Outreach, Salesloft, Zendesk, Apollo and more), plus managed OAuth to those providers, managed syncs into the customer's own warehouse (Postgres, BigQuery, Snowflake, Redshift, S3), a passthrough escape hatch to native provider APIs, and a Management API to configure customers, connections, schemas, entities and sync schedules. Nine first-party OpenAPI documents (v2, x-api-key auth) and nine typed webhook events were published. THE SERVICE IS RETIRED: the GitHub repository (github.com/supaglue-labs) was archived by its owner on 2024-03-10, api.supaglue.io and app.supaglue.io no longer resolve, and supaglue.com now redirects to a HugeDomains sale listing. The MIT-licensed code remains self-hostable, and the contract is preserved here as the historical record of a well-shaped unified API.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/supaglue/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/supaglue/refs/heads/main/apis.yml)
+**Areas:** CRM · HRIS · Unified API · Open Source · Integration · Sales Engagement · Ticketing · Data Synchronization · Marketing Automation · Data Enrichment · Webhook · Archived
 
-## Scope
+## Supaglue on APIs.io
 
-- **Type:** Index
+Everything profiled for Supaglue is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/supaglue/](https://apis.io/providers/supaglue/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (41)
 
-- CRM
-- HRIS
-- Unified API
-- Open Source
-- Integrations
-- Sales Engagement
+- [Supaglue Accounts API](https://apis.io/apis/supaglue/supaglue-accounts-api/) — The `Account` Common Object represents a "company" in CRMs.
+- [Supaglue Associations API](https://apis.io/apis/supaglue/supaglue-associations-api/) — The Associations API from Supaglue — 1 operation(s) for associations.
+- [Supaglue AssociationSchemas API](https://apis.io/apis/supaglue/supaglue-associationschemas-api/) — An `Association Schema` is an object describing an association between two entities.
+- [Supaglue Attachments API](https://apis.io/apis/supaglue/supaglue-attachments-api/) — The Attachment object is used to represent an attachment for a ticket.
+- [Supaglue Collections API](https://apis.io/apis/supaglue/supaglue-collections-api/) — The Collection object is used to represent collections of tickets. Collections may include other collections as sub collections.
+- [Supaglue Comments API](https://apis.io/apis/supaglue/supaglue-comments-api/) — The Comment object is used to represent a comment on a ticket.
+- [Supaglue Connections API](https://apis.io/apis/supaglue/supaglue-connections-api/) — A `Connection` represents a Customer's connection to a Provider.
+- [Supaglue ConnectionSyncConfigs API](https://apis.io/apis/supaglue/supaglue-connectionsyncconfigs-api/) — A `ConnectionSyncConfig` is a configuration for how to sync a specific Customer's data from a Provider to a Destination on a schedule.
+- [Supaglue Contacts API](https://apis.io/apis/supaglue/supaglue-contacts-api/) — The `Contact` Common Object represents a "contact" in CRMs.
+- [Supaglue Customers API](https://apis.io/apis/supaglue/supaglue-customers-api/) — A `Customer` represents one of your customers.
+- [Supaglue Destinations API](https://apis.io/apis/supaglue/supaglue-destinations-api/) — A `Destination` is a data store where we write data in your infrastructure.
+- [Supaglue Entities API](https://apis.io/apis/supaglue/supaglue-entities-api/) — An [`Entity`](https://docs.supaglue.com/platform/entities/overview) allows you to represent your application data models in Supaglue so customers can map…
+- [Supaglue EntityMappings API](https://apis.io/apis/supaglue/supaglue-entitymappings-api/) — An [`Entity Mapping`](https://docs.supaglue.com/platform/entities/overview#entity-mapping) maps an…
+- [Supaglue Leads API](https://apis.io/apis/supaglue/supaglue-leads-api/) — The `Lead` Common Object represents a "potential customer" in CRMs.
+- [Supaglue Lists API](https://apis.io/apis/supaglue/supaglue-lists-api/) — The `List` Object represents a collection of CRM records.
+- [Supaglue Magic Links API](https://apis.io/apis/supaglue/supaglue-magic-links-api/) — A `Magic Link` is a secure URL that allows your customers to connect their accounts to Supaglue.
+- [Supaglue Mailboxes API](https://apis.io/apis/supaglue/supaglue-mailboxes-api/) — The `Mailbox` Common Object is used to represent email mailbox, used within the application for sending and syncing emails.
+- [Supaglue Opportunities API](https://apis.io/apis/supaglue/supaglue-opportunities-api/) — The `Opportunity` Common Object represents a "deal opportunity" in CRMs.
+- [Supaglue Properties API](https://apis.io/apis/supaglue/supaglue-properties-api/) — A `Property` is a field in a Provider Object.
+- [Supaglue Providers API](https://apis.io/apis/supaglue/supaglue-providers-api/) — A `Provider` is a third-party SaaS tool we can connect to (e.g. Salesforce).
+- [Supaglue Schemas API](https://apis.io/apis/supaglue/supaglue-schemas-api/) — A [`Schema`](https://docs.supaglue.com/platform/objects/overview#schemas) allows you to normalize fields for customers across a single Provider object.…
+- [Supaglue Sequence States API](https://apis.io/apis/supaglue/supaglue-sequence-states-api/) — The `Sequence State` Common Object represents the state of a contact in a sequence, commonly known as a "sequence membership".
+- [Supaglue Sequences API](https://apis.io/apis/supaglue/supaglue-sequences-api/) — The `Sequence` Common Object represents a "sequence" in Engagements.
+- [Supaglue StandardObjects API](https://apis.io/apis/supaglue/supaglue-standardobjects-api/) — The StandardObjects API from Supaglue — 2 operation(s) for standardobjects.
+- [Supaglue StandardObjectSchemas API](https://apis.io/apis/supaglue/supaglue-standardobjectschemas-api/) — A `Standard Object Schema` is an object schema of a standard object type supported by the provider.
+- [Supaglue SyncConfigs API](https://apis.io/apis/supaglue/supaglue-syncconfigs-api/) — A `SyncConfig` is a configuration for how to sync your Customers' data from a Provider to a Destination on a schedule.
+- [Supaglue SyncRuns API](https://apis.io/apis/supaglue/supaglue-syncruns-api/) — A `SyncRun` is a single execution of a Sync at a point in time.
+- [Supaglue Syncs API](https://apis.io/apis/supaglue/supaglue-syncs-api/) — A `Sync` is a way for a Customer to sync data from a Provider to a Destination on a schedule.
+- [Supaglue Tags API](https://apis.io/apis/supaglue/supaglue-tags-api/) — The Tag object is used to represent a tag or label for a ticket.
+- [Supaglue Teams API](https://apis.io/apis/supaglue/supaglue-teams-api/) — The Team object is used to represent a team within the company receiving the ticket.
+- [Supaglue Tickets API](https://apis.io/apis/supaglue/supaglue-tickets-api/) — The Ticket object is used to represent a ticket or a task within a system.
+- [Supaglue Users API](https://apis.io/apis/supaglue/supaglue-users-api/) — The `User` Common Object represents a "user" that can log in to CRMs.
+- [Supaglue Forms API](https://apis.io/apis/supaglue/supaglue-forms-api/) — Endpoints for managing and submitting forms
+- [Supaglue Hubspot API](https://apis.io/apis/supaglue/supaglue-hubspot-api/) — Hubspot is a CRM Provider.
+- [Supaglue Passthrough API](https://apis.io/apis/supaglue/supaglue-passthrough-api/) — Passthrough operations to underlying providers.
+- [Supaglue Persons API](https://apis.io/apis/supaglue/supaglue-persons-api/) — Relating to enrichment data that is derived from information about a Person. This may include demographic and firmographic data.
+- [Supaglue Salesforce API](https://apis.io/apis/supaglue/supaglue-salesforce-api/) — Salesforce is a CRM Provider.
+- [Supaglue Webhook Events API](https://apis.io/apis/supaglue/supaglue-webhook-events-api/) — The Webhook Events API from Supaglue — 0 operation(s) for webhook events.
+- [Supaglue Custom Object Schemas API](https://apis.io/apis/supaglue/supaglue-custom-object-schemas-api/) — A `Custom Object Schema` is an object schema defined by the user.
+- [Supaglue Custom Objects API](https://apis.io/apis/supaglue/supaglue-custom-objects-api/) — A `Custom Object` is an instance of a `Custom Object Schema`.
+- [Supaglue Schema Mappings API](https://apis.io/apis/supaglue/supaglue-schema-mappings-api/) — A `Schema Mapping` is a mapping between a Schema field and fields in your customer's Provider object.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-03-27
-- **Modified:** 2026-05-19
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### AsyncAPI (1)
 
-### Supaglue Management API
+Event-driven and webhook contracts.
 
-The Supaglue Management API configures all aspects of the integration platform. Manages customers (the end users of the integrations), their connections to third-party providers, sync configurations, data destinations (BigQuery, Snowflake, Redshift, Postgres), schema and entity mappings, field mappings, providers, sync operations (trigger/pause/resume), sync run history, and magic link generation for OAuth flows. Authentication uses an API key passed via the x-api-key header. Base URL: https://api.supaglue.io/mgmt/v2.
+- [Supaglue Webhooks](https://apis.io/asyncapis/supaglue/supaglue-webhooks/)
 
-- **Human URL:** [https://docs.supaglue.com/api/v2/mgmt/management-api](https://docs.supaglue.com/api/v2/mgmt/management-api)
+#### MCP servers (1)
 
-#### Tags
+Model Context Protocol servers that expose the API to agents.
 
-- Management
-- Customers
-- Connections
-- Sync
-- Destinations
+- [supaglue](https://apis.io/servers/supaglue/supaglue/)
 
-#### Properties
+#### Agentic access (1)
 
-- [Documentation](https://docs.supaglue.com/api/v2/mgmt/management-api)
-- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/supaglue/refs/heads/main/openapi/supaglue-management-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/supaglue-crm-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/supaglue-crm-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/supaglue-engagement-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/supaglue-engagement-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/supaglue-management-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/supaglue-management-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/supaglue-ticketing-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/supaglue-ticketing-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Which operations an agent can call, which act, and which need a human in the loop.
 
-### Supaglue Unified CRM API
+- [Supaglue Agentic Access](https://apis.io/agentic-access/supaglue/supaglue-agentic-access/)
 
-The Supaglue Unified CRM API provides a single interface for reading and writing CRM data across Salesforce, HubSpot, Pipedrive, and other providers. Supports accounts, contacts, leads, opportunities, users, custom objects, standard objects, associations, lists, and metadata (custom object schemas, property definitions). All operations use the x-api-key header plus a customer ID context. Base URL: https://api.supaglue.io/crm/v2.
+#### JSON Schema (1)
 
-- **Human URL:** [https://docs.supaglue.com/api/v2/crm/unified-crm-api](https://docs.supaglue.com/api/v2/crm/unified-crm-api)
+The data models the API reads and writes.
 
-#### Tags
+- [Supaglue CRM Contact](https://apis.io/schemas/supaglue/supaglue-contact/)
 
-- CRM
-- Contacts
-- Accounts
-- Opportunities
-- Leads
-- Salesforce
-- HubSpot
+#### JSON Structure (1)
 
-#### Properties
+Data models expressed in JSON Structure.
 
-- [Documentation](https://docs.supaglue.com/api/v2/crm/unified-crm-api)
-- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/supaglue/refs/heads/main/openapi/supaglue-crm-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/supaglue-crm-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/supaglue-crm-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/supaglue-engagement-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/supaglue-engagement-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/supaglue-management-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/supaglue-management-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/supaglue-ticketing-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/supaglue-ticketing-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Supaglue Crm Structure](https://apis.io/json-structure/supaglue/supaglue-crm-structure/)
 
-### Supaglue Unified Engagement API
+#### JSON-LD (1)
 
-The Supaglue Unified Engagement API provides a single interface for reading and writing sales engagement data across Outreach, Salesloft, Apollo, and other sales engagement platforms. Supports accounts, contacts, sequences, sequence states, mailboxes, users, and metadata for custom objects and standard objects. Base URL: https://api.supaglue.io/engagement/v2.
+Linked-data contexts for the provider's vocabulary.
 
-- **Human URL:** [https://docs.supaglue.com/api/v2/engagement](https://docs.supaglue.com/api/v2/engagement)
+- [Supaglue Context](https://apis.io/jsonld/supaglue/supaglue-context/)
 
-#### Tags
+#### Vocabulary (1)
 
-- Sales Engagement
-- Outreach
-- Salesloft
-- Sequences
-- Contacts
+The provider's domain terms, defined.
 
-#### Properties
+- [Supaglue Vocabulary](https://apis.io/vocabularies/supaglue/supaglue-vocabulary/)
 
-- [Documentation](https://docs.supaglue.com/api/v2/engagement)
-- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/supaglue/refs/heads/main/openapi/supaglue-engagement-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/supaglue-crm-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/supaglue-crm-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/supaglue-engagement-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/supaglue-engagement-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/supaglue-management-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/supaglue-management-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/supaglue-ticketing-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/supaglue-ticketing-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Examples (1)
 
-### Supaglue Unified Ticketing API
+Example requests and responses.
 
-The Supaglue Unified Ticketing API (Preview) provides a single interface for reading ticketing and support data across Zendesk, Linear, and other ticketing platforms. Supports accounts, collections, tickets, tags, contacts, users, and attachments. Base URL: https://api.supaglue.io/ticketing/v2.
+- [Supaglue List Contacts Example](https://apis.io/examples/supaglue/supaglue-list-contacts-example/)
 
-- **Human URL:** [https://docs.supaglue.com/api/v2/ticketing](https://docs.supaglue.com/api/v2/ticketing)
+#### Collections (44)
 
-#### Tags
+Postman and Open Collection request collections.
 
-- Ticketing
-- Support
-- Zendesk
-- Help Desk
+- [Unified CRM Accounts API](https://apis.io/collections/supaglue/open-supaglue-accounts-api/)
+- [Actions API](https://apis.io/collections/supaglue/open-supaglue-actions-api/)
+- [Unified CRM Accounts Associations API](https://apis.io/collections/supaglue/open-supaglue-associations-api/)
+- [Unified CRM Accounts AssociationSchemas API](https://apis.io/collections/supaglue/open-supaglue-associationschemas-api/)
+- [Unified CRM Accounts Attachments API](https://apis.io/collections/supaglue/open-supaglue-attachments-api/)
+- [Unified CRM Accounts Collections API](https://apis.io/collections/supaglue/open-supaglue-collections-api/)
+- [Unified CRM Accounts Comments API](https://apis.io/collections/supaglue/open-supaglue-comments-api/)
+- [Unified CRM Accounts Connections API](https://apis.io/collections/supaglue/open-supaglue-connections-api/)
+- [Unified CRM Accounts ConnectionSyncConfigs API](https://apis.io/collections/supaglue/open-supaglue-connectionsyncconfigs-api/)
+- [Unified CRM Accounts Contacts API](https://apis.io/collections/supaglue/open-supaglue-contacts-api/)
+- [Unified CRM API](https://apis.io/collections/supaglue/open-supaglue-crm-api/)
+- [Unified CRM Accounts Customers API](https://apis.io/collections/supaglue/open-supaglue-customers-api/)
+- [Unified CRM Accounts CustomObjects API](https://apis.io/collections/supaglue/open-supaglue-customobjects-api/)
+- [Unified CRM Accounts CustomObjectSchemas API](https://apis.io/collections/supaglue/open-supaglue-customobjectschemas-api/)
+- [Data Listing API](https://apis.io/collections/supaglue/open-supaglue-data-api/)
+- [Unified CRM Accounts Destinations API](https://apis.io/collections/supaglue/open-supaglue-destinations-api/)
+- [Unified Engagement API](https://apis.io/collections/supaglue/open-supaglue-engagement-api/)
+- [Unified Enrichment API](https://apis.io/collections/supaglue/open-supaglue-enrichment-api/)
+- [Unified CRM Accounts Entities API](https://apis.io/collections/supaglue/open-supaglue-entities-api/)
+- [Unified CRM Accounts EntityMappings API](https://apis.io/collections/supaglue/open-supaglue-entitymappings-api/)
+- [Unified CRM Accounts Leads API](https://apis.io/collections/supaglue/open-supaglue-leads-api/)
+- [Unified CRM Accounts Lists API](https://apis.io/collections/supaglue/open-supaglue-lists-api/)
+- [Unified CRM Accounts Magic Links API](https://apis.io/collections/supaglue/open-supaglue-magic-links-api/)
+- [Unified CRM Accounts Mailboxes API](https://apis.io/collections/supaglue/open-supaglue-mailboxes-api/)
+- [Management API](https://apis.io/collections/supaglue/open-supaglue-management-api/)
+- …and 19 more published on APIs.io
 
-#### Properties
+#### Overlays (9)
 
-- [Documentation](https://docs.supaglue.com/api/v2/ticketing)
-- [OpenAPI](https://raw.githubusercontent.com/api-evangelist/supaglue/refs/heads/main/openapi/supaglue-ticketing-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/supaglue-crm-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/supaglue-crm-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/supaglue-engagement-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/supaglue-engagement-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/supaglue-management-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/supaglue-management-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/supaglue-ticketing-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/supaglue-ticketing-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+OpenAPI overlays, including conversational phrasing for each operation.
 
-## Common Properties
+- [Supaglue Actions Overlay](https://apis.io/overlays/supaglue/supaglue-actions-overlay/)
+- [Supaglue Crm Overlay](https://apis.io/overlays/supaglue/supaglue-crm-overlay/)
+- [Supaglue Data Overlay](https://apis.io/overlays/supaglue/supaglue-data-overlay/)
+- [Supaglue Engagement Overlay](https://apis.io/overlays/supaglue/supaglue-engagement-overlay/)
+- [Supaglue Enrichment Overlay](https://apis.io/overlays/supaglue/supaglue-enrichment-overlay/)
+- [Supaglue Management Overlay](https://apis.io/overlays/supaglue/supaglue-management-overlay/)
+- [Supaglue Marketing Automation Overlay](https://apis.io/overlays/supaglue/supaglue-marketing-automation-overlay/)
+- [Supaglue Metadata Overlay](https://apis.io/overlays/supaglue/supaglue-metadata-overlay/)
+- [Supaglue Ticketing Overlay](https://apis.io/overlays/supaglue/supaglue-ticketing-overlay/)
 
-- [LinkedIn](https://www.linkedin.com/company/supaglue)
-- [Website](https://www.supaglue.com/)
-- [Documentation](https://docs.supaglue.com/)
-- [GitHub Organization](https://github.com/supaglue-labs)
-- [Getting Started](https://docs.supaglue.com/getting-started)
-- [A P I  Introduction](https://docs.supaglue.com/api/introduction)
+#### Governance rules (2)
 
-## Maintainers
+Spectral rulesets for the provider's contracts.
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+- [Supaglue — jsonschema rules](https://apis.io/rules/supaglue/supaglue-jsonschema-spectral-rules/)
+- [Supaglue API Rules](https://apis.io/rules/supaglue/supaglue-rules/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Supaglue Authentication](https://apis.io/security/supaglue/supaglue-authentication/)
+- [Supaglue Domain Security](https://apis.io/security/supaglue/supaglue-domain-security/)
+- [Supaglue Vulnerability Disclosure](https://apis.io/security/supaglue/supaglue-vulnerability-disclosure/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Supaglue Plans Pricing](https://apis.io/plans/supaglue/supaglue-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Supaglue Rate Limits](https://apis.io/rate-limits/supaglue/supaglue-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Supaglue Finops](https://apis.io/finops/supaglue/supaglue-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://supaglue.io)
+- [Documentation](https://github.com/supaglue-labs/supaglue/tree/main/docs/docs)
+- [Getting started](https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/quickstart.mdx)
+- [API reference](https://github.com/supaglue-labs/supaglue/tree/main/docs/docs/api/v2)
+- [Security](https://github.com/supaglue-labs/supaglue/blob/main/SECURITY.md)
+- [Compliance](https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/security_legal/security.md)
+- [Terms of service](https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/security_legal/terms.md)
+- [Privacy policy](https://github.com/supaglue-labs/supaglue/blob/main/docs/docs/security_legal/privacy.md)
+- [GitHub](https://github.com/supaglue-labs)
+
+## API Evangelist rating
+
+**Kin Score 57.0** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 71.4 |
+| Contract quality | 63.3 |
+| Contract governance | 31.8 |
+| Operational transparency | 42.1 |
+| Developer ergonomics | 42.3 |
+| Access clarity | 50.0 |
+
+**Agent readiness 32.5** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | partial |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 43.1** — Employment & Payroll
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/supaglue/](https://apis.io/providers/supaglue/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Supaglue: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/supaglue/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
